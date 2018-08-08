@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
-const Session = db.define('session', {
+const Answer = db.define('answer', {
   videoUrl: {
     type: Sequelize.STRING,
     allowNull: true,
@@ -24,4 +24,4 @@ const Session = db.define('session', {
   }
 })
 
-module.exports = Session
+module.exports = Answer

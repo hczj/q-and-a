@@ -1,24 +1,30 @@
 const User = require('./user');
-const Topic = require('./topic');
 const Category = require('./category');
-const Session = require('./session')
+const Topic = require('./topic');
+const UserTopic = require('./user-topic');
+const Question = require('./question');
+const Answer = require('./answer');
 
-/**
- * If we had any associations to make, this would be a great place to put them!
- * ex. if we had another model called BlogPost, we might say:
- *
- *    BlogPost.belongsTo(User)
- */
+Question.belongsTo(User);
+Question.belongsTo(Category);
 
-/**
- * We'll export all of our models here, so that any time a module needs a model,
- * we can just require it from 'db/models'
- * for example, we can say: const {User} = require('../db/models')
- * instead of: const User = require('../db/models/user')
- */
+Answer.belongsTo(User, { as: 'learner' });
+Answer.belongsTo(User, { as: 'teacher' });
+
+User.belongsToMany(Topic, { through: UserTopic });
+Topic.belongsToMany(User, { through: UserTopic });
+
+Topic.belongsTo(Category);
+Category.hasMany(Topic);
+
+Question.belongsToMany(Topic, { through: 'questionTopics' });
+Topic.belongsToMany(Question, { through: 'questionTopics' });
+
 module.exports = {
   User,
-  Topic,
   Category,
-  Session
+  Topic,
+  UserTopic,
+  Question,
+  Answer
 };
