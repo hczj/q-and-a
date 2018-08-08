@@ -1,14 +1,30 @@
 const User = require('./user');
-const Question = require('./question');
-const Topic = require('./topic');
 const Category = require('./category');
-const Session = require('./session')
+const Topic = require('./topic');
+const UserTopic = require('./user-topic');
+const Question = require('./question');
+const Answer = require('./answer');
 
+Question.belongsTo(User);
+Question.belongsTo(Category);
+
+Answer.belongsTo(User, { as: 'learner' });
+Answer.belongsTo(User, { as: 'teacher' });
+
+User.belongsToMany(Topic, { through: UserTopic });
+Topic.belongsToMany(User, { through: UserTopic });
+
+Topic.belongsTo(Category);
+Category.hasMany(Topic);
+
+Question.belongsToMany(Topic, { through: 'questionTopics' });
+Topic.belongsToMany(Question, { through: 'questionTopics' });
 
 module.exports = {
   User,
-  Question,
-  Topic,
   Category,
-  Session
+  Topic,
+  UserTopic,
+  Question,
+  Answer
 };

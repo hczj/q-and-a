@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const Topic = db.define('topic', {
-  title: {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
