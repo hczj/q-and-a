@@ -1,3 +1,5 @@
+const { resolve } = require('path');
+
 const isDev = process.env.NODE_ENV === 'development'
 
 module.exports = {
@@ -20,6 +22,11 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.scss$/,
+        include: resolve(__dirname, './client/sass'),
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   }
