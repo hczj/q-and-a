@@ -1,15 +1,8 @@
-import React, { Component } from 'react';
-import { Question, QuestionForm } from '../../components';
+import React, { Component, Fragment } from 'react';
+import { Question } from '../../components';
 import { fetchQuestions } from '../../store';
 import { connect } from 'react-redux';
-
-const mapState = state => ({
-  questions: state.questions
-});
-
-const mapDispatch = dispatch => ({
-  getQuestions: () => dispatch(fetchQuestions())
-});
+import { Link } from 'react-router-dom';
 
 class Queue extends Component {
   componentDidMount() {
@@ -21,18 +14,30 @@ class Queue extends Component {
     const { questions } = this.props;
     const { isLoading, all } = questions;
 
-    if (!isLoading) return null;
-    else if (isLoading) {
+    if (isLoading) return null;
+    else {
       return (
-        <div>
-          <QuestionForm />
+        <Fragment>
+          <Link to="/ask-a-question">
+            <button className="button is-link" type="button">
+              Ask a question!
+            </button>
+          </Link>
           <div>
             {all.map(question => <Question key={question.id} {...question} />)}
           </div>
-        </div>
+        </Fragment>
       );
     }
   }
 }
+
+const mapState = state => ({
+  questions: state.questions
+});
+
+const mapDispatch = dispatch => ({
+  getQuestions: () => dispatch(fetchQuestions())
+});
 
 export default connect(mapState, mapDispatch)(Queue);
