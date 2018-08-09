@@ -9,7 +9,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
       <div>
         {/* The navbar will show these links after you log in */}
         <Link to="/home">Home</Link>
-        <Link to="/questionqueue">Question Queue</Link>
+        <Link to="/question-queue">Question Queue</Link>
         <a href="#" onClick={handleClick}>
           Logout
         </a>
