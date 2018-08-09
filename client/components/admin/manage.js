@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { fetchUsers, deleteUser } from '../../store';
+import { Header } from '../../components';
 
 class Manage extends Component {
   componentDidMount() {
@@ -14,23 +15,23 @@ class Manage extends Component {
 
     if (user.id === myId) {
       if (confirm('You are about to delete yourself! Are you sure?')) {
-        deleteUser(user)
+        deleteUser(user);
       }
     } else {
       deleteUser(user);
     }
-  }
+  };
 
   render() {
-    const { users, isLoading, isAdmin } = this.props
+    const { users, isLoading, isAdmin } = this.props;
 
-    if (isLoading) return null
+    if (isLoading) return null;
 
     return (
       <div>
-        <h1 className="">Manage</h1>
-        <h2 className="">Users</h2>
-        <table>
+        <Header title="Manage" />
+        <h2 className="subtitle is-3">Users</h2>
+        <table className="table is-fullwidth is-striped">
           <colgroup>
             <col style={{ width: '8%' }} />
             <col style={{ width: '25%' }} />
@@ -53,11 +54,21 @@ class Manage extends Component {
             {users.map(user => (
               <tr key={user.id}>
                 <td>{user.id}</td>
-                <td>{user.firstName} {user.lastName}</td>
+                <td>
+                  {user.firstName} {user.lastName}
+                </td>
                 <td>{user.email}</td>
                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                 <td>{user.isAdmin ? 'Admin' : 'Customer'}</td>
-                <td><a href="#" onClick={event => this.handleDelete(event, user)}>Delete</a></td>
+                <td>
+                  <a
+                    href="#"
+                    onClick={event => this.handleDelete(event, user)}
+                    className="button is-danger is-small"
+                  >
+                    Delete
+                  </a>
+                </td>
               </tr>
             ))}
           </tbody>
