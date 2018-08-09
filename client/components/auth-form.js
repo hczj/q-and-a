@@ -1,89 +1,130 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form';
 import { auth } from '../store';
 
-/**
- * COMPONENT
- */
 const AuthForm = props => {
-  const { name, displayName, handleSubmit, error } = props;
+  const {
+    name,
+    displayName,
+    linkName,
+    linkDisplayName,
+    subtitle,
+    handleSubmit,
+    error,
+    pristine,
+    submitting,
+    history
+  } = props;
 
   return (
     <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
+      <h1>{displayName}</h1>
+      <p>{subtitle}</p>
+      <div>
+        <form onSubmit={handleSubmit} name={name}>
+          {name === 'signup' && (
+            <Fragment>
+              <label htmlFor="firstName">First Name</label>
+              <Field
+                label="First Name"
+                name="firstName"
+                type="text"
+                component="input"
+              />
+
+              <label htmlFor="lName">Last Name</label>
+              <Field
+                label="Last Name"
+                name="lastName"
+                type="text"
+                component="input"
+              />
+            </Fragment>
+          )}
+
+          <label htmlFor="email">Email</label>
+          <Field label="Email" name="email" type="email" component="input" />
+
+          <label htmlFor="password">Password</label>
+          <Field
+            label="Password"
+            name="password"
+            type="password"
+            component="input"
+          />
+
+          <div className="field is-grouped">
+            <div className="control">
+              <button
+                type="submit"
+                className="button is-link"
+                disabled={pristine || submitting}
+              >
+                Submit
+              </button>
+            </div>
+            <div className="control">
+              <button
+                type="button"
+                className="button is-light"
+                onClick={() => history.goBack()}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <p className="">
+        <Link to={`/${linkName}`}>{linkDisplayName}</Link>&nbsp;·&nbsp;
+        <a href="/auth/google">{displayName} with Google</a>
+      </p>
     </div>
   );
 };
 
-/**
- * CONTAINER
- *   Note that we have two different sets of 'mapStateToProps' functions -
- *   one for Login, and one for Signup. However, they share the same 'mapDispatchToProps'
- *   function, and share the same Component. This is a good example of how we
- *   can stay DRY with interfaces that are very similar to each other!
- */
-const mapLogin = state => {
-  return {
-    name: 'login',
-    displayName: 'Login',
-    error: state.user.error
-  };
-};
+const WrappedAuthForm = reduxForm({
+  form: 'auth'
+  // validate: validateAuth
+})(AuthForm);
 
-const mapSignup = state => {
-  return {
-    name: 'signup',
-    displayName: 'Sign Up',
-    error: state.user.error
-  };
-};
+const mapLogin = state => ({
+  name: 'login',
+  displayName: 'Login',
+  subtitle: 'Please log in to proceed',
+  linkName: 'signup',
+  linkDisplayName: 'Sign Up',
+  error: state.me.error
+});
+
+const mapSignup = state => ({
+  name: 'signup',
+  displayName: 'Sign Up',
+  subtitle: 'Create an account',
+  linkName: 'login',
+  linkDisplayName: 'Login',
+  error: state.me.error
+});
 
 const mapDispatch = dispatch => {
   return {
-    handleSubmit(evt) {
-      evt.preventDefault();
-      const formName = evt.target.name;
-      const email = evt.target.email.value;
-      const password = evt.target.password.value;
-      dispatch(auth(email, password, formName));
+    handleSubmit(event) {
+      event.preventDefault();
+      const formName = event.target.name;
+      const formData = {
+        email: event.target.email.value,
+        password: event.target.password.value
+      };
+      if (formName === 'signup') {
+        formData.firstName = event.target.firstName.value;
+        formData.lastName = event.target.lastName.value;
+      }
+      dispatch(auth(formData, formName));
     }
   };
 };
 
-export const Login = connect(
-  mapLogin,
-  mapDispatch
-)(AuthForm);
-export const Signup = connect(
-  mapSignup,
-  mapDispatch
-)(AuthForm);
-
-/**
- * PROP TYPES
- */
-AuthForm.propTypes = {
-  name: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object
-};
+export const Login = connect(mapLogin, mapDispatch)(WrappedAuthForm);
+export const Signup = connect(mapSignup, mapDispatch)(WrappedAuthForm);

@@ -46,10 +46,12 @@ async function seed() {
   //
   // QUESTIONS
   // =========
-  const numOfCats = await Category.count(); // to randomly assign cats to Qs
+  const numOfCats = await Category.count(); // to randomly assign Qs to cats
+  const numOfUsers = await User.count(); // to randomly assign Qs to users
   const seedQs = await Promise.all(questions.map(async question => {
     const myQuestion = await Question.create(question);
     await myQuestion.setCategory(Math.floor(Math.random() * numOfCats) + 1);
+    await myQuestion.setUser(Math.floor(Math.random() * numOfUsers) + 1);
   }));
   console.log(`seeded ${seedQs.length} questions`);
 
