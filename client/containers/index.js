@@ -1,1 +1,1 @@
-// export { default as XXXX } from './xxxx';
+export { default as Auth } from './auth';
