@@ -6,16 +6,14 @@ import { Link } from 'react-router-dom';
 
 class Queue extends Component {
   componentDidMount() {
-    const { getQuestions } = this.props;
-    getQuestions();
+    this.props.getQuestions();
   }
 
   render() {
-    const { questions } = this.props;
-    const { isLoading, all } = questions;
+    const { questions, isLoading } = this.props;
 
     if (isLoading) return null;
-    else {
+    else
       return (
         <Fragment>
           <Link to="/ask-a-question">
@@ -24,16 +22,18 @@ class Queue extends Component {
             </button>
           </Link>
           <div>
-            {all.map(question => <Question key={question.id} {...question} />)}
+            {questions.map(question => (
+              <Question key={question.id} {...question} />
+            ))}
           </div>
         </Fragment>
       );
-    }
   }
 }
 
 const mapState = state => ({
-  questions: state.questions
+  questions: state.questions.all,
+  isLoading: state.questions.isLoading
 });
 
 const mapDispatch = dispatch => ({
