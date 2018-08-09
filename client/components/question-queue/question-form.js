@@ -1,16 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { postQuestion } from '../../store';
+import { createQuestion } from '../../store';
 import { connect } from 'react-redux';
-import { Header } from '../../components';
+import { Header, CategoryDropdown } from '../../components';
 // import TagsInput from 'react-tagsinput';
 
 class QuestionForm extends Component {
   handleQuestionSubmit = data => {
-    const { addQuestion, user } = this.props;
-    const { title, description } = data;
-    const userId = user.id;
-    addQuestion({ title, description, userId });
+    const { addQuestion, myId } = this.props;
+    const { title, description, categoryId } = data;
+    addQuestion({ title, description, categoryId, myId });
   };
 
   render() {
@@ -39,6 +38,15 @@ class QuestionForm extends Component {
                   component={renderField}
                   type="text"
                 />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Category</label>
+              <div className="control">
+                <Field className="select" name="categoryId" component="select">
+                  <CategoryDropdown />
+                </Field>
               </div>
             </div>
 
@@ -88,11 +96,11 @@ const validate = values => {
 };
 
 const mapState = state => ({
-  user: state.user
+  myId: state.me.id
 });
 
 const mapDispatch = dispatch => ({
-  addQuestion: data => dispatch(postQuestion(data))
+  addQuestion: data => dispatch(createQuestion(data))
 });
 
 QuestionForm = connect(mapState, mapDispatch)(QuestionForm);
