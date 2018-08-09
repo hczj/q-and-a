@@ -10,3 +10,17 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newQuestion = await Question.create({
+      title: req.body.title,
+      description: req.body.description,
+      userId: req.body.myId,
+      categoryId: req.body.categoryId
+    });
+    res.status(201).json(newQuestion);
+  } catch (err) {
+    next(err);
+  }
+});

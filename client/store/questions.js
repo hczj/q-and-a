@@ -58,9 +58,19 @@ export const fetchQuestions = () => async dispatch => {
   dispatch(requestQuestions());
   try {
     const { data } = await axios.get('/api/questions');
-    dispatch(receiveQuestions(data));
-  } catch (err) {
-    console.error(err);
+    dispatch(receiveQuestions(data || []));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createQuestion = question => async dispatch => {
+  try {
+    const { data } = await axios.post(`/api/questions`, question);
+    dispatch(createQuestionSuccess(data || {}));
+    history.push(`/question-queue`);
+  } catch (error) {
+    console.error(error);
   }
 };
 
