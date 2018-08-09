@@ -19,3 +19,6 @@ export { default as CategoryDropdown } from './reusable/category-dropdown';
 
 // views
 export { default as Auth } from './views/auth';
+
+//classroom
+export { default as Classroom } from './classroom/classroom-main';
