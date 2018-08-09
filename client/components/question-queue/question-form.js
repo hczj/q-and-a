@@ -1,16 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { postQuestion } from '../../store';
 import { connect } from 'react-redux';
+import { Header } from '../../components';
 // import TagsInput from 'react-tagsinput';
-
-const mapState = state => ({
-  user: state.user
-});
-
-const mapDispatch = dispatch => ({
-  addQuestion: data => dispatch(postQuestion(data))
-});
 
 class QuestionForm extends Component {
   handleQuestionSubmit = data => {
@@ -23,19 +16,53 @@ class QuestionForm extends Component {
   render() {
     const { pristine, reset, submitting, handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.handleQuestionSubmit.bind(this))}>
-        <label>Title:</label>
-        <Field name="title" component={renderField} type="text" />
+      <Fragment>
+        <Header title="Ask a question!" />
+        <form onSubmit={handleSubmit(this.handleQuestionSubmit.bind(this))}>
+          <div className="field">
+            <label className="label">Title</label>
+            <div className="control">
+              <Field
+                className="input"
+                name="title"
+                component={renderField}
+                type="text"
+              />
+            </div>
 
-        <label>Description:</label>
-        <Field name="description" component={renderField} type="text" />
+            <div className="field">
+              <label className="label">Description</label>
+              <div className="control">
+                <Field
+                  className="input"
+                  name="description"
+                  component={renderField}
+                  type="text"
+                />
+              </div>
+            </div>
 
-        <button
-          type="button"
-          disabled={pristine || submitting}
-          onClick={reset}
-        />
-      </form>
+            <div className="field is-grouped">
+              <div className="control">
+                <button className="button is-link" type="submit">
+                  Submit
+                </button>
+              </div>
+
+              <div className="control">
+                <button
+                  className="button is-link"
+                  type="button"
+                  disabled={pristine || submitting}
+                  onClick={reset}
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </Fragment>
     );
   }
 }
@@ -59,6 +86,14 @@ const validate = values => {
   }
   return errors;
 };
+
+const mapState = state => ({
+  user: state.user
+});
+
+const mapDispatch = dispatch => ({
+  addQuestion: data => dispatch(postQuestion(data))
+});
 
 QuestionForm = connect(mapState, mapDispatch)(QuestionForm);
 
