@@ -1,0 +1,47 @@
+//
+// Integrate Bulma and custom code
+// ===============================
+
+// core Bulma variables and functions
+@import '../../node_modules/bulma/sass/utilities/initial-variables';
+@import '../../node_modules/bulma/sass/utilities/functions';
+
+// custom variable overrides
+@import 'abstracts/variables';
+
+// full Bulma
+@import '../../node_modules/bulma';
+@import '../../node_modules/bulma-switch/dist/css/bulma-switch';
+
+
+
+
+
+//
+// Add custom code base
+// ====================
+//
+// 1. Abstracts
+// 2. Base
+// 3. Elements
+// 4. Components
+// 5. Grid
+// 6. Layout
+// ----------------------------------------------------------------------------
+@import 'base/generic';
+
+@import 'elements/box';
+@import 'elements/button';
+@import 'elements/form';
+@import 'elements/image';
+@import 'elements/progress';
+@import 'elements/table';
+@import 'elements/tag';
+@import 'elements/title';
+
+@import 'components/card';
+@import 'components/navbar';
+
+@import 'layout/header';
+@import 'layout/page-header';
+@import 'layout/footer';
