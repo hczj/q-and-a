@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { fetchUsers, deleteUser } from '../store';
+import { fetchUsers, deleteUser } from '../../store';
 
 class Manage extends Component {
   componentDidMount() {

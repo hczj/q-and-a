@@ -4,11 +4,15 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { reducer as form } from 'redux-form';
 import { meReducer as me, usersReducer as users } from './users';
+import questions from './questions';
+import categories from './categories';
 
 const reducer = combineReducers({
   form,
   me,
-  users
+  users,
+  questions,
+  categories
 });
 
 const middleware = composeWithDevTools(
@@ -19,3 +23,5 @@ const store = createStore(reducer, middleware);
 
 export default store;
 export * from './users';
+export * from './questions';
+export * from './categories';
