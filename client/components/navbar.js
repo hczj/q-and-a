@@ -9,6 +9,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
       <div>
         {/* The navbar will show these links after you log in */}
         <Link to="/home">Home</Link>
+        <Link to="/question-queue">Question Queue</Link>
         <a href="#" onClick={handleClick}>
           Logout
         </a>
@@ -18,6 +19,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
         {/* The navbar will show these links before you log in */}
         <Link to="/login">Login</Link>
         <Link to="/signup">Sign Up</Link>
+        <Link to="/question-queue">Question Queue</Link>
       </div>
     )}
   </nav>
@@ -34,6 +36,6 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   handleClick: () => dispatch(logout())
-})
+});
 
-export default connect(mapState, mapDispatch)(Navbar)
+export default connect(mapState, mapDispatch)(Navbar);

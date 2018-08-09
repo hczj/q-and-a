@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { Login, Signup, UserHome, PageNotFound, Manage, Profile } from './components';
-import { Auth } from './containers';
+import {
+  Auth,
+  Login,
+  Signup,
+  UserHome,
+  PageNotFound,
+  Manage,
+  QuestionQueue,
+  QuestionForm
+} from './components';
 import { me } from './store';
 
 class Routes extends Component {
@@ -16,10 +24,13 @@ class Routes extends Component {
       <Switch>
         <Route exact path="/" component={UserHome} />
         <Route path="/users/:id" component={Profile} />
+        <Route exact path="/question-queue" component={QuestionQueue} />
+
         {isLoggedIn && (
           <Switch>
             {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/manage" component={Manage} />
+            <Route exact path="/ask-a-question" component={QuestionForm} />
           </Switch>
         )}
 

@@ -30,7 +30,7 @@ class Profile extends React.Component{
         } else {
         return(
 
-            <React.Fragment>
+            <div class="columns is-centered">
                 <img src = "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.aiche.org%2Fsites%2Fdefault%2Ffiles%2Fprofile-photo-default%2Favatar.gif&f=1"/>
                 <h1>{firstName} {lastName}</h1>
                 <h2>Status: {status}</h2>
@@ -38,7 +38,7 @@ class Profile extends React.Component{
                 {topics.map(topic => (
                     <h2 key={topic.id}>{topic.name}: {topic.userTopic.proficiency}</h2>   
                 ))}
-            </React.Fragment>
+            </div>
 
         )}
     }
