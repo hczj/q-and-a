@@ -14,3 +14,7 @@ export { default as Question } from './question-queue/question';
 export { default as Queue } from './question-queue/queue';
 
 // reusable
+export { default as Header } from './reusable/header';
+
+// views
+export { default as Auth } from './views/auth';
