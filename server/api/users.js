@@ -2,6 +2,18 @@ const router = require('express').Router();
 const { User } = require('../db/models');
 module.exports = router;
 
+//GET ROUTES
+
+router.get('/:userId', async (req,res, next) => {
+  try{
+    const user = await User.findById(req.params.userId)
+    res.json(user.dataValues)
+  } catch (err) {
+    next(err);
+  }
+})
+
+
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
@@ -15,3 +27,15 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+
+//POST ROUTE
+
+router.post('/', async (req, res, next) => {
+  try{
+    console.log("req.body is ", req.body)
+    const user  = await User.create(req.body)
+    res.json(user)
+  } catch (err) {
+    next(err);
+  }
+})

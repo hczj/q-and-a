@@ -7,6 +7,9 @@ import history from '../history';
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
 
+const RECIEVE_USER = 'RECIEVE_USER'
+const REQUEST_USER = 'REQUIRE_USER'
+
 /**
  * INITIAL STATE
  */
@@ -15,12 +18,18 @@ const defaultUser = {};
 /**
  * ACTION CREATORS
  */
+
+const recieveUser = () => ({type: RECIEVE_USER})
+const requestUser = () => ({type: REQUEST_USER})
+
 const getUser = user => ({ type: GET_USER, user });
 const removeUser = () => ({ type: REMOVE_USER });
 
 /**
  * THUNK CREATORS
  */
+
+
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me');
@@ -29,6 +38,16 @@ export const me = () => async dispatch => {
     console.error(err);
   }
 };
+
+export const fetchUser = userId => async dispatch => {
+  dispatch(requestUser())
+  try{
+    const { data } = await axios.get(`/api/users/${userId}`)
+    dispatch(getUser(data))
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 export const auth = (email, password, method) => async dispatch => {
   let res;
