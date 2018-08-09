@@ -3,26 +3,54 @@ import { connect } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
 import { logout } from '../store';
 
+const toggleNavbarMenu = event => {
+  const navbarBurger = event.target;
+  const navbarMenu = document.getElementById('navPrimary')
+
+  navbarBurger.classList.toggle('is-active')
+  navbarMenu.classList.toggle('is-active')
+}
+
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
-  <nav className="">
-    <Link to="/">Home</Link>
-    {isLoggedIn ? (
-      <Fragment>
-        {/* The navbar will show these links after you log in */}
-        <Link to="/question-queue">Question Queue</Link>
-        <Link to="/manage">Manage</Link>
-        <a href="#" onClick={handleClick}>
-          Logout
-        </a>
-      </Fragment>
-    ) : (
-      <Fragment>
-        {/* The navbar will show these links before you log in */}
-        <Link to="/login">Login</Link>
-        <Link to="/signup">Sign Up</Link>
-        <Link to="/question-queue">Question Queue</Link>
-      </Fragment>
-    )}
+  <nav className="navbar is-primary">
+    <div className="container">
+      <div className="navbar-brand">
+        <Link to="/" className="navbar-item has-background-primary">
+          SITE_LOGO
+        </Link>
+        <div
+          className="navbar-burger burger"
+          onClick={event => toggleNavbarMenu(event)}
+          data-target="navPrimary"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div id="navPrimary" className="navbar-menu">
+        <div className="navbar-start">
+          <NavLink to="/question-qeue" className="navbar-item" activeClassName="is-active">
+            Questions
+          </NavLink>
+          {isLoggedIn ? (
+            <Fragment>
+              {/* The navbar will show these links after you log in */}
+              <NavLink to="/manage" className="navbar-item" activeClassName="is-active">Manage</NavLink>
+              <a href="#" onClick={handleClick} className="navbar-item">
+                Logout
+              </a>
+            </Fragment>
+          ) : (
+            <Fragment>
+              {/* The navbar will show these links before you log in */}
+              <NavLink to="/login" className="navbar-item" activeClassName="is-active">Login</NavLink>
+              <NavLink to="/signup" className="navbar-item" activeClassName="is-active">Sign Up</NavLink>
+            </Fragment>
+          )}
+        </div>
+      </div>
+    </div>
   </nav>
 );
 

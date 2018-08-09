@@ -5,6 +5,7 @@ import { Router } from 'react-router-dom';
 import history from './history';
 import store from './store';
 import './socket';
+import './sass/index.scss'
 
 import { Navbar } from './components';
 import Routes from './routes';
