@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import {
+  Auth,
   Login,
   Signup,
   UserHome,
   PageNotFound,
   Manage,
-  QuestionQueue
+  QuestionQueue,
+  QuestionForm
 } from './components';
-import { Auth } from './containers';
 import { me } from './store';
 
 class Routes extends Component {
@@ -22,12 +23,13 @@ class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/" component={UserHome} />
-        <Route exact path="/questionqueue" component={QuestionQueue} />
+        <Route exact path="/question-queue" component={QuestionQueue} />
 
         {isLoggedIn && (
           <Switch>
             {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/manage" component={Manage} />
+            <Route exact path="/ask-a-question" component={QuestionForm} />
           </Switch>
         )}
 
