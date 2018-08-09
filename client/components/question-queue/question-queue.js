@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
-import { Queue, Header } from '../../components';
+import { Queue } from '../../components';
 
 const QuestionQueue = () => {
   return (
     <Fragment>
-      <Header title="Question Queue" />
+      <h1 className="title">Question Queue</h1>
       <Queue />
     </Fragment>
   );

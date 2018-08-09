@@ -14,17 +14,17 @@ class Manage extends Component {
 
     if (user.id === myId) {
       if (confirm('You are about to delete yourself! Are you sure?')) {
-        deleteUser(user)
+        deleteUser(user);
       }
     } else {
       deleteUser(user);
     }
-  }
+  };
 
   render() {
-    const { users, isLoading, isAdmin } = this.props
+    const { users, isLoading, isAdmin } = this.props;
 
-    if (isLoading) return null
+    if (isLoading) return null;
 
     return (
       <div>
@@ -53,11 +53,17 @@ class Manage extends Component {
             {users.map(user => (
               <tr key={user.id}>
                 <td>{user.id}</td>
-                <td>{user.firstName} {user.lastName}</td>
+                <td>
+                  {user.firstName} {user.lastName}
+                </td>
                 <td>{user.email}</td>
                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                 <td>{user.isAdmin ? 'Admin' : 'Customer'}</td>
-                <td><a href="#" onClick={event => this.handleDelete(event, user)}>Delete</a></td>
+                <td>
+                  <a href="#" onClick={event => this.handleDelete(event, user)}>
+                    Delete
+                  </a>
+                </td>
               </tr>
             ))}
           </tbody>

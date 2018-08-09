@@ -9,7 +9,8 @@ import {
   PageNotFound,
   Manage,
   QuestionQueue,
-  QuestionForm
+  QuestionForm,
+  Dashboard
 } from './components';
 import { me } from './store';
 
@@ -29,6 +30,7 @@ class Routes extends Component {
           <Switch>
             {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/manage" component={Manage} />
+            <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/ask-a-question" component={QuestionForm} />
           </Switch>
         )}
