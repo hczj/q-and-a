@@ -15,6 +15,7 @@ export { default as Queue } from './question-queue/queue';
 
 // reusable
 export { default as Header } from './reusable/header';
+export { default as CategoryDropdown } from './reusable/category-dropdown';
 
 // views
 export { default as Auth } from './views/auth';
