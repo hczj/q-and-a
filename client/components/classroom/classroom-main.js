@@ -25,8 +25,13 @@ export default class Classroom extends Component {
   componentDidMount() {
     socket.emit('room', room);
     peer.on('open', function(id) {
-      console.log("peer id is: " + id);
+      console.log('peer id is: ' + id);
     });
+    navigator.getUserMedia =
+      navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia ||
+      navigator.msGetUserMedia;
   }
 
   handleChangeCode = code => {
@@ -36,6 +41,32 @@ export default class Classroom extends Component {
     });
   };
 
+  getMedia(opts, suc, err) {
+    navigator.getUserMedia(opts, suc, err);
+  }
+
+  selfVideo() {
+    this.getMedia(
+      { audio: false, video: true },
+      stream => {
+        const video = document.querySelector('.me-vid');
+        // @ts-ignore
+        video.srcObject = stream;
+      },
+      err => console.log(err)
+    );
+  }
+
+  onClick = () => {
+    // const getVideo = (successCallback, errorCallback) => {
+    //   navigator.getUserMedia(
+    //     { audio: true, video: true },
+    //     successCallback,
+    //     errorCallback
+    //   );
+    // };
+    this.selfVideo();
+  };
   render() {
     return (
       <div>
@@ -49,6 +80,10 @@ export default class Classroom extends Component {
           }}
           onChange={this.handleChangeCode.bind(this)}
         />
+        <button id="start-call" onClick={this.onClick}>
+          start call
+        </button>
+        <video className="me-vid" autoPlay playsInline />
       </div>
     );
   }
