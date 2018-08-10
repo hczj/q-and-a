@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 
 const ProfileCard = ({ viewedUser }) => {
   const { firstName, lastName, isActive, location, description } = viewedUser;
-  let busyIndicator = '✅';
-  if (!isActive) {
-    busyIndicator = '⛔';
-  }
+  let busyIndicator = isActive ? '✅' : '⛔';
 
   return (
     <div style={{ width: 400 }}>
