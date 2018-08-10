@@ -10,6 +10,7 @@ import {
   Manage,
   QuestionQueue,
   QuestionForm,
+  Classroom,
   Dashboard,
 
   TEST
@@ -28,6 +29,7 @@ class Routes extends Component {
         <Route exact path="/" component={UserHome} />
         <Route exact path="/question-queue" component={QuestionQueue} />
 
+        <Route path="/test" component={Classroom} />
         <Route exact path="/test" component={TEST} />
 
         {isLoggedIn && (

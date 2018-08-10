@@ -27,6 +27,9 @@ export { default as QuestionCard } from './reusable/question-card';
 // views
 export { default as Auth } from './views/auth';
 
+// classroom
+export { default as Classroom } from './classroom/classroom-main';
+
 
 
 
