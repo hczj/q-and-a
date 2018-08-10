@@ -22,10 +22,8 @@ const CurrentTopics = ({ viewedUser }) => {
   );
 };
 
-const mapState = state => {
-  return {
-    viewedUser: state.users.active
-  };
-};
+const mapState = state => ({
+  viewedUser: state.users.active
+});
 
 export default connect(mapState)(CurrentTopics);
