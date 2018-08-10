@@ -20,6 +20,8 @@ export { default as Queue } from './question-queue/queue';
 
 // profile
 export { default as Profile } from './profile/profile';
+export { default as ProfileCard } from './profile/profile-card';
+export { default as CurrentTopics } from './profile/current-topics';
 
 // reusable
 export { default as CategoryDropdown } from './reusable/category-dropdown';
