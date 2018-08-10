@@ -1,13 +1,11 @@
 import React, { Fragment, Component } from 'react';
-import { Queue, Header } from '../../components';
+import { LearnToday, ActiveQuestions, Header } from '../../components';
 import { connect } from 'react-redux';
-import { fetchQuestions, me } from '../../store';
+import { fetchQuestions } from '../../store';
 
-class QuestionQueue extends Component {
-  async componentDidMount() {
-    const { loadMe, getQuestions } = this.props;
-    await loadMe();
-    getQuestions(this.props.myId);
+class Dashboard extends Component {
+  componentDidMount() {
+    this.props.getQuestions(this.props.myId);
   }
 
   render() {
@@ -15,8 +13,9 @@ class QuestionQueue extends Component {
     if (isLoading) return null;
     return (
       <Fragment>
-        <Header title="Question Queue" />
-        <Queue />
+        <Header title="Dashboard" />
+        <LearnToday />
+        <ActiveQuestions />
       </Fragment>
     );
   }
@@ -28,8 +27,7 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  loadMe: () => dispatch(me()),
   getQuestions: myId => dispatch(fetchQuestions(myId))
 });
 
-export default connect(mapState, mapDispatch)(QuestionQueue);
+export default connect(mapState, mapDispatch)(Dashboard);

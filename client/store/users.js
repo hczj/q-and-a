@@ -65,7 +65,7 @@ export const auth = (formData, method) => async dispatch => {
 
   try {
     dispatch(receiveMe(res.data));
-    // history.push('/user-dashboard');
+    history.push('/dashboard');
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr);
   }
