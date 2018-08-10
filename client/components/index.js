@@ -18,6 +18,9 @@ export { default as QuestionForm } from './question-queue/question-form';
 export { default as Question } from './question-queue/question';
 export { default as Queue } from './question-queue/queue';
 
+// profile
+export { default as Profile } from './profile/profile';
+
 // reusable
 export { default as CategoryDropdown } from './reusable/category-dropdown';
 export { default as CategoryCard } from './reusable/category-card';
