@@ -30,12 +30,11 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
       </div>
       <div id="navPrimary" className="navbar-menu">
         <div className="navbar-start">
-          <NavLink to="/question-qeue" className="navbar-item" activeClassName="is-active">
-            Questions
-          </NavLink>
           {isLoggedIn ? (
             <Fragment>
               {/* The navbar will show these links after you log in */}
+              <NavLink to="/question-qeue" className="navbar-item" activeClassName="is-active">Questions</NavLink>
+              <NavLink to="/dashboard" className="navbar-item" activeClassName="is-active">Dashboard</NavLink>
               <NavLink to="/manage" className="navbar-item" activeClassName="is-active">Manage</NavLink>
               <a href="#" onClick={handleClick} className="navbar-item">
                 Logout
