@@ -10,6 +10,7 @@ import {
   Manage,
   QuestionQueue,
   QuestionForm,
+  Profile,
   Dashboard
 } from './components';
 import { me } from './store';
@@ -24,8 +25,8 @@ class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/" component={UserHome} />
+        <Route path="/users/:id" component={Profile} />
         <Route exact path="/question-queue" component={QuestionQueue} />
-
         {isLoggedIn && (
           <Switch>
             {/* LOGGED-IN ONLY ROUTES */}
