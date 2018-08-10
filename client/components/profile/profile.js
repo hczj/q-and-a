@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { fetchUser } from '../../store/';
-import ProfileCard from './profile-card';
-import CurrentTopics from './current-topics';
+import {ProfileCard, CurrentTopics} from '../../components';
 
 class Profile extends React.Component {
   componentDidMount() {
