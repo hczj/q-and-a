@@ -7,6 +7,8 @@ import history from '../history';
 const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
 
+const REQUEST_USER_QUESTIONS = 'REQUEST_USER_QUESTIONS';
+
 const REQUEST_QUESTION = 'REQUEST_QUESTION';
 const RECEIVE_QUESTION = 'RECIEVE_QUESTION';
 
@@ -54,13 +56,33 @@ export const removeActiveQuestion = () => ({ type: REMOVE_ACTIVE_QUESTION });
 /**
  * THUNK CREATORS
  */
-export const fetchQuestions = () => async dispatch => {
+export const fetchQuestions = myId => async dispatch => {
   dispatch(requestQuestions());
   try {
-    const { data } = await axios.get('/api/questions');
+    const { data } = await axios.get(`/api/questions/${myId ? myId : ''}`);
     dispatch(receiveQuestions(data || []));
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const fetchQuestionsByCategory = categoryId => async dispatch => {
+  dispatch(requestQuestions());
+  try {
+    const { data } = await axios.get(`/api/questions/category/${categoryId}`);
+    dispatch(receiveQuestions(data || []));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const fetchQuestionsByUser = myId => async dispatch => {
+  dispatch(requestQuestions());
+  try {
+    const { data } = await axios.get(`/api/questions/user/${myId}`);
+    dispatch(receiveQuestions(data || []));
+  } catch (err) {
+    console.error(err);
   }
 };
 
@@ -69,8 +91,8 @@ export const createQuestion = question => async dispatch => {
     const { data } = await axios.post(`/api/questions`, question);
     dispatch(createQuestionSuccess(data || {}));
     history.push(`/question-queue`);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
   }
 };
 

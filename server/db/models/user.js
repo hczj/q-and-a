@@ -28,6 +28,10 @@ const User = db.define('user', {
     type: Sequelize.BOOLEAN,
     defaultValue: true
   },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue: 'https://dummyimage.com/200x200'
+  },
   password: {
     type: Sequelize.STRING,
     // Making `.password` act like a func hides it when serializing to JSON.
