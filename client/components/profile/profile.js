@@ -22,16 +22,12 @@ class Profile extends React.Component {
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
+const mapDispatch = dispatch => ({
     getUser: id => dispatch(fetchUser(id))
-  };
-};
+});
 
-const mapState = state => {
-  return {
+const mapState = state => ({
     viewedUser: state.users.active
-  };
-};
+});
 
 export default connect(mapState, mapDispatch)(Profile);
