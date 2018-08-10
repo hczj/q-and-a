@@ -1,26 +1,28 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
 import { logout } from '../store';
 
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <nav className="">
+    <Link to="/">Home</Link>
     {isLoggedIn ? (
-      <div>
+      <Fragment>
         {/* The navbar will show these links after you log in */}
-        <Link to="/home">Home</Link>
+        <Link to="/dashboard">Dashboard</Link>
         <Link to="/question-queue">Question Queue</Link>
+        <Link to="/manage">Manage</Link>
         <a href="#" onClick={handleClick}>
           Logout
         </a>
-      </div>
+      </Fragment>
     ) : (
-      <div>
+      <Fragment>
         {/* The navbar will show these links before you log in */}
         <Link to="/login">Login</Link>
         <Link to="/signup">Sign Up</Link>
         <Link to="/question-queue">Question Queue</Link>
-      </div>
+      </Fragment>
     )}
   </nav>
 );

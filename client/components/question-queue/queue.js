@@ -1,43 +1,23 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Question } from '../../components';
-import { fetchQuestions } from '../../store';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-class Queue extends Component {
-  componentDidMount() {
-    this.props.getQuestions();
-  }
-
-  render() {
-    const { questions, isLoading } = this.props;
-
-    if (isLoading) return null;
-    else
-      return (
-        <Fragment>
-          <Link to="/ask-a-question">
-            <button className="button is-link" type="button">
-              Ask a question!
-            </button>
-          </Link>
-          <div>
-            {questions.map(question => (
-              <Question key={question.id} {...question} />
-            ))}
-          </div>
-        </Fragment>
-      );
-  }
-}
+const Queue = ({ questions }) => (
+  <Fragment>
+    <Link to="/ask-a-question">
+      <button className="button is-link" type="button">
+        Ask a question!
+      </button>
+    </Link>
+    <div>
+      {questions.map(question => <Question key={question.id} {...question} />)}
+    </div>
+  </Fragment>
+);
 
 const mapState = state => ({
-  questions: state.questions.all,
-  isLoading: state.questions.isLoading
+  questions: state.questions.all
 });
 
-const mapDispatch = dispatch => ({
-  getQuestions: () => dispatch(fetchQuestions())
-});
-
-export default connect(mapState, mapDispatch)(Queue);
+export default connect(mapState)(Queue);

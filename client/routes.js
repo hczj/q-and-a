@@ -9,7 +9,8 @@ import {
   PageNotFound,
   Manage,
   QuestionQueue,
-  QuestionForm
+  QuestionForm,
+  Dashboard
 } from './components';
 import { me } from './store';
 
@@ -30,6 +31,7 @@ class Routes extends Component {
           <Switch>
             {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/manage" component={Manage} />
+            <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/ask-a-question" component={QuestionForm} />
           </Switch>
         )}
@@ -44,7 +46,8 @@ class Routes extends Component {
 const mapState = state => ({
   isLoading: !!state.me.isLoading,
   isLoggedIn: !!state.me.id,
-  isAdmin: !!state.me.isAdmin
+  isAdmin: !!state.me.isAdmin,
+  myId: state.me.id
 });
 
 const mapDispatch = dispatch => ({
