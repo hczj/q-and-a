@@ -19,3 +19,8 @@ export { default as CategoryDropdown } from './reusable/category-dropdown';
 
 // views
 export { default as Auth } from './views/auth';
+
+
+
+
+export { default as TEST } from './TEST';
