@@ -1,0 +1,10 @@
+.input {
+
+  &.is-success ~ .icon > [class^="fa"] {
+    color: $success;
+  }
+
+  &.is-danger ~ .icon > [class^="fa"] {
+    color: $danger;
+  }
+}

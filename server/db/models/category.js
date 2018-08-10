@@ -6,10 +6,14 @@ const Category = db.define('category', {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
-    validate : {
-      notEmpty: true,
+    validate: {
+      notEmpty: true
     }
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue: 'https://dummyimage.com/200x200'
   }
-})
+});
 
-module.exports = Category
+module.exports = Category;

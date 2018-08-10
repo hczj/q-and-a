@@ -12,7 +12,11 @@ import Routes from './routes';
 const App = () => (
   <div>
     <Navbar />
-    <Routes />
+    <div className="section">
+      <div className="container">
+        <Routes />
+      </div>
+    </div>
   </div>
 );
 

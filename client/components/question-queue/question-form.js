@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { createQuestion } from '../../store';
 import { connect } from 'react-redux';
-import { Header, CategoryDropdown } from '../../components';
+import { CategoryDropdown, Header } from '../../components';
 // import TagsInput from 'react-tagsinput';
 
 class QuestionForm extends Component {
