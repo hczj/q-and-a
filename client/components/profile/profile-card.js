@@ -25,10 +25,8 @@ const ProfileCard = ({ viewedUser }) => {
   );
 };
 
-const mapState = state => {
-  return {
+const mapState = state => ({
     viewedUser: state.users.active
-  };
-};
+});
 
 export default connect(mapState)(ProfileCard);
