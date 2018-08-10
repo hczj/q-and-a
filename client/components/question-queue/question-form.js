@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { createQuestion } from '../../store';
 import { connect } from 'react-redux';
-import { CategoryDropdown } from '../../components';
+import { CategoryDropdown, Header } from '../../components';
 // import TagsInput from 'react-tagsinput';
 
 class QuestionForm extends Component {
@@ -16,7 +16,7 @@ class QuestionForm extends Component {
     const { pristine, reset, submitting, handleSubmit } = this.props;
     return (
       <Fragment>
-        <h1 className="title">Ask a question!</h1>
+        <Header title="Ask a question!" />
         <form onSubmit={handleSubmit(this.handleQuestionSubmit.bind(this))}>
           <div className="field">
             <label className="label">Title</label>

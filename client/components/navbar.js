@@ -9,13 +9,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
     {isLoggedIn ? (
       <Fragment>
         {/* The navbar will show these links after you log in */}
-<<<<<<< HEAD
-        <Link to="/home">Home</Link>
         <Link to="/dashboard">Dashboard</Link>
-||||||| merged common ancestors
-        <Link to="/home">Home</Link>
-=======
->>>>>>> master
         <Link to="/question-queue">Question Queue</Link>
         <Link to="/manage">Manage</Link>
         <a href="#" onClick={handleClick}>

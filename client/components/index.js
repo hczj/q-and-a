@@ -8,6 +8,7 @@ export { default as PageNotFound } from './page-not-found';
 export { default as Manage } from './admin/manage';
 
 // dashboard
+export { default as ActiveQuestions } from './dashboard/active-questions';
 export { default as Dashboard } from './dashboard/dashboard';
 export { default as LearnToday } from './dashboard/learn-today';
 
@@ -19,6 +20,9 @@ export { default as Queue } from './question-queue/queue';
 
 // reusable
 export { default as CategoryDropdown } from './reusable/category-dropdown';
+export { default as CategoryCard } from './reusable/category-card';
+export { default as Header } from './reusable/header';
+export { default as QuestionCard } from './reusable/question-card';
 
 // views
 export { default as Auth } from './views/auth';

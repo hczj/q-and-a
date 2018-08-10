@@ -1,5 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { fetchCategories } from '../../store';
+import { CategoryCard } from '../../components';
 import { connect } from 'react-redux';
 
 class LearnToday extends Component {
@@ -13,9 +14,17 @@ class LearnToday extends Component {
     if (isLoading) return null;
     else
       return (
-        <h1 className="title">
-          What would you like to learn today, {firstName}?
-        </h1>
+        <div className="box">
+          <h1 className="title">
+            What would you like to learn today, {firstName}?
+          </h1>
+
+          <div className="columns">
+            {categories.map(category => (
+              <CategoryCard key={category.id} {...category} />
+            ))}
+          </div>
+        </div>
       );
   }
 }

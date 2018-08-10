@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { User } = require('../db/models');
-const { isAdmin } = require('../utils')
+const { User, Question } = require('../db/models');
+const { isAdmin } = require('../utils');
 
 module.exports = router;
 
@@ -21,6 +21,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
+
     res.json(user);
   } catch (err) {
     next(err);
