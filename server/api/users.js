@@ -1,16 +1,11 @@
 const router = require('express').Router();
-const { User, Question } = require('../db/models');
-const { isAdmin } = require('../utils');
-
+const { User, Topic } = require('../db/models');
+const { isAdmin } = require('../utils')
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      // attributes: ['id', 'email']
     });
     res.json(users);
   } catch (err) {
@@ -18,10 +13,19 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/:userId/topics', async (req,res, next) => {
+  try{
+    const [ user ] = await User.findAll({where: { id: req.params.userId}, include: Topic });
+    res.json(user)
+  } catch (err) {
+    next(err);
+  }
+})
+
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
-
+    
     res.json(user);
   } catch (err) {
     next(err);

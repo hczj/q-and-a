@@ -20,6 +20,12 @@ const User = db.define('user', {
       notEmpty: true
     }
   },
+  location: {
+    type: Sequelize.STRING
+  },
+  description: {
+    type: Sequelize.TEXT
+  },
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
