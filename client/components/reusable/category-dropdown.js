@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { fetchCategories } from '../../store/';
+import { fetchCategoriesByUser, me } from '../../store/';
 
 class CategoryDropdown extends Component {
-  componentDidMount() {
-    this.props.getCategories();
+  async componentDidMount() {
+    const { getUserCategories, loadMe } = this.props;
+    await loadMe();
+    getUserCategories(this.props.myId);
   }
 
   render() {
@@ -25,12 +27,14 @@ class CategoryDropdown extends Component {
 }
 
 const mapState = state => ({
+  myId: state.me.id,
   categories: state.categories.all,
   isLoading: state.categories.isLoading
 });
 
 const mapDispatch = dispatch => ({
-  getCategories: () => dispatch(fetchCategories())
+  loadMe: () => dispatch(me()),
+  getUserCategories: myId => dispatch(fetchCategoriesByUser(myId))
 });
 
 export default connect(mapState, mapDispatch)(CategoryDropdown);
