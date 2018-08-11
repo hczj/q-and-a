@@ -9,7 +9,8 @@ import {
   QuestionQueue,
   QuestionForm,
   Dashboard,
-  CategoryPage
+  CategoryPage,
+  Discover
 } from './components';
 import { me } from './store';
 
@@ -23,6 +24,7 @@ class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/" component={UserHome} />
+        <Route exact path="/discover" component={Discover} />
         <Route exact path="/category/:categoryId" component={CategoryPage} />
 
         {isLoggedIn && (
