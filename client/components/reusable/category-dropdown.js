@@ -13,16 +13,15 @@ class CategoryDropdown extends Component {
     const { categories, isLoading } = this.props;
 
     if (isLoading) return null;
-    else
-      return (
-        <Fragment>
-          {categories.map(category => (
-            <option key={category.id} value={+category.id}>
-              {category.name}
-            </option>
-          ))}
-        </Fragment>
-      );
+    return (
+      <Fragment>
+        {categories.map(category => (
+          <option key={category.id} value={+category.id}>
+            {category.name}
+          </option>
+        ))}
+      </Fragment>
+    );
   }
 }
 

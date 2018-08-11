@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { fetchUser } from '../../store/';
-import {ProfileCard, CurrentTopics} from '../../components';
+import { ProfileCard, ProfileTopics } from '../../components';
 
 class Profile extends React.Component {
   componentDidMount() {
@@ -9,25 +9,22 @@ class Profile extends React.Component {
   }
 
   render() {
-    if (!this.props.viewedUser.firstName) {
-      return <React.Fragment />;
-    } else {
-      return (
-        <div className="columns is-centered">
-          <ProfileCard className="column" />
-          <CurrentTopics className="column" />
-        </div>
-      );
-    }
+    if (!this.props.viewedUser.firstName) return null;
+    return (
+      <div className="columns is-centered">
+        <ProfileCard className="column" />
+        <ProfileTopics className="column" />
+      </div>
+    );
   }
 }
 
 const mapDispatch = dispatch => ({
-    getUser: id => dispatch(fetchUser(id))
+  getUser: id => dispatch(fetchUser(id))
 });
 
 const mapState = state => ({
-    viewedUser: state.users.active
+  viewedUser: state.users.active
 });
 
 export default connect(mapState, mapDispatch)(Profile);
