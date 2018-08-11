@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { withRouter, Route, Switch } from 'react-router-dom';
 import {
   Auth,
-  Login,
-  Signup,
   UserHome,
   PageNotFound,
   Manage,
   QuestionQueue,
   QuestionForm,
   Dashboard,
+  CategoryPage,
+  Discover,
+  Profile,
+
 
   ClassroomView,
   Classroom,
@@ -24,14 +26,12 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn, isAdmin } = this.props;
+    const { isLoggedIn } = this.props;
     return (
       <Switch>
         <Route exact path="/" component={UserHome} />
-        <Route exact path="/question-queue" component={QuestionQueue} />
-
-        <Route exact path="/classroom" component={ClassroomView} />
-        <Route path="/classroom/r/:room" component={RoomView} />
+        <Route exact path="/discover" component={Discover} />
+        <Route exact path="/category/:categoryId" component={CategoryPage} />
 
         {isLoggedIn && (
           <Switch>
@@ -39,6 +39,8 @@ class Routes extends Component {
             <Route path="/manage" component={Manage} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/ask-a-question" component={QuestionForm} />
+            <Route exact path="/question-queue" component={QuestionQueue} />
+            <Route exact path="/profile/:id" component={Profile} />
           </Switch>
         )}
 

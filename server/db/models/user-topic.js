@@ -4,10 +4,10 @@ const db = require('../db');
 const UserTopic = db.define('userTopic', {
   proficiency: {
     type: Sequelize.ENUM,
-    values: ['beginner', 'novice', 'intermediate', 'advanced', 'master'],
-    defaultValue: 'beginner',
+    values: ['Beginner', 'Novice', 'Intermediate', 'Advanced', 'Master'],
+    defaultValue: 'Beginner',
     allowNull: false
   }
-})
+});
 
 module.exports = UserTopic;

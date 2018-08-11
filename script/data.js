@@ -1,7 +1,12 @@
+let loremIpsum =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
 const users = [
   {
     firstName: 'Hollie',
     lastName: 'Lambert',
+    location: 'Chicago',
+    description: loremIpsum,
     email: 'hollie@example.com',
     password: 'test',
     isAdmin: true
@@ -9,6 +14,8 @@ const users = [
   {
     firstName: 'Zohaib',
     lastName: 'Farooqi',
+    location: 'Chicago',
+    description: loremIpsum,
     email: 'zohaib@example.com',
     password: 'test',
     isAdmin: true
@@ -16,6 +23,8 @@ const users = [
   {
     firstName: 'Jerry',
     lastName: 'Wu',
+    location: 'Chicago',
+    description: loremIpsum,
     email: 'jerry@example.com',
     password: 'test',
     isAdmin: true
@@ -23,6 +32,8 @@ const users = [
   {
     firstName: 'Chris',
     lastName: 'Lusk',
+    location: 'Chicago',
+    description: loremIpsum,
     email: 'chris@example.com',
     password: 'test',
     isAdmin: true
@@ -30,6 +41,8 @@ const users = [
   {
     firstName: 'Azar',
     lastName: 'Abed',
+    location: 'Memphis',
+    description: loremIpsum,
     email: 'azar@example.com',
     password: 'test',
     isAdmin: false
@@ -37,6 +50,8 @@ const users = [
   {
     firstName: 'Ahmet',
     lastName: 'Abed',
+    location: 'Outer Space',
+    description: loremIpsum,
     email: 'ahmet@example.com',
     password: 'test',
     isAdmin: false
@@ -44,6 +59,8 @@ const users = [
   {
     firstName: 'Jill',
     lastName: 'Jones',
+    location: 'San Diego, CA',
+    description: loremIpsum,
     email: 'jill@example.com',
     password: 'test',
     isAdmin: false
@@ -51,6 +68,8 @@ const users = [
   {
     firstName: 'Jake',
     lastName: 'Jones',
+    location: 'Paris, France',
+    description: loremIpsum,
     email: 'jake@example.com',
     password: 'test',
     isAdmin: false
@@ -58,6 +77,8 @@ const users = [
   {
     firstName: 'Laura',
     lastName: 'Lopez',
+    location: 'San Jose, CA',
+    description: loremIpsum,
     email: 'laura@example.com',
     password: 'test',
     isAdmin: true
@@ -65,6 +86,8 @@ const users = [
   {
     firstName: 'Luis',
     lastName: 'Lopez',
+    location: 'Mexico City',
+    description: loremIpsum,
     email: 'luis@example.com',
     password: 'test',
     isAdmin: false
@@ -72,6 +95,8 @@ const users = [
   {
     firstName: 'Sayaka',
     lastName: 'Shiroma',
+    location: 'Tokyo',
+    description: loremIpsum,
     email: 'sayaka@example.com',
     password: 'test',
     isAdmin: false
@@ -79,6 +104,8 @@ const users = [
   {
     firstName: 'Shu',
     lastName: 'Shiroma',
+    location: 'Tokyo',
+    description: loremIpsum,
     email: 'shu@example.com',
     password: 'test',
     isAdmin: false
@@ -86,6 +113,8 @@ const users = [
   {
     firstName: 'Farrokh',
     lastName: 'Bulsara',
+    location: 'Baghdad',
+    description: loremIpsum,
     email: 'farrokh@example.com',
     password: 'test',
     isAdmin: true
@@ -140,4 +169,4 @@ module.exports = {
   questions,
   categories,
   topics
-}
+};
