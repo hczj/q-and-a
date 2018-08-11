@@ -28,9 +28,8 @@ export { default as QuestionCard } from './reusable/question-card';
 export { default as Auth } from './views/auth';
 
 // classroom
-export { default as Classroom } from './classroom/classroom-main';
-
-
-
-
-export { default as TEST } from './TEST';
+// export { default as Classroom } from './classroom/classroom-main';
+export { default as ClassroomView } from './classroom/classroom-view';
+export { default as RoomView } from './classroom/room-view';
+export { default as MediaContainer } from './classroom/media-container';
+export { default as ToolbarContainer } from './classroom/toolbar-container';

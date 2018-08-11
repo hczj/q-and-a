@@ -6,6 +6,7 @@ import { logout } from '../store';
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <nav className="">
     <Link to="/">Home</Link>
+    <Link to="/classroom">Classroom</Link>
     {isLoggedIn ? (
       <Fragment>
         {/* The navbar will show these links after you log in */}
