@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { logout } from '../store';
 
-const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
+const Navbar = ({ handleClick, isLoggedIn }) => (
   <nav className="">
     <Link to="/">Home</Link>
     {isLoggedIn ? (
@@ -21,7 +21,6 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
         {/* The navbar will show these links before you log in */}
         <Link to="/login">Login</Link>
         <Link to="/signup">Sign Up</Link>
-        <Link to="/question-queue">Question Queue</Link>
       </Fragment>
     )}
   </nav>
