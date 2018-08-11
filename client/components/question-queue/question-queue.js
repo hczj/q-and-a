@@ -23,7 +23,7 @@ class QuestionQueue extends Component {
         <Header title="Question Queue" />
         <AskQuestionButton />
         <div className="box">
-          {questions.length > 0 ? <Queue /> : <NothingHere />}
+          {questions.length ? <Queue /> : <NothingHere />}
         </div>
       </Fragment>
     );
