@@ -19,7 +19,7 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.propss;
+    const { isLoggedIn } = this.props;
     return (
       <Switch>
         <Route exact path="/" component={UserHome} />
