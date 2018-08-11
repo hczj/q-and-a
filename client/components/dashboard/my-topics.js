@@ -1,13 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Header } from '../../components';
+import { Header, NothingHere } from '../../components';
 
 const MyTopics = ({ topics, isLoading }) => {
   if (isLoading) return null;
   return (
     <div className="box">
       <Header title="Currently Learning" />
-      {topics.map(topic => <h1 key={topic.id}>{topic.name}</h1>)}
+      {topics.length > 0 ? (
+        topics.map(topic => <h1 key={topic.id}>{topic.name}</h1>)
+      ) : (
+        <NothingHere />
+      )}
     </div>
   );
 };
