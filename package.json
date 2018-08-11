@@ -44,7 +44,9 @@
     "connect-session-sequelize": "^4.1.0",
     "express": "^4.16.3",
     "express-session": "^1.15.1",
+    "fs": "0.0.1-security",
     "history": "^4.6.3",
+    "https": "^1.0.0",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
@@ -60,7 +62,8 @@
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.3.0",
     "sequelize": "^4.38.0",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.55",
@@ -104,7 +107,6 @@
     "redux-devtools-extension": "^2.13.5",
     "redux-mock-store": "^1.5.3",
     "sass-loader": "^7.1.0",
-    "simplewebrtc": "^3.0.2",
     "style-loader": "^0.22.0",
     "supertest": "^3.1.0",
     "twilio-video": "^1.13.1",
