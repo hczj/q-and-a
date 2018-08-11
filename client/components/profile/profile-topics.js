@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchUser } from '../../store/';
 
-const CurrentTopics = ({ viewedUser }) => {
+const ProfileTopics = ({ viewedUser }) => {
   const { topics } = viewedUser;
 
+  if (!topics) return null;
   return (
     <div style={{ width: 400 }}>
       <div className="card">
@@ -26,4 +26,4 @@ const mapState = state => ({
   viewedUser: state.users.active
 });
 
-export default connect(mapState)(CurrentTopics);
+export default connect(mapState)(ProfileTopics);

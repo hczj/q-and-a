@@ -17,8 +17,8 @@ const ProfileCard = ({ viewedUser }) => {
           <p className="title is-4">
             {busyIndicator} {firstName} {lastName}
           </p>
-          <p className="subtitle is-6">{location}</p>
-          <p>{description}</p>
+          <p className="subtitle is-6">{location ? location : ''}</p>
+          <p>{description ? description : ''}</p>
         </div>
       </div>
     </div>
@@ -26,7 +26,7 @@ const ProfileCard = ({ viewedUser }) => {
 };
 
 const mapState = state => ({
-    viewedUser: state.users.active
+  viewedUser: state.users.active
 });
 
 export default connect(mapState)(ProfileCard);

@@ -1,20 +1,15 @@
 import React, { Fragment } from 'react';
 import { Question } from '../../components';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const Queue = ({ questions }) => (
-  <Fragment>
-    <Link to="/ask-a-question">
-      <button className="button is-link" type="button">
-        Ask a question!
-      </button>
-    </Link>
-    <div>
-      {questions.map(question => <Question key={question.id} {...question} />)}
-    </div>
-  </Fragment>
-);
+const Queue = ({ questions }) => {
+  const activeQs = questions.filter(question => question.isActive);
+  return (
+    <Fragment>
+      {activeQs.map(question => <Question key={question.id} {...question} />)}
+    </Fragment>
+  );
+};
 
 const mapState = state => ({
   questions: state.questions.all

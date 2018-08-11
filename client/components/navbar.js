@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { logout } from '../store';
 
 const toggleNavbarMenu = event => {
@@ -11,7 +11,7 @@ const toggleNavbarMenu = event => {
   navbarMenu.classList.toggle('is-active')
 }
 
-const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
+const Navbar = ({ handleClick, isLoggedIn, isAdmin, myId }) => (
   <nav className="navbar is-primary">
     <div className="container">
       <div className="navbar-brand">
@@ -30,11 +30,13 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
       </div>
       <div id="navPrimary" className="navbar-menu">
         <div className="navbar-start">
+          <NavLink to="/discover" className="navbar-item" activeClassName="is-active">Discover</NavLink>
           {isLoggedIn ? (
             <Fragment>
               {/* The navbar will show these links after you log in */}
               <NavLink to="/question-qeue" className="navbar-item" activeClassName="is-active">Questions</NavLink>
               <NavLink to="/dashboard" className="navbar-item" activeClassName="is-active">Dashboard</NavLink>
+              <NavLink to={`/profile/${myId}`} className="navbar-item" activeClassName="is-active">Profile</NavLink>
               <NavLink to="/manage" className="navbar-item" activeClassName="is-active">Manage</NavLink>
               <a href="#" onClick={handleClick} className="navbar-item">
                 Logout

@@ -1,31 +1,33 @@
 const router = require('express').Router();
 const { User, Topic } = require('../db/models');
-const { isAdmin } = require('../utils')
+const { isAdmin } = require('../utils');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
-    const users = await User.findAll({
-    });
+    const users = await User.findAll({});
     res.json(users);
   } catch (err) {
     next(err);
   }
 });
 
-router.get('/:userId/topics', async (req,res, next) => {
-  try{
-    const [ user ] = await User.findAll({where: { id: req.params.userId}, include: Topic });
-    res.json(user)
+router.get('/:userId/topics', async (req, res, next) => {
+  try {
+    const [user] = await User.findAll({
+      where: { id: req.params.userId },
+      include: Topic
+    });
+    res.json(user);
   } catch (err) {
     next(err);
   }
-})
+});
 
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
-    
+
     res.json(user);
   } catch (err) {
     next(err);
