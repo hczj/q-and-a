@@ -1,5 +1,10 @@
 import React, { Fragment, Component } from 'react';
-import { Queue, Header } from '../../components';
+import {
+  Queue,
+  Header,
+  NothingHere,
+  AskQuestionButton
+} from '../../components';
 import { connect } from 'react-redux';
 import { fetchQuestions, me } from '../../store';
 
@@ -11,12 +16,15 @@ class QuestionQueue extends Component {
   }
 
   render() {
-    const { isLoading } = this.props;
+    const { isLoading, questions } = this.props;
     if (isLoading) return null;
     return (
       <Fragment>
         <Header title="Question Queue" />
-        <Queue />
+        <AskQuestionButton />
+        <div className="box">
+          {questions.length ? <Queue /> : <NothingHere />}
+        </div>
       </Fragment>
     );
   }
@@ -24,6 +32,7 @@ class QuestionQueue extends Component {
 
 const mapState = state => ({
   myId: state.me.id,
+  questions: state.questions.all,
   isLoading: state.questions.isLoading
 });
 

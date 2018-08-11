@@ -67,6 +67,27 @@ export const fetchCategories = () => async dispatch => {
   }
 };
 
+export const fetchCategoriesByUser = myId => async dispatch => {
+  dispatch(requestCategories());
+  try {
+    console.log('myId', myId)
+    const { data } = await axios.get(`/api/categories/user/${myId}`);
+    dispatch(receiveCategories(data || []));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const fetchCategory = categoryId => async dispatch => {
+  dispatch(requestCategory());
+  try {
+    const { data } = await axios.get(`/api/categories/${categoryId}`);
+    dispatch(receiveCategory(data || []));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const createCategory = category => async dispatch => {
   try {
     const { data } = await axios.post(`/api/categories`, category);

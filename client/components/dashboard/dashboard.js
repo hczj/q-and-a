@@ -1,11 +1,17 @@
 import React, { Fragment, Component } from 'react';
-import { LearnToday, ActiveQuestions, Header } from '../../components';
+import {
+  LearnToday,
+  Header,
+  ActiveQuestions,
+  MyTopics,
+  Schedule
+} from '../../components';
 import { connect } from 'react-redux';
 import { fetchQuestions } from '../../store';
 
 class Dashboard extends Component {
-  componentDidMount() {
-    this.props.getQuestions(this.props.myId);
+  async componentDidMount() {
+    await this.props.getQuestions(this.props.myId);
   }
 
   render() {
@@ -14,8 +20,10 @@ class Dashboard extends Component {
     return (
       <Fragment>
         <Header title="Dashboard" />
+        <MyTopics />
         <LearnToday />
         <ActiveQuestions />
+        <Schedule />
       </Fragment>
     );
   }
