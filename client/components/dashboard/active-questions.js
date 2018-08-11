@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Header, QuestionCard } from '../../components';
 
-const ActiveQuestions = ({ isLoading, questions, myId }) => {
+const ActiveQuestions = ({ questions, myId }) => {
   const activeQs = questions.filter(
     question => question.userId === myId && question.isActive
   );
 
-  if (isLoading || activeQs.length === 0) return null;
+  if (activeQs.length === 0) return null;
   return (
     <div className="box">
       <Header title="Unanswered Questions" />
@@ -22,8 +22,7 @@ const ActiveQuestions = ({ isLoading, questions, myId }) => {
 
 const mapState = state => ({
   myId: state.me.id,
-  questions: state.questions.all,
-  isLoading: state.questions.isLoading
+  questions: state.questions.all
 });
 
 export default connect(mapState)(ActiveQuestions);
