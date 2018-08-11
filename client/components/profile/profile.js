@@ -9,7 +9,8 @@ class Profile extends React.Component {
   }
 
   render() {
-    if (!this.props.viewedUser.firstName) return null;
+    const { isLoading } = this.props;
+    if (isLoading) return null;
     return (
       <div className="columns is-centered">
         <ProfileCard className="column" />
@@ -24,7 +25,8 @@ const mapDispatch = dispatch => ({
 });
 
 const mapState = state => ({
-  viewedUser: state.users.active
+  viewedUser: state.users.active,
+  isLoading: state.users.isLoading
 });
 
 export default connect(mapState, mapDispatch)(Profile);
