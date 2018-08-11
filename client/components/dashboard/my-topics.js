@@ -7,7 +7,7 @@ const MyTopics = ({ topics }) => {
   return (
     <div className="box">
       <Header title="Currently Learning" />
-      {topics.length > 0 ? (
+      {topics.length ? (
         topics.map(topic => <h1 key={topic.id}>{topic.name}</h1>)
       ) : (
         <NothingHere />
