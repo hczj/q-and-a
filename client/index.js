@@ -1,30 +1,46 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import history from './history';
 import store from './store';
 import './socket';
-import './sass/index.scss'
+import './sass/index.scss';
 
-import { Navbar } from './components';
+import { Navbar, ClassroomView, RoomView } from './components';
 import Routes from './routes';
 
-const App = () => (
-  <div>
+const RouteToLayout = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => <Component {...props} />} />
+);
+
+const MainLayout = () => (
+  <Fragment>
     <Navbar />
     <div className="section">
       <div className="container">
         <Routes />
       </div>
     </div>
-  </div>
+  </Fragment>
+);
+
+const AltLayout = () => (
+  <Fragment>
+    <Switch>
+      <Route exact path="/classroom" component={ClassroomView} />
+      <Route path="/classroom/r/:room" component={RoomView} />
+    </Switch>
+  </Fragment>
 );
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <App />
+      <Switch>
+        <RouteToLayout path="/classroom" component={AltLayout} />
+        <RouteToLayout component={MainLayout} />
+      </Switch>
     </Router>
   </Provider>,
   document.getElementById('app')

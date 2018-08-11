@@ -11,7 +11,12 @@ import {
   Dashboard,
   CategoryPage,
   Discover,
-  Profile
+  Profile,
+
+
+  ClassroomView,
+  Classroom,
+  RoomView
 } from './components';
 import { me } from './store';
 

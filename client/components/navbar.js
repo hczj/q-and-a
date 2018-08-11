@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { logout } from '../store';
 
 const toggleNavbarMenu = event => {
@@ -34,7 +34,8 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, myId }) => (
           {isLoggedIn ? (
             <Fragment>
               {/* The navbar will show these links after you log in */}
-              <NavLink to="/question-qeue" className="navbar-item" activeClassName="is-active">Questions</NavLink>
+              <NavLink to="/classroom" className="navbar-item" activeClassName="is-active">Classroom</NavLink>
+              <NavLink to="/question-queue" className="navbar-item" activeClassName="is-active">Questions</NavLink>
               <NavLink to="/dashboard" className="navbar-item" activeClassName="is-active">Dashboard</NavLink>
               <NavLink to={`/profile/${myId}`} className="navbar-item" activeClassName="is-active">Profile</NavLink>
               <NavLink to="/manage" className="navbar-item" activeClassName="is-active">Manage</NavLink>

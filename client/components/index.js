@@ -1,6 +1,13 @@
 // admin
 export { default as Manage } from './admin/manage';
 
+// classroom
+// export { default as Classroom } from './classroom/classroom-main';
+export { default as ClassroomView } from './classroom/classroom-view';
+export { default as RoomView } from './classroom/room-view';
+export { default as MediaContainer } from './classroom/media-container';
+export { default as ToolbarContainer } from './classroom/toolbar-container';
+
 // dashboard
 export { default as ActiveQuestions } from './dashboard/active-questions';
 export { default as Dashboard } from './dashboard/dashboard';
