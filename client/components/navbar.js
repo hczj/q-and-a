@@ -35,7 +35,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, myId }) => (
             <Fragment>
               {/* The navbar will show these links after you log in */}
               <NavLink to="/classroom" className="navbar-item" activeClassName="is-active">Classroom</NavLink>
-              <NavLink to="/question-qeue" className="navbar-item" activeClassName="is-active">Questions</NavLink>
+              <NavLink to="/question-queue" className="navbar-item" activeClassName="is-active">Questions</NavLink>
               <NavLink to="/dashboard" className="navbar-item" activeClassName="is-active">Dashboard</NavLink>
               <NavLink to={`/profile/${myId}`} className="navbar-item" activeClassName="is-active">Profile</NavLink>
               <NavLink to="/manage" className="navbar-item" activeClassName="is-active">Manage</NavLink>
