@@ -1,5 +1,5 @@
 let loremIpsum =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+  `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`;
 
 const users = [
   {
@@ -135,32 +135,91 @@ const questions = [
   },
   {
     title: `Would you help me try to learn this?`,
-    description: `Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.`
+    description: `Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tempor incididunt ut labore et dolore magna aliqua.`
   },
   {
     title: `HELP! I can't figure out why this that or the other.`,
     description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam!!!!!!!`
+  },
+  {
+    title: `What would I need to do here?`,
+    description: loremIpsum
+  },
+  {
+    title: `SOMEONE PLEASE HELP ME`,
+    description: `I am so lost`
+  },
+  {
+    title: `Would you do this or that to solve this problem?`,
+    description: loremIpsum
+  },
+  {
+    title: `Do you know how this can be fixed?`,
+    description: loremIpsum
+  },
+  {
+    title: `Will you please take a look at this this I'm doing?`,
+    description: `Laboris nisi ut aliquip ex ea commodo consequat tempor incididunt dolor sit amet, consectetur adipisicing elit, sed do...`
   }
 ];
 
 const categories = [
-  { name: 'Code' },
-  { name: 'Cooking' },
-  { name: 'Basket Weaving' }
+  { name: `Code` },
+  { name: `Cooking` },
+  { name: `Basket Weaving` },
+  { name: `Music` },
+  { name: `Business` },
+  { name: `Beauty & Makeup`}
 ];
 
 const topics = [
   {
-    name: 'Python',
-    category: 'Code'
+    name: `Python`,
+    category: `Code`
   },
   {
-    name: 'Pasta',
-    category: 'Cooking'
+    name: `JavaScript`,
+    category: `Code`
   },
   {
-    name: 'Wicker',
-    category: 'Basket Weaving'
+    name: `React.js`,
+    category: `Code`
+  },
+  {
+    name: `Sequelize`,
+    category: `Code`
+  },
+  {
+    name: `Pasta`,
+    category: `Cooking`
+  },
+  {
+    name: `Wicker`,
+    category: `Basket Weaving`
+  },
+  {
+    name: `Guitar`,
+    category: `Music`
+  },
+  {
+    name: `Piano`,
+    category: `Music`
+  },
+  {
+    name: `Finance`,
+    category: `Business`
+  },
+  {
+    name: `Management`,
+    category: `Business`
+  },
+  {
+    name: `Skincare`,
+    category: `Beauty & Makeup`
+  },
+  {
+    name: `Hair`,
+    category: `Beauty & Makeup`
   }
 ];
 
