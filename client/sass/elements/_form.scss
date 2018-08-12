@@ -1,4 +1,5 @@
-.input {
+.input,
+.textarea {
 
   &.is-success ~ .icon > [class^="fa"] {
     color: $success;
