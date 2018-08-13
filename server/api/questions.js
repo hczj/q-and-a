@@ -40,7 +40,7 @@ router.get('/category/:categoryId', async (req, res, next) => {
   try {
     const questions = await Question.findAll({
       where: { categoryId: req.params.categoryId },
-      include: [Topic]
+      include: [{ model: Topic }, { model: User }]
     });
     res.json(questions);
   } catch (err) {
