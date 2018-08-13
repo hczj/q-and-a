@@ -7,13 +7,16 @@ import {
   IconVideo,
   IconFullScreen,
   IconHangup
-} from './toolbar-icons';
+} from './icons';
 
 const Toolbar = props => (
-  <div className="toolbar">
+  <div className="classroom-toolbar">
     <div className="media-controls">
       <button onClick={props.handleExit} className="button button-exit">
         <IconExit />
+      </button>
+      <button onClick={props.handleHangup} className="button button-hangup">
+        <IconHangup />
       </button>
       <button
         onClick={props.toggleAudio}
@@ -29,9 +32,6 @@ const Toolbar = props => (
       </button>
       <button onClick={ToggleFullScreen} className="button button-fullscreen">
         <IconFullScreen />
-      </button>
-      <button onClick={props.handleHangup} className="button button-hangup">
-        <IconHangup />
       </button>
     </div>
 

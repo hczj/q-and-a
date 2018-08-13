@@ -1,16 +1,22 @@
-.classroom {
-}
+$classroom-menu-width: 75px;
+
+.classroom {}
 
 .classroom-media {
   position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: $classroom-menu-width;
   width: 100%;
-  height: 100%;
+  // height: 100%;
 }
 
 .video {
   position: absolute;
   width: 100%;
   height: 100%;
+  z-index: -1;
 
   &.is-local {
     max-height: 100%;
@@ -19,9 +25,10 @@
     transition: all .3s $easing;
 
     .established & {
-      margin: 10px;
-      max-height: 17%;
-      max-width: 17%;
+      bottom: 0;
+      margin: 1rem;
+      max-height: 15%;
+      max-width: 15%;
       height: auto;
       width: auto;
     }
@@ -38,25 +45,46 @@
 .media-controls {
   display: flex;
   margin: 1rem 0;
+}
+
+.classroom-menu {
+  background-color: #333;
+  height: 100vh;
+  position: absolute;
+  width: $classroom-menu-width;
+}
+
+.classroom-toolbar {
+  align-items: center;
+  background: linear-gradient(to bottom, transparent 0%, rgba($black, .6) 100%);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+    right: 0;
+    bottom: 0;
+    left: $classroom-menu-width;
+  z-index: 9;
 
   .button {
     align-items: center;
     border-radius: 50%;
-    background-color: rgba($black, .7);
+    background-color: rgba($black, .65);
     border: 0;
     box-shadow: 0 .125rem 1rem rgba($black, .25);
-    color: $white;
+    color: rgba($white, .9);
     cursor: pointer;
     display: flex;
     justify-content: center;
     margin: 0 .5rem;
     transition: all ($speed * 2) $easing;
-    width: 3rem;
-    height: 3rem;
+    width: 3.5rem;
+    height: 3.5rem;
 
     &:hover {
-      background-color: $link;
+      // background-color: $link;
+      background-color: rgba($black, .98);
       box-shadow: 0 .25rem 2rem rgba($black, .5);
+      color: $white;
     }
 
     &.is-true .on { display: none }
@@ -64,20 +92,29 @@
     &.is-false .off { display: none }
 
     .svg {
-      width: 1.4rem;
+      width: 1.625rem;
     }
   }
-}
 
-.toolbar {
-  position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  // justify-content: center;
+  .button-hangup {
+    background-color: $red;
+
+    &:hover {
+      background-color: darken($red, 10%);
+    }
+  }
+
+  .button-fullscreen {
+    position: fixed;
+      top: 1rem;
+      right: 1rem;
+    // width: 2rem;
+    // height: 2rem;
+
+    // .svg { width: 1.4rem }
+
+    .on { display: none }
+  }
 }
 
 

@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { setVideo, setAudio, deleteClassroom } from '../../store';
 import Toolbar from './toolbar';
+import Menu from './menu';
+import Notification from './notification';
 
-class ToolbarContainer extends Component {
+class ControlContainer extends Component {
   state = {
     sid: '',
     audio: true,
@@ -86,15 +88,23 @@ class ToolbarContainer extends Component {
 
   render() {
     return (
-      <Toolbar
-        {...this.state}
-        toggleVideo={this.toggleVideo}
-        toggleAudio={this.toggleAudio}
-        send={this.send}
-        handleExit={this.handleExit}
-        handleHangup={this.handleHangup}
-        handleInvitation={this.handleInvitation}
-      />
+      <Fragment>
+        <Menu
+          {...this.state}
+        />
+        <Notification
+          {...this.state}
+        />
+        <Toolbar
+          {...this.state}
+          toggleVideo={this.toggleVideo}
+          toggleAudio={this.toggleAudio}
+          send={this.send}
+          handleExit={this.handleExit}
+          handleHangup={this.handleHangup}
+          handleInvitation={this.handleInvitation}
+        />
+      </Fragment>
     );
   }
 }
@@ -110,4 +120,4 @@ const mapDispatch = dispatch => ({
   removeRoom: () => dispatch(deleteClassroom())
 });
 
-export default withRouter(connect(mapState, mapDispatch)(ToolbarContainer));
+export default withRouter(connect(mapState, mapDispatch)(ControlContainer));
