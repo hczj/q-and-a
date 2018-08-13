@@ -41,7 +41,7 @@ class QuestionForm extends Component {
   };
 
   render() {
-    const { pristine, reset, submitting, handleSubmit } = this.props;
+    const { pristine, reset, submitting, handleSubmit, category } = this.props;
 
     return (
       <Fragment>
@@ -84,10 +84,14 @@ class QuestionForm extends Component {
               </div>
             </div>
 
-            <div className="field">
-              <label className="label">Topics</label>
-              <TopicsInput />
-            </div>
+            {category.name ? (
+              <div className="field">
+                <label className="label">Topics</label>
+                <TopicsInput />
+              </div>
+            ) : (
+              ''
+            )}
 
             <div className="field is-grouped">
               <div className="control">
@@ -136,7 +140,8 @@ const validate = values => {
 
 const mapState = state => ({
   myId: state.me.id,
-  categories: state.categories.all
+  categories: state.categories.all,
+  category: state.categories.active
 });
 
 const mapDispatch = dispatch => ({
