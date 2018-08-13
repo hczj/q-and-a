@@ -38,7 +38,8 @@ router.get('/user/:myId', async (req, res, next) => {
       const categories = await Category.findAll({
         where: {
           id: { [Op.or]: categoryIds }
-        }
+        },
+        include: [Topic]
       });
       res.json(categories);
     }
