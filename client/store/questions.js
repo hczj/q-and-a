@@ -96,6 +96,15 @@ export const createQuestion = question => async dispatch => {
   }
 };
 
+export const updateQuestion = question => async dispatch => {
+  try {
+    const { data } = await axios.put(`/api/questions/${question.id}`, question);
+    dispatch(updateQuestionSuccess(data || {}));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 /**
  * REDUCER
  */

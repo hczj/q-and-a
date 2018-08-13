@@ -84,3 +84,30 @@ router.post('/', async (req, res, next) => {
     next(err);
   }
 });
+
+router.put('/:questionId', async (req, res, next) => {
+  try {
+    const { data: question } = await Question.update(
+      {
+        title: req.body.title,
+        description: req.body.description
+      },
+      {
+        where: { id: req.params.questionId },
+        returning: true,
+        plain: true
+      }
+    );
+
+    if (req.body.vote) {
+      await Question.increment('votes', {
+        by: 1,
+        where: { id: req.params.questionId }
+      });
+    }
+
+    res.json(question);
+  } catch (err) {
+    next(err);
+  }
+});

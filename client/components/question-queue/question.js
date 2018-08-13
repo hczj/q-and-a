@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
-const Question = ({ title, description, topics, user }) => {
+const Question = ({ question, upVote }) => {
+  const { title, description, topics, user, createdAt } = question;
   return (
     <div className="box">
       <div className="columns">
@@ -12,6 +14,7 @@ const Question = ({ title, description, topics, user }) => {
           <Link to={`/profile/${user.id}`}>{`${user.firstName} ${
             user.lastName
           }`}</Link>
+          <div>asked {moment(createdAt).fromNow()}</div>
         </div>
 
         <div className="column">
@@ -24,7 +27,7 @@ const Question = ({ title, description, topics, user }) => {
 
             <div className="level-right">
               <div className="level-item">
-                <span className="icon">
+                <span className="icon" onClick={() => upVote(question)}>
                   <i className="fas fa-caret-up button is-light" />
                 </span>
               </div>

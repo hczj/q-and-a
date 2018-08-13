@@ -11,6 +11,7 @@ import {
   fetchQuestions,
   fetchCategoriesByUser,
   fetchQuestionsByCategory,
+  updateQuestion,
   me
 } from '../../store';
 
@@ -31,6 +32,11 @@ class QuestionQueue extends Component {
     } else {
       getQuestionsByCategory(categoryId);
     }
+  };
+
+  upVote = question => {
+    question.vote = true;
+    this.props.incrementVote(question);
   };
 
   render() {
@@ -76,14 +82,14 @@ class QuestionQueue extends Component {
                 <a href="#">popular</a>
               </div>
               <div className="level-item">
-                <a href="#">unanswered</a>
+                <a href="#">answered</a>
               </div>
             </div>
           </nav>
 
           <hr />
 
-          {questions.length ? <Queue /> : <NothingHere />}
+          {questions.length ? <Queue upVote={this.upVote} /> : <NothingHere />}
         </div>
       </Fragment>
     );
@@ -101,7 +107,8 @@ const mapDispatch = dispatch => ({
   getQuestions: myId => dispatch(fetchQuestions(myId)),
   getUserCategories: myId => dispatch(fetchCategoriesByUser(myId)),
   getQuestionsByCategory: categoryId =>
-    dispatch(fetchQuestionsByCategory(categoryId))
+    dispatch(fetchQuestionsByCategory(categoryId)),
+  incrementVote: questionId => dispatch(updateQuestion(questionId))
 });
 
 export default connect(mapState, mapDispatch)(QuestionQueue);
