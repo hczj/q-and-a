@@ -25,7 +25,7 @@ router.get('/:myId', async (req, res, next) => {
     } else {
       const categoryIds = topics.map(item => item.topic.categoryId);
       const questions = await Question.findAll({
-        where: { categoryId: { [Op.or]: categoryIds } }
+        where: { categoryId: { [Op.or]: categoryIds } }, include: [Topic]
       });
 
       res.json(questions);
@@ -38,7 +38,8 @@ router.get('/:myId', async (req, res, next) => {
 router.get('/category/:categoryId', async (req, res, next) => {
   try {
     const questions = await Question.findAll({
-      where: { categoryId: req.params.categoryId }
+      where: { categoryId: req.params.categoryId },
+      include: [Topic]
     });
     res.json(questions);
   } catch (err) {

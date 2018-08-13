@@ -52,6 +52,10 @@ class QuestionQueue extends Component {
             </div>
           </div>
 
+          <a href="#">newest</a>
+          <a href="#">popular</a>
+          <a href="#">unanswered</a>
+
           <hr />
 
           {questions.length ? <Queue /> : <NothingHere />}
