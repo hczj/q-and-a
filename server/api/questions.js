@@ -59,12 +59,24 @@ router.get('/user/:userId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    req.body.topicIds.map(async topic => {
+      await UserTopic.findOrCreate({
+        where: {
+          userId: req.body.myId,
+          topicId: topic
+        }
+      });
+    });
+
     const newQuestion = await Question.create({
       title: req.body.title,
       description: req.body.description,
       userId: req.body.myId,
       categoryId: req.body.categoryId
     });
+
+    await newQuestion.setTopics(req.body.topicIds);
+
     res.status(201).json(newQuestion);
   } catch (err) {
     next(err);
