@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Question, Topic, UserTopic } = require('../db/models');
+const { Question, Topic, UserTopic, User } = require('../db/models');
 const Op = require('sequelize').Op;
 module.exports = router;
 
@@ -25,7 +25,8 @@ router.get('/:myId', async (req, res, next) => {
     } else {
       const categoryIds = topics.map(item => item.topic.categoryId);
       const questions = await Question.findAll({
-        where: { categoryId: { [Op.or]: categoryIds } }, include: [Topic]
+        where: { categoryId: { [Op.or]: categoryIds } },
+        include: [{ model: Topic }, { model: User }]
       });
 
       res.json(questions);
