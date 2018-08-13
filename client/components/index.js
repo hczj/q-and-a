@@ -33,6 +33,7 @@ export { default as QuestionForm } from './question-queue/question-form';
 export { default as QuestionQueue } from './question-queue/question-queue';
 export { default as Question } from './question-queue/question';
 export { default as Queue } from './question-queue/queue';
+export { default as TopicsInput } from './question-queue/topics-input';
 
 // reusable
 export { default as CategoryCard } from './reusable/category-card';
