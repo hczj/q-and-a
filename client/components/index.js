@@ -34,6 +34,9 @@ export { default as QuestionQueue } from './question-queue/question-queue';
 export { default as Question } from './question-queue/question';
 export { default as Queue } from './question-queue/queue';
 
+//inbox
+export { default as Inbox } from './inbox/inbox';
+
 // reusable
 export { default as CategoryCard } from './reusable/category-card';
 export { default as CategoryDropdown } from './reusable/category-dropdown';

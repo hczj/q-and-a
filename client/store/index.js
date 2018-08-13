@@ -7,6 +7,8 @@ import { meReducer as me, usersReducer as users } from './users';
 import questions from './questions';
 import categories from './categories';
 import classrooms from './classrooms';
+import messages from './messages';
+import threads from './threads';
 
 const reducer = combineReducers({
   form,
@@ -14,7 +16,9 @@ const reducer = combineReducers({
   users,
   questions,
   categories,
-  classrooms
+  classrooms,
+  threads,
+  messages
 });
 
 const middleware = composeWithDevTools(
@@ -28,3 +32,5 @@ export * from './users';
 export * from './questions';
 export * from './categories';
 export * from './classrooms';
+export * from './messages';
+export * from './threads';

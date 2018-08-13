@@ -12,8 +12,7 @@ import {
   CategoryPage,
   Discover,
   Profile,
-
-
+  Inbox,
   ClassroomView,
   Classroom,
   RoomView
@@ -41,6 +40,7 @@ class Routes extends Component {
             <Route exact path="/ask-a-question" component={QuestionForm} />
             <Route exact path="/question-queue" component={QuestionQueue} />
             <Route exact path="/profile/:id" component={Profile} />
+            <Route exact path="/inbox" component={Inbox} />
           </Switch>
         )}
 
