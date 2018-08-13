@@ -37,24 +37,49 @@ class QuestionQueue extends Component {
     const { questions } = this.props;
     return (
       <Fragment>
-        <Header title="Questions" />
-        <AskQuestionButton />
-        <div className="box">
-          <Header title="Your Topics" />
-
-          <div className="field">
-            <div className="control">
-              <div className="select">
-                <select onChange={this.handleCategoryChange}>
-                  <CategoryDropdown defaultOption="View By Category" />
-                </select>
-              </div>
+        <nav className="level">
+          <div className="level-left">
+            <div className="level-item">
+              <Header title="Questions" />
+            </div>
+            <div className="level-item">
+              <AskQuestionButton />
             </div>
           </div>
+        </nav>
 
-          <a href="#">newest</a>
-          <a href="#">popular</a>
-          <a href="#">unanswered</a>
+        <div className="box">
+          <nav className="level">
+            <div className="level-left">
+              <div className="level-item">
+                <Header title="Your Topics" />
+              </div>
+
+              <div className="level-item">
+                <div className="field">
+                  <div className="control">
+                    <div className="select">
+                      <select onChange={this.handleCategoryChange}>
+                        <CategoryDropdown defaultOption="View By Category" />
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="level-right">
+              <div className="level-item">
+                <a href="#">newest</a>
+              </div>
+              <div className="level-item">
+                <a href="#">popular</a>
+              </div>
+              <div className="level-item">
+                <a href="#">unanswered</a>
+              </div>
+            </div>
+          </nav>
 
           <hr />
 
