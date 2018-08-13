@@ -1,3 +1,12 @@
+// root
+export { default as Navbar } from './navbar';
+export { default as PageNotFound } from './page-not-found';
+export { default as UserHome } from './user-home';
+
+// auth
+export { Login, Signup } from './auth/auth-form';
+export { default as Auth } from './auth/auth';
+
 // admin
 export { default as Manage } from './admin/manage';
 
@@ -40,10 +49,8 @@ export { default as CategoryDropdown } from './reusable/category-dropdown';
 export { default as Header } from './reusable/header';
 export { default as NothingHere } from './reusable/nothing-here';
 export { default as QuestionCard } from './reusable/question-card';
-
-// root
-export { Login, Signup } from './auth-form';
-export { default as Auth } from './auth';
-export { default as Navbar } from './navbar';
-export { default as PageNotFound } from './page-not-found';
-export { default as UserHome } from './user-home';
+export {
+  default as ValidateField,
+  validateLogin,
+  validateSignup
+} from './reusable/validate-field';
