@@ -3,8 +3,9 @@ import { UnControlled as CodeMirror } from 'react-codemirror2';
 import '../../../node_modules/codemirror/lib/codemirror.css';
 import '../../../node_modules/codemirror/theme/monokai.css';
 import '../../../node_modules/codemirror/mode/javascript/javascript.js';
+import CanvasDraw from 'react-canvas-draw';
+
 import socket from '../../socket';
-import DrawableCanvas from 'react-drawable-canvas';
 
 const room = 'classroom';
 export default class Classroom extends Component {
@@ -12,27 +13,20 @@ export default class Classroom extends Component {
     super(props);
     this.state = {
       code: '//Hello World!',
-      peerUserId: '',
-
-      brushColor: '#800909',
-      lineWidth: 4,
-      canvasStyle: {
-        backgroundColor: '#00FFDC'
-      },
-      clear: false
+      color: 'black',
+      clearCanvas: false
     };
     socket.on('receive code', payload => {
       this.codeFromSocket(payload);
     });
   }
+  componentDidMount() {
+    socket.emit('room', room);
+  }
 
   codeFromSocket = text => {
     this.setState({ code: text });
   };
-
-  componentDidMount() {
-    socket.emit('room', room);
-  }
 
   handleChangeCode = code => {
     socket.emit('coding event', {
@@ -41,31 +35,25 @@ export default class Classroom extends Component {
     });
   };
 
-  getMedia(opts, suc, err) {
-    navigator.getUserMedia(opts, suc, err);
-  }
+  changeRed = () => {
+    this.setState({ color: 'red' });
+  };
 
-  handleOnClickClear() {
-    this.setState({
-      clear: true
-    });
-  }
+  changeYellow = () => {
+    this.setState({ color: 'yellow' });
+  };
 
-  handleOnClickChangeColorYellow() {
-    // this.setState({
-    //   brushColor: '#ffff00',
-    //   clear: false
-    // });
-    console.log(this.state);
-  }
+  changeBlack = () => {
+    this.setState({ color: 'black' });
+  };
 
-  handleOnClickChangeColorRed() {
-    this.setState({
-      brushColor: '#800909',
-      clear: false
-    });
-  }
+  changeBlue = () => {
+    this.setState({ color: 'blue' });
+  };
 
+  clearCanvas = () => {
+    this.setState({ clearCanvas: true });
+  };
   render() {
     return (
       <div>
@@ -80,13 +68,21 @@ export default class Classroom extends Component {
           onChange={this.handleChangeCode.bind(this)}
         />
         <br />
-        <DrawableCanvas {...this.state} />
-        <button onClick={this.handleOnClickClear}>Clear all</button>
-        <button onClick={this.handleOnClickChangeColorYellow}>
-          Set color to Yellow
+        {<CanvasDraw brushColor={this.state.color} />}
+        <button type="button" onClick={this.changeYellow}>
+          Yellow
         </button>
-        <button onClick={this.handleOnClickChangeColorRed}>
-          Set color to Red
+        <button type="button" onClick={this.changeRed}>
+          Red
+        </button>
+        <button type="button" onClick={this.changeBlack}>
+          Black
+        </button>
+        <button type="button" onClick={this.changeBlue}>
+          Blue
+        </button>
+        <button type="button" onClick={this.clearCanvas}>
+          Clear
         </button>
       </div>
     );
