@@ -12,9 +12,9 @@ import {
 const Toolbar = props => (
   <div className="toolbar">
     <div className="media-controls">
-      <Link className="button call-exit-button" to="/classroom">
+      <button onClick={props.handleExit} className="button button-exit">
         <IconExit />
-      </Link>
+      </button>
       <button
         onClick={props.toggleAudio}
         className={`button button-audio is-${props.audio}`}
@@ -37,16 +37,13 @@ const Toolbar = props => (
 
     <div className="request-access">
       <p>
-        <span className="you-left">You hung up.&nbsp;</span>Send an invitation
-        to join the room.
+        <span className="you-left">You hung up.&nbsp;</span>
+        <span>Begin your call</span>
       </p>
       <form onSubmit={props.send}>
         <div className="field is-grouped">
           <p className="control">
-            <input type="text" autoFocus onChange={props.handleInput} data-ref="message" required placeholder="Your name" className="input" />
-          </p>
-          <p className="control">
-            <button className="button is-primary">Send</button>
+            <button className="button is-primary">Start</button>
           </p>
         </div>
       </form>

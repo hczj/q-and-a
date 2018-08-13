@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setVideo, setAudio } from '../../store';
+import { withRouter } from 'react-router-dom';
+import { setVideo, setAudio, deleteClassroom } from '../../store';
 import Toolbar from './toolbar';
 
 class ToolbarContainer extends Component {
   state = {
     sid: '',
-    message: '',
     audio: true,
     video: true
   };
@@ -20,7 +20,7 @@ class ToolbarContainer extends Component {
   }
 
   componentDidMount() {
-    // console.log('props', this.props);
+    console.log('this.props', this.props)
     const { socket, video, audio } = this.props;
     this.setState({
       video: video,
@@ -35,9 +35,9 @@ class ToolbarContainer extends Component {
     socket.on('join', () =>
       this.props.media.setState({ user: 'guest', bridge: 'join' })
     );
-    socket.on('approve', ({ message, sid }) => {
+    socket.on('approve', ({ sid }) => {
       this.props.media.setState({ bridge: 'approve' });
-      this.setState({ message, sid });
+      this.setState({ sid });
     });
     socket.emit('find');
     this.props.getUserMedia.then(stream => {
@@ -45,10 +45,6 @@ class ToolbarContainer extends Component {
       this.localStream.getVideoTracks()[0].enabled = this.state.video;
       this.localStream.getAudioTracks()[0].enabled = this.state.audio;
     });
-  }
-
-  handleInput = event => {
-    this.setState({ [event.target.dataset.ref]: event.target.value });
   }
 
   send = event => {
@@ -61,11 +57,6 @@ class ToolbarContainer extends Component {
     event.preventDefault();
     this.props.socket.emit([event.target.dataset.ref], this.state.sid);
     this.hideAuth();
-  }
-
-  getContent = content => {
-    console.log('getContent content', content)
-    // return { __html: new Remarkable().render(content) };
   }
 
   toggleVideo = () => {
@@ -82,6 +73,13 @@ class ToolbarContainer extends Component {
     this.props.setAudio(audio);
   };
 
+  handleExit = event => {
+    event.preventDefault();
+    this.props.socket.emit('leave');
+    this.props.removeRoom();
+    this.props.history.goBack();
+  }
+
   handleHangup = () => {
     this.props.media.hangup();
   }
@@ -92,10 +90,9 @@ class ToolbarContainer extends Component {
         {...this.state}
         toggleVideo={this.toggleVideo}
         toggleAudio={this.toggleAudio}
-        getContent={this.getContent}
         send={this.send}
+        handleExit={this.handleExit}
         handleHangup={this.handleHangup}
-        handleInput={this.handleInput}
         handleInvitation={this.handleInvitation}
       />
     );
@@ -103,13 +100,14 @@ class ToolbarContainer extends Component {
 }
 
 const mapState = state => ({
-  video: state.classrooms.video,
-  audio: state.classrooms.audio
+  video: state.classroom.video,
+  audio: state.classroom.audio
 });
 
 const mapDispatch = dispatch => ({
   setVideo: bool => dispatch(setVideo(bool)),
-  setAudio: bool => dispatch(setAudio(bool))
+  setAudio: bool => dispatch(setAudio(bool)),
+  removeRoom: () => dispatch(deleteClassroom())
 });
 
-export default connect(mapState, mapDispatch)(ToolbarContainer);
+export default withRouter(connect(mapState, mapDispatch)(ToolbarContainer));

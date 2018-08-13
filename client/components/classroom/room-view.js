@@ -19,6 +19,7 @@ class RoomView extends Component {
   }
 
   render() {
+    console.log('this.media', this.media);
     return (
       <Fragment>
         <MediaContainer
@@ -36,12 +37,8 @@ class RoomView extends Component {
   }
 }
 
-const mapState = state => ({
-  rooms: state.classrooms.all
-});
-
 const mapDispatch = dispatch => ({
   addRoom: room => dispatch(createClassroom(room))
 });
 
-export default connect(mapState, mapDispatch)(RoomView);
+export default connect(null, mapDispatch)(RoomView);

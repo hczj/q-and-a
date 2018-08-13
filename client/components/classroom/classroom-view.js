@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Classroom from './classroom';
-import { getUID } from '../../utils';
-
-// const defaultRoomId = getUID();
+import { getRoomId } from '../../utils';
+import { me } from '../../store';
 
 class ClassroomView extends Component {
-  defaultRoomId = getUID();
-  state = { roomId: this.defaultRoomId };
+  state = { roomId: '' };
 
-  handleChange = event => {
-    this.setState({ roomId: event.target.value });
-  };
+  async componentDidMount() {
+    await this.props.loadInitialData();
+    this.setState({ roomId: getRoomId(this.props.myId) })
+  }
 
   render() {
-    return (
-      <Classroom
-        defaultRoomId={this.defaultRoomId}
-        roomId={this.state.roomId}
-        handleChange={this.handleChange}
-      />
-    );
+    return <Classroom roomId={this.state.roomId} />;
   }
 }
 
-export default ClassroomView;
+const mapState = state => ({ myId: state.me.id });
+
+const mapDispatch = dispatch => ({
+  loadInitialData: () => dispatch(me())
+});
+
+export default connect(mapState, mapDispatch)(ClassroomView);
