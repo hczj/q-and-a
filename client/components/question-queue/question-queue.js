@@ -3,26 +3,57 @@ import {
   Queue,
   Header,
   NothingHere,
-  AskQuestionButton
+  AskQuestionButton,
+  CategoryDropdown
 } from '../../components';
 import { connect } from 'react-redux';
-import { fetchQuestions, me } from '../../store';
+import {
+  fetchQuestions,
+  fetchCategoriesByUser,
+  fetchQuestionsByCategory,
+  me
+} from '../../store';
 
 class QuestionQueue extends Component {
   async componentDidMount() {
-    const { loadMe, getQuestions } = this.props;
+    const { loadMe, getQuestions, getUserCategories } = this.props;
     await loadMe();
     getQuestions(this.props.myId);
+    getUserCategories(this.props.myId);
   }
 
+  handleCategoryChange = event => {
+    const categoryId = +event.target.value;
+    const { getQuestionsByCategory, getQuestions } = this.props;
+
+    if (isNaN(categoryId)) {
+      getQuestions(this.props.myId);
+    } else {
+      getQuestionsByCategory(categoryId);
+    }
+  };
+
   render() {
-    const { isLoading, questions } = this.props;
-    if (isLoading) return null;
+    const { questions } = this.props;
     return (
       <Fragment>
-        <Header title="Question Queue" />
+        <Header title="Questions" />
         <AskQuestionButton />
         <div className="box">
+          <Header title="Your Topics" />
+
+          <div className="field">
+            <div className="control">
+              <div className="select">
+                <select onChange={this.handleCategoryChange}>
+                  <CategoryDropdown defaultOption="View By Category" />
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
           {questions.length ? <Queue /> : <NothingHere />}
         </div>
       </Fragment>
@@ -38,7 +69,10 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   loadMe: () => dispatch(me()),
-  getQuestions: myId => dispatch(fetchQuestions(myId))
+  getQuestions: myId => dispatch(fetchQuestions(myId)),
+  getUserCategories: myId => dispatch(fetchCategoriesByUser(myId)),
+  getQuestionsByCategory: categoryId =>
+    dispatch(fetchQuestionsByCategory(categoryId))
 });
 
 export default connect(mapState, mapDispatch)(QuestionQueue);

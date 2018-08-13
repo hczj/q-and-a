@@ -73,14 +73,16 @@ class QuestionForm extends Component {
             <div className="field">
               <label className="label">Category</label>
               <div className="control">
-                <Field
-                  className="select"
-                  name="categoryId"
-                  component="select"
-                  onChange={this.handleCategoryChange}
-                >
-                  <CategoryDropdown />
-                </Field>
+                <div className="select">
+                  <Field
+                    className="select"
+                    name="categoryId"
+                    component="select"
+                    onChange={this.handleCategoryChange}
+                  >
+                    <CategoryDropdown defaultOption="Select A Category" />
+                  </Field>
+                </div>
               </div>
             </div>
 
