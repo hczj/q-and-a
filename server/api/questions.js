@@ -19,12 +19,17 @@ router.get('/:myId', async (req, res, next) => {
       attributes: ['topicId'],
       include: [{ model: Topic, attributes: ['categoryId'] }]
     });
-    const categoryIds = topics.map(item => item.topic.categoryId);
-    const questions = await Question.findAll({
-      where: { categoryId: { [Op.or]: categoryIds } }
-    });
 
-    res.json(questions);
+    if (topics.length === 0) {
+      return res.json([]);
+    } else {
+      const categoryIds = topics.map(item => item.topic.categoryId);
+      const questions = await Question.findAll({
+        where: { categoryId: { [Op.or]: categoryIds } }
+      });
+
+      res.json(questions);
+    }
   } catch (err) {
     next(err);
   }

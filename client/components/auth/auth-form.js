@@ -2,11 +2,19 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
-import { auth } from '../store';
+import { auth } from '../../store';
+import {
+  Header,
+  ValidateField,
+  // validateLogin,
+  // validateSignup
+} from '../../components';
+
+import { validateLogin, validateSignup } from '../reusable/validate-field';
 
 const AuthForm = props => {
   const {
-    name,
+    formName,
     displayName,
     linkName,
     linkDisplayName,
@@ -20,39 +28,39 @@ const AuthForm = props => {
 
   return (
     <div>
-      <h1>{displayName}</h1>
-      <p>{subtitle}</p>
-      <div>
-        <form onSubmit={handleSubmit} name={name}>
-          {name === 'signup' && (
+      <Header title={displayName} size="is-3" />
+      <p className="subtitle">{subtitle}</p>
+      <div className="box">
+        <form onSubmit={handleSubmit} name={formName}>
+          {formName === 'signup' && (
             <Fragment>
-              <label htmlFor="firstName">First Name</label>
               <Field
-                label="First Name"
+                label="First name"
                 name="firstName"
                 type="text"
-                component="input"
+                component={ValidateField}
               />
-
-              <label htmlFor="lName">Last Name</label>
               <Field
-                label="Last Name"
+                label="Last name"
                 name="lastName"
                 type="text"
-                component="input"
+                component={ValidateField}
               />
             </Fragment>
           )}
 
-          <label htmlFor="email">Email</label>
-          <Field label="Email" name="email" type="email" component="input" />
+          <Field
+            label="Email"
+            name="email"
+            type="email"
+            component={ValidateField}
+          />
 
-          <label htmlFor="password">Password</label>
           <Field
             label="Password"
             name="password"
             type="password"
-            component="input"
+            component={ValidateField}
           />
 
           <div className="field is-grouped">
@@ -85,26 +93,31 @@ const AuthForm = props => {
   );
 };
 
-const WrappedAuthForm = reduxForm({
-  form: 'auth'
-  // validate: validateAuth
+const WrappedLogin = reduxForm({
+  form: 'loginForm',
+  validate: validateLogin
+})(AuthForm);
+
+const WrappedSignup = reduxForm({
+  form: 'signupForm',
+  validate: validateSignup
 })(AuthForm);
 
 const mapLogin = state => ({
-  name: 'login',
-  displayName: 'Login',
-  subtitle: 'Please log in to proceed',
+  formName: 'login',
+  displayName: 'Welcome back!',
+  subtitle: 'Please sign in to proceed',
   linkName: 'signup',
   linkDisplayName: 'Sign Up',
   error: state.me.error
 });
 
 const mapSignup = state => ({
-  name: 'signup',
-  displayName: 'Sign Up',
-  subtitle: 'Create an account',
+  formName: 'signup',
+  displayName: 'Welcome!',
+  subtitle: 'Create an account to join us',
   linkName: 'login',
-  linkDisplayName: 'Login',
+  linkDisplayName: 'Sign in',
   error: state.me.error
 });
 
@@ -126,5 +139,5 @@ const mapDispatch = dispatch => {
   };
 };
 
-export const Login = connect(mapLogin, mapDispatch)(WrappedAuthForm);
-export const Signup = connect(mapSignup, mapDispatch)(WrappedAuthForm);
+export const Login = connect(mapLogin, mapDispatch)(WrappedLogin);
+export const Signup = connect(mapSignup, mapDispatch)(WrappedSignup);

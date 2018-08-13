@@ -3,15 +3,14 @@
 // ====================
 
 // $orange: #f67533;
-// $yellow: #ffc107;
-// $green: #3ab066;
+$yellow: #ffd12c;
+$green: #00d1b2;
 // $turquoise: #5cbbbc;
 // $cyan: #17a2b8;
 // $blue: #207ccd;
-// $purple: #6f42c1;
-// $purple: #4d2e87;
+$purple: #8420ff;
 // $red: #ea443c;
-// $pink: #ef706a;
+$pink: #fe13ff;
 
 $family-sans-serif: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI',
   Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
@@ -28,12 +27,12 @@ $size-7: .875rem;
 // ====================
 @import '../../../node_modules/bulma/sass/utilities/derived-variables';
 
-// $primary: $turquoise;
-// $primary-invert: findColorInvert($primary);
-// $secondary: $pink;
-// $secondary-invert: findColorInvert($secondary);
-// $link: ;
-// $link-invert: ;
+$primary: $purple;
+$primary-invert: findColorInvert($primary);
+$secondary: $pink;
+$secondary-invert: findColorInvert($secondary);
+$link: $green;
+$link-invert: findColorInvert($link);
 // $info: ;
 // $info-invert: ;
 // $success: ;
@@ -54,7 +53,7 @@ $colors: mergeColorMaps(
     'light': ($light, $light-invert),
     'dark': ($dark, $dark-invert),
     'primary': ($primary, $primary-invert),
-    // 'secondary': ($secondary, $secondary-invert),
+    'secondary': ($secondary, $secondary-invert),
     'link': ($link, $link-invert),
     'info': ($info, $info-invert),
     'success': ($success, $success-invert),
@@ -73,7 +72,7 @@ $colors: mergeColorMaps(
 // do is override them and let them apply normally, override them here.
 // ----------------------------------------------------------------------------
 
-// $body-background-color: #f1f2f3;
+$body-background-color: #f2eff9;
 
 // $box-radius: 0;
 // $box-shadow: 0 1rem 3rem rgba($black, 0.175);

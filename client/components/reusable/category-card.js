@@ -1,10 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const CategoryCard = ({ name, imageUrl }) => {
+const CategoryCard = ({ id, name, imageUrl }) => {
   return (
     <div className="column">
       <img src={imageUrl} />
-      <h1 className="subtitle">{name}</h1>
+      <Link to={`/category/${id}`}>
+        <h1 className="subtitle">{name}</h1>
+      </Link>
     </div>
   );
 };

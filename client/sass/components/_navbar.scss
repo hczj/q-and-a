@@ -1,0 +1,30 @@
+.navbar {}
+
+.navbar .button.is-light {
+  background-color: rgba($white, .2);
+  color: $white;
+
+  &:hover {
+    background-color: rgba($white, .3);
+  }
+}
+
+.navbar-dropdown-header {
+  align-items: flex-start;
+  background-color: transparent !important;
+  color: $grey !important;
+  display: flex;
+  flex-direction: column;
+
+  & > span:first-child {
+    font-weight: $weight-bold;
+  }
+
+  & > span:last-child {
+    font-size: .875em;
+  }
+}
+
+.navbar-profile-img {
+  border-radius: 50%;
+}
