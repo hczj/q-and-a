@@ -94,15 +94,15 @@ class ControlContainer extends Component {
         />
         <Notification
           {...this.state}
+          send={this.send}
+          handleInvitation={this.handleInvitation}
         />
         <Toolbar
           {...this.state}
           toggleVideo={this.toggleVideo}
           toggleAudio={this.toggleAudio}
-          send={this.send}
           handleExit={this.handleExit}
           handleHangup={this.handleHangup}
-          handleInvitation={this.handleInvitation}
         />
       </Fragment>
     );
