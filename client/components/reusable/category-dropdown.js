@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
-const CategoryDropdown = ({ categories }) => {
+const CategoryDropdown = ({ defaultOption, categories }) => {
   if (!categories) return null;
   return (
     <Fragment>
-      <option>Select A Category</option>
+      <option>{defaultOption}</option>
       {categories.map(category => (
         <option key={category.id} value={+category.id}>
           {category.name}

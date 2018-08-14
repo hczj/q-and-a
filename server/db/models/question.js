@@ -12,6 +12,10 @@ const Question = db.define('question', {
   description: {
     type: Sequelize.TEXT
   },
+  votes: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
   isActive: {
     type: Sequelize.BOOLEAN,
     defaultValue: true
