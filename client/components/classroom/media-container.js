@@ -76,6 +76,8 @@ class MediaContainer extends Component {
   sendDescription = () => this.props.socket.send(this.pc.localDescription);
 
   hangup = () => {
+    if (!this.pc) return;
+
     this.setState({ user: 'guest', bridge: 'guest-hangup' });
     this.pc.close();
     this.props.socket.emit('leave');
@@ -154,6 +156,7 @@ class MediaContainer extends Component {
           ref={ref => (this.localVideo = ref)}
           autoPlay
           muted
+          draggable
         />
       </div>
     );

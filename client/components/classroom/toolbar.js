@@ -11,6 +11,12 @@ import {
 
 const Toolbar = props => (
   <div className="classroom-toolbar">
+    <div className="classroom-status">
+      <span className="icon">
+        <i className="fas fa-circle"></i>
+      </span>
+      <span className="text in-progress">Call in Progress</span>
+    </div>
     <div className="media-controls">
       <button onClick={props.handleExit} className="button button-exit">
         <IconExit />
@@ -34,6 +40,7 @@ const Toolbar = props => (
         <IconFullScreen />
       </button>
     </div>
+    <div className="classroom-chat">CHAT</div>
   </div>
 );
 
