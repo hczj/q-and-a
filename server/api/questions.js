@@ -89,7 +89,12 @@ router.post('/', async (req, res, next) => {
 
     await newQuestion.setTopics(req.body.topicIds);
 
-    res.status(201).json(newQuestion);
+    const question = await Question.findOne({
+      where: { title: req.body.title },
+      include: [{ model: Topic }, { model: User }]
+    });
+
+    res.status(201).json(question);
   } catch (err) {
     next(err);
   }
