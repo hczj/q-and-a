@@ -12,8 +12,10 @@ import {
   fetchCategoriesByUser,
   fetchQuestionsByCategory,
   updateQuestion,
+  orderQuestions,
   me
 } from '../../store';
+import { Link } from 'react-router-dom';
 
 class QuestionQueue extends Component {
   async componentDidMount() {
@@ -37,6 +39,10 @@ class QuestionQueue extends Component {
   upVote = question => {
     question.vote = true;
     this.props.incrementVote(question);
+  };
+
+  handleQuestionsSort = () => {
+    this.props.orderQuestions(this.props.myId);
   };
 
   render() {
@@ -76,13 +82,21 @@ class QuestionQueue extends Component {
 
             <div className="level-right">
               <div className="level-item">
-                <a href="#">newest</a>
+                <a>newest</a>
               </div>
               <div className="level-item">
-                <a href="#">popular</a>
+                <Link
+                  to={{
+                    pathname: 'questions',
+                    search: '?type=popular'
+                  }}
+                  onClick={this.handleQuestionsSort}
+                >
+                  popular
+                </Link>
               </div>
               <div className="level-item">
-                <a href="#">answered</a>
+                <a>answered</a>
               </div>
             </div>
           </nav>
@@ -102,13 +116,14 @@ const mapState = state => ({
   isLoading: state.questions.isLoading
 });
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch, history) => ({
   loadMe: () => dispatch(me()),
   getQuestions: myId => dispatch(fetchQuestions(myId)),
   getUserCategories: myId => dispatch(fetchCategoriesByUser(myId)),
   getQuestionsByCategory: categoryId =>
     dispatch(fetchQuestionsByCategory(categoryId)),
-  incrementVote: questionId => dispatch(updateQuestion(questionId))
+  incrementVote: questionId => dispatch(updateQuestion(questionId)),
+  orderQuestions: myId => dispatch(orderQuestions(myId, history))
 });
 
 export default connect(mapState, mapDispatch)(QuestionQueue);

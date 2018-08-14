@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Question, Topic, UserTopic, User } = require('../db/models');
 const Op = require('sequelize').Op;
+
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -29,7 +30,16 @@ router.get('/:myId', async (req, res, next) => {
         include: [{ model: Topic }, { model: User }]
       });
 
-      res.json(questions);
+      if (!req.query.type) {
+        res.json(questions);
+      } else if (req.query.type === 'popular') {
+        const sortQuestions = await Question.findAll({
+          where: { categoryId: { [Op.or]: categoryIds } },
+          include: [{ model: Topic }, { model: User }],
+          order: [['votes', 'DESC']]
+        });
+        res.json(sortQuestions);
+      }
     }
   } catch (err) {
     next(err);
