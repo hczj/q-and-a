@@ -15,7 +15,7 @@ export { default as Manage } from './admin/manage';
 export { default as ClassroomView } from './classroom/classroom-view';
 export { default as RoomView } from './classroom/room-view';
 export { default as MediaContainer } from './classroom/media-container';
-export { default as ToolbarContainer } from './classroom/toolbar-container';
+export { default as ControlContainer } from './classroom/control-container';
 
 // dashboard
 export { default as ActiveQuestions } from './dashboard/active-questions';

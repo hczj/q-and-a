@@ -1,16 +1,22 @@
-.classroom {
-}
+$classroom-menu-width: 75px;
+
+.classroom {}
 
 .classroom-media {
   position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: $classroom-menu-width;
   width: 100%;
-  height: 100%;
+  // height: 100%;
 }
 
 .video {
   position: absolute;
   width: 100%;
   height: 100%;
+  z-index: -1;
 
   &.is-local {
     max-height: 100%;
@@ -19,9 +25,10 @@
     transition: all .3s $easing;
 
     .established & {
-      margin: 10px;
-      max-height: 17%;
-      max-width: 17%;
+      bottom: 0;
+      margin: 1rem;
+      max-height: 15%;
+      max-width: 15%;
       height: auto;
       width: auto;
     }
@@ -38,25 +45,46 @@
 .media-controls {
   display: flex;
   margin: 1rem 0;
+}
+
+.classroom-menu {
+  background-color: #333;
+  height: 100vh;
+  position: absolute;
+  width: $classroom-menu-width;
+}
+
+.classroom-toolbar {
+  align-items: center;
+  background: linear-gradient(to bottom, transparent 0%, rgba($black, .6) 100%);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+    right: 0;
+    bottom: 0;
+    left: $classroom-menu-width;
+  z-index: 9;
 
   .button {
     align-items: center;
     border-radius: 50%;
-    background-color: rgba($black, .7);
+    background-color: rgba($black, .65);
     border: 0;
     box-shadow: 0 .125rem 1rem rgba($black, .25);
-    color: $white;
+    color: rgba($white, .9);
     cursor: pointer;
     display: flex;
     justify-content: center;
     margin: 0 .5rem;
     transition: all ($speed * 2) $easing;
-    width: 3rem;
-    height: 3rem;
+    width: 3.5rem;
+    height: 3.5rem;
 
     &:hover {
-      background-color: $link;
+      // background-color: $link;
+      background-color: rgba($black, .98);
       box-shadow: 0 .25rem 2rem rgba($black, .5);
+      color: $white;
     }
 
     &.is-true .on { display: none }
@@ -64,21 +92,72 @@
     &.is-false .off { display: none }
 
     .svg {
-      width: 1.4rem;
+      width: 1.625rem;
     }
+  }
+
+  .button-hangup {
+    background-color: $red;
+
+    &:hover {
+      background-color: darken($red, 10%);
+    }
+  }
+
+  .button-fullscreen {
+    position: fixed;
+      top: 1rem;
+      right: 1rem;
+
+    .on { display: none }
   }
 }
 
-.toolbar {
+.classroom-notification {
+  width: 50%;
+  min-width: 300px;
+  max-width: 600px;
   position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  // justify-content: center;
+    top: 50%;
+    left: calc(50% + #{$classroom-menu-width});
+  transform: translate3d(-50%, -50%, 0);
+
+  .notification {
+    background-color: $white;
+    box-shadow: 0 1rem 3rem rgba($black, 0.175);
+    font-size: 1.25rem;
+    opacity: 0;
+    transform: translateY(0.25rem);
+    transition: all $speed $easing ($speed * 2);
+    visibility: hidden;
+    width: 100%;
+  }
 }
+
+.join,
+.approve,
+.full,
+.create,
+// .guest-hangup,
+.host-hangup {
+  & ~ .classroom-notification .notification {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
+}
+
+.request-access,
+.grant-access,
+.room-full,
+.waiting { display: none }
+
+.join ~ .classroom-notification .request-access,
+// .guest-hangup ~ .classroom-notification .grant-access,
+.approve ~ .classroom-notification .grant-access,
+.full ~ .classroom-notification .room-full,
+.host-hangup ~ .classroom-notification .waiting,
+.create ~ .classroom-notification .waiting { display: block }
 
 
 
@@ -104,51 +183,40 @@
 
 
 
-.you-left,
-.remote-left,
-.hangup-button,
-.audio-button-true .on,
-.video-button-true .on,
-.video-button-false .off,
-.fullscreen-button .on,
-.room-occupied {
-    display: none;
-}
+// .you-left,
+// .remote-left,
+// .button-hangup,
+// .button-audio.is-true .on,
+// .button-video.is-true .on,
+// .button-video.is-false .off,
+// .button-fullscreen .on,
+// .room-full {
+//     display: none;
+// }
 
-.guest-hangup + .toolbar .you-left {
-    display: inline;
-}
-.full .room-occupied,
-.host-hangup + .toolbar .remote-left,
-
-.room-occupied,
-.request-access,
-.waiting,
-.request-access,
-.grant-access,
-.waiting {
-    overflow: hidden;
-    padding: 0 1em;
-    box-sizing: border-box;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    /* Initially we don't want any height, and we want the contents to be hidden */
-    max-height: 0;
-    transition: max-height 0.3s ease;
-}
-.full + .toolbar .room-occupied,
-.guest-hangup + .toolbar .request-access,
-.join + .toolbar .request-access,
-.approve + .toolbar .grant-access {
-    transition-delay: 0.3s;
-    /* Set the max-height to something large. In this case there's an obvious limit. */
-    max-height: 20ex;
-}
-.host-hangup + .toolbar .waiting,
-.create + .toolbar .waiting {
-    /* Set the max-height to something large. In this case there's an obvious limit. */
-    max-height: 20ex;
-}
-.established + .toolbar .hangup-button {
-    display: flex;
-}
+// .guest-hangup + .classroom-notification .you-left {
+//     display: inline;
+// }
+// .full .room-full,
+// .host-hangup + .classroom-notification .remote-left,
+// .room-full,
+// .request-access,
+// .waiting,
+// .request-access,
+// .grant-access,
+// .waiting {
+//     overflow: hidden;
+//     padding: 0 1em;
+//     width: 100%;
+//     transition: max-height 0.3s ease;
+// }
+// .full + .classroom-notification .room-full,
+// .guest-hangup + .classroom-notification .request-access,
+// .join + .classroom-notification .request-access,
+// .approve + .classroom-notification .grant-access {
+//     transition-delay: 0.3s;
+//     max-height: 20ex;
+// }
+// .established + .classroom-toolbar .button-hangup {
+//     display: flex;
+// }

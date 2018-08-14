@@ -1,5 +1,9 @@
-export const getUID = () => {
-  return Math.round((Math.random() * 36 ** 12)).toString(36);
+export const getRoomId = (userId = 0) => {
+  // Generate a unique ID by multiplying a random decimal by a large integer,
+  // convert to base 36 (numbers + letters), and attach user's ID to the front.
+  // These room IDs are cleared once the last person leaves, so attaching the
+  // the user ID to the room ID is just a precaution to avoid duplicates.
+  return userId + Math.round(Math.random() * 36 ** 12).toString(36);
 };
 
 export const slugify = text => {
