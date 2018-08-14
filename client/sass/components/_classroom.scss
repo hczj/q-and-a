@@ -1,4 +1,6 @@
-$classroom-menu-width: 75px;
+$menu-width: 75px;
+$toolbar-height: 90px;
+$notification-transition: all $speed $easing ($speed * 2);
 
 .classroom {}
 
@@ -7,7 +9,7 @@ $classroom-menu-width: 75px;
     top: 0;
     right: 0;
     bottom: 0;
-    left: $classroom-menu-width;
+    left: $menu-width;
   width: 100%;
   // height: 100%;
 }
@@ -25,7 +27,9 @@ $classroom-menu-width: 75px;
     transition: all .3s $easing;
 
     .established & {
-      bottom: 0;
+      // bottom: $toolbar-height;
+      top: 0;
+      box-shadow: 0 .5rem 3rem rgba($black, .2);
       margin: 1rem;
       max-height: 15%;
       max-width: 15%;
@@ -42,35 +46,45 @@ $classroom-menu-width: 75px;
   }
 }
 
-.media-controls {
-  display: flex;
-  margin: 1rem 0;
-}
-
 .classroom-menu {
+  align-items: center;
   background-color: #333;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
   height: 100vh;
   position: absolute;
-  width: $classroom-menu-width;
+  width: $menu-width;
+
+  .menu-list a {
+    color: rgba($white, .6);
+    text-align: center;
+
+    &:hover {
+      background-color: transparent;
+      color: $white;
+    }
+  }
 }
 
 .classroom-toolbar {
   align-items: center;
   background: linear-gradient(to bottom, transparent 0%, rgba($black, .6) 100%);
   display: flex;
-  flex-direction: column;
+  height: $toolbar-height;
+  justify-content: space-between;
   position: absolute;
     right: 0;
     bottom: 0;
-    left: $classroom-menu-width;
+    left: $menu-width;
   z-index: 9;
 
   .button {
     align-items: center;
     border-radius: 50%;
-    background-color: rgba($black, .65);
+    background-color: rgba($black, .6);
     border: 0;
-    box-shadow: 0 .125rem 1rem rgba($black, .25);
+    box-shadow: 0 .125rem 1rem rgba($black, .2);
     color: rgba($white, .9);
     cursor: pointer;
     display: flex;
@@ -83,7 +97,7 @@ $classroom-menu-width: 75px;
     &:hover {
       // background-color: $link;
       background-color: rgba($black, .98);
-      box-shadow: 0 .25rem 2rem rgba($black, .5);
+      box-shadow: 0 .25rem 2rem rgba($black, .4);
       color: $white;
     }
 
@@ -97,10 +111,13 @@ $classroom-menu-width: 75px;
   }
 
   .button-hangup {
-    background-color: $red;
 
-    &:hover {
-      background-color: darken($red, 10%);
+    .established ~ & {
+      background-color: $red;
+
+      &:hover {
+        background-color: darken($red, 10%);
+      }
     }
   }
 
@@ -113,13 +130,55 @@ $classroom-menu-width: 75px;
   }
 }
 
+.classroom-status {
+  align-items: center;
+  color: rgba($white, .8);
+  display: flex;
+  font-size: $size-7;
+  font-weight: $weight-medium;
+  margin: 0 1rem;
+  opacity: 0;
+  transition: all $speed $easing;
+  visibility: hidden;
+
+  .icon {
+    color: $green;
+    font-size: .75em;
+    text-shadow: 0 0 1rem;
+  }
+
+  .text {
+    text-shadow: 0 0 .5rem rgba($black, .5);
+  }
+
+  .established ~ .classroom-toolbar & {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.media-controls {
+  display: flex;
+}
+
+.classroom-chat {
+  margin: 0 1rem;
+  opacity: 0;
+  visibility: hidden;
+
+  .has-chat-open ~ & {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 .classroom-notification {
   width: 50%;
   min-width: 300px;
   max-width: 600px;
   position: absolute;
     top: 50%;
-    left: calc(50% + #{$classroom-menu-width});
+    left: calc(50% + #{$menu-width});
   transform: translate3d(-50%, -50%, 0);
 
   .notification {
@@ -128,7 +187,7 @@ $classroom-menu-width: 75px;
     font-size: 1.25rem;
     opacity: 0;
     transform: translateY(0.25rem);
-    transition: all $speed $easing ($speed * 2);
+    transition: $notification-transition;;
     visibility: hidden;
     width: 100%;
   }
@@ -147,17 +206,29 @@ $classroom-menu-width: 75px;
   }
 }
 
-.request-access,
-.grant-access,
-.room-full,
-.waiting { display: none }
+#request-access,
+#grant-access,
+#room-full,
+#waiting,
+#remote-left {
+  // opacity: 0;
+  // transition: $notification-transition;
+  // visibility: hidden;
+  display: none;
+}
 
-.join ~ .classroom-notification .request-access,
-// .guest-hangup ~ .classroom-notification .grant-access,
-.approve ~ .classroom-notification .grant-access,
-.full ~ .classroom-notification .room-full,
-.host-hangup ~ .classroom-notification .waiting,
-.create ~ .classroom-notification .waiting { display: block }
+.join ~ .classroom-notification #request-access,
+// .guest-hangup ~ .classroom-notification #grant-access,
+.approve ~ .classroom-notification #grant-access,
+.full ~ .classroom-notification #room-full,
+.host-hangup ~ .classroom-notification #waiting,
+.host-hangup ~ .classroom-notification #remote-left,
+.create ~ .classroom-notification #waiting {
+  // opacity: 1;
+  // transform: translateY(0);
+  // visibility: visible;
+  display: block;
+}
 
 
 
@@ -184,36 +255,36 @@ $classroom-menu-width: 75px;
 
 
 // .you-left,
-// .remote-left,
+// #remote-left,
 // .button-hangup,
 // .button-audio.is-true .on,
 // .button-video.is-true .on,
 // .button-video.is-false .off,
 // .button-fullscreen .on,
-// .room-full {
+// #room-full {
 //     display: none;
 // }
 
 // .guest-hangup + .classroom-notification .you-left {
 //     display: inline;
 // }
-// .full .room-full,
-// .host-hangup + .classroom-notification .remote-left,
-// .room-full,
-// .request-access,
-// .waiting,
-// .request-access,
-// .grant-access,
-// .waiting {
+// .full #room-full,
+// .host-hangup + .classroom-notification #remote-left,
+// #room-full,
+// #request-access,
+// #waiting,
+// #request-access,
+// #grant-access,
+// #waiting {
 //     overflow: hidden;
 //     padding: 0 1em;
 //     width: 100%;
 //     transition: max-height 0.3s ease;
 // }
-// .full + .classroom-notification .room-full,
-// .guest-hangup + .classroom-notification .request-access,
-// .join + .classroom-notification .request-access,
-// .approve + .classroom-notification .grant-access {
+// .full + .classroom-notification #room-full,
+// .guest-hangup + .classroom-notification #request-access,
+// .join + .classroom-notification #request-access,
+// .approve + .classroom-notification #grant-access {
 //     transition-delay: 0.3s;
 //     max-height: 20ex;
 // }
