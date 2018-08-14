@@ -2,11 +2,13 @@ import React, { Fragment } from 'react';
 import { Question } from '../../components';
 import { connect } from 'react-redux';
 
-const Queue = ({ questions }) => {
+const Queue = ({ questions, upVote }) => {
   const activeQs = questions.filter(question => question.isActive);
   return (
     <Fragment>
-      {activeQs.map(question => <Question key={question.id} {...question} />)}
+      {activeQs.map(question => (
+        <Question key={question.id} question={question} upVote={upVote} />
+      ))}
     </Fragment>
   );
 };

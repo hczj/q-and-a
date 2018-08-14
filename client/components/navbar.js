@@ -35,7 +35,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
               {/* The navbar will show these links after you log in */}
               <NavLink to="/discover" className="navbar-item" activeClassName="is-active">Discover</NavLink>
               <NavLink to="/classroom" className="navbar-item" activeClassName="is-active">Classroom</NavLink>
-              <NavLink to="/question-queue" className="navbar-item" activeClassName="is-active">Questions</NavLink>
+              <NavLink to="/questions" className="navbar-item" activeClassName="is-active">Questions</NavLink>
               {isAdmin && <NavLink to="/manage" className="navbar-item" activeClassName="is-active">Manage</NavLink>}
               <div className="navbar-item has-dropdown is-hoverable">
                 <div className="navbar-link">
