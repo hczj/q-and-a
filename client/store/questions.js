@@ -89,7 +89,6 @@ export const fetchQuestionsByUser = myId => async dispatch => {
 export const orderQuestions = (myId, query) => async dispatch => {
   dispatch(requestQuestions());
   try {
-    console.log('query', query);
     const { data } = await axios.get(
       `/api/questions/${myId}${
         query.location.search ? query.location.search : ''
