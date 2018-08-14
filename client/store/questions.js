@@ -104,7 +104,7 @@ export const createQuestion = question => async dispatch => {
   try {
     const { data } = await axios.post(`/api/questions`, question);
     dispatch(createQuestionSuccess(data || {}));
-    history.push(`/question-queue`);
+    history.push(`/questions`);
   } catch (err) {
     console.error(err);
   }
