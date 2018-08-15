@@ -18,16 +18,23 @@ module.exports = io => {
 
     // sending to all clients in the room except sender
     socket.on('message', msg => {
+<<<<<<< HEAD
+      console.log('socket message msg', msg);
+      socket.broadcast.to(room).emit('message', msg);
+=======
       socket.broadcast.to(room).emit('message', msg)
+>>>>>>> master
     });
 
     socket.on('find', () => {
+      console.log('joined!');
       const url = socket.request.headers.referer.split('/');
       room = url[url.length - 1];
       const sr = io.sockets.adapter.rooms[room];
       if (sr === undefined) {
         // no room with such name is found so create it
         socket.join(room);
+
         socket.emit('create');
         console.log('**** CREATE socket rooms', io.sockets.adapter.rooms)
       } else if (sr.length === 1) {
@@ -63,19 +70,26 @@ module.exports = io => {
       console.log('**** LEAVE socket rooms', io.sockets.adapter.rooms)
     });
 
+    socket.on('coding event', data => {
+      console.log(data.room);
+      socket.broadcast.to(room).emit('receive code', data.newCode);
+    });
 
+    socket.on('drawing event', (start, end, color, lineWidth) => {
+      socket.broadcast
+        .to(room)
+        .emit('receive drawing', start, end, color, lineWidth);
+    });
 
-
+    socket.on('clear event', () => {
+      socket.broadcast.to(room).emit('receive clear');
+    });
     //
     // OLD SOCKET EVENTS FROM JERRY'S BRANCH
     // =====================================
 
     // socket.on('room', (room) => {
     //   socket.join(room);
-    // });
-
-    // socket.on('coding event', data => {
-    //   socket.broadcast.to(data.room).emit('receive code', data.newCode);
     // });
   });
 };
