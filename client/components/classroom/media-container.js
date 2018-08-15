@@ -7,6 +7,7 @@ class MediaContainer extends Component {
     // chrome polyfill for connection between local device and remote peer
     window.RTCPeerConnection =
       window.RTCPeerConnection || window.webkitRTCPeerConnection;
+    // set `media` to be the MediaContainer component
     this.props.media(this);
   }
 
