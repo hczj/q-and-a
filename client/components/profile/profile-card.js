@@ -2,7 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const ProfileCard = ({ viewedUser }) => {
-  const { firstName, lastName, isActive, location, description } = viewedUser;
+  const {
+    firstName,
+    lastName,
+    isActive,
+    location,
+    description,
+    imageUrl
+  } = viewedUser;
   let busyIndicator = isActive ? '✅' : '⛔';
 
   return (
@@ -10,7 +17,7 @@ const ProfileCard = ({ viewedUser }) => {
       <div className="card">
         <div className="card-image">
           <figure className="image is-4by3">
-            <img src="https://dummyimage.com/400x300" />
+            <img src={imageUrl} />
           </figure>
         </div>
         <div className="card-content">

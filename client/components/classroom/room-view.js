@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { createClassroom } from '../../store';
 import io from 'socket.io-client';
-import { MediaContainer, ToolbarContainer } from '../../components';
+import { MediaContainer, ControlContainer } from '../../components';
 
 class RoomView extends Component {
   getUserMedia = navigator.mediaDevices
@@ -26,7 +26,7 @@ class RoomView extends Component {
           socket={this.socket}
           getUserMedia={this.getUserMedia}
         />
-        <ToolbarContainer
+        <ControlContainer
           socket={this.socket}
           media={this.media}
           getUserMedia={this.getUserMedia}
@@ -37,7 +37,7 @@ class RoomView extends Component {
 }
 
 const mapState = state => ({
-  rooms: state.classrooms.all
+  room: state.classroom.id
 });
 
 const mapDispatch = dispatch => ({

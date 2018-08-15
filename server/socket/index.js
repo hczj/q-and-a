@@ -5,7 +5,7 @@ module.exports = io => {
     );
 
     socket.on('disconnect', () => {
-      console.log(`Connection ${socket.id} has left the building`);
+      console.log(`Socket ID ${socket.id} has disconnected`);
     });
 
     let room = '';
@@ -18,8 +18,12 @@ module.exports = io => {
 
     // sending to all clients in the room except sender
     socket.on('message', msg => {
+<<<<<<< HEAD
       console.log('socket message msg', msg);
       socket.broadcast.to(room).emit('message', msg);
+=======
+      socket.broadcast.to(room).emit('message', msg)
+>>>>>>> master
     });
 
     socket.on('find', () => {
@@ -32,11 +36,14 @@ module.exports = io => {
         socket.join(room);
 
         socket.emit('create');
+        console.log('**** CREATE socket rooms', io.sockets.adapter.rooms)
       } else if (sr.length === 1) {
         socket.emit('join');
+        console.log('**** JOIN socket rooms', io.sockets.adapter.rooms)
       } else {
         // max two clients
         socket.emit('full', room);
+        console.log('**** FULL socket rooms', io.sockets.adapter.rooms)
       }
     });
 
@@ -60,6 +67,7 @@ module.exports = io => {
       // sending to all clients in the room except sender
       socket.broadcast.to(room).emit('hangup');
       socket.leave(room);
+      console.log('**** LEAVE socket rooms', io.sockets.adapter.rooms)
     });
 
     socket.on('coding event', data => {

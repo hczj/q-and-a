@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const { Question, Topic, UserTopic } = require('../db/models');
+const { Question, Topic, UserTopic, User } = require('../db/models');
 const Op = require('sequelize').Op;
+
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -25,10 +26,20 @@ router.get('/:myId', async (req, res, next) => {
     } else {
       const categoryIds = topics.map(item => item.topic.categoryId);
       const questions = await Question.findAll({
-        where: { categoryId: { [Op.or]: categoryIds } }
+        where: { categoryId: { [Op.or]: categoryIds } },
+        include: [{ model: Topic }, { model: User }]
       });
 
-      res.json(questions);
+      if (!req.query.type) {
+        res.json(questions);
+      } else if (req.query.type === 'popular') {
+        const sortQuestions = await Question.findAll({
+          where: { categoryId: { [Op.or]: categoryIds } },
+          include: [{ model: Topic }, { model: User }],
+          order: [['votes', 'DESC']]
+        });
+        res.json(sortQuestions);
+      }
     }
   } catch (err) {
     next(err);
@@ -38,7 +49,8 @@ router.get('/:myId', async (req, res, next) => {
 router.get('/category/:categoryId', async (req, res, next) => {
   try {
     const questions = await Question.findAll({
-      where: { categoryId: req.params.categoryId }
+      where: { categoryId: req.params.categoryId },
+      include: [{ model: Topic }, { model: User }]
     });
     res.json(questions);
   } catch (err) {
@@ -59,13 +71,57 @@ router.get('/user/:userId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    req.body.topicIds.map(async topic => {
+      await UserTopic.findOrCreate({
+        where: {
+          userId: req.body.myId,
+          topicId: topic
+        }
+      });
+    });
+
     const newQuestion = await Question.create({
       title: req.body.title,
       description: req.body.description,
       userId: req.body.myId,
       categoryId: req.body.categoryId
     });
-    res.status(201).json(newQuestion);
+
+    await newQuestion.setTopics(req.body.topicIds);
+
+    const question = await Question.findOne({
+      where: { title: req.body.title },
+      include: [{ model: Topic }, { model: User }]
+    });
+
+    res.status(201).json(question);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/:questionId', async (req, res, next) => {
+  try {
+    const { data: question } = await Question.update(
+      {
+        title: req.body.title,
+        description: req.body.description
+      },
+      {
+        where: { id: req.params.questionId },
+        returning: true,
+        plain: true
+      }
+    );
+
+    if (req.body.vote) {
+      await Question.increment('votes', {
+        by: 1,
+        where: { id: req.params.questionId }
+      });
+    }
+
+    res.json(question);
   } catch (err) {
     next(err);
   }

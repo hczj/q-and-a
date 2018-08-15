@@ -6,7 +6,7 @@ import { reducer as form } from 'redux-form';
 import { meReducer as me, usersReducer as users } from './users';
 import questions from './questions';
 import categories from './categories';
-import classrooms from './classrooms';
+import classroom from './classroom';
 
 const reducer = combineReducers({
   form,
@@ -14,7 +14,7 @@ const reducer = combineReducers({
   users,
   questions,
   categories,
-  classrooms
+  classroom
 });
 
 const middleware = composeWithDevTools(
@@ -27,4 +27,4 @@ export default store;
 export * from './users';
 export * from './questions';
 export * from './categories';
-export * from './classrooms';
+export * from './classroom';
