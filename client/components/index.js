@@ -11,7 +11,7 @@ export { default as Auth } from './auth/auth';
 export { default as Manage } from './admin/manage';
 
 // classroom
-// export { default as Classroom } from './classroom/classroom-main';
+export { default as Classroom } from './classroom/classroom-main';
 export { default as ClassroomView } from './classroom/classroom-view';
 export { default as RoomView } from './classroom/room-view';
 export { default as MediaContainer } from './classroom/media-container';
