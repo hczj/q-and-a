@@ -1,8 +1,17 @@
 const router = require('express').Router();
-const { User, Topic } = require('../db/models');
+const {
+  User,
+  Topic,
+  Question,
+  UserTopic,
+  Category,
+  Thread
+} = require('../db/models');
 const { isAdmin } = require('../utils');
+const Op = require('sequelize').Op;
 module.exports = router;
 
+// get all users
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({});
@@ -12,6 +21,17 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// find a specific user
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// get all topics a user is interested in
 router.get('/:userId/topics', async (req, res, next) => {
   try {
     const [user] = await User.findAll({
@@ -24,16 +44,58 @@ router.get('/:userId/topics', async (req, res, next) => {
   }
 });
 
-router.get('/:userId', async (req, res, next) => {
+// get all categories you are interested in
+router.get('/me/categories', async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const topics = await UserTopic.findAll({
+      where: { userId: req.user.dataValues.id },
+      attributes: ['topicId'],
+      include: [{ model: Topic, attributes: ['categoryId'] }]
+    });
 
+    if (topics.length === 0) {
+      return res.json([]);
+    } else {
+      const categoryIds = topics.map(item => item.topic.categoryId);
+      const categories = await Category.findAll({
+        where: {
+          id: { [Op.or]: categoryIds }
+        },
+        include: [Topic]
+      });
+      res.json(categories);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+// get all questions you have asked
+router.get('/me/questions', async (req, res, next) => {
+  try {
+    const questions = await Question.findAll({
+      where: { userId: req.user.dataValues.id }
+    });
+    res.json(questions);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// get a specific user
+router.get('/:userId/threads', async (req, res, next) => {
+  try {
+    const [user] = await User.findAll({
+      where: { id: req.params.userId },
+      include: Thread
+    });
     res.json(user);
   } catch (err) {
     next(err);
   }
 });
 
+// edit a specific user
 router.put('/:userId', isAdmin, async (req, res, next) => {
   try {
     const { data: user } = await User.update(
@@ -56,6 +118,7 @@ router.put('/:userId', isAdmin, async (req, res, next) => {
   }
 });
 
+// delete a user
 router.delete('/:userId', isAdmin, async (req, res, next) => {
   const userId = +req.params.userId;
   try {

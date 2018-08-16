@@ -1,22 +1,34 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
+import { fetchCategories } from '../../store';
 
-const CategoryDropdown = ({ defaultOption, categories }) => {
-  if (!categories) return null;
-  return (
-    <Fragment>
-      <option>{defaultOption}</option>
-      {categories.map(category => (
-        <option key={category.id} value={+category.id}>
-          {category.name}
-        </option>
-      ))}
-    </Fragment>
-  );
-};
+class CategoryDropdown extends Component {
+  componentDidMount() {
+    this.props.getCategories();
+  }
+
+  render() {
+    const { defaultOption, categories } = this.props;
+    if (!categories) return null;
+    return (
+      <Fragment>
+        <option>{defaultOption}</option>
+        {categories.map(category => (
+          <option key={category.id} value={+category.id}>
+            {category.name}
+          </option>
+        ))}
+      </Fragment>
+    );
+  }
+}
 
 const mapState = state => ({
   categories: state.categories.all
 });
 
-export default connect(mapState)(CategoryDropdown);
+const mapDispatch = dispatch => ({
+  getCategories: () => dispatch(fetchCategories())
+});
+
+export default connect(mapState, mapDispatch)(CategoryDropdown);

@@ -3,12 +3,12 @@ export { default as Navbar } from './navbar';
 export { default as PageNotFound } from './page-not-found';
 export { default as UserHome } from './user-home';
 
+// admin
+export { default as Manage } from './admin/manage';
+
 // auth
 export { Login, Signup } from './auth/auth-form';
 export { default as Auth } from './auth/auth';
-
-// admin
-export { default as Manage } from './admin/manage';
 
 // classroom
 export { default as Classroom } from './classroom/classroom-main';
@@ -16,6 +16,10 @@ export { default as ClassroomView } from './classroom/classroom-view';
 export { default as RoomView } from './classroom/room-view';
 export { default as MediaContainer } from './classroom/media-container';
 export { default as ControlContainer } from './classroom/control-container';
+
+// comment
+export { default as CommentCard } from './comment/comment-card';
+export { default as CommentForm } from './comment/comment-form';
 
 // dashboard
 export { default as ActiveQuestions } from './dashboard/active-questions';
@@ -30,19 +34,28 @@ export { default as CategoryTopics } from './discover/category-topics';
 export { default as Discover } from './discover/discover';
 
 // profile
-export { default as Profile } from './profile/profile';
 export { default as ProfileCard } from './profile/profile-card';
 export { default as ProfileTopics } from './profile/profile-topics';
+export { default as Profile } from './profile/profile';
 
-// question-queue
+// questions
 export {
-  default as AskQuestionButton
-} from './question-queue/ask-question-button';
-export { default as QuestionForm } from './question-queue/question-form';
-export { default as QuestionQueue } from './question-queue/question-queue';
-export { default as Question } from './question-queue/question';
-export { default as Queue } from './question-queue/queue';
-export { default as TopicsInput } from './question-queue/topics-input';
+  default as AnswerQuestionButton
+} from './questions/answer-question-button';
+export { default as AskQuestionButton } from './questions/ask-question-button';
+export { default as QuestionForm } from './questions/question-form';
+export { default as QuestionQueue } from './questions/question-queue';
+export { default as Question } from './questions/question';
+export { default as Queue } from './questions/queue';
+export { default as TopicsInput } from './questions/topics-input';
+export {
+  default as SingleQuestionView
+} from './questions/single-question-view';
+export { default as UpvoteButton } from './questions/upvote-button';
+
+//inbox
+export { default as Inbox } from './inbox/inbox';
+export { default as SingleThread } from './inbox/single-thread';
 
 // reusable
 export { default as CategoryCard } from './reusable/category-card';

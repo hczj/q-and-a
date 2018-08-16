@@ -4,16 +4,47 @@ const Topic = require('./topic');
 const UserTopic = require('./user-topic');
 const Question = require('./question');
 const Answer = require('./answer');
+const Comment = require('./comment');
+const Thread = require('./thread');
+const Message = require('./message');
 
 Question.belongsTo(User);
 User.hasMany(Question);
 Question.belongsTo(Category);
+
+Comment.belongsTo(User);
+Comment.belongsTo(Question);
+Question.hasMany(Comment);
 
 Answer.belongsTo(User, { as: 'learner' });
 Answer.belongsTo(User, { as: 'teacher' });
 
 User.belongsToMany(Topic, { through: UserTopic });
 Topic.belongsToMany(User, { through: UserTopic });
+
+Message.belongsTo(Thread);
+Thread.hasMany(Message);
+
+User.belongsToMany(User, {
+  as: 'sender',
+  through: {
+    model: Thread,
+    unique: false
+  },
+  foreignKey: 'senderId'
+});
+
+User.belongsToMany(User, {
+  as: 'receiver',
+  through: {
+    model: Thread,
+    unique: false
+  },
+  foreignKey: 'receiverId'
+});
+
+Message.belongsTo(User);
+User.hasMany(Message);
 
 UserTopic.belongsTo(Topic);
 
@@ -29,5 +60,8 @@ module.exports = {
   Topic,
   UserTopic,
   Question,
-  Answer
+  Answer,
+  Comment,
+  Thread,
+  Message
 };
