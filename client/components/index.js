@@ -36,6 +36,7 @@ export { default as Queue } from './question-queue/queue';
 
 //inbox
 export { default as Inbox } from './inbox/inbox';
+export { default as SingleThread } from './inbox/single-thread';
 
 // reusable
 export { default as CategoryCard } from './reusable/category-card';

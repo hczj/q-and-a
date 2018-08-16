@@ -7,10 +7,19 @@ const {
   Topic,
   UserTopic,
   Question,
-  Answer
+  Answer,
+  Message,
+  Thread
 } = require('../server/db/models');
 
-const { users, categories, topics, questions } = require('./data');
+const {
+  users,
+  categories,
+  topics,
+  questions,
+  messages,
+  threads
+} = require('./data');
 
 async function seed() {
   await db.sync({ force: true });
@@ -68,6 +77,18 @@ async function seed() {
     })
   );
   console.log(`seeded ${seedUsers.length} users`);
+
+  //
+  // THREADS
+  // =======
+
+  await Thread.bulkCreate(threads);
+
+  //
+  // MESSAGES
+  // ========
+
+  await Message.bulkCreate(messages);
 
   //
   // QUESTIONS

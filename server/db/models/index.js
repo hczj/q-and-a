@@ -17,11 +17,26 @@ Answer.belongsTo(User, { as: 'teacher' });
 User.belongsToMany(Topic, { through: UserTopic });
 Topic.belongsToMany(User, { through: UserTopic });
 
-Thread.belongsToMany(User, { through: 'userThread' });
-User.belongsToMany(Thread, { through: 'userThread' });
-
 Message.belongsTo(Thread);
 Thread.hasMany(Message);
+
+User.belongsToMany(User, {
+  as: 'sender',
+  through: {
+    model: Thread,
+    unique: false
+  },
+  foreignKey: 'senderId'
+});
+
+User.belongsToMany(User, {
+  as: 'receiver',
+  through: {
+    model: Thread,
+    unique: false
+  },
+  foreignKey: 'receiverId'
+});
 
 Message.belongsTo(User);
 User.hasMany(Message);
