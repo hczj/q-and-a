@@ -16,10 +16,10 @@ import {
   ClassroomView,
   Classroom,
   RoomView,
+  SingleQuestionView,
   SingleThread
 } from './components';
 import { me } from './store';
-import singleThread from './components/inbox/single-thread';
 
 class Routes extends Component {
   componentDidMount() {
@@ -41,6 +41,11 @@ class Routes extends Component {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/ask-a-question" component={QuestionForm} />
             <Route exact path="/questions" component={QuestionQueue} />
+            <Route
+              exact
+              path="/questions/question/:questionId"
+              component={SingleQuestionView}
+            />
             <Route exact path="/profile/:id" component={Profile} />
             <Route exact path="/inbox" component={Inbox} />
             <Route exact path="/inbox/thread/:id" component={SingleThread} />

@@ -4,12 +4,17 @@ const Topic = require('./topic');
 const UserTopic = require('./user-topic');
 const Question = require('./question');
 const Answer = require('./answer');
+const Comment = require('./comment');
 const Thread = require('./thread');
 const Message = require('./message');
 
 Question.belongsTo(User);
 User.hasMany(Question);
 Question.belongsTo(Category);
+
+Comment.belongsTo(User);
+Comment.belongsTo(Question);
+Question.hasMany(Comment);
 
 Answer.belongsTo(User, { as: 'learner' });
 Answer.belongsTo(User, { as: 'teacher' });
@@ -56,6 +61,7 @@ module.exports = {
   UserTopic,
   Question,
   Answer,
+  Comment,
   Thread,
   Message
 };
