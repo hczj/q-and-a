@@ -1,15 +1,12 @@
-import { Field, reduxForm } from 'redux-form';
 import React, { Component } from 'react';
-
-import { createMessage } from '../../store';
 import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import { createMessage } from '../../store';
 
 class MessageForm extends Component {
   handleMessageSubmit = data => {
-    console.log('THIS.PROPS', this.props);
     const { sendMessage, id } = this.props;
-    const { content } = data;
-    sendMessage({ content, threadId: id });
+    sendMessage({ content: data.content, threadId: id });
   };
 
   render() {
@@ -35,9 +32,7 @@ class MessageForm extends Component {
 
 const mapState = state => {
   const { id } = state.threads.active.thread || { id: 0 };
-  return {
-    id
-  };
+  return { id };
 };
 
 const mapDispatch = dispatch => ({
