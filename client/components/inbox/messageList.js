@@ -7,7 +7,7 @@ const MessageList = ({ messages, myId }) => (
       messages.map(message => (
         <article
           key={message.id}
-          className={`message is-${message.userId === myId ? '-primary' : '-dark'}`}
+          className={`message is-${message.userId === myId ? 'primary' : 'dark'}`}
         >
           <div className="message-body">{message.content}</div>
         </article>
