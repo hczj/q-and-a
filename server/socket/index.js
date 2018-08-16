@@ -18,25 +18,27 @@ module.exports = io => {
 
     // sending to all clients in the room except sender
     socket.on('message', msg => {
-      socket.broadcast.to(room).emit('message', msg)
+      socket.broadcast.to(room).emit('message', msg);
     });
 
     socket.on('find', () => {
+      console.log('joined!');
       const url = socket.request.headers.referer.split('/');
       room = url[url.length - 1];
       const sr = io.sockets.adapter.rooms[room];
       if (sr === undefined) {
         // no room with such name is found so create it
         socket.join(room);
+
         socket.emit('create');
-        console.log('**** CREATE socket rooms', io.sockets.adapter.rooms)
+        console.log('**** CREATE socket rooms', io.sockets.adapter.rooms);
       } else if (sr.length === 1) {
         socket.emit('join');
-        console.log('**** JOIN socket rooms', io.sockets.adapter.rooms)
+        console.log('**** JOIN socket rooms', io.sockets.adapter.rooms);
       } else {
         // max two clients
         socket.emit('full', room);
-        console.log('**** FULL socket rooms', io.sockets.adapter.rooms)
+        console.log('**** FULL socket rooms', io.sockets.adapter.rooms);
       }
     });
 
@@ -60,22 +62,22 @@ module.exports = io => {
       // sending to all clients in the room except sender
       socket.broadcast.to(room).emit('hangup');
       socket.leave(room);
-      console.log('**** LEAVE socket rooms', io.sockets.adapter.rooms)
     });
 
+    socket.on('editor-event', text => {
+      socket.broadcast.to(room).emit('editor-receive', text);
+    });
 
+    socket.on('editor-mode-event', mode => {
+      socket.broadcast.to(room).emit('editor-mode', mode);
+    });
 
+    socket.on('wb-draw-event', (start, end, color, lineWidth) => {
+      socket.broadcast.to(room).emit('wb-draw', start, end, color, lineWidth);
+    });
 
-    //
-    // OLD SOCKET EVENTS FROM JERRY'S BRANCH
-    // =====================================
-
-    // socket.on('room', (room) => {
-    //   socket.join(room);
-    // });
-
-    // socket.on('coding event', data => {
-    //   socket.broadcast.to(data.room).emit('receive code', data.newCode);
-    // });
+    socket.on('wb-clear-event', () => {
+      socket.broadcast.to(room).emit('wb-clear');
+    });
   });
 };

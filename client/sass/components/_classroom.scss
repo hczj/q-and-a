@@ -5,44 +5,63 @@ $notification-transition: all $speed $easing ($speed * 2);
 .classroom {}
 
 .classroom-media {
+  overflow: hidden;
   position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: $menu-width;
-  width: 100%;
+  // width: 100%;
   // height: 100%;
 }
 
 .video {
   position: absolute;
-  width: 100%;
-  height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   z-index: -1;
 
-  &.is-local {
-    max-height: 100%;
-    max-width: 100%;
+  video {
     object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  &.is-local {
     transition: all .3s $easing;
+    z-index: 9;
 
     .established & {
-      // bottom: $toolbar-height;
-      top: 0;
-      box-shadow: 0 .5rem 3rem rgba($black, .2);
       margin: 1rem;
       max-height: 15%;
       max-width: 15%;
-      height: auto;
-      width: auto;
+      min-width: 140px;
+
+      video {
+        box-shadow: 0 .5rem 3rem rgba($black, .2);
+        width: auto;
+        height: auto;
+      }
+    }
+
+    .established.has-editor &,
+    .established.has-whiteboard & {
+      top: auto;
+      right: 0;
+      bottom: 0;
+      left: auto;
     }
   }
 
   &.is-remote {
-    display: block;
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: cover;
+    overflow: hidden;
+
+    .established.has-editor &,
+    .established.has-whiteboard & {
+      left: 50%;
+    }
   }
 }
 
@@ -180,6 +199,7 @@ $notification-transition: all $speed $easing ($speed * 2);
     top: 50%;
     left: calc(50% + #{$menu-width});
   transform: translate3d(-50%, -50%, 0);
+  z-index: 999;
 
   .notification {
     background-color: $white;
@@ -190,6 +210,116 @@ $notification-transition: all $speed $easing ($speed * 2);
     transition: $notification-transition;;
     visibility: hidden;
     width: 100%;
+  }
+}
+
+.whiteboard {
+  opacity: 0;
+  position: absolute;
+    top: 0;
+    right: 50%;
+    bottom: 0;
+    left: 0;
+  transition: all $speed $easing;
+  visibility: hidden;
+
+  .has-whiteboard.established & {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.whiteboard-menu {
+  padding: 0 1rem;
+  position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+  z-index: 9;
+
+  .dropdown-trigger .button {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+
+    &:hover {
+      background-color: $white-ter;
+      // color: rgba($black, .5)
+    }
+  }
+
+  .dropdown-menu {
+    min-width: 15rem;
+  }
+
+  .dropdown-content {
+    padding: 1rem;
+  }
+
+  .twitter-picker {
+    border: 1px solid rgba($black, .1) !important;
+    borer-radius: 0 !important;
+    box-shadow: none !important;
+    padding-bottom: 6px;
+  }
+}
+
+.editor {
+  border-right: 1px solid rgba($black, .1);
+  max-width: 750px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+    top: 0;
+    right: 50%;
+    bottom: 0;
+    left: 0;
+  transition: all $speed $easing;
+  visibility: hidden;
+
+  .has-editor & {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.editor-menu {
+  background-color: $white-ter;
+  border-bottom: 1px solid rgba($black, .06);
+  cursor: default;
+  font-size: $size-7;
+  margin: 0 !important;
+  padding: 0 1rem;
+
+  .button {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    font-size: $size-7;
+    height: auto;
+
+    &:hover {
+      background-color: $white;
+    }
+
+    &:focus,
+    &.is-focused,
+    &:active,
+    &.is-active {
+      border-color: transparent;
+      box-shadow: none;
+    }
+
+    &::after {
+      height: 0.5em;
+      margin-top: -0.375em;
+      width: 0.5em;
+    }
   }
 }
 

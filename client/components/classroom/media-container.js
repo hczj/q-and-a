@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
+import Whiteboard from './whiteboard-container';
+import Editor from './editor-container';
 
 class MediaContainer extends Component {
-  state = { user: '', bridge: '' }
+  state = {
+    user: '',
+    bridge: '',
+    whiteboard: '',
+    editor: ''
+  }
 
   componentWillMount() {
     // chrome polyfill for connection between local device and remote peer
     window.RTCPeerConnection =
       window.RTCPeerConnection || window.webkitRTCPeerConnection;
+    // set `media` to be the MediaContainer component
     this.props.media(this);
   }
 
@@ -85,6 +93,14 @@ class MediaContainer extends Component {
 
   handleError = err => console.log('error!', err);
 
+  closeEditor = () => {
+    this.setState({ editor: '' })
+  }
+
+  closeWhiteboard = () => {
+    this.setState({ whiteboard: '' })
+  }
+
   init = () => {
     // wait for local media to be ready
     const attachMediaIfReady = () => {
@@ -99,7 +115,7 @@ class MediaContainer extends Component {
     };
     // set up the peer connection
     // this is one of Google's public STUN servers
-    // make sure your offer/answer role does not change. If user A does a SLD
+    // make sure the offer/answer role does not change. If user A does a SLD
     // with type=offer initially, it must do that during the whole session
     this.pc = new RTCPeerConnection({
       iceServers: [{ url: 'stun:stun.l.google.com:19302' }]
@@ -144,19 +160,30 @@ class MediaContainer extends Component {
   };
 
   render() {
+    const { bridge, whiteboard, editor } = this.state;
     return (
-      <div className={`classroom-media ${this.state.bridge}`}>
-        <video
-          className="video is-remote"
-          ref={ref => (this.remoteVideo = ref)}
-          autoPlay
+      <div className={`classroom-media ${bridge} ${whiteboard} ${editor}`}>
+        <div className="video is-remote">
+          <video
+            ref={ref => (this.remoteVideo = ref)}
+            autoPlay
+          />
+        </div>
+        <div className="video is-local">
+          <video
+            ref={ref => (this.localVideo = ref)}
+            autoPlay
+            muted
+            draggable
+          />
+        </div>
+        <Whiteboard
+          closeWhiteboard={this.closeWhiteboard}
+          socket={this.props.socket}
         />
-        <video
-          className="video is-local"
-          ref={ref => (this.localVideo = ref)}
-          autoPlay
-          muted
-          draggable
+        <Editor
+          closeEditor={this.closeEditor}
+          socket={this.props.socket}
         />
       </div>
     );
