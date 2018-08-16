@@ -8,7 +8,8 @@ const users = [
     description: loremIpsum,
     email: 'hollie@example.com',
     password: 'test',
-    isAdmin: true
+    isAdmin: true,
+    imageUrl: 'https://randomuser.me/api/portraits/women/1.jpg'
   },
   {
     firstName: 'Zohaib',
@@ -17,7 +18,8 @@ const users = [
     description: loremIpsum,
     email: 'zohaib@example.com',
     password: 'test',
-    isAdmin: true
+    isAdmin: true,
+    imageUrl: 'https://randomuser.me/api/portraits/men/1.jpg'
   },
   {
     firstName: 'Jerry',
@@ -26,7 +28,8 @@ const users = [
     description: loremIpsum,
     email: 'jerry@example.com',
     password: 'test',
-    isAdmin: true
+    isAdmin: true,
+    imageUrl: 'https://randomuser.me/api/portraits/men/2.jpg'
   },
   {
     firstName: 'Chris',
@@ -35,7 +38,8 @@ const users = [
     description: loremIpsum,
     email: 'chris@example.com',
     password: 'test',
-    isAdmin: true
+    isAdmin: true,
+    imageUrl: 'https://randomuser.me/api/portraits/men/3.jpg'
   },
   {
     firstName: 'Azar',
@@ -44,7 +48,8 @@ const users = [
     description: loremIpsum,
     email: 'azar@example.com',
     password: 'test',
-    isAdmin: false
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/men/4.jpg'
   },
   {
     firstName: 'Ahmet',
@@ -53,7 +58,8 @@ const users = [
     description: loremIpsum,
     email: 'ahmet@example.com',
     password: 'test',
-    isAdmin: false
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/men/5.jpg'
   },
   {
     firstName: 'Jill',
@@ -62,7 +68,8 @@ const users = [
     description: loremIpsum,
     email: 'jill@example.com',
     password: 'test',
-    isAdmin: false
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/women/2.jpg'
   },
   {
     firstName: 'Jake',
@@ -71,7 +78,8 @@ const users = [
     description: loremIpsum,
     email: 'jake@example.com',
     password: 'test',
-    isAdmin: false
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/men/6.jpg'
   },
   {
     firstName: 'Laura',
@@ -80,7 +88,8 @@ const users = [
     description: loremIpsum,
     email: 'laura@example.com',
     password: 'test',
-    isAdmin: true
+    isAdmin: true,
+    imageUrl: 'https://randomuser.me/api/portraits/women/3.jpg'
   },
   {
     firstName: 'Luis',
@@ -89,7 +98,8 @@ const users = [
     description: loremIpsum,
     email: 'luis@example.com',
     password: 'test',
-    isAdmin: false
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/men/7.jpg'
   },
   {
     firstName: 'Sayaka',
@@ -98,7 +108,8 @@ const users = [
     description: loremIpsum,
     email: 'sayaka@example.com',
     password: 'test',
-    isAdmin: false
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/women/4.jpg'
   },
   {
     firstName: 'Shu',
@@ -107,7 +118,8 @@ const users = [
     description: loremIpsum,
     email: 'shu@example.com',
     password: 'test',
-    isAdmin: false
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/women/5.jpg'
   },
   {
     firstName: 'Farrokh',
@@ -116,7 +128,8 @@ const users = [
     description: loremIpsum,
     email: 'farrokh@example.com',
     password: 'test',
-    isAdmin: true
+    isAdmin: true,
+    imageUrl: 'https://randomuser.me/api/portraits/women/1.jpg'
   }
 ];
 

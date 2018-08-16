@@ -86,11 +86,34 @@ export const fetchQuestionsByUser = myId => async dispatch => {
   }
 };
 
+export const orderQuestions = (myId, query) => async dispatch => {
+  dispatch(requestQuestions());
+  try {
+    const { data } = await axios.get(
+      `/api/questions/${myId}${
+        query.location.search ? query.location.search : ''
+      }`
+    );
+    dispatch(receiveQuestions(data || []));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const createQuestion = question => async dispatch => {
   try {
     const { data } = await axios.post(`/api/questions`, question);
     dispatch(createQuestionSuccess(data || {}));
-    history.push(`/question-queue`);
+    history.push(`/questions`);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const updateQuestion = question => async dispatch => {
+  try {
+    const { data } = await axios.put(`/api/questions/${question.id}`, question);
+    dispatch(updateQuestionSuccess(data || {}));
   } catch (err) {
     console.error(err);
   }

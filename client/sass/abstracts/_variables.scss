@@ -3,14 +3,14 @@
 // ====================
 
 // $orange: #f67533;
-$yellow: #ffdb29;
-$green: #3ec28f;
+$yellow: #ffd12c;
+$green: #00d1b2;
 // $turquoise: #5cbbbc;
 // $cyan: #17a2b8;
 // $blue: #207ccd;
 $purple: #8420ff;
-// $red: #ea443c;
-// $pink: #ef706a;
+$red: #d1001f;
+$pink: #fe13ff;
 
 $family-sans-serif: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI',
   Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
@@ -29,10 +29,10 @@ $size-7: .875rem;
 
 $primary: $purple;
 $primary-invert: findColorInvert($primary);
-$secondary: $green;
+$secondary: $pink;
 $secondary-invert: findColorInvert($secondary);
-// $link: ;
-// $link-invert: ;
+$link: $green;
+$link-invert: findColorInvert($link);
 // $info: ;
 // $info-invert: ;
 // $success: ;
@@ -72,7 +72,7 @@ $colors: mergeColorMaps(
 // do is override them and let them apply normally, override them here.
 // ----------------------------------------------------------------------------
 
-// $body-background-color: #f1f2f3;
+$body-background-color: #f5f3fa;
 
 // $box-radius: 0;
 // $box-shadow: 0 1rem 3rem rgba($black, 0.175);

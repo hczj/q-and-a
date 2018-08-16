@@ -40,7 +40,7 @@ class Routes extends Component {
             <Route path="/manage" component={Manage} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/ask-a-question" component={QuestionForm} />
-            <Route exact path="/question-queue" component={QuestionQueue} />
+            <Route exact path="/questions" component={QuestionQueue} />
             <Route exact path="/profile/:id" component={Profile} />
             <Route exact path="/inbox" component={Inbox} />
             <Route exact path="/inbox/thread/:id" component={SingleThread} />

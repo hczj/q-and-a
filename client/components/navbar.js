@@ -11,7 +11,7 @@ const toggleNavbarMenu = event => {
   navbarMenu.classList.toggle('is-active');
 };
 
-const Navbar = ({ handleClick, isLoggedIn, isAdmin, myId }) => (
+const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
   <nav className="navbar is-primary">
     <div className="container">
       <div className="navbar-brand">
@@ -29,17 +29,17 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, myId }) => (
         </div>
       </div>
       <div id="navPrimary" className="navbar-menu">
-        <div className="navbar-start">
-          <NavLink
-            to="/discover"
-            className="navbar-item"
-            activeClassName="is-active"
-          >
-            Discover
-          </NavLink>
+        <div className="navbar-end">
           {isLoggedIn ? (
             <Fragment>
               {/* The navbar will show these links after you log in */}
+              <NavLink
+                to="/discover"
+                className="navbar-item"
+                activeClassName="is-active"
+              >
+                Discover
+              </NavLink>
               <NavLink
                 to="/classroom"
                 className="navbar-item"
@@ -48,61 +48,96 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, myId }) => (
                 Classroom
               </NavLink>
               <NavLink
-                to="/question-queue"
+                to="/questions"
                 className="navbar-item"
                 activeClassName="is-active"
               >
                 Questions
               </NavLink>
-              <NavLink
-                to="/dashboard"
-                className="navbar-item"
-                activeClassName="is-active"
-              >
-                Dashboard
-              </NavLink>
-              <NavLink
-                to={`/profile/${myId}`}
-                className="navbar-item"
-                activeClassName="is-active"
-              >
-                Profile
-              </NavLink>
-              <NavLink
-                to="/inbox"
-                className="navbar-item"
-                activeClassName="is-active"
-              >
-                Inbox
-              </NavLink>
-              <NavLink
-                to="/manage"
-                className="navbar-item"
-                activeClassName="is-active"
-              >
-                Manage
-              </NavLink>
-              <a href="#" onClick={handleClick} className="navbar-item">
-                Logout
-              </a>
+              {isAdmin && (
+                <NavLink
+                  to="/manage"
+                  className="navbar-item"
+                  activeClassName="is-active"
+                >
+                  Manage
+                </NavLink>
+              )}
+              <div className="navbar-item has-dropdown is-hoverable">
+                <div className="navbar-link">
+                  <img className="navbar-profile-img" src={me.imageUrl} />
+                </div>
+                <div className="navbar-dropdown">
+                  <NavLink
+                    to="/dashboard"
+                    className="navbar-item navbar-dropdown-header"
+                  >
+                    <span>
+                      {me.firstName} {me.lastName}
+                    </span>
+                    <span>{me.email}</span>
+                  </NavLink>
+                  <hr className="navbar-divider" />
+                  <NavLink
+                    to="/dashboard"
+                    className="navbar-item"
+                    activeClassName="is-active"
+                  >
+                    My Dashboard
+                  </NavLink>
+                  <NavLink
+                    to={`/profile/${me.id}`}
+                    className="navbar-item"
+                    activeClassName="is-active"
+                  >
+                    My Profile
+                  </NavLink>
+                  <NavLink
+                    to="/dashboard?tab=questions"
+                    className="navbar-item"
+                    activeClassName="is-active"
+                  >
+                    My Questions
+                  </NavLink>
+                  <NavLink
+                    to="/inbox"
+                    className="navbar-item"
+                    activeClassName="is-active"
+                  >
+                    Inbox
+                  </NavLink>
+                  <hr className="navbar-divider" />
+                  <a href="#" onClick={handleClick} className="navbar-item">
+                    Logout
+                  </a>
+                </div>
+              </div>
             </Fragment>
           ) : (
             <Fragment>
               {/* The navbar will show these links before you log in */}
-              <NavLink
-                to="/login"
-                className="navbar-item"
-                activeClassName="is-active"
-              >
-                Login
-              </NavLink>
-              <NavLink
-                to="/signup"
-                className="navbar-item"
-                activeClassName="is-active"
-              >
-                Sign Up
-              </NavLink>
+              <div className="navbar-item">
+                <div className="field is-grouped">
+                  <p className="control">
+                    <NavLink
+                      to="/login"
+                      className="button is-light"
+                      activeClassName="is-active"
+                    >
+                      Sign in
+                    </NavLink>
+                  </p>
+                  <p className="control">
+                    <NavLink
+                      to="/signup"
+                      className="button is-link"
+                      activeClassName="is-active"
+                    >
+                      Sign Up
+                    </NavLink>
+                  </p>
+                </div>
+              </div>
             </Fragment>
           )}
         </div>
@@ -117,7 +152,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, myId }) => (
 const mapState = state => ({
   isLoggedIn: !!state.me.id,
   isAdmin: !!state.me.isAdmin,
-  myId: state.me.id
+  me: state.me
 });
 
 const mapDispatch = dispatch => ({

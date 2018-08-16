@@ -1,19 +1,48 @@
 import React, { Component, Fragment } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { createQuestion } from '../../store';
+import {
+  createQuestion,
+  fetchCategoriesByUser,
+  me,
+  fetchCategory,
+  removeActiveCategory
+} from '../../store';
 import { connect } from 'react-redux';
-import { CategoryDropdown, Header } from '../../components';
-// import TagsInput from 'react-tagsinput';
+import { CategoryDropdown, Header, TopicsInput } from '../../components';
+import _ from 'lodash';
 
 class QuestionForm extends Component {
+  async componentDidMount() {
+    const { getUserCategories, loadMe, removeActiveCategory } = this.props;
+    removeActiveCategory();
+    await loadMe();
+    getUserCategories(this.props.myId);
+  }
+
+  handleCategoryChange = event => {
+    const categoryId = +event.target.value;
+    const { removeActiveCategory, getCategory } = this.props;
+
+    if (isNaN(categoryId)) {
+      removeActiveCategory();
+    } else {
+      getCategory(categoryId);
+    }
+  };
+
   handleQuestionSubmit = data => {
     const { addQuestion, myId } = this.props;
-    const { title, description, categoryId } = data;
-    addQuestion({ title, description, categoryId, myId });
+    const { title, description, categoryId, topic } = data;
+
+    const strTopicIds = _.keys(_.pickBy(topic));
+    const topicIds = strTopicIds.map(id => +id);
+
+    addQuestion({ title, description, categoryId, myId, topicIds });
   };
 
   render() {
-    const { pristine, reset, submitting, handleSubmit } = this.props;
+    const { pristine, reset, submitting, handleSubmit, category } = this.props;
+
     return (
       <Fragment>
         <Header title="Ask a question!" />
@@ -44,11 +73,27 @@ class QuestionForm extends Component {
             <div className="field">
               <label className="label">Category</label>
               <div className="control">
-                <Field className="select" name="categoryId" component="select">
-                  <CategoryDropdown />
-                </Field>
+                <div className="select">
+                  <Field
+                    className="select"
+                    name="categoryId"
+                    component="select"
+                    onChange={this.handleCategoryChange}
+                  >
+                    <CategoryDropdown defaultOption="Select A Category" />
+                  </Field>
+                </div>
               </div>
             </div>
+
+            {category.name ? (
+              <div className="field">
+                <label className="label">Topics</label>
+                <TopicsInput />
+              </div>
+            ) : (
+              ''
+            )}
 
             <div className="field is-grouped">
               <div className="control">
@@ -96,11 +141,17 @@ const validate = values => {
 };
 
 const mapState = state => ({
-  myId: state.me.id
+  myId: state.me.id,
+  categories: state.categories.all,
+  category: state.categories.active
 });
 
 const mapDispatch = dispatch => ({
-  addQuestion: data => dispatch(createQuestion(data))
+  loadMe: () => dispatch(me()),
+  addQuestion: data => dispatch(createQuestion(data)),
+  getUserCategories: myId => dispatch(fetchCategoriesByUser(myId)),
+  getCategory: categoryId => dispatch(fetchCategory(categoryId)),
+  removeActiveCategory: () => dispatch(removeActiveCategory())
 });
 
 QuestionForm = connect(mapState, mapDispatch)(QuestionForm);
