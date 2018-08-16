@@ -4,7 +4,6 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 const CommentCard = ({ createdAt, content, user, removeComment, myId, id }) => {
-  console.log('user.id', user, 'myId', myId);
   return (
     <Fragment>
       <div className="box">
