@@ -31,14 +31,14 @@ module.exports = io => {
         socket.join(room);
 
         socket.emit('create');
-        console.log('**** CREATE socket rooms', io.sockets.adapter.rooms)
+        console.log('**** CREATE socket rooms', io.sockets.adapter.rooms);
       } else if (sr.length === 1) {
         socket.emit('join');
-        console.log('**** JOIN socket rooms', io.sockets.adapter.rooms)
+        console.log('**** JOIN socket rooms', io.sockets.adapter.rooms);
       } else {
         // max two clients
         socket.emit('full', room);
-        console.log('**** FULL socket rooms', io.sockets.adapter.rooms)
+        console.log('**** FULL socket rooms', io.sockets.adapter.rooms);
       }
     });
 
@@ -62,30 +62,22 @@ module.exports = io => {
       // sending to all clients in the room except sender
       socket.broadcast.to(room).emit('hangup');
       socket.leave(room);
-      console.log('**** LEAVE socket rooms', io.sockets.adapter.rooms)
     });
 
     socket.on('editor-event', text => {
-      // console.log('data', data);
       socket.broadcast.to(room).emit('editor-receive', text);
     });
 
+    socket.on('editor-mode-event', mode => {
+      socket.broadcast.to(room).emit('editor-mode', mode);
+    });
+
     socket.on('wb-draw-event', (start, end, color, lineWidth) => {
-      console.log('****** DRAWING EVENT')
-      socket.broadcast
-        .to(room)
-        .emit('wb-draw', start, end, color, lineWidth);
+      socket.broadcast.to(room).emit('wb-draw', start, end, color, lineWidth);
     });
 
     socket.on('wb-clear-event', () => {
       socket.broadcast.to(room).emit('wb-clear');
     });
-    //
-    // OLD SOCKET EVENTS FROM JERRY'S BRANCH
-    // =====================================
-
-    // socket.on('room', (room) => {
-    //   socket.join(room);
-    // });
   });
 };

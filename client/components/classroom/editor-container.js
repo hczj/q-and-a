@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import brace from 'brace';
+// import brace from 'brace';
 import AceEditor from 'react-ace';
 import 'brace/theme/monokai';
 import 'brace/theme/textmate';
-import 'brace/mode/javascript';
+import 'brace/mode/text';
 import 'brace/mode/css';
 import 'brace/mode/html';
-import 'brace/mode/plain_text';
+import 'brace/mode/javascript';
 import 'brace/mode/python';
-import 'brace/mode/text';
 
 const textMode = {
   mode: 'text',
@@ -17,8 +16,8 @@ const textMode = {
   showGutter: false,
   showLineNumbers: false,
   showPrintMargin: false,
-  fontSize: 16
-}
+  fontSize: 18
+};
 
 const codeMode = {
   mode: 'javascript',
@@ -28,15 +27,27 @@ const codeMode = {
   showLineNumbers: true,
   showPrintMargin: true,
   fontSize: 14
-}
+};
+
+const modes = [
+  { name: 'CSS', type: 'css' },
+  { name: 'HTML', type: 'html' },
+  { name: 'JavaScript', type: 'javascript' },
+  { name: 'Python', type: 'python' }
+];
 
 export class EditorContainer extends Component {
   state = textMode;
 
   componentDidMount() {
-    this.props.socket.on('editor-receive', payload => {
-      this.setState({ value: payload})
+    const { socket } = this.props;
+    socket.on('editor-receive', payload => {
+      this.setState({ value: payload });
     });
+    socket.on('editor-mode', payload => {
+      console.log('SOCKET EDITOR-MODE', payload)
+      this.changeMode(payload);
+    })
   }
 
   handleTextChange = text => {
@@ -44,28 +55,72 @@ export class EditorContainer extends Component {
   };
 
   handleModeChange = event => {
-    const mode = event.target.value;
+    const mode = event.target.dataset.mode;
+    this.props.socket.emit('editor-mode-event', mode);
+    this.changeMode(mode);
+  };
+
+  changeMode = mode => {
     if (!mode) return;
 
     if (mode === 'text') {
-      this.setState(textMode)
+      this.setState({ ...textMode, value: '' });
     } else {
-      this.setState({ ...codeMode, mode })
+      this.setState({ ...codeMode, mode, value: '' });
     }
+  }
+
+  handleDropdownClick = event => {
+    // event.currentTarget.classList.toggle('is-active');
   };
 
   render() {
     return (
       <div className="editor">
-        <div className="file-menu">
-          <div className="select">
-            <select onChange={this.handleModeChange}>
-              <option value="text">Plain text</option>
-              <option value="javascript">JavaScript</option>
-              <option value="css">CSS</option>
-              <option value="html">HTML</option>
-              <option value="python">Python</option>
-            </select>
+        <div className="editor-menu level">
+          <div className="level-left">
+            <div className="level-item">
+              <strong>Editor</strong>
+            </div>
+            <div className="level-item">
+              <div className="dropdown is-hoverable">
+                <div className="dropdown-trigger">
+                  <button className="button">
+                    <span>Syntax</span>
+                    <span className="icon is-small">
+                      <i className="fas fa-angle-down" aria-hidden="true" />
+                    </span>
+                  </button>
+                </div>
+                <div className="dropdown-menu" id="editor-menu-syntax">
+                  <div className="dropdown-content">
+                    <a
+                      className="dropdown-item"
+                      data-mode="text"
+                      onClick={this.handleModeChange}
+                    >
+                      Plain Text
+                    </a>
+                    <hr className="dropdown-divider" />
+                    {modes.map(mode => (
+                      <a
+                        key={mode.type}
+                        className="dropdown-item"
+                        data-mode={mode.type}
+                        onClick={this.handleModeChange}
+                      >
+                        {mode.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="level-right">
+            <div className="level-item">
+              <a className="delete is-small" onClick={this.props.closeEditor} />
+            </div>
           </div>
         </div>
         <AceEditor
@@ -76,7 +131,7 @@ export class EditorContainer extends Component {
           name="ace-editor"
           width="100%"
           height="100%"
-          editorProps={{$blockScrolling: true}}
+          editorProps={{ $blockScrolling: true }}
           fontSize={this.state.fontSize}
           highlightActiveLine={this.state.highlightActiveLine}
           showGutter={this.state.showGutter}

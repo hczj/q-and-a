@@ -9,11 +9,11 @@ const Menu = props => (
           <i className="fas fa-home" />
         </Link>
       </li>
-      <li>
+      {/*<li>
         <a>
           <i className="fas fa-file-alt" />
         </a>
-      </li>
+      </li>*/}
       <li>
         <a onClick={props.toggleEditor}>
           <i className="fas fa-code" />

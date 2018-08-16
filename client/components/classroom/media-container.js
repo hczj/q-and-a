@@ -93,6 +93,14 @@ class MediaContainer extends Component {
 
   handleError = err => console.log('error!', err);
 
+  closeEditor = () => {
+    this.setState({ editor: '' })
+  }
+
+  closeWhiteboard = () => {
+    this.setState({ whiteboard: '' })
+  }
+
   init = () => {
     // wait for local media to be ready
     const attachMediaIfReady = () => {
@@ -107,7 +115,7 @@ class MediaContainer extends Component {
     };
     // set up the peer connection
     // this is one of Google's public STUN servers
-    // make sure your offer/answer role does not change. If user A does a SLD
+    // make sure the offer/answer role does not change. If user A does a SLD
     // with type=offer initially, it must do that during the whole session
     this.pc = new RTCPeerConnection({
       iceServers: [{ url: 'stun:stun.l.google.com:19302' }]
@@ -169,8 +177,14 @@ class MediaContainer extends Component {
             draggable
           />
         </div>
-        <Whiteboard socket={this.props.socket} />
-        <Editor socket={this.props.socket} />
+        <Whiteboard
+          closeWhiteboard={this.closeWhiteboard}
+          socket={this.props.socket}
+        />
+        <Editor
+          closeEditor={this.closeEditor}
+          socket={this.props.socket}
+        />
       </div>
     );
   }
