@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Topic } = require('../db/models');
+const { User, Topic, Thread } = require('../db/models');
 const { isAdmin } = require('../utils');
 module.exports = router;
 
@@ -17,6 +17,18 @@ router.get('/:userId/topics', async (req, res, next) => {
     const [user] = await User.findAll({
       where: { id: req.params.userId },
       include: Topic
+    });
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/:userId/threads', async (req, res, next) => {
+  try {
+    const [user] = await User.findAll({
+      where: { id: req.params.userId },
+      include: Thread
     });
     res.json(user);
   } catch (err) {

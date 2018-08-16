@@ -44,6 +44,10 @@ export { default as Question } from './question-queue/question';
 export { default as Queue } from './question-queue/queue';
 export { default as TopicsInput } from './question-queue/topics-input';
 
+//inbox
+export { default as Inbox } from './inbox/inbox';
+export { default as SingleThread } from './inbox/single-thread';
+
 // reusable
 export { default as CategoryCard } from './reusable/category-card';
 export { default as CategoryDropdown } from './reusable/category-dropdown';
