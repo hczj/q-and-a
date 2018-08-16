@@ -53,6 +53,10 @@ export {
 } from './questions/single-question-view';
 export { default as UpvoteButton } from './questions/upvote-button';
 
+//inbox
+export { default as Inbox } from './inbox/inbox';
+export { default as SingleThread } from './inbox/single-thread';
+
 // reusable
 export { default as CategoryCard } from './reusable/category-card';
 export { default as CategoryDropdown } from './reusable/category-dropdown';

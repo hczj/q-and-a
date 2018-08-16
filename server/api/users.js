@@ -1,5 +1,12 @@
 const router = require('express').Router();
-const { User, Topic, Question, UserTopic, Category } = require('../db/models');
+const {
+  User,
+  Topic,
+  Question,
+  UserTopic,
+  Category,
+  Thread
+} = require('../db/models');
 const { isAdmin } = require('../utils');
 const Op = require('sequelize').Op;
 module.exports = router;
@@ -9,6 +16,16 @@ router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({});
     res.json(users);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// find a specific user
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    res.json(user);
   } catch (err) {
     next(err);
   }
@@ -66,10 +83,12 @@ router.get('/me/questions', async (req, res, next) => {
 });
 
 // get a specific user
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId/threads', async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.userId);
-
+    const [user] = await User.findAll({
+      where: { id: req.params.userId },
+      include: Thread
+    });
     res.json(user);
   } catch (err) {
     next(err);

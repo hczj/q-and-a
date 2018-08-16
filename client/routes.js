@@ -12,10 +12,12 @@ import {
   CategoryPage,
   Discover,
   Profile,
+  Inbox,
   ClassroomView,
   Classroom,
   RoomView,
-  SingleQuestionView
+  SingleQuestionView,
+  SingleThread
 } from './components';
 import { me } from './store';
 
@@ -45,6 +47,8 @@ class Routes extends Component {
               component={SingleQuestionView}
             />
             <Route exact path="/profile/:id" component={Profile} />
+            <Route exact path="/inbox" component={Inbox} />
+            <Route exact path="/inbox/thread/:id" component={SingleThread} />
           </Switch>
         )}
 

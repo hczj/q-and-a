@@ -1,5 +1,4 @@
-let loremIpsum =
-  `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`;
+let loremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`;
 
 const users = [
   {
@@ -182,7 +181,76 @@ const categories = [
   { name: `Basket Weaving` },
   { name: `Music` },
   { name: `Business` },
-  { name: `Beauty & Makeup`}
+  { name: `Beauty & Makeup` }
+];
+
+const messages = [
+  {
+    content: 'Hello there!!',
+    threadId: 1,
+    userId: 1
+  },
+  {
+    content: 'Hi!!',
+    threadId: 1,
+    userId: 2
+  },
+  {
+    content: 'How are you doing today?',
+    threadId: 1,
+    userId: 1
+  },
+  {
+    content: 'Im well, how are you?',
+    threadId: 1,
+    userId: 2
+  },
+  {
+    content: 'Very good!',
+    threadId: 1,
+    userId: 1
+  },
+  {
+    content: 'Hello you!',
+    threadId: 2,
+    userId: 1
+  },
+  {
+    content: 'Hola!!',
+    threadId: 2,
+    userId: 3
+  },
+  {
+    content: 'Como estas?',
+    threadId: 2,
+    userId: 1
+  },
+  {
+    content: 'Muy bien, y tu?!',
+    threadId: 2,
+    userId: 3
+  },
+  {
+    content: 'Asi asi',
+    threadId: 2,
+    userId: 1
+  },
+  {
+    content: 'aight.',
+    threadId: 2,
+    userId: 3
+  }
+];
+
+const threads = [
+  {
+    receiverId: 1,
+    senderId: 2
+  },
+  {
+    receiverId: 1,
+    senderId: 3
+  }
 ];
 
 const topics = [
@@ -240,5 +308,7 @@ module.exports = {
   users,
   questions,
   categories,
-  topics
+  topics,
+  threads,
+  messages
 };

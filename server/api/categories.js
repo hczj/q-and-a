@@ -39,7 +39,7 @@ router.post('/', async (req, res, next) => {
 // get all questions in a category
 router.get('/:categoryId/questions', async (req, res, next) => {
   try {
-    if (!req.query.type) {
+    if (!req.query.type || req.query.type === 'newest') {
       const questions = await Question.findAll({
         where: { categoryId: req.params.categoryId },
         include: [{ model: Topic }, { model: User }],

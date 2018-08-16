@@ -23,7 +23,7 @@ router.get('/', async (req, res, next) => {
         order: [['createdAt', 'DESC']]
       });
 
-      if (!req.query.type) {
+      if (!req.query.type || req.query.type === 'newest') {
         res.json(questions);
       } else if (req.query.type === 'popular') {
         const sortQuestions = await Question.findAll({

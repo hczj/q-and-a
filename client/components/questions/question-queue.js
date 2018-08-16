@@ -54,10 +54,10 @@ class QuestionQueue extends Component {
     const { category, orderQuestions, orderQuestionsByCategory } = this.props;
     const categoryId = category.id;
 
-    if (category.id && query) {
+    if (categoryId && query) {
       this.props.history.push(`/questions${query}`);
       orderQuestionsByCategory(categoryId, query);
-    } else if (query) {
+    } else if (!categoryId && query) {
       this.props.history.push(`/questions${query}`);
       orderQuestions(query);
     } else {
@@ -103,7 +103,9 @@ class QuestionQueue extends Component {
 
             <div className="level-right">
               <div className="level-item">
-                <p onClick={() => this.handleQuestionsSort()}>newest</p>
+                <p onClick={() => this.handleQuestionsSort('?type=newest')}>
+                  newest
+                </p>
               </div>
               <div className="level-item">
                 <p onClick={() => this.handleQuestionsSort('?type=popular')}>
@@ -144,7 +146,7 @@ const mapDispatch = (dispatch, ownProps) => ({
   getCategory: categoryId => dispatch(fetchCategory(categoryId)),
   orderQuestionsByCategory: (categoryId, query) =>
     dispatch(orderQuestionsByCategory(categoryId, ownProps.history)).then(() =>
-      ownProps.history.push(`/questions/${query}`)
+      ownProps.history.push(`/questions/${query ? query : ''}`)
     )
 });
 
