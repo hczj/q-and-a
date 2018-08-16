@@ -13,7 +13,7 @@ const REQUEST_QUESTION = 'REQUEST_QUESTION';
 const RECEIVE_QUESTION = 'RECEIVE_QUESTION';
 
 const CREATE_QUESTION_SUCCESS = 'CREATE_QUESTION_SUCCESS';
-const UPDATE_QUESTION_SUCCESS = 'UPDATE_QUESTIONS_SUCCESS';
+const UPDATE_QUESTION_SUCCESS = 'UPDATE_QUESTION_SUCCESS';
 const DELETE_QUESTION_SUCCESS = 'DELETE_QUESTION_SUCCESS';
 
 const REMOVE_ACTIVE_QUESTION = 'REMOVE_ACTIVE_QUESTION';
@@ -205,7 +205,6 @@ export default function(state = initialQuestions, action) {
     case UPDATE_QUESTION_SUCCESS:
       return {
         ...state,
-        all: [...state.all],
         active: action.question
       };
 

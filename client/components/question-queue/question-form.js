@@ -96,11 +96,7 @@ class QuestionForm extends Component {
 
             <div className="field is-grouped">
               <div className="control">
-                <button
-                  className="button is-link"
-                  type="submit"
-                  onClick={reset}
-                >
+                <button className="button is-link" type="submit">
                   Submit
                 </button>
               </div>

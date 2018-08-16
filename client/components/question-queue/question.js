@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { AnswerQuestionButton, UpvoteButton } from '../../components';
 
 const Question = ({ question, upVote }) => {
   const { title, description, topics, user, createdAt } = question;
@@ -29,12 +30,10 @@ const Question = ({ question, upVote }) => {
 
             <div className="level-right">
               <div className="level-item">
-                <span className="icon" onClick={() => upVote(question)}>
-                  <i className="fas fa-caret-up button is-light" />
-                </span>
+                <UpvoteButton question={question} upVote={upVote} />
               </div>
               <div className="level-item">
-                <a className="button is-link">Answer</a>
+                <AnswerQuestionButton />
               </div>
             </div>
           </nav>

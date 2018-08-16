@@ -1,7 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { Header, CommentForm, CommentCard } from '../../components';
+import {
+  Header,
+  CommentForm,
+  CommentCard,
+  AnswerQuestionButton,
+  UpvoteButton,
+  NothingHere
+} from '../../components';
 import { connect } from 'react-redux';
-import { fetchQuestion, deleteComment } from '../../store';
+import { fetchQuestion, deleteComment, updateQuestion } from '../../store';
 import { Link } from 'react-router-dom';
 
 class SingleQuestionView extends Component {
@@ -15,29 +22,48 @@ class SingleQuestionView extends Component {
     this.props.removeComment(commentId, questionId);
   };
 
+  upVote = question => {
+    question.vote = true;
+    this.props.incrementVote(question);
+  };
+
   render() {
     const { question, comments, isLoading } = this.props;
-
+    const { topics, description, title } = question;
+    console.log('comments', comments);
     if (isLoading) return null;
     return (
       <Fragment>
         <div className="box">
           <Link to="/questions">Back</Link>
-          <Header title={question.title} />
+          <Header title={title} />
+          <div className="tags">
+            {topics
+              ? topics.map(topic => (
+                  <span key={topic.id} className="tag">
+                    {topic.name}
+                  </span>
+                ))
+              : ''}
+          </div>
+          <AnswerQuestionButton />
+          <UpvoteButton question={question} upVote={this.upVote} />
           <hr />
-          {question.description}
+          {description}
           <hr />
           <CommentForm questionId={question.id} />
           <hr />
-          {comments
-            ? comments.map(comment => (
-                <CommentCard
-                  key={comment.id}
-                  {...comment}
-                  removeComment={this.removeComment}
-                />
-              ))
-            : ''}
+          {comments ? (
+            comments.map(comment => (
+              <CommentCard
+                key={comment.id}
+                {...comment}
+                removeComment={this.removeComment}
+              />
+            ))
+          ) : (
+            <NothingHere />
+          )}
         </div>
       </Fragment>
     );
@@ -53,7 +79,8 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   getQuestion: questionId => dispatch(fetchQuestion(questionId)),
   removeComment: (commentId, questionId) =>
-    dispatch(deleteComment(commentId, questionId))
+    dispatch(deleteComment(commentId, questionId)),
+  incrementVote: questionId => dispatch(updateQuestion(questionId))
 });
 
 export default connect(mapState, mapDispatch)(SingleQuestionView);

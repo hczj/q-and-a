@@ -19,7 +19,8 @@ router.get('/', async (req, res, next) => {
       const categoryIds = topics.map(item => item.topic.categoryId);
       const questions = await Question.findAll({
         where: { categoryId: { [Op.or]: categoryIds } },
-        include: [{ model: Topic }, { model: User }]
+        include: [{ model: Topic }, { model: User }],
+        order: [['createdAt', 'DESC']]
       });
 
       if (!req.query.type) {
@@ -49,7 +50,8 @@ router.get('/:questionId', async (req, res, next) => {
             model: User,
             attributes: ['firstName', 'lastName', 'imageUrl', 'isActive', 'id']
           }
-        }
+        },
+        { model: Topic }
       ],
       order: [[Comment, 'createdAt', 'DESC']]
     });
@@ -91,6 +93,49 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+// edit a question
+router.put('/:questionId', async (req, res, next) => {
+  try {
+    await Question.update(
+      {
+        title: req.body.title,
+        description: req.body.description
+      },
+      {
+        where: { id: req.params.questionId },
+        returning: true,
+        plain: true
+      }
+    );
+
+    if (req.body.vote) {
+      await Question.increment('votes', {
+        by: 1,
+        where: { id: req.params.questionId }
+      });
+    }
+
+    const question = await Question.findById(req.params.questionId, {
+      include: [
+        { model: Topic },
+        { model: User },
+        {
+          model: Comment,
+          include: {
+            model: User,
+            attributes: ['firstName', 'lastName', 'imageUrl', 'isActive', 'id']
+          }
+        }
+      ],
+      order: [[Comment, 'createdAt', 'DESC']]
+    });
+
+    res.json(question);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // create a comment
 router.post('/:questionId/comment', async (req, res, next) => {
   try {
@@ -115,34 +160,6 @@ router.post('/:questionId/comment', async (req, res, next) => {
       ],
       order: [[Comment, 'createdAt', 'DESC']]
     });
-
-    res.json(question);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// edit a question
-router.put('/:questionId', async (req, res, next) => {
-  try {
-    const { data: question } = await Question.update(
-      {
-        title: req.body.title,
-        description: req.body.description
-      },
-      {
-        where: { id: req.params.questionId },
-        returning: true,
-        plain: true
-      }
-    );
-
-    if (req.body.vote) {
-      await Question.increment('votes', {
-        by: 1,
-        where: { id: req.params.questionId }
-      });
-    }
 
     res.json(question);
   } catch (err) {

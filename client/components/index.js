@@ -1,3 +1,5 @@
+import UpvoteButton from './question-queue/upvote-button';
+
 // root
 export { default as Navbar } from './navbar';
 export { default as PageNotFound } from './page-not-found';
@@ -42,6 +44,10 @@ export { default as ProfileTopics } from './profile/profile-topics';
 export {
   default as AskQuestionButton
 } from './question-queue/ask-question-button';
+export {
+  default as AnswerQuestionButton
+} from './question-queue/answer-question-button';
+
 export { default as QuestionForm } from './question-queue/question-form';
 export { default as QuestionQueue } from './question-queue/question-queue';
 export { default as Question } from './question-queue/question';
@@ -50,6 +56,7 @@ export { default as TopicsInput } from './question-queue/topics-input';
 export {
   default as SingleQuestionView
 } from './question-queue/single-question-view';
+export { default as UpvoteButton } from './question-queue/upvote-button';
 
 // reusable
 export { default as CategoryCard } from './reusable/category-card';
