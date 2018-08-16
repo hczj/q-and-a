@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import Whiteboard from './whiteboard-container';
+import Editor from './editor-container';
 
 class MediaContainer extends Component {
-  state = { user: '', bridge: '' }
+  state = {
+    user: '',
+    bridge: '',
+    whiteboard: '',
+    editor: ''
+  }
 
   componentWillMount() {
     // chrome polyfill for connection between local device and remote peer
@@ -145,20 +152,25 @@ class MediaContainer extends Component {
   };
 
   render() {
+    const { bridge, whiteboard, editor } = this.state;
     return (
-      <div className={`classroom-media ${this.state.bridge}`}>
-        <video
-          className="video is-remote"
-          ref={ref => (this.remoteVideo = ref)}
-          autoPlay
-        />
-        <video
-          className="video is-local"
-          ref={ref => (this.localVideo = ref)}
-          autoPlay
-          muted
-          draggable
-        />
+      <div className={`classroom-media ${bridge} ${whiteboard} ${editor}`}>
+        <div className="video is-remote">
+          <video
+            ref={ref => (this.remoteVideo = ref)}
+            autoPlay
+          />
+        </div>
+        <div className="video is-local">
+          <video
+            ref={ref => (this.localVideo = ref)}
+            autoPlay
+            muted
+            draggable
+          />
+        </div>
+        <Whiteboard socket={this.props.socket} />
+        <Editor socket={this.props.socket} />
       </div>
     );
   }
