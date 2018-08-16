@@ -32,6 +32,13 @@ router.get('/', async (req, res, next) => {
           order: [['votes', 'DESC']]
         });
         res.json(sortQuestions);
+      } else if (req.query.type === 'answered') {
+        const inactiveQuestions = await Question.findAll({
+          where: { categoryId: req.params.categoryId, isActive: false },
+          include: [{ model: Topic }, { model: User }],
+          order: [['createdAt', 'DESC']]
+        });
+        res.json(inactiveQuestions);
       }
     }
   } catch (err) {

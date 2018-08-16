@@ -7,8 +7,6 @@ import history from '../history';
 const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
 
-const REQUEST_USER_QUESTIONS = 'REQUEST_USER_QUESTIONS';
-
 const REQUEST_QUESTION = 'REQUEST_QUESTION';
 const RECEIVE_QUESTION = 'RECEIVE_QUESTION';
 
@@ -121,6 +119,23 @@ export const orderQuestions = query => async dispatch => {
   }
 };
 
+export const orderQuestionsByCategory = (
+  categoryId,
+  query
+) => async dispatch => {
+  dispatch(requestQuestions());
+  try {
+    const { data } = await axios.get(
+      `/api/categories/${categoryId}/questions/${
+        query.location.search ? query.location.search : ''
+      }`
+    );
+    dispatch(receiveQuestions(data || []));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const createQuestion = question => async dispatch => {
   try {
     const { data } = await axios.post(`/api/questions`, question);
@@ -145,7 +160,6 @@ export const createComment = input => async dispatch => {
 
 export const deleteComment = (commentId, questionId) => async dispatch => {
   try {
-    // const { commentId, questionId } = input;
     const { data } = await axios.delete(
       `/api/questions/${questionId}/comment/${commentId}`
     );

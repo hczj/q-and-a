@@ -30,7 +30,7 @@ class SingleQuestionView extends Component {
   render() {
     const { question, comments, isLoading } = this.props;
     const { topics, description, title } = question;
-    console.log('comments', comments);
+
     if (isLoading) return null;
     return (
       <Fragment>

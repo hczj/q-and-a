@@ -12,25 +12,36 @@ import {
   fetchQuestionsByCategory,
   updateQuestion,
   orderQuestions,
-  me
+  removeActiveCategory,
+  fetchCategory,
+  orderQuestionsByCategory
 } from '../../store';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class QuestionQueue extends Component {
-  async componentDidMount() {
-    const { loadMe, getQuestions } = this.props;
-    await loadMe();
+  componentDidMount() {
+    const { getQuestions, category, removeActiveCategory } = this.props;
+    if (category) {
+      removeActiveCategory();
+    }
     getQuestions();
   }
 
-  handleCategoryChange = event => {
+  handleCategoryChange = async event => {
     const categoryId = +event.target.value;
-    const { getQuestionsByCategory, getQuestions } = this.props;
+    const {
+      getQuestionsByCategory,
+      getQuestions,
+      removeActiveCategory,
+      getCategory
+    } = this.props;
 
     if (isNaN(categoryId)) {
-      getQuestions();
+      await getQuestions();
+      await removeActiveCategory();
     } else {
-      getQuestionsByCategory(categoryId);
+      await getQuestionsByCategory(categoryId);
+      await getCategory(categoryId);
     }
   };
 
@@ -39,8 +50,20 @@ class QuestionQueue extends Component {
     this.props.incrementVote(question);
   };
 
-  handleQuestionsSort = () => {
-    this.props.orderQuestions();
+  handleQuestionsSort = query => {
+    const { category, orderQuestions, orderQuestionsByCategory } = this.props;
+    const categoryId = category.id;
+
+    if (category.id && query) {
+      this.props.history.push(`/questions${query}`);
+      orderQuestionsByCategory(categoryId, query);
+    } else if (query) {
+      this.props.history.push(`/questions${query}`);
+      orderQuestions(query);
+    } else {
+      this.props.history.push(`/questions`);
+      orderQuestions();
+    }
   };
 
   render() {
@@ -80,22 +103,16 @@ class QuestionQueue extends Component {
 
             <div className="level-right">
               <div className="level-item">
-                <a>newest</a>
+                <p onClick={() => this.handleQuestionsSort()}>newest</p>
               </div>
               <div className="level-item">
-                <Link
-                  to={{
-                    pathname: 'questions',
-                    search: '?type=popular'
-                  }}
-                  onClick={this.handleQuestionsSort}
-                >
+                <p onClick={() => this.handleQuestionsSort('?type=popular')}>
                   popular
-                </Link>
+                </p>
               </div>
-              <div className="level-item">
-                <a>answered</a>
-              </div>
+              <p onClick={() => this.handleQuestionsSort('?type=answered')}>
+                answered
+              </p>
             </div>
           </nav>
 
@@ -109,18 +126,26 @@ class QuestionQueue extends Component {
 }
 
 const mapState = state => ({
-  myId: state.me.id,
   questions: state.questions.all,
-  isLoading: state.questions.isLoading
+  isLoading: state.questions.isLoading,
+  category: state.categories.active
 });
 
-const mapDispatch = (dispatch, history) => ({
-  loadMe: () => dispatch(me()),
+const mapDispatch = (dispatch, ownProps) => ({
   getQuestions: () => dispatch(fetchQuestions()),
   getQuestionsByCategory: categoryId =>
     dispatch(fetchQuestionsByCategory(categoryId)),
   incrementVote: questionId => dispatch(updateQuestion(questionId)),
-  orderQuestions: () => dispatch(orderQuestions(history))
+  orderQuestions: query =>
+    dispatch(orderQuestions(ownProps.history)).then(() =>
+      ownProps.history.push(`/questions/${query ? query : ''}`)
+    ),
+  removeActiveCategory: () => dispatch(removeActiveCategory()),
+  getCategory: categoryId => dispatch(fetchCategory(categoryId)),
+  orderQuestionsByCategory: (categoryId, query) =>
+    dispatch(orderQuestionsByCategory(categoryId, ownProps.history)).then(() =>
+      ownProps.history.push(`/questions/${query}`)
+    )
 });
 
-export default connect(mapState, mapDispatch)(QuestionQueue);
+export default withRouter(connect(mapState, mapDispatch)(QuestionQueue));

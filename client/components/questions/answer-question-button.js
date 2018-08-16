@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const AnswerQuestionButton = () => (
   <Link to="/answer-question">
-    <a className="button is-link">Answer</a>
+    <button className="button is-link">Answer</button>
   </Link>
 );
 
