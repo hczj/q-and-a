@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { UnControlled as CodeMirror } from 'react-codemirror2';
-import '../../../node_modules/codemirror/lib/codemirror.css';
-import '../../../node_modules/codemirror/theme/monokai.css';
-import '../../../node_modules/codemirror/mode/javascript/javascript';
-import '../../../node_modules/codemirror/mode/python/python';
-import { SketchPicker } from 'react-color';
+// import { UnControlled as CodeMirror } from 'react-codemirror2';
+// import '../../../node_modules/codemirror/lib/codemirror.css';
+// import '../../../node_modules/codemirror/theme/monokai.css';
+// import '../../../node_modules/codemirror/mode/javascript/javascript';
+// import '../../../node_modules/codemirror/mode/python/python';
+// import { SketchPicker } from 'react-color';
 
 //import socket from '../../socket';
 import io from 'socket.io-client';
