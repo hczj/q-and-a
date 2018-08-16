@@ -12,11 +12,10 @@ import {
   CategoryPage,
   Discover,
   Profile,
-
-
   ClassroomView,
   Classroom,
-  RoomView
+  RoomView,
+  SingleQuestionView
 } from './components';
 import { me } from './store';
 
@@ -40,6 +39,11 @@ class Routes extends Component {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/ask-a-question" component={QuestionForm} />
             <Route exact path="/questions" component={QuestionQueue} />
+            <Route
+              exact
+              path="/questions/question/:questionId"
+              component={SingleQuestionView}
+            />
             <Route exact path="/profile/:id" component={Profile} />
           </Switch>
         )}

@@ -3,20 +3,19 @@ import { Field, reduxForm } from 'redux-form';
 import {
   createQuestion,
   fetchCategoriesByUser,
-  me,
   fetchCategory,
   removeActiveCategory
 } from '../../store';
 import { connect } from 'react-redux';
 import { CategoryDropdown, Header, TopicsInput } from '../../components';
-import _ from 'lodash';
+import pickBy from 'lodash.pickby';
+import keys from 'lodash.keys';
 
 class QuestionForm extends Component {
-  async componentDidMount() {
-    const { getUserCategories, loadMe, removeActiveCategory } = this.props;
+  componentDidMount() {
+    const { getUserCategories, removeActiveCategory } = this.props;
     removeActiveCategory();
-    await loadMe();
-    getUserCategories(this.props.myId);
+    getUserCategories();
   }
 
   handleCategoryChange = event => {
@@ -31,13 +30,13 @@ class QuestionForm extends Component {
   };
 
   handleQuestionSubmit = data => {
-    const { addQuestion, myId } = this.props;
+    const { addQuestion } = this.props;
     const { title, description, categoryId, topic } = data;
 
-    const strTopicIds = _.keys(_.pickBy(topic));
+    const strTopicIds = keys(pickBy(topic));
     const topicIds = strTopicIds.map(id => +id);
 
-    addQuestion({ title, description, categoryId, myId, topicIds });
+    addQuestion({ title, description, categoryId, topicIds });
   };
 
   render() {
@@ -97,7 +96,11 @@ class QuestionForm extends Component {
 
             <div className="field is-grouped">
               <div className="control">
-                <button className="button is-link" type="submit">
+                <button
+                  className="button is-link"
+                  type="submit"
+                  onClick={reset}
+                >
                   Submit
                 </button>
               </div>
@@ -141,15 +144,13 @@ const validate = values => {
 };
 
 const mapState = state => ({
-  myId: state.me.id,
   categories: state.categories.all,
   category: state.categories.active
 });
 
 const mapDispatch = dispatch => ({
-  loadMe: () => dispatch(me()),
   addQuestion: data => dispatch(createQuestion(data)),
-  getUserCategories: myId => dispatch(fetchCategoriesByUser(myId)),
+  getUserCategories: () => dispatch(fetchCategoriesByUser()),
   getCategory: categoryId => dispatch(fetchCategory(categoryId)),
   removeActiveCategory: () => dispatch(removeActiveCategory())
 });

@@ -21,7 +21,9 @@ const Question = ({ question, upVote }) => {
           <nav className="level">
             <div className="level-left">
               <div className="level-item">
-                <h1 className="title is-4">{title}</h1>
+                <Link to={`/questions/question/${question.id}`}>
+                  <h1 className="title is-4">{title}</h1>
+                </Link>
               </div>
             </div>
 

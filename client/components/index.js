@@ -17,6 +17,10 @@ export { default as RoomView } from './classroom/room-view';
 export { default as MediaContainer } from './classroom/media-container';
 export { default as ControlContainer } from './classroom/control-container';
 
+// comment
+export { default as CommentForm } from './comment/comment-form';
+export { default as CommentCard } from './comment/comment-card';
+
 // dashboard
 export { default as ActiveQuestions } from './dashboard/active-questions';
 export { default as Dashboard } from './dashboard/dashboard';
@@ -43,6 +47,9 @@ export { default as QuestionQueue } from './question-queue/question-queue';
 export { default as Question } from './question-queue/question';
 export { default as Queue } from './question-queue/queue';
 export { default as TopicsInput } from './question-queue/topics-input';
+export {
+  default as SingleQuestionView
+} from './question-queue/single-question-view';
 
 // reusable
 export { default as CategoryCard } from './reusable/category-card';
