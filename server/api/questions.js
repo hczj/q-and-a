@@ -1,22 +1,14 @@
 const router = require('express').Router();
-const { Question, Topic, UserTopic, User } = require('../db/models');
+const { Question, Topic, UserTopic, User, Comment } = require('../db/models');
 const Op = require('sequelize').Op;
 
 module.exports = router;
 
+// get all questions associated with topics user is interested in
 router.get('/', async (req, res, next) => {
   try {
-    const questions = await Question.findAll();
-    res.json(questions);
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.get('/:myId', async (req, res, next) => {
-  try {
     const topics = await UserTopic.findAll({
-      where: { userId: req.params.myId },
+      where: { userId: req.user.dataValues.id },
       attributes: ['topicId'],
       include: [{ model: Topic, attributes: ['categoryId'] }]
     });
@@ -27,7 +19,8 @@ router.get('/:myId', async (req, res, next) => {
       const categoryIds = topics.map(item => item.topic.categoryId);
       const questions = await Question.findAll({
         where: { categoryId: { [Op.or]: categoryIds } },
-        include: [{ model: Topic }, { model: User }]
+        include: [{ model: Topic }, { model: User }],
+        order: [['createdAt', 'DESC']]
       });
 
       if (!req.query.type) {
@@ -46,35 +39,35 @@ router.get('/:myId', async (req, res, next) => {
   }
 });
 
-router.get('/category/:categoryId', async (req, res, next) => {
+// find a single question
+router.get('/:questionId', async (req, res, next) => {
   try {
-    const questions = await Question.findAll({
-      where: { categoryId: req.params.categoryId },
-      include: [{ model: Topic }, { model: User }]
+    const question = await Question.findById(req.params.questionId, {
+      include: [
+        {
+          model: Comment,
+          include: {
+            model: User,
+            attributes: ['firstName', 'lastName', 'imageUrl', 'isActive', 'id']
+          }
+        },
+        { model: Topic }
+      ],
+      order: [[Comment, 'createdAt', 'DESC']]
     });
-    res.json(questions);
+    res.json(question);
   } catch (err) {
     next(err);
   }
 });
 
-router.get('/user/:userId', async (req, res, next) => {
-  try {
-    const questions = await Question.findAll({
-      where: { userId: req.params.userId }
-    });
-    res.json(questions);
-  } catch (err) {
-    next(err);
-  }
-});
-
+// create a question
 router.post('/', async (req, res, next) => {
   try {
     req.body.topicIds.map(async topic => {
       await UserTopic.findOrCreate({
         where: {
-          userId: req.body.myId,
+          userId: req.user.dataValues.id,
           topicId: topic
         }
       });
@@ -83,7 +76,7 @@ router.post('/', async (req, res, next) => {
     const newQuestion = await Question.create({
       title: req.body.title,
       description: req.body.description,
-      userId: req.body.myId,
+      userId: req.user.dataValues.id,
       categoryId: req.body.categoryId
     });
 
@@ -100,9 +93,10 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+// edit a question
 router.put('/:questionId', async (req, res, next) => {
   try {
-    const { data: question } = await Question.update(
+    await Question.update(
       {
         title: req.body.title,
         description: req.body.description
@@ -120,6 +114,80 @@ router.put('/:questionId', async (req, res, next) => {
         where: { id: req.params.questionId }
       });
     }
+
+    const question = await Question.findById(req.params.questionId, {
+      include: [
+        { model: Topic },
+        { model: User },
+        {
+          model: Comment,
+          include: {
+            model: User,
+            attributes: ['firstName', 'lastName', 'imageUrl', 'isActive', 'id']
+          }
+        }
+      ],
+      order: [[Comment, 'createdAt', 'DESC']]
+    });
+
+    res.json(question);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// create a comment
+router.post('/:questionId/comment', async (req, res, next) => {
+  try {
+    const comment = await Comment.create({
+      content: req.body.content
+    });
+
+    await comment.setUser(req.user.dataValues.id);
+    await comment.setQuestion(req.params.questionId);
+
+    const question = await Question.findById(req.params.questionId, {
+      include: [
+        { model: Topic },
+        { model: User },
+        {
+          model: Comment,
+          include: {
+            model: User,
+            attributes: ['firstName', 'lastName', 'imageUrl', 'isActive', 'id']
+          }
+        }
+      ],
+      order: [[Comment, 'createdAt', 'DESC']]
+    });
+
+    res.json(question);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// delete comment
+router.delete('/:questionId/comment/:commentId', async (req, res, next) => {
+  try {
+    await Comment.destroy({
+      where: { id: req.params.commentId }
+    });
+
+    const question = await Question.findById(req.params.questionId, {
+      include: [
+        { model: Topic },
+        { model: User },
+        {
+          model: Comment,
+          include: {
+            model: User,
+            attributes: ['firstName', 'lastName', 'imageUrl', 'isActive', 'id']
+          },
+          order: [['createdAt', 'DESC']]
+        }
+      ]
+    });
 
     res.json(question);
   } catch (err) {

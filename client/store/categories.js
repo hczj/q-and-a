@@ -67,10 +67,10 @@ export const fetchCategories = () => async dispatch => {
   }
 };
 
-export const fetchCategoriesByUser = myId => async dispatch => {
+export const fetchCategoriesByUser = () => async dispatch => {
   dispatch(requestCategories());
   try {
-    const { data } = await axios.get(`/api/categories/user/${myId}`);
+    const { data } = await axios.get(`/api/users/me/categories`);
     dispatch(receiveCategories(data || []));
   } catch (err) {
     console.error(err);

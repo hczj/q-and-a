@@ -9,7 +9,6 @@ import {
 import { connect } from 'react-redux';
 import {
   fetchQuestions,
-  fetchCategoriesByUser,
   fetchQuestionsByCategory,
   updateQuestion,
   orderQuestions,
@@ -19,10 +18,9 @@ import { Link } from 'react-router-dom';
 
 class QuestionQueue extends Component {
   async componentDidMount() {
-    const { loadMe, getQuestions, getUserCategories } = this.props;
+    const { loadMe, getQuestions } = this.props;
     await loadMe();
-    getQuestions(this.props.myId);
-    getUserCategories(this.props.myId);
+    getQuestions();
   }
 
   handleCategoryChange = event => {
@@ -30,7 +28,7 @@ class QuestionQueue extends Component {
     const { getQuestionsByCategory, getQuestions } = this.props;
 
     if (isNaN(categoryId)) {
-      getQuestions(this.props.myId);
+      getQuestions();
     } else {
       getQuestionsByCategory(categoryId);
     }
@@ -42,7 +40,7 @@ class QuestionQueue extends Component {
   };
 
   handleQuestionsSort = () => {
-    this.props.orderQuestions(this.props.myId);
+    this.props.orderQuestions();
   };
 
   render() {
@@ -118,12 +116,11 @@ const mapState = state => ({
 
 const mapDispatch = (dispatch, history) => ({
   loadMe: () => dispatch(me()),
-  getQuestions: myId => dispatch(fetchQuestions(myId)),
-  getUserCategories: myId => dispatch(fetchCategoriesByUser(myId)),
+  getQuestions: () => dispatch(fetchQuestions()),
   getQuestionsByCategory: categoryId =>
     dispatch(fetchQuestionsByCategory(categoryId)),
   incrementVote: questionId => dispatch(updateQuestion(questionId)),
-  orderQuestions: myId => dispatch(orderQuestions(myId, history))
+  orderQuestions: () => dispatch(orderQuestions(history))
 });
 
 export default connect(mapState, mapDispatch)(QuestionQueue);
