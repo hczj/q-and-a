@@ -68,6 +68,20 @@ class ControlContainer extends Component {
     this.props.setVideo(video);
   };
 
+  toggleWhiteboard = async () => {
+    await this.props.media.setState((prevState, props) => {
+      const hasWhiteboard = !prevState.whiteboard ? 'has-whiteboard' : '';
+      return { whiteboard: hasWhiteboard }
+    });
+  }
+
+  toggleEditor = async () => {
+    await this.props.media.setState((prevState, props) => {
+      const hasEditor = !prevState.editor ? 'has-editor' : '';
+      return { editor: hasEditor }
+    });
+  }
+
   toggleAudio = () => {
     const audio = (this.localStream.getAudioTracks()[0].enabled = !this.state
       .audio);
@@ -91,6 +105,8 @@ class ControlContainer extends Component {
       <Fragment>
         <Menu
           {...this.state}
+          toggleWhiteboard={this.toggleWhiteboard}
+          toggleEditor={this.toggleEditor}
         />
         <Notification
           {...this.state}

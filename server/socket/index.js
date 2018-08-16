@@ -18,12 +18,7 @@ module.exports = io => {
 
     // sending to all clients in the room except sender
     socket.on('message', msg => {
-<<<<<<< HEAD
-      console.log('socket message msg', msg);
       socket.broadcast.to(room).emit('message', msg);
-=======
-      socket.broadcast.to(room).emit('message', msg)
->>>>>>> master
     });
 
     socket.on('find', () => {
@@ -70,19 +65,20 @@ module.exports = io => {
       console.log('**** LEAVE socket rooms', io.sockets.adapter.rooms)
     });
 
-    socket.on('coding event', data => {
-      console.log(data.room);
-      socket.broadcast.to(room).emit('receive code', data.newCode);
+    socket.on('editor-event', text => {
+      // console.log('data', data);
+      socket.broadcast.to(room).emit('editor-receive', text);
     });
 
-    socket.on('drawing event', (start, end, color, lineWidth) => {
+    socket.on('wb-draw-event', (start, end, color, lineWidth) => {
+      console.log('****** DRAWING EVENT')
       socket.broadcast
         .to(room)
-        .emit('receive drawing', start, end, color, lineWidth);
+        .emit('wb-draw', start, end, color, lineWidth);
     });
 
-    socket.on('clear event', () => {
-      socket.broadcast.to(room).emit('receive clear');
+    socket.on('wb-clear-event', () => {
+      socket.broadcast.to(room).emit('wb-clear');
     });
     //
     // OLD SOCKET EVENTS FROM JERRY'S BRANCH
