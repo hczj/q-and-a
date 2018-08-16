@@ -7,7 +7,6 @@ import SingleThread from './single-thread';
 class Inbox extends Component {
   async componentDidMount() {
     await this.props.getThreads();
-    console.log(this.props.threads);
   }
 
   handleClick = () => {};
