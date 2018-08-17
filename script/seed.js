@@ -122,8 +122,8 @@ async function seed() {
   //
   // THREADS
   // =======
-  const seedThreads = await Promise.all(threads.map(t => Thread.create(t)));
-  console.log(`seeded ${seedThreads.length} threads`);
+  // const seedThreads = await Promise.all(threads.map(t => Thread.create(t)));
+  // console.log(`seeded ${seedThreads.length} threads`);
 
   //
   // MESSAGES
@@ -132,9 +132,9 @@ async function seed() {
   const seedMsgs = await Promise.all(
     messages.map(async message => {
       const myMessage = await Message.create(message);
-      const myThreadId = Math.floor(Math.random() * numOfThreads) + 1;
-      const myThread = await Thread.findById(myThreadId);
-      await myMessage.setThread(myThread);
+      // const myThreadId = Math.floor(Math.random() * numOfThreads) + 1;
+      // const myThread = await Thread.findById(myThreadId);
+      // await myMessage.setThread(myThread);
 
       const myUserId = Math.floor(Math.random() * numOfUsers) + 1;
       const mySenderId = myUserId;
@@ -148,8 +148,11 @@ async function seed() {
       // console.log(Object.keys(myThread.__proto__));
 
       // await myThread.setSender(mySenderId);
-      // await myReceiver.setSender(mySenderId);
-      // await mySender.setReceiver(myReceiverId);
+      await myReceiver.addSender(mySenderId);
+      // const myThread = await Thread.findOne({
+      //   where: {}
+      // })
+      await mySender.addReceiver(myReceiverId);
     })
   );
   console.log(`seeded ${seedMsgs.length} messages`);
