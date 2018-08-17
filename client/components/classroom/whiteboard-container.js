@@ -26,7 +26,7 @@ export class WhiteboardContainer extends Component {
       this.draw(start, end, color, lineWidth);
     });
     socket.on('wb-clear', () => {
-      this.clear();
+      this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     });
 
     this.ctx = this.canvas.getContext('2d');
@@ -54,14 +54,14 @@ export class WhiteboardContainer extends Component {
       this.lineStart = this.getMousePos(this.canvas, event);
   };
 
-  getMousePos(canvas, evt) {
-    var rect = this.canvas.getBoundingClientRect(), // abs. size of element
-      scaleX = canvas.width / rect.width, // relationship bitmap vs. element for X
-      scaleY = canvas.height / rect.height; // relationship bitmap vs. element for Y
+  getMousePos(canvas, event) {
+    let rect = this.canvas.getBoundingClientRect(),
+      scaleX = canvas.width / rect.width,
+      scaleY = canvas.height / rect.height;
 
     return [
-      (evt.clientX - rect.left) * scaleX, // scale mouse coordinates after they have
-      (evt.clientY - rect.top) * scaleY // been adjusted to be relative to element
+      (event.clientX - rect.left) * scaleX,
+      (event.clientY - rect.top) * scaleY
     ];
   }
 
@@ -82,10 +82,6 @@ export class WhiteboardContainer extends Component {
     if (this.state.isDrawing && !this.state.lineToggle) {
       this.mousePositionPrevious = this.mousePositionCurrent;
       this.mousePositionCurrent = this.getMousePos(this.canvas, event);
-      console.log(this.mousePositionCurrent);
-      console.log(event);
-      // this.mousePositionPrevious &&
-      //   this.mousePositionCurrent &&
       this.draw(
         this.mousePositionPrevious,
         this.mousePositionCurrent,
@@ -101,12 +97,7 @@ export class WhiteboardContainer extends Component {
   };
 
   clear = () => {
-    this.ctx.clearRect(
-      0,
-      0,
-      document.getElementById('whiteboard').offsetWidth,
-      document.getElementById('whiteboard').offsetWidth
-    );
+    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.props.socket.emit('wb-clear-event');
   };
 
@@ -135,7 +126,6 @@ export class WhiteboardContainer extends Component {
   };
 
   render() {
-    console.log(document.getElementsByClassName('whiteboard'));
     return (
       <div className="whiteboard">
         <canvas

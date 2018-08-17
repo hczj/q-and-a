@@ -9,6 +9,7 @@ class MediaContainer extends Component {
     bridge: '',
     whiteboard: '',
     editor: '',
+    feedback: ''
   };
 
   componentWillMount() {
@@ -86,9 +87,9 @@ class MediaContainer extends Component {
 
   hangup = () => {
     if (!this.pc) return;
-
+    this.setState({ feedback: 'has-feedback-form' });
     this.setState({ user: 'guest', bridge: 'guest-hangup' });
-    this.pc.close();
+    this.pc.close();``
     this.props.socket.emit('leave');
   };
 
@@ -161,9 +162,11 @@ class MediaContainer extends Component {
   };
 
   render() {
-    const { bridge, whiteboard, editor } = this.state;
+    const { bridge, whiteboard, editor, feedback } = this.state;
     return (
-      <div className={`classroom-media ${bridge} ${whiteboard} ${editor}`}>
+      <div
+        className={`classroom-media ${bridge} ${whiteboard} ${editor} ${feedback}`}
+      >
         <div className="video is-remote">
           <video ref={ref => (this.remoteVideo = ref)} autoPlay />
         </div>
@@ -180,6 +183,7 @@ class MediaContainer extends Component {
           socket={this.props.socket}
         />
         <Editor closeEditor={this.closeEditor} socket={this.props.socket} />
+        <FeedbackForm />
       </div>
     );
   }
