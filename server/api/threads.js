@@ -5,6 +5,7 @@ const Op = require('sequelize').Op;
 router.get('/', async (req, res, next) => {
   try {
     const myId = req.user.dataValues.id;
+
     const threads = await Thread.findAll({
       where: { [Op.or]: [{ receiverId: myId }, { senderId: myId }] },
       include: {
@@ -12,16 +13,24 @@ router.get('/', async (req, res, next) => {
       },
       order: [[Message, 'id', 'ASC']]
     });
+
     const userIds = threads.map(
       thread =>
-        thread.receiverId === req.user.dataValues.id
-          ? thread.senderId
-          : thread.receiverId
+        thread.receiverId === myId ? thread.senderId : thread.receiverId
     );
-    const otherUser = await User.findAll({
+
+    const otherUser = [];
+
+    for (let i in userIds) {
+      let user = await User.findById(userIds[i]);
+      otherUser.push(user);
+    }
+
+    await User.findAll({
       where: { id: userIds },
       attributes: ['firstName', 'lastName']
     });
+
     const output = [];
     for (let x = 0; x < threads.length; x++) {
       output.push({ thread: threads[x], user: otherUser[x] });
@@ -61,7 +70,6 @@ router.get('/:threadId', async (req, res, next) => {
 // POST /api/messages
 router.post('/', async (req, res, next) => {
   try {
-    console.log(req.body);
     const newMessage = await Message.create({
       content: req.body.content,
       threadId: req.body.threadId,
