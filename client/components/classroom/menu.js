@@ -5,22 +5,17 @@ const Menu = props => (
   <div className="classroom-menu">
     <ul className="menu-list">
       <li>
-        <Link to="/">
-          <i className="fas fa-home" />
-        </Link>
-      </li>
-      {/*<li>
         <a>
           <i className="fas fa-file-alt" />
         </a>
-      </li>*/}
+      </li>
       <li>
-        <a onClick={props.toggleEditor}>
+        <a onClick={() => props.toggleEditor(true)}>
           <i className="fas fa-code" />
         </a>
       </li>
       <li>
-        <a onClick={props.toggleWhiteboard}>
+        <a onClick={() => props.toggleWhiteboard(true)}>
           <i className="fas fa-pen" />
         </a>
       </li>
