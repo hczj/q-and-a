@@ -236,10 +236,6 @@ const threads = [
     senderId: 2
   },
   {
-    receiverId: 2,
-    senderId: 3
-  },
-  {
     receiverId: 4,
     senderId: 2
   },

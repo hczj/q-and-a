@@ -5,8 +5,7 @@ const {
   Question,
   UserTopic,
   Category,
-  Thread,
-  Message
+  Thread
 } = require('../db/models');
 const { isAdmin } = require('../utils');
 const Op = require('sequelize').Op;
@@ -83,20 +82,14 @@ router.get('/me/questions', async (req, res, next) => {
   }
 });
 
-// get a specific user's threads
+// get a specific user
 router.get('/:userId/threads', async (req, res, next) => {
   try {
-    // const [user] = await User.findAll({
-    //   where: { id: req.params.userId },
-    //   include: Thread
-    // });
-
-    const userId = req.params.userId;
-    const threads = await Thread.findAll({
-      where: { [Op.or]: [{ receiverId: userId }, { senderId: userId }] },
-      include: [Message]
-    })
-    res.json(threads);
+    const [user] = await User.findAll({
+      where: { id: req.params.userId },
+      include: Thread
+    });
+    res.json(user);
   } catch (err) {
     next(err);
   }
