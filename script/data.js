@@ -222,6 +222,145 @@ const categories = [
   { name: `Arts & Crafts` }
 ];
 
+const threads = [
+  {
+    receiverId: 1,
+    senderId: 2
+  },
+  {
+    receiverId: 1,
+    senderId: 3
+  },
+  {
+    receiverId: 3,
+    senderId: 2
+  },
+  {
+    receiverId: 2,
+    senderId: 3
+  },
+  {
+    receiverId: 4,
+    senderId: 2
+  },
+  {
+    receiverId: 1,
+    senderId: 4
+  },
+  {
+    receiverId: 3,
+    senderId: 4
+  },
+  {
+    receiverId: 1,
+    senderId: 5
+  },
+  {
+    receiverId: 5,
+    senderId: 3
+  },
+  {
+    receiverId: 5,
+    senderId: 2
+  },
+  {
+    receiverId: 2,
+    senderId: 6
+  },
+  {
+    receiverId: 4,
+    senderId: 6
+  },
+  {
+    receiverId: 1,
+    senderId: 6
+  },
+  {
+    receiverId: 3,
+    senderId: 7
+  },
+  {
+    receiverId: 7,
+    senderId: 5
+  },
+  {
+    receiverId: 1,
+    senderId: 8
+  },
+  {
+    receiverId: 5,
+    senderId: 8
+  },
+  {
+    receiverId: 8,
+    senderId: 2
+  },
+  {
+    receiverId: 9,
+    senderId: 6
+  },
+  {
+    receiverId: 4,
+    senderId: 9
+  },
+  {
+    receiverId: 1,
+    senderId: 9
+  },
+  {
+    receiverId: 9,
+    senderId: 7
+  },
+  {
+    receiverId: 10,
+    senderId: 5
+  },
+  {
+    receiverId: 10,
+    senderId: 8
+  },
+  {
+    receiverId: 10,
+    senderId: 2
+  },
+  {
+    receiverId: 10,
+    senderId: 6
+  },
+  {
+    receiverId: 11,
+    senderId: 9
+  },
+  {
+    receiverId: 11,
+    senderId: 2
+  },
+  {
+    receiverId: 11,
+    senderId: 7
+  },
+  {
+    receiverId: 11,
+    senderId: 5
+  },
+  {
+    receiverId: 12,
+    senderId: 9
+  },
+  {
+    receiverId: 12,
+    senderId: 3
+  },
+  {
+    receiverId: 12,
+    senderId: 7
+  },
+  {
+    receiverId: 12,
+    senderId: 5
+  }
+];
+
 const topics = [
   {
     name: `Python`,
@@ -313,8 +452,6 @@ const topics = [
   }
 ];
 
-const threads = new Array(15).fill({});
-
 const messages = [
   { content: `Hello there!!` },
   { content: `Hi!!` },
@@ -350,7 +487,7 @@ const messages = [
   { content: `Ok I'll see you there!` },
   { content: `I love you too!!!!` },
   { content: `We should hang out` },
-  { content: `That's good to hear.` },
+  { content: `That's good to hear.` }
 ];
 
 module.exports = {

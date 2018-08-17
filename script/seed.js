@@ -24,12 +24,8 @@ const {
 } = require('./data');
 
 const getUniqueIds = (num, max) => {
-  return [
-    num,
-    num > 3 ? num - 3 : num + 5,
-    num < max - 3 ? num + 3 : num - 5
-  ];
-}
+  return [num, num > 3 ? num - 3 : num + 5, num < max - 3 ? num + 3 : num - 5];
+};
 
 async function seed() {
   await db.sync({ force: true });
@@ -62,12 +58,14 @@ async function seed() {
   // ORGANIZATIONS
   // =============
   const numOfCats = await Category.count(); // to randomly associate to cats
-  const seedOrgs = await Promise.all(organizations.map(async organization => {
-    const myOrg = await Organization.create(organization);
-    const myCatId = Math.floor(Math.random() * numOfCats) + 1;
-    const myCatIds = getUniqueIds(myCatId, numOfCats);
-    await myOrg.setCategories(myCatIds);
-  }));
+  const seedOrgs = await Promise.all(
+    organizations.map(async organization => {
+      const myOrg = await Organization.create(organization);
+      const myCatId = Math.floor(Math.random() * numOfCats) + 1;
+      const myCatIds = getUniqueIds(myCatId, numOfCats);
+      await myOrg.setCategories(myCatIds);
+    })
+  );
   console.log(`seeded ${seedOrgs.length} organizations`);
 
   //
@@ -122,39 +120,79 @@ async function seed() {
   //
   // THREADS
   // =======
-  // const seedThreads = await Promise.all(threads.map(t => Thread.create(t)));
-  // console.log(`seeded ${seedThreads.length} threads`);
+  await Thread.bulkCreate(threads);
+  const seedMsgs = async () => {
+    const numOfThreads = await Thread.count();
+    await Promise.all(
+      messages.map(async message => {
+        const myMessage = await Message.create(message);
+        const myThreadId = Math.floor(Math.random() * numOfThreads) + 1;
+        const myThread = await Thread.findById(myThreadId);
+        await myMessage.setThread(myThread);
+        // const myUserId = Math.floor(Math.random() * numOfUsers) + 1;
+        // const mySenderId = myUserId;
+        // const mySender = await User.findById(mySenderId);
+        // await myMessage.setUser(mySender);
+      })
+    );
+  };
+  await seedMsgs();
+  await seedMsgs();
+  await seedMsgs();
+  await seedMsgs();
+
+  const allMessages = await Message.findAll({ attributes: ['id', 'threadId'] });
+  const threadIds = [];
+  const senderIds = [];
+  for (let x = 0; x < allMessages.length; x++) {
+    threadIds.push(allMessages[x].dataValues.threadId);
+    const thread = await Thread.findById(threadIds[x], {
+      attributes: ['senderId']
+    });
+    senderIds.push(thread.dataValues.senderId);
+  }
+  for (let x = 0; x < allMessages.length; x++) {
+    await allMessages[x].setUser(senderIds[x]);
+  }
+
+  // for (let message in allMessages) {
+  //   console.log(message);
+  //   break;
+  //   // const myThread = await Thread.findById(message.dataValues.threadId);
+  //   // await message.setUser(myThread.senderId);
+  // }
 
   //
   // MESSAGES
   // ========
-  const numOfThreads = await Thread.count(); // to randomly associate to thread
-  const seedMsgs = await Promise.all(
-    messages.map(async message => {
-      const myMessage = await Message.create(message);
-      // const myThreadId = Math.floor(Math.random() * numOfThreads) + 1;
-      // const myThread = await Thread.findById(myThreadId);
-      // await myMessage.setThread(myThread);
 
-      const myUserId = Math.floor(Math.random() * numOfUsers) + 1;
-      const mySenderId = myUserId;
-      const myReceiverId = myUserId > 3 ? myUserId - 3 : myUserId + 5;
+  // const numOfThreads = await Thread.count(); // to randomly associate to thread
+  // const seedMsgs = await Promise.all(
+  //   messages.map(async message => {
+  //     const myMessage = await Message.create(message);
+  //     // const myThreadId = Math.floor(Math.random() * numOfThreads) + 1;
+  //     // const myThread = await Thread.findById(myThreadId);
+  //     // await myMessage.setThread(myThread);
 
-      const mySender = await User.findById(mySenderId);
-      const myReceiver = await User.findById(myReceiverId);
+  //     const myUserId = Math.floor(Math.random() * numOfUsers) + 1;
+  //     const mySenderId = myUserId;
+  //     const myReceiverId = myUserId > 3 ? myUserId - 3 : myUserId + 5;
 
-      await myMessage.setUser(myUserId);
+  //     const mySender = await User.findById(mySenderId);
+  //     const myReceiver = await User.findById(myReceiverId);
 
-      // console.log(Object.keys(myThread.__proto__));
+  //     await myMessage.setUser(myUserId);
 
-      // await myThread.setSender(mySenderId);
-      await myReceiver.addSender(mySenderId);
-      // const myThread = await Thread.findOne({
-      //   where: {}
-      // })
-      await mySender.addReceiver(myReceiverId);
-    })
-  );
+  //     // console.log(Object.keys(myThread.__proto__));
+
+  //     // await myThread.setSender(mySenderId);
+  //     await myReceiver.addSender(mySenderId);
+  //     // const myThread = await Thread.findOne({
+  //     //   where: {}
+  //     // })
+  //     await mySender.addReceiver(myReceiverId);
+  //   })
+  // );
   console.log(`seeded ${seedMsgs.length} messages`);
 
   //
