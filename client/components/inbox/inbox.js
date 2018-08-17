@@ -8,13 +8,17 @@ class Inbox extends Component {
     this.props.getThreads();
   }
 
+  handleClick = (event, threadId) => {
+    this.props.history.push(`/inbox/thread/${threadId}`);
+  };
+
   render() {
     const { isLoading, threads } = this.props;
     if (isLoading) return null;
     return (
       <div className="columns">
         <div className="column is-centered">
-          <Threads threads={threads} />
+          <Threads threads={threads} handleClick={this.handleClick} />
         </div>
       </div>
     );
