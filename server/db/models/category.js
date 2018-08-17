@@ -10,10 +10,6 @@ const Category = db.define('category', {
       notEmpty: true
     }
   },
-  description: {
-    type: Sequelize.STRING,
-    allowNull: true
-  },
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue: 'https://dummyimage.com/200x200'

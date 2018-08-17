@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchThreads, createMessage, fetchThread } from '../../store';
+import { fetchThreads } from '../../store';
 import Threads from './threads';
-import SingleThread from './single-thread';
 
 class Inbox extends Component {
-  async componentDidMount() {
-    await this.props.getThreads();
+  componentDidMount() {
+    this.props.getThreads();
   }
 
-  handleClick = () => {};
-
   render() {
-    if (this.props.isLoadingAll) return null;
+    const { isLoading, threads } = this.props;
+    if (isLoading) return null;
     return (
       <div className="columns">
         <div className="column is-centered">
-          <Threads handleClick={this.handleClick} />
+          <Threads threads={threads} />
         </div>
       </div>
     );
@@ -24,15 +22,12 @@ class Inbox extends Component {
 }
 
 const mapState = state => ({
-  isLoadingAll: state.threads.isLoadingAll,
-  isLoadingActive: state.threads.isLoadingActive,
-  thread: state.threads.active,
+  isLoading: state.threads.isLoading,
   threads: state.threads.all
 });
 
 const mapDispatch = dispatch => ({
-  getThreads: () => dispatch(fetchThreads()),
-  sendMessage: message => dispatch(createMessage(message))
+  getThreads: () => dispatch(fetchThreads())
 });
 
 export default connect(mapState, mapDispatch)(Inbox);

@@ -25,13 +25,6 @@ router.get('/', async (req, res, next) => {
 
       if (!req.query.type || req.query.type === 'newest') {
         res.json(questions);
-      } else if (req.query.type === 'popular') {
-        const sortQuestions = await Question.findAll({
-          where: { categoryId: { [Op.or]: categoryIds } },
-          include: [{ model: Topic }, { model: User }],
-          order: [['votes', 'DESC']]
-        });
-        res.json(sortQuestions);
       } else if (req.query.type === 'answered') {
         const inactiveQuestions = await Question.findAll({
           where: { categoryId: req.params.categoryId, isActive: false },
@@ -50,17 +43,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:questionId', async (req, res, next) => {
   try {
     const question = await Question.findById(req.params.questionId, {
-      include: [
-        {
-          model: Comment,
-          include: {
-            model: User,
-            attributes: ['firstName', 'lastName', 'imageUrl', 'isActive', 'id']
-          }
-        },
-        { model: Topic }
-      ],
-      order: [[Comment, 'createdAt', 'DESC']]
+      include: [Topic]
     });
     res.json(question);
   } catch (err) {
@@ -115,84 +98,10 @@ router.put('/:questionId', async (req, res, next) => {
       }
     );
 
-    if (req.body.vote) {
-      await Question.increment('votes', {
-        by: 1,
-        where: { id: req.params.questionId }
-      });
-    }
-
     const question = await Question.findById(req.params.questionId, {
       include: [
         { model: Topic },
-        { model: User },
-        {
-          model: Comment,
-          include: {
-            model: User,
-            attributes: ['firstName', 'lastName', 'imageUrl', 'isActive', 'id']
-          }
-        }
-      ],
-      order: [[Comment, 'createdAt', 'DESC']]
-    });
-
-    res.json(question);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// create a comment
-router.post('/:questionId/comment', async (req, res, next) => {
-  try {
-    const comment = await Comment.create({
-      content: req.body.content
-    });
-
-    await comment.setUser(req.user.dataValues.id);
-    await comment.setQuestion(req.params.questionId);
-
-    const question = await Question.findById(req.params.questionId, {
-      include: [
-        { model: Topic },
-        { model: User },
-        {
-          model: Comment,
-          include: {
-            model: User,
-            attributes: ['firstName', 'lastName', 'imageUrl', 'isActive', 'id']
-          }
-        }
-      ],
-      order: [[Comment, 'createdAt', 'DESC']]
-    });
-
-    res.json(question);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// delete comment
-router.delete('/:questionId/comment/:commentId', async (req, res, next) => {
-  try {
-    await Comment.destroy({
-      where: { id: req.params.commentId }
-    });
-
-    const question = await Question.findById(req.params.questionId, {
-      include: [
-        { model: Topic },
-        { model: User },
-        {
-          model: Comment,
-          include: {
-            model: User,
-            attributes: ['firstName', 'lastName', 'imageUrl', 'isActive', 'id']
-          },
-          order: [['createdAt', 'DESC']]
-        }
+        { model: User }
       ]
     });
 

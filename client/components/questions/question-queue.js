@@ -45,27 +45,6 @@ class QuestionQueue extends Component {
     }
   };
 
-  upVote = question => {
-    question.vote = true;
-    this.props.incrementVote(question);
-  };
-
-  handleQuestionsSort = query => {
-    const { category, orderQuestions, orderQuestionsByCategory } = this.props;
-    const categoryId = category.id;
-
-    if (categoryId && query) {
-      this.props.history.push(`/questions${query}`);
-      orderQuestionsByCategory(categoryId, query);
-    } else if (!categoryId && query) {
-      this.props.history.push(`/questions${query}`);
-      orderQuestions(query);
-    } else {
-      this.props.history.push(`/questions`);
-      orderQuestions();
-    }
-  };
-
   render() {
     const { questions } = this.props;
     return (
@@ -85,42 +64,26 @@ class QuestionQueue extends Component {
           <nav className="level">
             <div className="level-left">
               <div className="level-item">
-                <Header title="Your Topics" />
-              </div>
-
-              <div className="level-item">
-                <div className="field">
-                  <div className="control">
-                    <div className="select">
-                      <select onChange={this.handleCategoryChange}>
-                        <CategoryDropdown defaultOption="View By Category" />
-                      </select>
-                    </div>
-                  </div>
-                </div>
+                <Header title="Your Topics" size="is-4" />
               </div>
             </div>
 
             <div className="level-right">
-              <div className="level-item">
-                <p onClick={() => this.handleQuestionsSort('?type=newest')}>
-                  newest
-                </p>
+              <div className="field">
+                <div className="control">
+                  <div className="select">
+                    <select onChange={this.handleCategoryChange}>
+                      <CategoryDropdown defaultOption="View By Category" />
+                    </select>
+                  </div>
+                </div>
               </div>
-              <div className="level-item">
-                <p onClick={() => this.handleQuestionsSort('?type=popular')}>
-                  popular
-                </p>
-              </div>
-              <p onClick={() => this.handleQuestionsSort('?type=answered')}>
-                answered
-              </p>
             </div>
           </nav>
 
           <hr />
 
-          {questions.length ? <Queue upVote={this.upVote} /> : <NothingHere />}
+          {questions.length ? <Queue /> : <NothingHere />}
         </div>
       </Fragment>
     );
@@ -137,17 +100,8 @@ const mapDispatch = (dispatch, ownProps) => ({
   getQuestions: () => dispatch(fetchQuestions()),
   getQuestionsByCategory: categoryId =>
     dispatch(fetchQuestionsByCategory(categoryId)),
-  incrementVote: questionId => dispatch(updateQuestion(questionId)),
-  orderQuestions: query =>
-    dispatch(orderQuestions(ownProps.history)).then(() =>
-      ownProps.history.push(`/questions/${query ? query : ''}`)
-    ),
   removeActiveCategory: () => dispatch(removeActiveCategory()),
-  getCategory: categoryId => dispatch(fetchCategory(categoryId)),
-  orderQuestionsByCategory: (categoryId, query) =>
-    dispatch(orderQuestionsByCategory(categoryId, ownProps.history)).then(() =>
-      ownProps.history.push(`/questions/${query ? query : ''}`)
-    )
+  getCategory: categoryId => dispatch(fetchCategory(categoryId))
 });
 
 export default withRouter(connect(mapState, mapDispatch)(QuestionQueue));

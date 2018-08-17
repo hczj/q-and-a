@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { AnswerQuestionButton, UpvoteButton } from '../../components';
+import { AnswerQuestionButton } from '../../components';
 
-const Question = ({ question, upVote }) => {
+const Question = ({ question }) => {
   const { title, description, topics, user, createdAt } = question;
   return (
     <div className="box">
@@ -29,9 +29,6 @@ const Question = ({ question, upVote }) => {
             </div>
 
             <div className="level-right">
-              <div className="level-item">
-                <UpvoteButton question={question} upVote={upVote} />
-              </div>
               <div className="level-item">
                 <AnswerQuestionButton />
               </div>

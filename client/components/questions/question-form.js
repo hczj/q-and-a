@@ -7,9 +7,17 @@ import {
   removeActiveCategory
 } from '../../store';
 import { connect } from 'react-redux';
-import { CategoryDropdown, Header, TopicsInput } from '../../components';
+import {
+  CategoryDropdown,
+  Header,
+  TopicsInput,
+  ValidateField,
+  // validateQuestion
+} from '../../components';
 import pickBy from 'lodash.pickby';
 import keys from 'lodash.keys';
+
+import { validateQuestion } from '../reusable/validate-field';
 
 class QuestionForm extends Component {
   componentDidMount() {
@@ -45,72 +53,60 @@ class QuestionForm extends Component {
     return (
       <Fragment>
         <Header title="Ask a question!" />
-        <form onSubmit={handleSubmit(this.handleQuestionSubmit.bind(this))}>
+        <form onSubmit={handleSubmit(this.handleQuestionSubmit)}>
+          <Field
+            label="Title"
+            name="title"
+            type="text"
+            component={ValidateField}
+          />
+
+          <Field
+            label="Description"
+            name="description"
+            type="textarea"
+            component={ValidateField}
+          />
+
           <div className="field">
-            <label className="label">Title</label>
+            <label className="label">Category</label>
             <div className="control">
-              <Field
-                className="input"
-                name="title"
-                component={renderField}
-                type="text"
-              />
-            </div>
-
-            <div className="field">
-              <label className="label">Description</label>
-              <div className="control">
+              <div className="select">
                 <Field
-                  className="input"
-                  name="description"
-                  component={renderField}
-                  type="text"
-                />
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="label">Category</label>
-              <div className="control">
-                <div className="select">
-                  <Field
-                    className="select"
-                    name="categoryId"
-                    component="select"
-                    onChange={this.handleCategoryChange}
-                  >
-                    <CategoryDropdown defaultOption="Select A Category" />
-                  </Field>
-                </div>
-              </div>
-            </div>
-
-            {category.name ? (
-              <div className="field">
-                <label className="label">Topics</label>
-                <TopicsInput />
-              </div>
-            ) : (
-              ''
-            )}
-
-            <div className="field is-grouped">
-              <div className="control">
-                <button className="button is-link" type="submit">
-                  Submit
-                </button>
-              </div>
-
-              <div className="control">
-                <button
-                  className="button is-link"
-                  type="button"
-                  disabled={pristine || submitting}
-                  onClick={reset}
+                  className="select"
+                  name="categoryId"
+                  component="select"
+                  onChange={this.handleCategoryChange}
                 >
-                  Clear
-                </button>
+                  <CategoryDropdown defaultOption="Select A Category" />
+                </Field>
               </div>
+            </div>
+          </div>
+
+          {category.name && (
+            <div className="field">
+              <label className="label">Topics</label>
+              <TopicsInput />
+            </div>
+          )}
+
+          <div className="field is-grouped">
+            <div className="control">
+              <button className="button is-link" type="submit">
+                Submit
+              </button>
+            </div>
+
+            <div className="control">
+              <button
+                className="button is-light"
+                type="button"
+                disabled={pristine || submitting}
+                onClick={reset}
+              >
+                Clear
+              </button>
             </div>
           </div>
         </form>
@@ -118,26 +114,6 @@ class QuestionForm extends Component {
     );
   }
 }
-
-// render form fields
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
-  <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} type={type} />
-      {touched && (error && <span>{error}</span>)}
-    </div>
-  </div>
-);
-
-// validation for form
-const validate = values => {
-  const errors = {};
-  if (!values.title) {
-    errors.title = 'Please enter a question!';
-  }
-  return errors;
-};
 
 const mapState = state => ({
   categories: state.categories.all,
@@ -155,5 +131,5 @@ QuestionForm = connect(mapState, mapDispatch)(QuestionForm);
 
 export default reduxForm({
   form: 'question',
-  validate
+  validate: validateQuestion
 })(QuestionForm);

@@ -1,12 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const AskQuestionButton = () => (
-  <Link to="/ask-a-question">
-    <button className="button is-link" type="button">
-      Ask a question!
-    </button>
+export default () => (
+  <Link to="/ask-a-question" className="button is-link">
+    Ask a question!
   </Link>
 );
-
-export default AskQuestionButton;

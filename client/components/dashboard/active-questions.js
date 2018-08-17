@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Header, QuestionCard } from '../../components';
 
 const ActiveQuestions = ({ questions, myId }) => {
@@ -10,7 +9,7 @@ const ActiveQuestions = ({ questions, myId }) => {
   if (activeQs.length === 0) return null;
   return (
     <div className="box">
-      <Header title="Unanswered Questions" />
+      <Header title="Active Questions" size="is-3" />
       <div className="columns">
         {activeQs.map(question => (
           <QuestionCard key={question.id} {...question} />
@@ -20,9 +19,4 @@ const ActiveQuestions = ({ questions, myId }) => {
   );
 };
 
-const mapState = state => ({
-  myId: state.me.id,
-  questions: state.questions.all
-});
-
-export default connect(mapState)(ActiveQuestions);
+export default ActiveQuestions;

@@ -16,9 +16,6 @@ const DELETE_QUESTION_SUCCESS = 'DELETE_QUESTION_SUCCESS';
 
 const REMOVE_ACTIVE_QUESTION = 'REMOVE_ACTIVE_QUESTION';
 
-const CREATE_COMMENT_SUCCESS = 'CREATE_COMMENT_SUCCESS';
-const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS';
-
 /**
  * INITIAL STATE
  */
@@ -50,16 +47,6 @@ const updateQuestionSuccess = question => ({
 const deleteQuestionSuccess = questionId => ({
   type: DELETE_QUESTION_SUCCESS,
   questionId
-});
-
-const deleteCommentSuccess = question => ({
-  type: DELETE_COMMENT_SUCCESS,
-  question
-});
-
-const createCommentSuccess = question => ({
-  type: CREATE_COMMENT_SUCCESS,
-  question
 });
 
 export const removeActiveQuestion = () => ({ type: REMOVE_ACTIVE_QUESTION });
@@ -146,29 +133,6 @@ export const createQuestion = question => async dispatch => {
   }
 };
 
-export const createComment = input => async dispatch => {
-  try {
-    const { content, questionId } = input;
-    const { data } = await axios.post(`/api/questions/${questionId}/comment`, {
-      content
-    });
-    dispatch(createCommentSuccess(data || {}));
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-export const deleteComment = (commentId, questionId) => async dispatch => {
-  try {
-    const { data } = await axios.delete(
-      `/api/questions/${questionId}/comment/${commentId}`
-    );
-    dispatch(deleteCommentSuccess(data));
-  } catch (err) {
-    console.error(err);
-  }
-};
-
 export const updateQuestion = question => async dispatch => {
   try {
     const { data } = await axios.put(`/api/questions/${question.id}`, question);
@@ -210,12 +174,6 @@ export default function(state = initialQuestions, action) {
         all: [...state.all, action.question]
       };
 
-    case CREATE_COMMENT_SUCCESS:
-      return {
-        ...state,
-        active: action.question
-      };
-
     case UPDATE_QUESTION_SUCCESS:
       return {
         ...state,
@@ -226,12 +184,6 @@ export default function(state = initialQuestions, action) {
       return {
         ...state,
         all: [...state.all].filter(item => item.id !== action.questionId)
-      };
-
-    case DELETE_COMMENT_SUCCESS:
-      return {
-        ...state,
-        active: action.question
       };
 
     case REMOVE_ACTIVE_QUESTION:

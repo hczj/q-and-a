@@ -1,18 +1,21 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import { createMessage, fetchThread } from '../../store';
-import MessageForm from './sendMessage';
-import MessageList from './messageList';
+import { Header } from '../../components';
+import MessageForm from './message-form';
+import MessageList from './message-list';
 
 class SingleThread extends Component {
-  async componentDidMount() {
-    await this.props.getThread(+this.props.match.params.id);
+  componentDidMount() {
+    this.props.getThread(+this.props.match.params.id);
   }
 
   render() {
-    const { messages, myId, thread } = this.props;
+    const { messages, myId, thread, isLoading } = this.props;
+    if (isLoading) return null;
     return (
       <Fragment>
+        <Header title="Conversation" />
         <MessageList messages={messages} myId={myId} />
         <MessageForm />
       </Fragment>
@@ -21,15 +24,14 @@ class SingleThread extends Component {
 }
 
 const mapDispatch = dispatch => ({
-  getThread: threadId => dispatch(fetchThread(threadId)),
-  sendMessage: message => dispatch(createMessage(message))
+  getThread: threadId => dispatch(fetchThread(threadId))
 });
 
 const mapState = state => {
   const { messages } = state.threads.active.thread || { messages: [] };
   return {
     myId: state.me.id,
-    isLoadingActive: state.threads.isLoadingActive,
+    isLoading: state.threads.isLoading,
     thread: state.threads.active,
     messages
   };
