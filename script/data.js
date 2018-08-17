@@ -1,5 +1,23 @@
 let loremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`;
 
+const organizations = [
+  {
+    name: `Fullstack Academy`,
+    location: `Chicago, Illinois`,
+    email: `fullstack@example.com`
+  },
+  {
+    name: `Eastern High School`,
+    location: `Denver, CO`,
+    email: `eastern@example.edu`
+  },
+  {
+    name: `Rising Stars`,
+    location: `NYC`,
+    email: `stars@example.com`
+  }
+];
+
 const users = [
   {
     firstName: 'Hollie',
@@ -53,7 +71,7 @@ const users = [
     email: 'azar@example.com',
     password: 'test',
     isAdmin: false,
-    imageUrl: 'https://randomuser.me/api/portraits/men/4.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/men/29.jpg'
   },
   {
     firstName: 'Ahmet',
@@ -63,7 +81,7 @@ const users = [
     email: 'ahmet@example.com',
     password: 'test',
     isAdmin: false,
-    imageUrl: 'https://randomuser.me/api/portraits/men/5.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/men/15.jpg'
   },
   {
     firstName: 'Jill',
@@ -73,7 +91,7 @@ const users = [
     email: 'jill@example.com',
     password: 'test',
     isAdmin: false,
-    imageUrl: 'https://randomuser.me/api/portraits/women/2.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/women/27.jpg'
   },
   {
     firstName: 'Jake',
@@ -83,7 +101,7 @@ const users = [
     email: 'jake@example.com',
     password: 'test',
     isAdmin: false,
-    imageUrl: 'https://randomuser.me/api/portraits/men/6.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/men/26.jpg'
   },
   {
     firstName: 'Laura',
@@ -93,7 +111,7 @@ const users = [
     email: 'laura@example.com',
     password: 'test',
     isAdmin: true,
-    imageUrl: 'https://randomuser.me/api/portraits/women/3.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/women/53.jpg'
   },
   {
     firstName: 'Luis',
@@ -104,7 +122,7 @@ const users = [
     password: 'test',
     isAdmin: false,
     isTeacher: true,
-    imageUrl: 'https://randomuser.me/api/portraits/men/7.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/men/71.jpg'
   },
   {
     firstName: 'Sayaka',
@@ -114,17 +132,7 @@ const users = [
     email: 'sayaka@example.com',
     password: 'test',
     isAdmin: false,
-    imageUrl: 'https://randomuser.me/api/portraits/women/4.jpg'
-  },
-  {
-    firstName: 'Shu',
-    lastName: 'Shiroma',
-    location: 'Tokyo',
-    bio: loremIpsum,
-    email: 'shu@example.com',
-    password: 'test',
-    isAdmin: false,
-    imageUrl: 'https://randomuser.me/api/portraits/women/5.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/women/14.jpg'
   },
   {
     firstName: 'Farrokh',
@@ -134,7 +142,8 @@ const users = [
     email: 'farrokh@example.com',
     password: 'test',
     isAdmin: true,
-    imageUrl: 'https://randomuser.me/api/portraits/women/1.jpg'
+    isTeacher: true,
+    imageUrl: 'https://randomuser.me/api/portraits/men/31.jpg'
   }
 ];
 
@@ -171,80 +180,46 @@ const questions = [
     description: loremIpsum
   },
   {
+    title: `Why doesn't this work?`,
+    description: `Ut enim adipisicing elit, sed do eiusmod dolore ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip`
+  },
+  {
     title: `Do you know how this can be fixed?`,
     description: loremIpsum
   },
   {
     title: `Will you please take a look at this this I'm doing?`,
-    description: `Laboris nisi ut aliquip ex ea commodo consequat tempor incididunt dolor sit amet, consectetur adipisicing elit, sed do...`
+    description: `Nisi ut aliquip consequat tempor incididunt dolor sit amet, consectetur adipisicing elit, sed do...`
+  },
+  {
+    title: `I need someone to look at this thing I'm doing. Please!`,
+    description: `Laboris nisi ut aliquip ex ea commodo consequat tempor incididunt ut labore et dolore magna aliqua.`
+  },
+  {
+    title: `Does anyone know how to get this to happen?`,
+    description: `Ut aliquip commodo consequat incididunt ut labore aliqua.`
+  },
+  {
+    title: `Has anyone solved this problem before? I'm having a hard time figuring this out`,
+    description: loremIpsum
+  },
+  {
+    title: `How can I get this to start working??`,
+    description: `Lorem ipsum adipisicing elit, sed do eiusmod dolore magna aliqua.`
   }
 ];
 
 const categories = [
-  { name: `Code` },
+  { name: `Coding` },
   { name: `Cooking` },
-  { name: `Basket Weaving` },
+  { name: `Science` },
   { name: `Music` },
   { name: `Business` },
-  { name: `Beauty & Makeup` }
-];
-
-const messages = [
-  {
-    content: 'Hello there!!',
-    threadId: 1,
-    userId: 1
-  },
-  {
-    content: 'Hi!!',
-    threadId: 1,
-    userId: 2
-  },
-  {
-    content: 'How are you doing today?',
-    threadId: 1,
-    userId: 1
-  },
-  {
-    content: 'Im well, how are you?',
-    threadId: 1,
-    userId: 2
-  },
-  {
-    content: 'Very good!',
-    threadId: 1,
-    userId: 1
-  },
-  {
-    content: 'Hello you!',
-    threadId: 2,
-    userId: 1
-  },
-  {
-    content: 'Hola!!',
-    threadId: 2,
-    userId: 3
-  },
-  {
-    content: 'Como estas?',
-    threadId: 2,
-    userId: 1
-  },
-  {
-    content: 'Muy bien, y tu?!',
-    threadId: 2,
-    userId: 3
-  },
-  {
-    content: 'Asi asi',
-    threadId: 2,
-    userId: 1
-  },
-  {
-    content: 'aight.',
-    threadId: 2,
-    userId: 3
-  }
+  { name: `Beauty & Makeup` },
+  { name: `Photography` },
+  { name: `Math` },
+  { name: `Graphic Design` },
+  { name: `Arts & Crafts` }
 ];
 
 const threads = [
@@ -255,33 +230,157 @@ const threads = [
   {
     receiverId: 1,
     senderId: 3
+  },
+  {
+    receiverId: 3,
+    senderId: 2
+  },
+  {
+    receiverId: 4,
+    senderId: 2
+  },
+  {
+    receiverId: 1,
+    senderId: 4
+  },
+  {
+    receiverId: 3,
+    senderId: 4
+  },
+  {
+    receiverId: 1,
+    senderId: 5
+  },
+  {
+    receiverId: 5,
+    senderId: 3
+  },
+  {
+    receiverId: 5,
+    senderId: 2
+  },
+  {
+    receiverId: 2,
+    senderId: 6
+  },
+  {
+    receiverId: 4,
+    senderId: 6
+  },
+  {
+    receiverId: 1,
+    senderId: 6
+  },
+  {
+    receiverId: 3,
+    senderId: 7
+  },
+  {
+    receiverId: 7,
+    senderId: 5
+  },
+  {
+    receiverId: 1,
+    senderId: 8
+  },
+  {
+    receiverId: 5,
+    senderId: 8
+  },
+  {
+    receiverId: 8,
+    senderId: 2
+  },
+  {
+    receiverId: 9,
+    senderId: 6
+  },
+  {
+    receiverId: 4,
+    senderId: 9
+  },
+  {
+    receiverId: 1,
+    senderId: 9
+  },
+  {
+    receiverId: 9,
+    senderId: 7
+  },
+  {
+    receiverId: 10,
+    senderId: 5
+  },
+  {
+    receiverId: 10,
+    senderId: 8
+  },
+  {
+    receiverId: 10,
+    senderId: 2
+  },
+  {
+    receiverId: 10,
+    senderId: 6
+  },
+  {
+    receiverId: 11,
+    senderId: 9
+  },
+  {
+    receiverId: 11,
+    senderId: 2
+  },
+  {
+    receiverId: 11,
+    senderId: 7
+  },
+  {
+    receiverId: 11,
+    senderId: 5
+  },
+  {
+    receiverId: 12,
+    senderId: 9
+  },
+  {
+    receiverId: 12,
+    senderId: 3
+  },
+  {
+    receiverId: 12,
+    senderId: 7
+  },
+  {
+    receiverId: 12,
+    senderId: 5
   }
 ];
 
 const topics = [
   {
     name: `Python`,
-    category: `Code`
+    category: `Coding`
   },
   {
     name: `JavaScript`,
-    category: `Code`
+    category: `Coding`
   },
   {
     name: `React.js`,
-    category: `Code`
+    category: `Coding`
   },
   {
     name: `Sequelize`,
-    category: `Code`
+    category: `Coding`
   },
   {
     name: `Pasta`,
     category: `Cooking`
   },
   {
-    name: `Wicker`,
-    category: `Basket Weaving`
+    name: `Basket Weaving`,
+    category: `Arts & Crafts`
   },
   {
     name: `Guitar`,
@@ -306,10 +405,89 @@ const topics = [
   {
     name: `Hair`,
     category: `Beauty & Makeup`
+  },
+  {
+    name: `Photoshop`,
+    category: `Photography`
+  },
+  {
+    name: `Portraits`,
+    category: `Photography`
+  },
+  {
+    name: `Algebra`,
+    category: `Math`
+  },
+  {
+    name: `Calculus`,
+    category: `Math`
+  },
+  {
+    name: `Statistics`,
+    category: `Math`
+  },
+  {
+    name: `Chemistry`,
+    category: `Science`
+  },
+  {
+    name: `Physics`,
+    category: `Science`
+  },
+  {
+    name: `Drawing`,
+    category: `Graphic Design`
+  },
+  {
+    name: `Cartoons`,
+    category: `Graphic Design`
+  },
+  {
+    name: `Logo Design`,
+    category: `Graphic Design`
   }
 ];
 
+const messages = [
+  { content: `Hello there!!` },
+  { content: `Hi!!` },
+  { content: `are you going to the party?` },
+  { content: `How are you doing today?` },
+  { content: `Im well, how are you?` },
+  { content: `idk i think he's weird but then again maybe not` },
+  { content: `Hello you!` },
+  { content: `do you want to hang out?` },
+  { content: `😱` },
+  { content: `Hola!!` },
+  { content: `wtf???????????` },
+  { content: `Don't you love this cool new site?` },
+  { content: `Como estas?` },
+  { content: `Muy bien, y tu?!` },
+  { content: `well...???` },
+  { content: `Asi asi` },
+  { content: `aight.` },
+  { content: loremIpsum },
+  { content: `Have a good night!` },
+  { content: `that's cute` },
+  { content: `yooo` },
+  { content: `man I'll never understand that` },
+  { content: `u up?` },
+  { content: `Hey are you still around?` },
+  { content: `On my way!` },
+  { content: `😍😍😍` },
+  { content: `I don't think I can make it today` },
+  { content: `hey...` },
+  { content: `OMG!` },
+  { content: `would you please let me know asap?` },
+  { content: `It's been such a long time!` },
+  { content: `Ok I'll see you there!` },
+  { content: `I love you too!!!!` },
+  { content: `We should hang out` },
+  { content: `That's good to hear.` }
+];
+
 module.exports = {
+  organizations,
   users,
   questions,
   categories,

@@ -14,6 +14,7 @@ const {
 } = require('../server/db/models');
 
 const {
+  organizations,
   users,
   categories,
   topics,
@@ -21,6 +22,10 @@ const {
   messages,
   threads
 } = require('./data');
+
+const getUniqueIds = (num, max) => {
+  return [num, num > 3 ? num - 3 : num + 5, num < max - 3 ? num + 3 : num - 5];
+};
 
 async function seed() {
   await db.sync({ force: true });
@@ -50,6 +55,20 @@ async function seed() {
   console.log(`seeded ${seedTopics.length} topics`);
 
   //
+  // ORGANIZATIONS
+  // =============
+  const numOfCats = await Category.count(); // to randomly associate to cats
+  const seedOrgs = await Promise.all(
+    organizations.map(async organization => {
+      const myOrg = await Organization.create(organization);
+      const myCatId = Math.floor(Math.random() * numOfCats) + 1;
+      const myCatIds = getUniqueIds(myCatId, numOfCats);
+      await myOrg.setCategories(myCatIds);
+    })
+  );
+  console.log(`seeded ${seedOrgs.length} organizations`);
+
+  //
   // USERS
   // =====
   const numOfTopics = await Topic.count(); // to randomly associate to topics
@@ -58,12 +77,7 @@ async function seed() {
     users.map(async user => {
       const myUser = await User.create(user);
       const myId = Math.floor(Math.random() * numOfTopics) + 1;
-      const myIds = [
-        myId,
-        myId > 2 ? myId - 2 : myId + 3,
-        myId < numOfTopics - 2 ? myId + 2 : myId - 3
-      ];
-
+      const myIds = getUniqueIds(myId, numOfTopics);
       await myUser.setTopics(myIds);
 
       const myUserTopics = await UserTopic.findAll({
@@ -80,21 +94,8 @@ async function seed() {
   console.log(`seeded ${seedUsers.length} users`);
 
   //
-  // THREADS
-  // =======
-
-  await Thread.bulkCreate(threads);
-
-  //
-  // MESSAGES
-  // ========
-
-  await Message.bulkCreate(messages);
-
-  //
   // QUESTIONS
   // =========
-  const numOfCats = await Category.count(); // to randomly associate to cats
   const numOfUsers = await User.count(); // to randomly associate to users
   const seedQs = await Promise.all(
     questions.map(async question => {
@@ -115,6 +116,43 @@ async function seed() {
     })
   );
   console.log(`seeded ${seedQs.length} questions`);
+
+  //
+  // THREADS
+  // =======
+  await Thread.bulkCreate(threads);
+  const seedMsgs = async () => {
+    const numOfThreads = await Thread.count();
+    await Promise.all(
+      messages.map(async message => {
+        const myMessage = await Message.create(message);
+        const myThreadId = Math.floor(Math.random() * numOfThreads) + 1;
+        const myThread = await Thread.findById(myThreadId);
+        await myMessage.setThread(myThread);
+      })
+    );
+  };
+  await seedMsgs();
+  await seedMsgs();
+  await seedMsgs();
+  await seedMsgs();
+
+  const allMessages = await Message.findAll({ attributes: ['id', 'threadId'] });
+  const threadIds = [];
+  const senderIds = [];
+  for (let x = 0; x < allMessages.length; x++) {
+    threadIds.push(allMessages[x].dataValues.threadId);
+    const thread = await Thread.findById(threadIds[x], {
+      attributes: ['senderId']
+    });
+    senderIds.push(thread.dataValues.senderId);
+  }
+  for (let x = 0; x < allMessages.length; x++) {
+    await allMessages[x].setUser(senderIds[x]);
+  }
+
+  console.log(`seeded ${seedMsgs.length} messages`);
+
   console.log(`*** seeded successfully ***`);
 }
 

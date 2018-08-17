@@ -25,7 +25,7 @@ const Organization = db.define('organization', {
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'https://dummyimage.com/200x200'
+    defaultValue: 'https://dummyimage.com/100x100'
   },
 })
 
