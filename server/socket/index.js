@@ -31,14 +31,11 @@ module.exports = io => {
         socket.join(room);
 
         socket.emit('create');
-        console.log('**** CREATE socket rooms', io.sockets.adapter.rooms);
       } else if (sr.length === 1) {
         socket.emit('join');
-        console.log('**** JOIN socket rooms', io.sockets.adapter.rooms);
       } else {
         // max two clients
         socket.emit('full', room);
-        console.log('**** FULL socket rooms', io.sockets.adapter.rooms);
       }
     });
 
@@ -64,12 +61,20 @@ module.exports = io => {
       socket.leave(room);
     });
 
-    socket.on('editor-event', text => {
-      socket.broadcast.to(room).emit('editor-receive', text);
+    socket.on('editor-toggle-event', () => {
+      socket.broadcast.to(room).emit('editor-toggle');
+    });
+
+    socket.on('editor-text-event', text => {
+      socket.broadcast.to(room).emit('editor-text', text);
     });
 
     socket.on('editor-mode-event', mode => {
       socket.broadcast.to(room).emit('editor-mode', mode);
+    });
+
+    socket.on('wb-toggle-event', () => {
+      socket.broadcast.to(room).emit('wb-toggle');
     });
 
     socket.on('wb-draw-event', (start, end, color, lineWidth) => {

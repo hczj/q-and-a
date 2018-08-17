@@ -41,6 +41,13 @@ class ControlContainer extends Component {
       this.props.media.setState({ bridge: 'approve' });
       this.setState({ sid });
     });
+    socket.on('editor-toggle', () => {
+      this.toggleEditor();
+    });
+    socket.on('wb-toggle', () => {
+      this.toggleWhiteboard();
+    });
+
     socket.emit('find');
     this.props.getUserMedia.then(stream => {
       this.localStream = stream;
@@ -68,26 +75,28 @@ class ControlContainer extends Component {
     this.props.setVideo(video);
   };
 
-  toggleWhiteboard = async () => {
-    await this.props.media.setState((prevState, props) => {
-      const hasWhiteboard = !prevState.whiteboard ? 'has-whiteboard' : '';
-      return { whiteboard: hasWhiteboard }
-    });
-  }
-
-  toggleEditor = async () => {
-    await this.props.media.setState((prevState, props) => {
-      const hasEditor = !prevState.editor ? 'has-editor' : '';
-      return { editor: hasEditor }
-    });
-  }
-
   toggleAudio = () => {
     const audio = (this.localStream.getAudioTracks()[0].enabled = !this.state
       .audio);
     this.setState({ audio: audio });
     this.props.setAudio(audio);
   };
+
+  toggleWhiteboard = async emit => {
+    if (emit) this.props.socket.emit('wb-toggle-event');
+    await this.props.media.setState((prevState, props) => {
+      const hasWhiteboard = !prevState.whiteboard ? 'has-whiteboard' : '';
+      return { whiteboard: hasWhiteboard }
+    });
+  }
+
+  toggleEditor = async emit => {
+    if (emit) this.props.socket.emit('editor-toggle-event');
+    await this.props.media.setState((prevState, props) => {
+      const hasEditor = !prevState.editor ? 'has-editor' : '';
+      return { editor: hasEditor }
+    });
+  }
 
   handleExit = event => {
     event.preventDefault();

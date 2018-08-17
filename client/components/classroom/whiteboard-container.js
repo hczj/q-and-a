@@ -119,63 +119,62 @@ export class WhiteboardContainer extends Component {
   render() {
     return (
       <div className="whiteboard">
-        <canvas ref={canvas => (this.canvas = canvas)} />
-        <div className="whiteboard-menu level">
-          <div className="level-left">
-            <div className="level-item">
-              <strong>Whiteboard</strong>
-            </div>
-            <div className="level-item">
-              <div className="dropdown is-hoverable">
-                <div className="dropdown-trigger">
-                  <button className="button">
-                    <span>Settings</span>
-                    <span className="icon is-small">
-                      <i className="fas fa-cog" aria-hidden="true" />
-                    </span>
-                  </button>
-                </div>
-                <div className="dropdown-menu" id="whiteboard-menu">
-                  <div className="dropdown-content">
-                    <TwitterPicker
-                      color={this.state.color}
-                      onChangeComplete={this.colorChange}
-                      triangle="hide"
-                      width="100%"
-                    />
-
-                    <form onSubmit={event => event.preventDefault()}>
-                      <label>
-                        Brush Size:
-                        <input
-                          type="number"
-                          name="lineWidth"
-                          value={this.state.lineWidth}
-                          onChange={this.changeBrushSize}
-                        />
-                      </label>
-                    </form>
-
-                    <button className="button" onClick={this.toggleEraser}>
-                      {this.state.eraserToggle ? 'Brush' : 'Eraser'}
+        <div className="file-menu">
+          <div className="level">
+            <div className="level-left">
+              <div className="level-item">
+                <strong>Whiteboard</strong>
+              </div>
+              <div className="level-item">
+                <div className="dropdown is-hoverable">
+                  <div className="dropdown-trigger">
+                    <button className="button">
+                      <span>Settings</span>
+                      <span className="icon is-small">
+                        <i className="fas fa-cog" aria-hidden="true" />
+                      </span>
                     </button>
-                    <button className="button" onClick={this.toggleLine}>
-                      {this.state.lineToggle ? 'Brush' : 'Line'}
-                    </button>
+                  </div>
+                  <div className="dropdown-menu" id="menu-settings">
+                    <div className="dropdown-content">
+                      <TwitterPicker
+                        color={this.state.color}
+                        onChangeComplete={this.colorChange}
+                        triangle="hide"
+                        width="100%"
+                      />
+
+                      <form onSubmit={event => event.preventDefault()}>
+                        <label>
+                          Brush Size:
+                          <input
+                            type="number"
+                            name="lineWidth"
+                            value={this.state.lineWidth}
+                            onChange={this.changeBrushSize}
+                          />
+                        </label>
+                      </form>
+
+                      <button className="button" onClick={this.toggleEraser}>
+                        {this.state.eraserToggle ? 'Brush' : 'Eraser'}
+                      </button>
+                      <button className="button" onClick={this.toggleLine}>
+                        {this.state.lineToggle ? 'Brush' : 'Line'}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="level-item">
-              <button className="button is-small is-primary" onClick={this.clear}>Clear</button>
-            </div>
-          </div>
-          <div className="level-right">
-            <div className="level-item">
-              <a className="delete is-small" onClick={this.props.closeWhiteboard} />
+            <div className="level-right">
+              <div className="level-item">
+                <a className="delete is-small" onClick={this.props.closeWhiteboard} />
+              </div>
             </div>
           </div>
         </div>
+        <canvas id="canvas" ref={canvas => (this.canvas = canvas)} />
       </div>
     );
   }
