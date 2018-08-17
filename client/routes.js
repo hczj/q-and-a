@@ -3,18 +3,15 @@ import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import {
   Auth,
-  UserHome,
   PageNotFound,
   Manage,
   QuestionQueue,
   QuestionForm,
   Dashboard,
   CategoryPage,
-  Discover,
   Profile,
   Inbox,
   ClassroomView,
-  Classroom,
   RoomView,
   SingleQuestionView,
   SingleThread
@@ -30,13 +27,10 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
     return (
       <Switch>
-        <Route exact path="/" component={UserHome} />
-        <Route exact path="/test" component={Classroom} />
-        <Route exact path="/discover" component={Discover} />
-        <Route exact path="/category/:categoryId" component={CategoryPage} />
-
         {isLoggedIn && (
           <Switch>
+            <Route exact path="/" component={Dashboard} />
+
             {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/manage" component={Manage} />
             <Route exact path="/dashboard" component={Dashboard} />

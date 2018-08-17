@@ -2,12 +2,13 @@
 
 const db = require('../server/db');
 const {
+  Organization,
   User,
   Category,
   Topic,
   UserTopic,
   Question,
-  Answer,
+  Feedback,
   Message,
   Thread
 } = require('../server/db/models');

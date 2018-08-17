@@ -1,15 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
-const Answer = db.define('answer', {
-  videoUrl: {
-    type: Sequelize.STRING,
-    allowNull: true,
-    defaultValue: null,
-    validate: {
-      isUrl: true
-    }
-  },
+const Feedback = db.define('feedback', {
   rating: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -19,9 +11,11 @@ const Answer = db.define('answer', {
       max: 5
     },
   },
-  feeback: {
+  content: {
     type: Sequelize.TEXT
   }
+}, {
+  tableName: 'feedback'
 })
 
-module.exports = Answer
+module.exports = Feedback

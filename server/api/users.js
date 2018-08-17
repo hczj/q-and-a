@@ -104,6 +104,7 @@ router.put('/:userId', isAdmin, async (req, res, next) => {
         lastName: req.body.lastName,
         email: req.body.email,
         isAdmin: req.body.isAdmin,
+        isTeacher: req.body.isTeacher,
         password: req.body.password
       },
       {

@@ -46,13 +46,6 @@ router.get('/:categoryId/questions', async (req, res, next) => {
         order: [['createdAt', 'DESC']]
       });
       res.json(questions);
-    } else if (req.query.type === 'popular') {
-      const popularQuestions = await Question.findAll({
-        where: { categoryId: req.params.categoryId },
-        include: [{ model: Topic }, { model: User }],
-        order: [['votes', 'DESC']]
-      });
-      res.json(popularQuestions);
     } else if (req.query.type === 'answered') {
       const inactiveQuestions = await Question.findAll({
         where: { categoryId: req.params.categoryId, isActive: false },

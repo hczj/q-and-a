@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-const NothingHere = () => (
-  <div>
+export default () => (
+  <Fragment>
     <p>I'm sorry, there's nothing here!</p>
-  </div>
+  </Fragment>
 );
-
-export default NothingHere;

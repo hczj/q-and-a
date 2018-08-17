@@ -23,7 +23,7 @@ const User = db.define('user', {
   location: {
     type: Sequelize.STRING
   },
-  description: {
+  bio: {
     type: Sequelize.TEXT
   },
   isAdmin: {
@@ -33,6 +33,10 @@ const User = db.define('user', {
   isActive: {
     type: Sequelize.BOOLEAN,
     defaultValue: true
+  },
+  isTeacher: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   },
   imageUrl: {
     type: Sequelize.STRING,

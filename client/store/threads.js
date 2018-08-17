@@ -15,8 +15,7 @@ const CREATE_MESSAGE_SUCCESS = 'CREATE_MESSAGE';
  * INITIAL STATE
  */
 const initialThreads = {
-  isLoadingAll: false,
-  isLoadingActive: false,
+  isLoading: false,
   active: {},
   all: []
 };
@@ -73,28 +72,23 @@ export const createMessage = message => async dispatch => {
 export default function(state = initialThreads, action) {
   switch (action.type) {
     case REQUEST_USER_THREADS:
-      return {
-        ...state,
-        isLoadingAll: true
-      };
-
     case REQUEST_USER_THREAD:
       return {
         ...state,
-        isLoadingActive: true
+        isLoading: true
       };
 
     case RECEIVE_USER_THREADS:
       return {
         ...state,
-        isLoadingAll: false,
+        isLoading: false,
         all: action.threads
       };
 
     case RECEIVE_USER_THREAD:
       return {
         ...state,
-        isLoadingActive: false,
+        isLoading: false,
         active: action.thread
       };
 

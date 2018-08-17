@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 import { logout } from '../store';
 
 const toggleNavbarMenu = event => {
@@ -16,7 +16,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
     <div className="container">
       <div className="navbar-brand">
         <Link to="/" className="navbar-item has-background-primary">
-          SITE_LOGO
+          Q&A
         </Link>
         <div
           className="navbar-burger burger"
@@ -33,13 +33,6 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
           {isLoggedIn ? (
             <Fragment>
               {/* The navbar will show these links after you log in */}
-              <NavLink
-                to="/discover"
-                className="navbar-item"
-                activeClassName="is-active"
-              >
-                Discover
-              </NavLink>
               <NavLink
                 to="/classroom"
                 className="navbar-item"
@@ -104,7 +97,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
                     className="navbar-item"
                     activeClassName="is-active"
                   >
-                    Inbox
+                    My Inbox
                   </NavLink>
                   <hr className="navbar-divider" />
                   <a href="#" onClick={handleClick} className="navbar-item">
@@ -151,7 +144,8 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
  */
 const mapState = state => ({
   isLoggedIn: !!state.me.id,
-  isAdmin: !!state.me.isAdmin,
+  isAdmin: state.me.isAdmin,
+  isTeacher: state.me.isTeacher,
   me: state.me
 });
 
@@ -159,4 +153,4 @@ const mapDispatch = dispatch => ({
   handleClick: () => dispatch(logout())
 });
 
-export default connect(mapState, mapDispatch)(Navbar);
+export default withRouter(connect(mapState, mapDispatch)(Navbar));

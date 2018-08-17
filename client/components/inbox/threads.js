@@ -1,37 +1,40 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Header } from '../../components';
 
-const Threads = ({ all }) => {
-  console.log(all);
-  return (
+const Threads = ({ threads }) => (
+  <Fragment>
+    <Header title="Inbox" />
     <div className="box">
-      <table className="table">
+      <table className="table is-fullwidth">
         <thead>
           <tr>
             <th>Name</th>
-            <th />
+            <th>Message</th>
             <th>Date</th>
           </tr>
         </thead>
         <tbody>
-          {all.map(elem => (
-            <tr key={elem.id}>
-              <Link to={`/inbox/thread/${elem.thread.id}`}>
-                <th>{elem.user.firstName + ' ' + elem.user.lastName}</th>
-                <td>{elem.thread.messages[0].content}</td>
-                <td>{elem.thread.messages[0].createdAt}</td>
-              </Link>
+          {threads.map(elem => (
+            <tr key={elem.thread.id}>
+              <th>
+                <Link to={`/inbox/thread/${elem.thread.id}`}>
+                  {elem.user.firstName + ' ' + elem.user.lastName}
+                </Link>
+              </th>
+              <td>{elem.thread.messages[0].content}</td>
+              <td>
+                {new Date(
+                  elem.thread.messages[0].createdAt
+                ).toLocaleDateString()}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  );
-};
+  </Fragment>
+);
 
-const mapState = state => ({
-  all: state.threads.all
-});
-
-export default connect(mapState)(Threads);
+export default Threads;
