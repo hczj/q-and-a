@@ -11,16 +11,16 @@ const Message = require('./message');
 Organization.hasMany(User);
 User.belongsTo(Organization);
 
-Organization.belongsToMany(Category,  { through: 'organizationCategory' });
-Category.belongsToMany(Organization,  { through: 'organizationCategory' });
+Organization.belongsToMany(Category, { through: 'organizationCategory' });
+Category.belongsToMany(Organization, { through: 'organizationCategory' });
 
 Question.belongsTo(User);
 User.hasMany(Question);
 Question.belongsTo(Category);
 
 Feedback.belongsTo(Question);
-Feedback.belongsTo(User, { as: 'student' });
-Feedback.belongsTo(User, { as: 'teacher' });
+Feedback.belongsTo(User, { as: 'Student' });
+Feedback.belongsTo(User, { as: 'Teacher' });
 
 User.belongsToMany(Topic, { through: UserTopic });
 Topic.belongsToMany(User, { through: UserTopic });
@@ -29,7 +29,7 @@ Message.belongsTo(Thread);
 Thread.hasMany(Message);
 
 User.belongsToMany(User, {
-  as: 'sender',
+  as: 'Sender',
   through: {
     model: Thread,
     unique: false
@@ -38,7 +38,7 @@ User.belongsToMany(User, {
 });
 
 User.belongsToMany(User, {
-  as: 'receiver',
+  as: 'Receiver',
   through: {
     model: Thread,
     unique: false
