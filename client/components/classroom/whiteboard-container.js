@@ -28,13 +28,11 @@ export class WhiteboardContainer extends Component {
     socket.on('wb-clear', () => {
       this.clear();
     });
+
+    this.ctx = this.canvas.getContext('2d');
     this.canvas.addEventListener('mousedown', this.mouseDown);
     this.canvas.addEventListener('mousemove', this.mouseMove);
     this.canvas.addEventListener('mouseup', this.mouseUp);
-
-    this.ctx = this.canvas.getContext('2d');
-    this.ctx.fillStyle = 'white';
-    this.ctx.fillRect(0, 0, 700, 700);
   }
 
   draw = (start, end, color, lineWidth) => {
@@ -50,14 +48,27 @@ export class WhiteboardContainer extends Component {
 
   mouseDown = event => {
     this.setState({ isDrawing: true });
-    this.mousePositionCurrent = [event.layerX, event.layerY];
-    if (this.state.lineToggle) this.lineStart = [event.layerX, event.layerY];
+    this.mousePositionCurrent = this.getMousePos(this.canvas, event);
+
+    if (this.state.lineToggle)
+      this.lineStart = this.getMousePos(this.canvas, event);
   };
+
+  getMousePos(canvas, evt) {
+    var rect = this.canvas.getBoundingClientRect(), // abs. size of element
+      scaleX = canvas.width / rect.width, // relationship bitmap vs. element for X
+      scaleY = canvas.height / rect.height; // relationship bitmap vs. element for Y
+
+    return [
+      (evt.clientX - rect.left) * scaleX, // scale mouse coordinates after they have
+      (evt.clientY - rect.top) * scaleY // been adjusted to be relative to element
+    ];
+  }
 
   mouseUp = event => {
     this.setState({ isDrawing: false });
     if (this.state.lineToggle) {
-      this.lineEnd = [event.layerX, event.layerY];
+      this.lineEnd = this.getMousePos(this.canvas, event);
       this.draw(
         this.lineStart,
         this.lineEnd,
@@ -70,7 +81,9 @@ export class WhiteboardContainer extends Component {
   mouseMove = event => {
     if (this.state.isDrawing && !this.state.lineToggle) {
       this.mousePositionPrevious = this.mousePositionCurrent;
-      this.mousePositionCurrent = [event.layerX, event.layerY];
+      this.mousePositionCurrent = this.getMousePos(this.canvas, event);
+      console.log(this.mousePositionCurrent);
+      console.log(event);
       // this.mousePositionPrevious &&
       //   this.mousePositionCurrent &&
       this.draw(
@@ -88,7 +101,12 @@ export class WhiteboardContainer extends Component {
   };
 
   clear = () => {
-    this.ctx.clearRect(0, 0, 700, 700);
+    this.ctx.clearRect(
+      0,
+      0,
+      document.getElementById('whiteboard').offsetWidth,
+      document.getElementById('whiteboard').offsetWidth
+    );
     this.props.socket.emit('wb-clear-event');
   };
 
@@ -117,9 +135,19 @@ export class WhiteboardContainer extends Component {
   };
 
   render() {
+    console.log(document.getElementsByClassName('whiteboard'));
     return (
       <div className="whiteboard">
-        <canvas ref={canvas => (this.canvas = canvas)} />
+        <canvas
+          id="canvas"
+          width={window.innerWidth}
+          height={window.innerHeight}
+          // width={document.getElementsByClassName('whiteboard')[0].clientWidth}
+          // height={
+          //   document.getElementsByClassName('whiteboard')[0].clientHeight
+          //}
+          ref={canvas => (this.canvas = canvas)}
+        />
         <div className="whiteboard-menu level">
           <div className="level-left">
             <div className="level-item">
@@ -167,12 +195,20 @@ export class WhiteboardContainer extends Component {
               </div>
             </div>
             <div className="level-item">
-              <button className="button is-small is-primary" onClick={this.clear}>Clear</button>
+              <button
+                className="button is-small is-primary"
+                onClick={this.clear}
+              >
+                Clear
+              </button>
             </div>
           </div>
           <div className="level-right">
             <div className="level-item">
-              <a className="delete is-small" onClick={this.props.closeWhiteboard} />
+              <a
+                className="delete is-small"
+                onClick={this.props.closeWhiteboard}
+              />
             </div>
           </div>
         </div>
