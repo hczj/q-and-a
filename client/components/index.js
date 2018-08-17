@@ -26,6 +26,7 @@ export { default as Main } from './dashboard/main';
 export { default as Feedback } from './feedback/feedback';
 export { default as SingleFeedback } from './feedback/single-feedback';
 export { default as FeedbackTable } from './feedback/feedback-table';
+export { default as FeedbackForm } from './feedback/feedback-form';
 
 // inbox
 export { default as Inbox } from './inbox/inbox';

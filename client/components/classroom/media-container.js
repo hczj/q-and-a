@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import Whiteboard from './whiteboard-container';
 import Editor from './editor-container';
+import { FeedbackForm } from '../../components';
 
 class MediaContainer extends Component {
   state = {
     user: '',
     bridge: '',
     whiteboard: '',
-    editor: ''
-  }
+    editor: '',
+    feedback: ''
+  };
 
   componentWillMount() {
     // chrome polyfill for connection between local device and remote peer
@@ -85,21 +87,22 @@ class MediaContainer extends Component {
 
   hangup = () => {
     if (!this.pc) return;
-
+    this.setState({ feedback: 'has-feedback-form' });
     this.setState({ user: 'guest', bridge: 'guest-hangup' });
     this.pc.close();
+    ``;
     this.props.socket.emit('leave');
   };
 
   handleError = err => console.log('error!', err);
 
   closeEditor = () => {
-    this.setState({ editor: '' })
-  }
+    this.setState({ editor: '' });
+  };
 
   closeWhiteboard = () => {
-    this.setState({ whiteboard: '' })
-  }
+    this.setState({ whiteboard: '' });
+  };
 
   init = () => {
     // wait for local media to be ready
@@ -160,14 +163,13 @@ class MediaContainer extends Component {
   };
 
   render() {
-    const { bridge, whiteboard, editor } = this.state;
+    const { bridge, whiteboard, editor, feedback } = this.state;
     return (
-      <div className={`classroom-media ${bridge} ${whiteboard} ${editor}`}>
+      <div
+        className={`classroom-media ${bridge} ${whiteboard} ${editor} ${feedback}`}
+      >
         <div className="video is-remote">
-          <video
-            ref={ref => (this.remoteVideo = ref)}
-            autoPlay
-          />
+          <video ref={ref => (this.remoteVideo = ref)} autoPlay />
         </div>
         <div className="video is-local">
           <video
@@ -181,10 +183,8 @@ class MediaContainer extends Component {
           closeWhiteboard={this.closeWhiteboard}
           socket={this.props.socket}
         />
-        <Editor
-          closeEditor={this.closeEditor}
-          socket={this.props.socket}
-        />
+        <Editor closeEditor={this.closeEditor} socket={this.props.socket} />
+        <FeedbackForm />
       </div>
     );
   }

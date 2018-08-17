@@ -27,7 +27,6 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             <Route exact path="/" component={Dashboard} />
-
             {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/manage" component={Manage} />
             <Route path="/dashboard" component={Dashboard} {...this.props} />

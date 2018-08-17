@@ -140,20 +140,26 @@ async function seed() {
   const allMessages = await Message.findAll({ attributes: ['id', 'threadId'] });
   const threadIds = [];
   const senderIds = [];
+  const receiverIds = [];
   for (let x = 0; x < allMessages.length; x++) {
     threadIds.push(allMessages[x].dataValues.threadId);
     const thread = await Thread.findById(threadIds[x], {
-      attributes: ['senderId']
+      attributes: ['senderId', 'receiverId']
     });
     senderIds.push(thread.dataValues.senderId);
+    receiverIds.push(thread.dataValues.receiverId);
   }
   for (let x = 0; x < allMessages.length; x++) {
-    await allMessages[x].setUser(senderIds[x]);
+    if (x % 2 === 0) {
+      await allMessages[x].setUser(senderIds[x]);
+    } else {
+      await allMessages[x].setUser(receiverIds[x]);
+    }
   }
 
-  console.log(`seeded ${seedMsgs.length} messages`);
+  console.log(`seeded ${allMessages.length} messages`);
 
-  console.log(`*** seeded successfully ***`);
+  console.log(`***  seeded successfully  ***`);
 }
 
 async function runSeed() {

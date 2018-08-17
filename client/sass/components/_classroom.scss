@@ -2,8 +2,15 @@ $menu-width: 75px;
 $toolbar-height: 90px;
 $notification-transition: all $speed $easing ($speed * 2);
 
+
 .classroom {}
 
+//
+// Classroom media
+// ===============
+//
+// Base styles to render the classroom video.
+// ----------------------------------------------------------------------------
 .classroom-media {
   overflow: hidden;
   position: absolute;
@@ -11,16 +18,26 @@ $notification-transition: all $speed $easing ($speed * 2);
     right: 0;
     bottom: 0;
     left: $menu-width;
-  // width: 100%;
-  // height: 100%;
+
+  &.has-editor {}
+  &.has-whiteboard {}
+
+  // RTC-related statuses
+  &.create {}
+  &.join {}
+  &.approve {}
+  &.established {}
+  &.full {}
+  &.host-hangup {}
+  &.guest-hangup {}
 }
 
 .video {
   position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: -1;
 
   video {
@@ -30,188 +47,24 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 
   &.is-local {
-    transition: all .3s $easing;
+    transition: all 0.3s $easing;
     z-index: 9;
-
-    .established & {
-      margin: 1rem;
-      max-height: 15%;
-      max-width: 15%;
-      min-width: 140px;
-
-      video {
-        box-shadow: 0 .5rem 3rem rgba($black, .2);
-        width: auto;
-        height: auto;
-      }
-    }
-
-    .established.has-editor &,
-    .established.has-whiteboard & {
-      top: auto;
-      right: 0;
-      bottom: 0;
-      left: auto;
-    }
   }
 
   &.is-remote {
     overflow: hidden;
-
-    .established.has-editor &,
-    .established.has-whiteboard & {
-      left: 50%;
-    }
   }
 }
 
-.classroom-menu {
-  align-items: center;
-  background-color: #333;
-  display: flex;
-  flex-direction: column;
-  font-size: 1.5rem;
-  height: 100vh;
-  position: absolute;
-  width: $menu-width;
 
-  .menu-list a {
-    color: rgba($white, .6);
-    text-align: center;
-
-    &:hover {
-      background-color: transparent;
-      color: $white;
-    }
-  }
-}
-
-.classroom-toolbar {
-  align-items: center;
-  background: linear-gradient(to bottom, transparent 0%, rgba($black, .6) 100%);
-  display: flex;
-  height: $toolbar-height;
-  justify-content: space-between;
-  position: absolute;
-    right: 0;
-    bottom: 0;
-    left: $menu-width;
-  z-index: 9;
-
-  .button {
-    align-items: center;
-    border-radius: 50%;
-    background-color: rgba($black, .6);
-    border: 0;
-    box-shadow: 0 .125rem 1rem rgba($black, .2);
-    color: rgba($white, .9);
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    margin: 0 .5rem;
-    transition: all ($speed * 2) $easing;
-    width: 3.5rem;
-    height: 3.5rem;
-
-    &:hover {
-      // background-color: $link;
-      background-color: rgba($black, .98);
-      box-shadow: 0 .25rem 2rem rgba($black, .4);
-      color: $white;
-    }
-
-    &.is-true .on { display: none }
-
-    &.is-false .off { display: none }
-
-    .svg {
-      width: 1.625rem;
-    }
-  }
-
-  .button-hangup {
-
-    .established ~ & {
-      background-color: $red;
-
-      &:hover {
-        background-color: darken($red, 10%);
-      }
-    }
-  }
-
-  .button-fullscreen {
-    position: fixed;
-      top: 1rem;
-      right: 1rem;
-
-    .on { display: none }
-  }
-}
-
-.classroom-status {
-  align-items: center;
-  color: rgba($white, .8);
-  display: flex;
-  font-size: $size-7;
-  font-weight: $weight-medium;
-  margin: 0 1rem;
-  opacity: 0;
-  transition: all $speed $easing;
-  visibility: hidden;
-
-  .icon {
-    color: $green;
-    font-size: .75em;
-    text-shadow: 0 0 1rem;
-  }
-
-  .text {
-    text-shadow: 0 0 .5rem rgba($black, .5);
-  }
-
-  .established ~ .classroom-toolbar & {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
-.media-controls {
-  display: flex;
-}
-
-.classroom-chat {
-  margin: 0 1rem;
-  opacity: 0;
-  visibility: hidden;
-
-  .has-chat-open ~ & {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
-.classroom-notification {
-  width: 50%;
-  min-width: 300px;
-  max-width: 600px;
-  position: absolute;
-    top: 50%;
-    left: calc(50% + #{$menu-width});
-  transform: translate3d(-50%, -50%, 0);
-  z-index: 999;
-
-  .notification {
-    background-color: $white;
-    box-shadow: 0 1rem 3rem rgba($black, 0.175);
-    font-size: 1.25rem;
-    opacity: 0;
-    transform: translateY(0.25rem);
-    transition: $notification-transition;;
-    visibility: hidden;
-    width: 100%;
-  }
-}
+//
+// Classroom tools
+// ===============
+//
+// Editor and Whiteboard need to rearrange based on:
+//  - the status of the video connection
+//  - the number of tools open at the time
+// ----------------------------------------------------------------------------
 
 .whiteboard {
   opacity: 0;
@@ -220,58 +73,34 @@ $notification-transition: all $speed $easing ($speed * 2);
     right: 50%;
     bottom: 0;
     left: 0;
-  transition: all $speed $easing;
+  transition: opacity $speed $easing;
   visibility: hidden;
 
-  .has-whiteboard.established & {
+  .has-whiteboard & {
     opacity: 1;
     visibility: visible;
   }
 
+  .has-whiteboard.has-editor & {
+    right: 0;
+    left: 50%;
+    bottom: 50%;
+  }
+
   canvas {
+    cursor: crosshair;
+    position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
     width: 100%;
     height: 100%;
   }
 }
 
-.whiteboard-menu {
-  padding: 0 1rem;
-  position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-  z-index: 9;
-
-  .dropdown-trigger .button {
-    background-color: transparent;
-    border: 0;
-    border-radius: 0;
-
-    &:hover {
-      background-color: $white-ter;
-      // color: rgba($black, .5)
-    }
-  }
-
-  .dropdown-menu {
-    min-width: 15rem;
-  }
-
-  .dropdown-content {
-    padding: 1rem;
-  }
-
-  .twitter-picker {
-    border: 1px solid rgba($black, .1) !important;
-    borer-radius: 0 !important;
-    box-shadow: none !important;
-    padding-bottom: 6px;
-  }
-}
-
 .editor {
   border-right: 1px solid rgba($black, .1);
-  max-width: 750px;
   opacity: 0;
   overflow: hidden;
   position: absolute;
@@ -279,7 +108,7 @@ $notification-transition: all $speed $easing ($speed * 2);
     right: 50%;
     bottom: 0;
     left: 0;
-  transition: all $speed $easing;
+  transition: opacity $speed $easing;
   visibility: hidden;
 
   .has-editor & {
@@ -288,13 +117,22 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 }
 
-.editor-menu {
+.file-menu {
   background-color: $white-ter;
   border-bottom: 1px solid rgba($black, .06);
   cursor: default;
   font-size: $size-7;
   margin: 0 !important;
   padding: 0 1rem;
+  z-index: 9;
+
+  // absolute position for whiteboard menu
+  .whiteboard & {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+  }
 
   .button {
     background-color: transparent;
@@ -323,6 +161,227 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 }
 
+// Whiteboard settings menu
+#menu-settings {
+  min-width: 15rem;
+
+  .dropdown-content {
+    padding: 1rem;
+  }
+
+  .twitter-picker {
+    border: 1px solid rgba($black, .1) !important;
+    borer-radius: 0 !important;
+    box-shadow: none !important;
+    padding-bottom: 6px;
+  }
+}
+
+// Editor syntax menu
+#menu-syntax {}
+
+
+
+//
+// Classroom Menu
+// ==============
+//
+// Left-hand menu to toggle whiteboard/editor
+// ----------------------------------------------------------------------------
+
+.classroom-menu {
+  align-items: center;
+  background-color: #333;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
+  height: 100vh;
+  position: absolute;
+  width: $menu-width;
+
+  .menu-list a {
+    color: rgba($white, 0.6);
+    text-align: center;
+
+    &:hover {
+      background-color: transparent;
+      color: $white;
+    }
+  }
+}
+
+//
+// Toolbar
+// =======
+//
+// - Bottom bar of media toggles: hangup, video, audio
+// - Classroom status: "Call in Progress" indicator
+// ----------------------------------------------------------------------------
+
+.classroom-toolbar {
+  align-items: center;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba($black, 0.6) 100%
+  );
+  display: flex;
+  height: $toolbar-height;
+  justify-content: space-between;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: $menu-width;
+  z-index: 9;
+
+  .media-controls {
+    display: flex;
+  }
+
+  .button {
+    align-items: center;
+    border-radius: 50%;
+    background-color: rgba($black, 0.6);
+    border: 0;
+    box-shadow: 0 0.125rem 1rem rgba($black, 0.2);
+    color: rgba($white, 0.9);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    margin: 0 0.5rem;
+    transition: all ($speed * 2) $easing;
+    width: 3.5rem;
+    height: 3.5rem;
+
+    &:hover {
+      // background-color: $link;
+      background-color: rgba($black, 0.98);
+      box-shadow: 0 0.25rem 2rem rgba($black, 0.4);
+      color: $white;
+    }
+
+    &.is-true .on {
+      display: none;
+    }
+
+    &.is-false .off {
+      display: none;
+    }
+
+    .svg {
+      width: 1.625rem;
+    }
+  }
+
+  .button-hangup {
+    .established ~ & {
+      background-color: $red;
+
+      &:hover {
+        background-color: darken($red, 10%);
+      }
+    }
+  }
+
+  .button-fullscreen {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+
+    .on {
+      display: none;
+    }
+  }
+}
+
+.classroom-status {
+  align-items: center;
+  color: rgba($white, 0.8);
+  display: flex;
+  font-size: $size-7;
+  font-weight: $weight-medium;
+  margin: 0 1rem;
+  opacity: 0;
+  transition: all $speed $easing;
+  visibility: hidden;
+
+  .icon {
+    color: $green;
+    font-size: 0.75em;
+    text-shadow: 0 0 1rem;
+  }
+
+  .text {
+    text-shadow: 0 0 0.5rem rgba($black, 0.5);
+  }
+
+  .established ~ .classroom-toolbar & {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+//
+// Chat
+// ====
+
+.classroom-chat {
+  margin: 0 1rem;
+  opacity: 0;
+  visibility: hidden;
+
+  .has-chat-open ~ & {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+
+//
+// Notifications
+// =============
+//
+// RTCPeerConnection statuses, mainly
+// ----------------------------------------------------------------------------
+.classroom-notification {
+  width: 50%;
+  min-width: 300px;
+  max-width: 600px;
+  position: absolute;
+  top: 50%;
+  left: calc(50% + #{$menu-width});
+  transform: translate3d(-50%, -50%, 0);
+  z-index: 999;
+
+  .notification {
+    background-color: $white;
+    box-shadow: 0 1rem 3rem rgba($black, 0.175);
+    font-size: 1.25rem;
+    opacity: 0;
+    transform: translateY(0.25rem);
+    transition: $notification-transition;
+    visibility: hidden;
+    width: 100%;
+  }
+}
+.feedback-form {
+  background-color: white;
+  padding: 1rem;
+  height: 15rem;
+  width: 15rem;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+
+  .has-feedback-form & {
+    opacity: 1;
+    visibility: visible;
+  }
+}
 .join,
 .approve,
 .full,
@@ -341,9 +400,6 @@ $notification-transition: all $speed $easing ($speed * 2);
 #room-full,
 #waiting,
 #remote-left {
-  // opacity: 0;
-  // transition: $notification-transition;
-  // visibility: hidden;
   display: none;
 }
 
@@ -354,70 +410,82 @@ $notification-transition: all $speed $easing ($speed * 2);
 .host-hangup ~ .classroom-notification #waiting,
 .host-hangup ~ .classroom-notification #remote-left,
 .create ~ .classroom-notification #waiting {
-  // opacity: 1;
-  // transform: translateY(0);
-  // visibility: visible;
   display: block;
 }
-
-
-
-
 
 :-webkit-full-screen .button-fullscreen,
 :-moz-full-screen .button-fullscreen,
 :-ms-fullscreen .button-fullscreen,
 :fullscreen .button-fullscreen {
-  .on { display: block }
-  .off { display: none }
+  .on {
+    display: block;
+  }
+  .off {
+    display: none;
+  }
 }
 
 :-webkit-full-screen video {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 
 
 
 
+//
+// Reposition video
+// ================
+//
+// Local and remote video needs to change depending on connection and tools
+// ----------------------------------------------------------------------------
 
+.established {
+  // initial established -- no tools
+  .video.is-local {
+    margin: 1rem;
+    max-height: 15%;
+    max-width: 15%;
+    min-width: 140px;
 
+    video {
+      box-shadow: 0 .5rem 3rem rgba($black, .2);
+      width: auto;
+      height: auto;
+    }
+  }
+  .video.is-remote {}
 
-// .you-left,
-// #remote-left,
-// .button-hangup,
-// .button-audio.is-true .on,
-// .button-video.is-true .on,
-// .button-video.is-false .off,
-// .button-fullscreen .on,
-// #room-full {
-//     display: none;
-// }
+  // only displaying the editor -- local
+  &.has-editor .video.is-local {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: auto;
+  }
 
-// .guest-hangup + .classroom-notification .you-left {
-//     display: inline;
-// }
-// .full #room-full,
-// .host-hangup + .classroom-notification #remote-left,
-// #room-full,
-// #request-access,
-// #waiting,
-// #request-access,
-// #grant-access,
-// #waiting {
-//     overflow: hidden;
-//     padding: 0 1em;
-//     width: 100%;
-//     transition: max-height 0.3s ease;
-// }
-// .full + .classroom-notification #room-full,
-// .guest-hangup + .classroom-notification #request-access,
-// .join + .classroom-notification #request-access,
-// .approve + .classroom-notification #grant-access {
-//     transition-delay: 0.3s;
-//     max-height: 20ex;
-// }
-// .established + .classroom-toolbar .button-hangup {
-//     display: flex;
-// }
+  // only displaying the editor -- remote
+  &.has-editor .video.is-remote {
+    left: 50%;
+  }
+
+  // only displaying the whiteboard -- local
+  &.has-whiteboard .video.is-local {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: auto;
+  }
+
+  // only displaying the whiteboard -- remote
+  &.has-whiteboard .video.is-remote {
+    left: 50%;
+  }
+
+  // displaying both tools
+  &.has-editor.has-whiteboard .video.is-local {}
+  &.has-editor.has-whiteboard .video.is-remote {
+    top: 50%;
+  }
+}

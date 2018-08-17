@@ -25,20 +25,18 @@ module.exports = io => {
       console.log('joined!');
       const url = socket.request.headers.referer.split('/');
       room = url[url.length - 1];
+      console.log(room);
       const sr = io.sockets.adapter.rooms[room];
       if (sr === undefined) {
         // no room with such name is found so create it
         socket.join(room);
 
         socket.emit('create');
-        console.log('**** CREATE socket rooms', io.sockets.adapter.rooms);
       } else if (sr.length === 1) {
         socket.emit('join');
-        console.log('**** JOIN socket rooms', io.sockets.adapter.rooms);
       } else {
         // max two clients
         socket.emit('full', room);
-        console.log('**** FULL socket rooms', io.sockets.adapter.rooms);
       }
     });
 
@@ -64,19 +62,37 @@ module.exports = io => {
       socket.leave(room);
     });
 
-    socket.on('editor-event', text => {
-      socket.broadcast.to(room).emit('editor-receive', text);
+    socket.on('join-whiteboard-room', whiteboardRoom => {
+      console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', whiteboardRoom);
+      socket.join(whiteboardRoom);
+    });
+
+    socket.on('editor-toggle-event', () => {
+      socket.broadcast.to(room).emit('editor-toggle');
+    });
+
+    socket.on('editor-text-event', text => {
+      socket.broadcast.to(room).emit('editor-text', text);
     });
 
     socket.on('editor-mode-event', mode => {
       socket.broadcast.to(room).emit('editor-mode', mode);
     });
 
+    socket.on('wb-toggle-event', () => {
+      socket.broadcast.to(room).emit('wb-toggle');
+    });
+
     socket.on('wb-draw-event', (start, end, color, lineWidth) => {
+      const url = socket.request.headers.referer.split('/');
+      room = url[url.length - 1];
+      console.log(room);
       socket.broadcast.to(room).emit('wb-draw', start, end, color, lineWidth);
     });
 
     socket.on('wb-clear-event', () => {
+      const url = socket.request.headers.referer.split('/');
+      room = url[url.length - 1];
       socket.broadcast.to(room).emit('wb-clear');
     });
   });

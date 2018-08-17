@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
-const Threads = ({ threads }) => (
+const Threads = ({ threads, handleClick }) => (
   <Fragment>
     <div className="box">
-      <table className="table is-fullwidth">
+      <table className="table is-fullwidth is-hoverable">
         <thead>
           <tr>
             <th>Name</th>
@@ -13,21 +13,24 @@ const Threads = ({ threads }) => (
           </tr>
         </thead>
         <tbody>
-          {threads.map(elem => (
-            <tr key={elem.thread.id}>
-              <th>
-                <Link to={`/inbox/thread/${elem.thread.id}`}>
-                  {elem.user.firstName + ' ' + elem.user.lastName}
-                </Link>
-              </th>
-              <td>{elem.thread.messages[0].content}</td>
-              <td>
-                {new Date(
-                  elem.thread.messages[0].createdAt
-                ).toLocaleDateString()}
-              </td>
-            </tr>
-          ))}
+          {threads.map(elem => {
+            const { thread, user } = elem;
+            return (
+              <tr key={thread.id} onClick={evt => handleClick(evt, thread.id)}>
+                <th>{user.firstName + ' ' + user.lastName}</th>
+                <td>
+                  {thread.messages[thread.messages.length - 1] &&
+                    thread.messages[thread.messages.length - 1].content}
+                </td>
+                <td>
+                  {thread.messages &&
+                    new Date(
+                      thread.messages[thread.messages.length - 1].createdAt
+                    ).toLocaleDateString()}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
