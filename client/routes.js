@@ -8,13 +8,10 @@ import {
   QuestionQueue,
   QuestionForm,
   Dashboard,
-  CategoryPage,
   Profile,
-  Inbox,
-  ClassroomView,
-  RoomView,
   SingleQuestionView,
-  SingleThread
+  SingleThread,
+  SingleFeedback
 } from './components';
 import { me } from './store';
 
@@ -33,7 +30,7 @@ class Routes extends Component {
 
             {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/manage" component={Manage} />
-            <Route exact path="/dashboard" component={Dashboard} />
+            <Route path="/dashboard" component={Dashboard} {...this.props} />
             <Route exact path="/ask-a-question" component={QuestionForm} />
             <Route exact path="/questions" component={QuestionQueue} />
             <Route
@@ -42,7 +39,6 @@ class Routes extends Component {
               component={SingleQuestionView}
             />
             <Route exact path="/profile/:id" component={Profile} />
-            <Route exact path="/inbox" component={Inbox} />
             <Route exact path="/inbox/thread/:id" component={SingleThread} />
           </Switch>
         )}

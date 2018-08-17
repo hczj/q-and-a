@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
-import { createMessage, fetchThread } from '../../store';
+import { fetchThread } from '../../store';
 import { Header } from '../../components';
 import MessageForm from './message-form';
 import MessageList from './message-list';
@@ -11,7 +11,7 @@ class SingleThread extends Component {
   }
 
   render() {
-    const { messages, myId, thread, isLoading } = this.props;
+    const { messages, myId, isLoading } = this.props;
     if (isLoading) return null;
     return (
       <Fragment>

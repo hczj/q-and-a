@@ -3,6 +3,7 @@
   "extends": ["fullstack", "prettier", "prettier/react"],
   "rules": {
     "semi": 0,
-    "complexity": "off"
+    "complexity": "off",
+    "react/display-name": "off"
   }
 }

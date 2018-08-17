@@ -15,7 +15,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
   <nav className="navbar is-primary">
     <div className="container">
       <div className="navbar-brand">
-        <Link to="/" className="navbar-item has-background-primary">
+        <Link to="/dashboard" className="navbar-item has-background-primary">
           Q&A
         </Link>
         <div

@@ -1,11 +1,8 @@
 import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Header } from '../../components';
 
 const Threads = ({ threads }) => (
   <Fragment>
-    <Header title="Inbox" />
     <div className="box">
       <table className="table is-fullwidth">
         <thead>

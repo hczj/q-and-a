@@ -1,35 +1,80 @@
-import React, { Fragment, Component } from 'react';
-import { Header, ActiveQuestions, MyTopics } from '../../components';
+import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import {
+  Header,
+  DashboardMenu,
+  DashboardProfile,
+  Inbox,
+  Topics,
+  Feedback,
+  ActiveQuestions,
+  Main,
+  SingleFeedback
+} from '../../components';
 import { connect } from 'react-redux';
-import { fetchQuestions } from '../../store';
+import { fetchQuestionsByUser } from '../../store';
 
 class Dashboard extends Component {
   componentDidMount() {
-    this.props.getQuestions();
+    this.props.getUserQuestions();
   }
 
+  setActiveTab = event => {
+    const tabs = [...document.querySelectorAll('[data-target-tab]')];
+    tabs.forEach(t => t.classList.remove('is-active'));
+    event.target.parentElement.classList.add('is-active');
+  };
+
   render() {
-    const { isLoading, myId, questions, topics } = this.props;
+    const { isLoading, user, isTeacher, topics, feedback } = this.props;
     if (isLoading) return null;
     return (
-      <Fragment>
-        <Header title="Dashboard" />
-        <MyTopics topics={topics} />
-        <ActiveQuestions questions={questions} myId={myId} />
-      </Fragment>
+      <div>
+        <Header title={`${isTeacher ? `Teacher` : `Student`} Dashboard`} />
+        <DashboardMenu isTeacher={isTeacher} handleClick={this.setActiveTab} />
+        <Switch>
+          <Route
+            exact
+            path="/(dashboard|dashboard/main)"
+            render={() => <Main user={user} isTeacher={isTeacher} />}
+          />
+          <Route
+            path="/dashboard/profile"
+            render={() => <DashboardProfile user={user} />}
+          />
+          <Route path="/dashboard/inbox" component={Inbox} />
+          <Route
+            path="/dashboard/topics"
+            render={() => <Topics topics={topics} />}
+          />
+          <Route
+            path="/dashboard/feedback/:feedbackId"
+            component={SingleFeedback}
+          />
+          <Route
+            path="/dashboard/feedback"
+            render={() => <Feedback feedback={feedback} />}
+          />
+
+          <Route
+            path="/dashboard/active-questions"
+            component={ActiveQuestions}
+          />
+        </Switch>
+      </div>
     );
   }
 }
 
 const mapState = state => ({
   isLoading: state.questions.isLoading,
-  myId: state.me.id,
-  questions: state.questions.all,
-  topics: state.me.topics
+  isTeacher: state.me.isTeacher,
+  topics: state.me.topics,
+  user: state.me
 });
 
 const mapDispatch = dispatch => ({
-  getQuestions: myId => dispatch(fetchQuestions(myId))
+  getUserQuestions: () => dispatch(fetchQuestionsByUser())
 });
 
 export default connect(mapState, mapDispatch)(Dashboard);

@@ -14,7 +14,7 @@ module.exports = router;
 // get all users
 router.get('/', async (req, res, next) => {
   try {
-    const users = await User.findAll({});
+    const users = await User.findAll();
     res.json(users);
   } catch (err) {
     next(err);
