@@ -19,8 +19,8 @@ User.hasMany(Question);
 Question.belongsTo(Category);
 
 Feedback.belongsTo(Question);
-Feedback.belongsTo(User, { as: 'Student' });
-Feedback.belongsTo(User, { as: 'Teacher' });
+Feedback.belongsTo(User, { as: 'student' });
+Feedback.belongsTo(User, { as: 'teacher' });
 
 User.belongsToMany(Topic, { through: UserTopic });
 Topic.belongsToMany(User, { through: UserTopic });

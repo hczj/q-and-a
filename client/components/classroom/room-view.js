@@ -15,7 +15,12 @@ class RoomView extends Component {
   socket = io.connect();
 
   componentDidMount() {
-    this.props.addRoom(this.props.match.params.room);
+    const roomId = this.props.match.params.room;
+
+    let questionId = 1,
+      teacherId = 2;
+
+    this.props.addRoom(roomId, questionId, teacherId);
   }
 
   render() {
@@ -41,7 +46,8 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  addRoom: room => dispatch(createClassroom(room))
+  addRoom: (room, questionId, teacherId) =>
+    dispatch(createClassroom(room, questionId, teacherId))
 });
 
 export default connect(mapState, mapDispatch)(RoomView);
