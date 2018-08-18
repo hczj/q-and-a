@@ -8,6 +8,7 @@ import questions from './questions';
 import categories from './categories';
 import classroom from './classroom';
 import threads from './threads';
+import feedback from './feedback';
 
 const reducer = combineReducers({
   form,
@@ -16,7 +17,8 @@ const reducer = combineReducers({
   questions,
   categories,
   classroom,
-  threads
+  threads,
+  feedback
 });
 
 const middleware = composeWithDevTools(
@@ -31,3 +33,4 @@ export * from './questions';
 export * from './categories';
 export * from './classroom';
 export * from './threads';
+export * from './feedback';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Header, QuestionCard } from '../../components';
 
-const ActiveQuestions = ({ questions, myId }) => {
+export default ({ questions, myId }) => {
   const activeQs = questions.filter(
     question => question.userId === myId && question.isActive
   );
@@ -18,5 +18,3 @@ const ActiveQuestions = ({ questions, myId }) => {
     </div>
   );
 };
-
-export default ActiveQuestions;

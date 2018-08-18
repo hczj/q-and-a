@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Question, Topic, UserTopic, User, Comment } = require('../db/models');
+const { Question, Topic, UserTopic, User } = require('../db/models');
 const Op = require('sequelize').Op;
 
 module.exports = router;

@@ -10,11 +10,8 @@ import { connect } from 'react-redux';
 import {
   fetchQuestions,
   fetchQuestionsByCategory,
-  updateQuestion,
-  orderQuestions,
   removeActiveCategory,
-  fetchCategory,
-  orderQuestionsByCategory
+  fetchCategory
 } from '../../store';
 import { withRouter } from 'react-router-dom';
 

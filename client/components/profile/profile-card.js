@@ -1,7 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-const ProfileCard = ({ user }) => (
+export default ({ user }) => (
   <div className="card">
     <div className="card-image">
       <figure className="image is-4by3">
@@ -17,5 +16,3 @@ const ProfileCard = ({ user }) => (
     </div>
   </div>
 );
-
-export default ProfileCard;

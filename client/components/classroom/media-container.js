@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Whiteboard from './whiteboard-container';
 import Editor from './editor-container';
-import FeedbackForm from './feedback-container';
+import { FeedbackForm } from '../../components';
 
 class MediaContainer extends Component {
   state = {
@@ -89,7 +89,8 @@ class MediaContainer extends Component {
     if (!this.pc) return;
     this.setState({ feedback: 'has-feedback-form' });
     this.setState({ user: 'guest', bridge: 'guest-hangup' });
-    this.pc.close();``
+    this.pc.close();
+    ``;
     this.props.socket.emit('leave');
   };
 

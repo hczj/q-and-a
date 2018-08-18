@@ -18,7 +18,15 @@ export { default as ControlContainer } from './classroom/control-container';
 // dashboard
 export { default as ActiveQuestions } from './dashboard/active-questions';
 export { default as Dashboard } from './dashboard/dashboard';
-export { default as MyTopics } from './dashboard/my-topics';
+export { default as Topics } from './dashboard/topics';
+export { default as DashboardMenu } from './dashboard/dashboard-menu';
+export { default as Main } from './dashboard/main';
+
+// feedback
+export { default as Feedback } from './feedback/feedback';
+export { default as SingleFeedback } from './feedback/single-feedback';
+export { default as FeedbackTable } from './feedback/feedback-table';
+export { default as FeedbackForm } from './feedback/feedback-form';
 
 // inbox
 export { default as Inbox } from './inbox/inbox';
@@ -28,6 +36,7 @@ export { default as SingleThread } from './inbox/single-thread';
 export { default as ProfileCard } from './profile/profile-card';
 export { default as ProfileTopics } from './profile/profile-topics';
 export { default as Profile } from './profile/profile';
+export { default as DashboardProfile } from './profile/dashboard-profile';
 
 // questions
 export {

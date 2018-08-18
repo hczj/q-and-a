@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route, Switch } from 'react-router-dom';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import {
   Auth,
   PageNotFound,
@@ -8,13 +8,10 @@ import {
   QuestionQueue,
   QuestionForm,
   Dashboard,
-  CategoryPage,
   Profile,
-  Inbox,
-  ClassroomView,
-  RoomView,
   SingleQuestionView,
-  SingleThread
+  SingleThread,
+  SingleFeedback
 } from './components';
 import { me } from './store';
 
@@ -29,10 +26,14 @@ class Routes extends Component {
       <Switch>
         {isLoggedIn && (
           <Switch>
-            <Route exact path="/" component={Dashboard} />
+            <Route
+              exact
+              path="/"
+              render={() => <Redirect to="/dashboard/" />}
+            />
             {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/manage" component={Manage} />
-            <Route exact path="/dashboard" component={Dashboard} />
+            <Route path="/dashboard" component={Dashboard} {...this.props} />
             <Route exact path="/ask-a-question" component={QuestionForm} />
             <Route exact path="/questions" component={QuestionQueue} />
             <Route
@@ -41,7 +42,6 @@ class Routes extends Component {
               component={SingleQuestionView}
             />
             <Route exact path="/profile/:id" component={Profile} />
-            <Route exact path="/inbox" component={Inbox} />
             <Route exact path="/inbox/thread/:id" component={SingleThread} />
           </Switch>
         )}
