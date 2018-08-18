@@ -1,7 +1,20 @@
-// .myMessages {
-//     justify-content: flex-start;
-// }
+.message {
+  display: flex;
 
-// .otherMessages {
-//     justify-content: flex-end;
-// }
+  &.is-primary {
+    background-color: $primary;
+    justify-content: flex-end;
+
+    .message-body {
+      color: $white;
+    }
+  }
+
+  &.is-secondary {
+    background-color: $white-ter;
+
+    .message-body {
+      color: $text;
+    }
+  }
+}

@@ -1,0 +1,106 @@
+.inbox {
+  background-color: $white;
+}
+
+.thread-list {
+  border-right: 1px solid $border;
+  height: 100%;
+}
+
+.thread-list-item {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  font-size: 1rem;
+  padding: .75rem;
+  transition: all $speed $easing;
+
+  &:hover,
+  &.is-active {
+    background-color: rgba($black, .04);
+  }
+
+  &:hover {
+    .thread-list-item-message,
+    .thread-list-item-date {
+      color: darken($grey-light, 10%);
+    }
+  }
+}
+
+.thread-list-item-figure {
+  flex: 0 0 auto;
+  margin-right: .75rem;
+}
+
+.thread-list-item-details {
+  flex: 1 1 auto;
+  min-width: 0; // needed for text-overflow truncate bug
+}
+
+.thread-list-item-details-header {
+  display: flex;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.thread-list-item-name {
+  font-weight: $weight-bold;
+  max-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.thread-list-item-message,
+.thread-list-item-date {
+  color: $grey-light;
+  font-size: .875em;
+  transition: color $speed $easing;
+}
+
+.thread-list-item-message {
+  max-height: 21px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.thread-list-item-date {}
+
+
+
+
+
+.thread {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+
+.thread-message-list {
+  padding: 1.5rem 1.5rem 1.5rem;
+
+  @include desktop {
+    padding: 3rem 3rem 3rem;
+  }
+}
+
+.thread-message-form {
+  // position: absolute;
+  //   top: auto;
+  //   right: 0;
+  //   bottom: 0;
+  //   left: 0;
+  z-index: 9;
+
+  .textarea {
+    border: 0;
+    border-top: 1px solid $border;
+    border-radius: 0;
+    box-shadow: none;
+    resize: none;
+  }
+}

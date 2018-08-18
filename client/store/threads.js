@@ -97,10 +97,7 @@ export default function(state = initialThreads, action) {
         ...state,
         active: {
           ...state.active,
-          thread: {
-            ...state.active.thread,
-            messages: [...state.active.thread.messages, action.message]
-          }
+          messages: [...state.active.messages, action.message]
         }
       };
 

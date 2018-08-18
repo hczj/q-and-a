@@ -3,29 +3,44 @@ import { connect } from 'react-redux';
 import { fetchThreads, fetchThread } from '../../store';
 import Threads from './threads';
 import MessageList from './message-list';
+import MessageForm from './message-form';
 
 class Inbox extends Component {
-  componentDidMount() {
-    this.props.getThreads();
+  async componentDidMount() {
+    await this.props.getThreads();
+    await this.props.getThread(this.props.threads[0].id);
   }
 
-  handleClick = (thread) => {
-    console.log('thread', thread)
-    // console.log('event', event.target)
-    // this.props.history.push(`/inbox/thread/${threadId}`);
+  handleClick = (event, thread) => {
+    [...document.querySelectorAll('.thread-list-item')].map(el => {
+      if (el.classList.contains('is-active')) {
+        el.classList.remove('is-active');
+      }
+    });
+    event.currentTarget.classList.add('is-active');
     this.props.getThread(thread.id);
   };
 
   render() {
-    const { isLoading, threads, thread, myId } = this.props;
-    if (isLoading) return null;
+    const { threads, thread, myId } = this.props;
     return (
-      <div className="columns">
-        <div className="column is-4">
-          <Threads threads={threads} handleClick={this.handleClick} />
-        </div>
-        <div className="column is-8">
-          <MessageList thread={thread} myId={myId} />
+      <div className="inbox">
+        <div className="columns is-gapless">
+          <div className="column is-5">
+            <div className="thread-list">
+              <Threads
+                threads={threads}
+                myId={myId}
+                handleClick={this.handleClick}
+              />
+            </div>
+          </div>
+          <div className="column is-7">
+            <div className="thread">
+              <MessageList thread={thread} myId={myId} />
+              <MessageForm />
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -34,7 +49,6 @@ class Inbox extends Component {
 
 const mapState = state => ({
   myId: state.me.id,
-  isLoading: state.threads.isLoading,
   threads: state.threads.all,
   thread: state.threads.active
 });

@@ -56,6 +56,20 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
                   Manage
                 </NavLink>
               )}
+              <NavLink
+                to="/dashboard/inbox"
+                className="navbar-item"
+                activeClassName="is-active"
+              >
+                <span className="fa-layers fa-fw">
+                  <i className="fas fa-envelope" />
+                  <i
+                    className="fas fa-circle"
+                    data-fa-transform="shrink-6 up-7 right-7"
+                    style={{ color: 'Tomato' }}
+                  />
+                </span>
+              </NavLink>
               <div className="navbar-item has-dropdown is-hoverable">
                 <div className="navbar-link">
                   <img className="navbar-profile-img" src={me.imageUrl} />
