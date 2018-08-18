@@ -5,7 +5,7 @@ const Topics = ({ topics }) => {
   return (
     <div className="box">
       <div className="content">
-        <p>You've signed up to teach the following topics.</p>
+        <p>You have signed up to teach the following topics.</p>
         <div className="tags">
           {topics.length &&
             topics.map(topic => (
