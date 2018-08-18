@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const FeedbackTable = ({ feedback }) => (
-  <table className="table is-fullwidth">
+  <table className="table is-fullwidth is-hoverable">
     <thead>
       <tr>
         <th>Date</th>

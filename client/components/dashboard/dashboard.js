@@ -12,13 +12,8 @@ import {
   SingleFeedback
 } from '../../components';
 import { connect } from 'react-redux';
-import { fetchQuestionsByUser } from '../../store';
 
 class Dashboard extends Component {
-  componentDidMount() {
-    this.props.getUserQuestions();
-  }
-
   setActiveTab = event => {
     const tabs = [...document.querySelectorAll('[data-target-tab]')];
     tabs.forEach(t => t.classList.remove('is-active'));
@@ -73,8 +68,4 @@ const mapState = state => ({
   user: state.me
 });
 
-const mapDispatch = dispatch => ({
-  getUserQuestions: () => dispatch(fetchQuestionsByUser())
-});
-
-export default connect(mapState, mapDispatch)(Dashboard);
+export default connect(mapState)(Dashboard);
