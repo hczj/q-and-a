@@ -6,16 +6,26 @@ const organizations = [
     location: `Chicago, Illinois`,
     email: `fullstack@example.com`
   },
-  {
-    name: `Eastern High School`,
-    location: `Denver, CO`,
-    email: `eastern@example.edu`
-  },
-  {
-    name: `Rising Stars`,
-    location: `NYC`,
-    email: `stars@example.com`
-  }
+  // {
+  //   name: `Eastern High School`,
+  //   location: `Denver, CO`,
+  //   email: `eastern@example.edu`
+  // },
+  // {
+  //   name: `Rising Stars`,
+  //   location: `Brazil`,
+  //   email: `stars@example.com`
+  // },
+  // {
+  //   name: `Love2Learn`,
+  //   location: `Tokyo`,
+  //   email: `love2learn@example.com`
+  // },
+  // {
+  //   name: `Watertown Jr. High`,
+  //   location: `Watertown, NE`,
+  //   email: `watertown@example.edu`
+  // }
 ];
 
 const users = [
@@ -168,12 +178,24 @@ const questions = [
     description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam!!!!!!!`
   },
   {
+    title: `Has anyone used this software before?`,
+    description: loremIpsum
+  },
+  {
+    title: `Need help debugging this issue...`,
+    description: `Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`
+  },
+  {
     title: `What would I need to do here?`,
     description: loremIpsum
   },
   {
     title: `SOMEONE PLEASE HELP ME`,
     description: `I am so lost`
+  },
+  {
+    title: `I'm not really sure why this isn't working`,
+    description: `Exercitation ullamco laboris nisi ut aliquip ex ea.`
   },
   {
     title: `Would you do this or that to solve this problem?`,
@@ -192,12 +214,20 @@ const questions = [
     description: `Nisi ut aliquip consequat tempor incididunt dolor sit amet, consectetur adipisicing elit, sed do...`
   },
   {
+    title: `Can someone take a look at what I'm working on??`,
+    description: loremIpsum
+  },
+  {
     title: `I need someone to look at this thing I'm doing. Please!`,
     description: `Laboris nisi ut aliquip ex ea commodo consequat tempor incididunt ut labore et dolore magna aliqua.`
   },
   {
     title: `Does anyone know how to get this to happen?`,
     description: `Ut aliquip commodo consequat incididunt ut labore aliqua.`
+  },
+  {
+    title: `Have you ever worked with this or that before?`,
+    description: `Quis exercitation laboris nisi ut aliquip.`
   },
   {
     title: `Has anyone solved this problem before? I'm having a hard time figuring this out`,
@@ -207,6 +237,38 @@ const questions = [
     title: `How can I get this to start working??`,
     description: `Lorem ipsum adipisicing elit, sed do eiusmod dolore magna aliqua.`
   }
+];
+
+const feedbacks = [
+  {
+    rating: 2,
+    content: loremIpsum
+  },
+  {
+    rating: 3,
+  },
+  {
+    rating: 5,
+    content: `Really helpful!!!!!!!`
+  },
+  {
+    rating: 4,
+    content: loremIpsum
+  },
+  {
+    rating: 4,
+  },
+  {
+    rating: 3,
+    content: loremIpsum
+  },
+  {
+    rating: 5,
+  },
+  {
+    rating: 1,
+    content: `my teacher was rude`
+  },
 ];
 
 const categories = [
@@ -220,6 +282,97 @@ const categories = [
   { name: `Math` },
   { name: `Graphic Design` },
   { name: `Arts & Crafts` }
+];
+
+const topics = [
+  {
+    name: `Python`,
+    category: `Coding`
+  },
+  {
+    name: `JavaScript`,
+    category: `Coding`
+  },
+  {
+    name: `React.js`,
+    category: `Coding`
+  },
+  {
+    name: `Sequelize`,
+    category: `Coding`
+  },
+  {
+    name: `Pasta`,
+    category: `Cooking`
+  },
+  {
+    name: `Basket Weaving`,
+    category: `Arts & Crafts`
+  },
+  {
+    name: `Guitar`,
+    category: `Music`
+  },
+  {
+    name: `Piano`,
+    category: `Music`
+  },
+  {
+    name: `Finance`,
+    category: `Business`
+  },
+  {
+    name: `Management`,
+    category: `Business`
+  },
+  {
+    name: `Skincare`,
+    category: `Beauty & Makeup`
+  },
+  {
+    name: `Hair`,
+    category: `Beauty & Makeup`
+  },
+  {
+    name: `Photoshop`,
+    category: `Photography`
+  },
+  {
+    name: `Portraits`,
+    category: `Photography`
+  },
+  {
+    name: `Algebra`,
+    category: `Math`
+  },
+  {
+    name: `Calculus`,
+    category: `Math`
+  },
+  {
+    name: `Statistics`,
+    category: `Math`
+  },
+  {
+    name: `Chemistry`,
+    category: `Science`
+  },
+  {
+    name: `Physics`,
+    category: `Science`
+  },
+  {
+    name: `Drawing`,
+    category: `Graphic Design`
+  },
+  {
+    name: `Cartoons`,
+    category: `Graphic Design`
+  },
+  {
+    name: `Logo Design`,
+    category: `Graphic Design`
+  }
 ];
 
 const threads = [
@@ -357,97 +510,6 @@ const threads = [
   }
 ];
 
-const topics = [
-  {
-    name: `Python`,
-    category: `Coding`
-  },
-  {
-    name: `JavaScript`,
-    category: `Coding`
-  },
-  {
-    name: `React.js`,
-    category: `Coding`
-  },
-  {
-    name: `Sequelize`,
-    category: `Coding`
-  },
-  {
-    name: `Pasta`,
-    category: `Cooking`
-  },
-  {
-    name: `Basket Weaving`,
-    category: `Arts & Crafts`
-  },
-  {
-    name: `Guitar`,
-    category: `Music`
-  },
-  {
-    name: `Piano`,
-    category: `Music`
-  },
-  {
-    name: `Finance`,
-    category: `Business`
-  },
-  {
-    name: `Management`,
-    category: `Business`
-  },
-  {
-    name: `Skincare`,
-    category: `Beauty & Makeup`
-  },
-  {
-    name: `Hair`,
-    category: `Beauty & Makeup`
-  },
-  {
-    name: `Photoshop`,
-    category: `Photography`
-  },
-  {
-    name: `Portraits`,
-    category: `Photography`
-  },
-  {
-    name: `Algebra`,
-    category: `Math`
-  },
-  {
-    name: `Calculus`,
-    category: `Math`
-  },
-  {
-    name: `Statistics`,
-    category: `Math`
-  },
-  {
-    name: `Chemistry`,
-    category: `Science`
-  },
-  {
-    name: `Physics`,
-    category: `Science`
-  },
-  {
-    name: `Drawing`,
-    category: `Graphic Design`
-  },
-  {
-    name: `Cartoons`,
-    category: `Graphic Design`
-  },
-  {
-    name: `Logo Design`,
-    category: `Graphic Design`
-  }
-];
-
 const messages = [
   { content: `Hello there!!` },
   { content: `Hi!!` },
@@ -490,6 +552,7 @@ module.exports = {
   organizations,
   users,
   questions,
+  feedbacks,
   categories,
   topics,
   threads,

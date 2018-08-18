@@ -12,6 +12,8 @@ const SET_AUDIO = 'SET_AUDIO';
  */
 const initialClassroom = {
   id: null,
+  questionId: null,
+  teacherId: null,
   video: true,
   audio: true
 };
@@ -19,9 +21,11 @@ const initialClassroom = {
 /**
  * ACTION CREATORS
  */
-export const createClassroom = classroom => ({
+export const createClassroom = (classroom, questionId, teacherId) => ({
   type: CREATE_CLASSROOM,
-  classroom
+  classroom,
+  questionId,
+  teacherId
 });
 
 export const deleteClassroom = () => ({ type: DELETE_CLASSROOM });
@@ -37,7 +41,9 @@ export default function(state = initialClassroom, action) {
     case CREATE_CLASSROOM:
       return {
         ...state,
-        id: action.classroom
+        id: action.classroom,
+        questionId: action.questionId,
+        teacherId: action.teacherId
       };
 
     case DELETE_CLASSROOM:
