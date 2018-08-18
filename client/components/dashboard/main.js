@@ -1,13 +1,9 @@
 import React from 'react';
 
-const Main = ({ user, isTeacher }) => (
+const Main = ({ user }) => (
   <div className="box">
     <div className="content">
-      <p>
-        {`Welcome, ${user.firstName}! You are currently a ${
-          isTeacher ? 'teacher' : 'student'
-        } at ${user.organization.name}.`}
-      </p>
+      <p>{`Welcome, ${user.firstName}!`}</p>
     </div>
   </div>
 );

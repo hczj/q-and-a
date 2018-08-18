@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route, Switch } from 'react-router-dom';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import {
   Auth,
   PageNotFound,
@@ -26,7 +26,11 @@ class Routes extends Component {
       <Switch>
         {isLoggedIn && (
           <Switch>
-            <Route exact path="/" component={Dashboard} />
+            <Route
+              exact
+              path="/"
+              render={() => <Redirect to="/dashboard/" />}
+            />
             {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/manage" component={Manage} />
             <Route path="/dashboard" component={Dashboard} {...this.props} />
