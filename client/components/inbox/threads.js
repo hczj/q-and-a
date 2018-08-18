@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 const Threads = ({ threads, handleClick }) => {
   return (
     <Fragment>
-      <div className="box">
+      <div className="">
         <table className="table is-fullwidth is-hoverable">
           <thead>
             <tr>
@@ -13,24 +13,12 @@ const Threads = ({ threads, handleClick }) => {
             </tr>
           </thead>
           <tbody>
-            {threads.map(elem => {
-              const { thread, user } = elem;
+            {threads.map(thread => {
               return (
-                <tr
-                  key={thread.id}
-                  onClick={evt => handleClick(evt, thread.id)}
-                >
-                  <th>{user.firstName + ' ' + user.lastName}</th>
-                  <td>
-                    {thread.messages[thread.messages.length - 1] &&
-                      thread.messages[thread.messages.length - 1].content}
-                  </td>
-                  <td>
-                    {thread.messages.length > 0 &&
-                      new Date(
-                        thread.messages[thread.messages.length - 1].createdAt
-                      ).toLocaleDateString()}
-                  </td>
+                <tr key={thread.id} onClick={() => handleClick(thread)}>
+                  <td>{`${thread.sender.name}`}</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
                 </tr>
               );
             })}

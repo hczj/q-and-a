@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const MessageList = ({ messages, myId }) => {
-  console.log('Messages is: ', messages);
+const MessageList = ({ thread, myId }) => {
+  console.log('Messages is: ', thread);
   return (
-    <div className="box">
-      {messages &&
-        messages.map(message => (
+    <div className="">
+      <div className="box">
+        MESSAGE LIST
+      </div>
+      {thread.messages &&
+        thread.messages.map(message => (
           <article
             key={message.id}
             className={`message is-${
