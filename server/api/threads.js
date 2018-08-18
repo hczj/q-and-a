@@ -8,35 +8,27 @@ router.get('/', async (req, res, next) => {
 
     const threads = await Thread.findAll({
       where: { [Op.or]: [{ receiverId: myId }, { senderId: myId }] },
-      include: {
-        model: Message
-      },
-      order: [[Message, 'id', 'ASC']]
+      include: [
+        {
+          model: User,
+          as: 'sender',
+          attributes: ['firstName', 'lastName', 'imageUrl']
+        },
+        {
+          model: User,
+          as: 'receiver',
+          attributes: ['firstName', 'lastName', 'imageUrl']
+        },
+        {
+          model: Message,
+          attributes: ['id', 'content', 'createdAt', 'userId']
+        }
+      ],
+      order: [[Message, 'id', 'ASC']],
+      attributes: ['id', 'createdAt', 'senderId', 'receiverId']
     });
 
-    const userIds = threads.map(
-      thread =>
-        thread.receiverId === myId ? thread.senderId : thread.receiverId
-    );
-
-    const otherUser = [];
-
-    for (let i in userIds) {
-      let user = await User.findById(userIds[i]);
-      otherUser.push(user);
-    }
-
-    await User.findAll({
-      where: { id: userIds },
-      attributes: ['firstName', 'lastName']
-    });
-
-    const output = [];
-    for (let x = 0; x < threads.length; x++) {
-      output.push({ thread: threads[x], user: otherUser[x] });
-    }
-
-    res.json(output);
+    res.json(threads);
   } catch (err) {
     next(err);
   }
@@ -47,21 +39,27 @@ router.get('/:threadId', async (req, res, next) => {
     const myId = req.user.dataValues.id;
 
     const thread = await Thread.findById(req.params.threadId, {
-      include: {
-        model: Message
-      },
-      order: [[Message, 'id', 'ASC']]
+      include: [
+        {
+          model: User,
+          as: 'sender',
+          attributes: ['firstName', 'lastName', 'imageUrl']
+        },
+        {
+          model: User,
+          as: 'receiver',
+          attributes: ['firstName', 'lastName', 'imageUrl']
+        },
+        {
+          model: Message,
+          attributes: ['id', 'content', 'createdAt', 'userId']
+        }
+      ],
+      order: [[Message, 'id', 'ASC']],
+      attributes: ['id', 'createdAt', 'senderId', 'receiverId']
     });
 
-    const userId =
-      thread.receiverId === myId ? thread.senderId : thread.receiverId;
-
-    const otherUser = await User.findOne({
-      where: { id: userId },
-      attributes: ['firstName', 'lastName']
-    });
-
-    res.json({ thread: thread, user: otherUser });
+    res.json(thread);
   } catch (err) {
     next(err);
   }

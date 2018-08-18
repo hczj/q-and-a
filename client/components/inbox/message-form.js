@@ -1,45 +1,46 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
 import { createMessage } from '../../store';
-import { ValidateField } from '../../components';
-import { validateMessage } from '../reusable/validate-field';
 
 class MessageForm extends Component {
   handleMessageSubmit = data => {
     const { sendMessage, id } = this.props;
-    sendMessage({ content: data.content, threadId: id });
+    sendMessage({ content: data, threadId: id });
+  };
+
+  submitOnEnter = event => {
+    if (event.which === 13 && !event.shiftKey) {
+      const message = event.target.value;
+      if (/^\s*$/.test(message)) return; // no space, empty chars, line break
+      this.handleMessageSubmit(message);
+      event.target.value = '';
+      event.preventDefault();
+    }
   };
 
   render() {
-    const { handleSubmit, error, pristine, submitting, history } = this.props;
+    const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.handleMessageSubmit)}>
-        <Field
-          label="Message"
+      <form
+        className="thread-message-form"
+        onSubmit={this.handleMessageSubmit}
+      >
+        <textarea
           name="content"
-          type="textarea"
-          component={ValidateField}
+          className="textarea"
+          placeholder="Type a message..."
+          spellCheck="true"
+          autoFocus
+          rows={3}
+          onKeyDown={this.submitOnEnter}
         />
-
-        <div className="field is-grouped">
-          <div className="control">
-            <button
-              type="submit"
-              className="button is-link"
-              disabled={pristine || submitting}
-            >
-              Send
-            </button>
-          </div>
-        </div>
       </form>
     );
   }
 }
 
 const mapState = state => {
-  const { id } = state.threads.active.thread || { id: 0 };
+  const { id } = state.threads.active || { id: 0 };
   return { id };
 };
 
@@ -47,9 +48,4 @@ const mapDispatch = dispatch => ({
   sendMessage: data => dispatch(createMessage(data))
 });
 
-MessageForm = connect(mapState, mapDispatch)(MessageForm);
-
-export default reduxForm({
-  form: 'message',
-  validate: validateMessage
-})(MessageForm);
+export default connect(mapState, mapDispatch)(MessageForm);

@@ -28,21 +28,12 @@ Topic.belongsToMany(User, { through: UserTopic });
 Message.belongsTo(Thread);
 Thread.hasMany(Message);
 
-User.belongsToMany(User, {
-  as: 'Sender',
-  through: {
-    model: Thread,
-    unique: false
-  },
+Thread.belongsTo(User, {
+  as: 'sender',
   foreignKey: 'senderId'
 });
-
-User.belongsToMany(User, {
-  as: 'Receiver',
-  through: {
-    model: Thread,
-    unique: false
-  },
+Thread.belongsTo(User, {
+  as: 'receiver',
   foreignKey: 'receiverId'
 });
 

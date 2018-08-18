@@ -90,7 +90,6 @@ class MediaContainer extends Component {
     this.setState({ feedback: 'has-feedback-form' });
     this.setState({ user: 'guest', bridge: 'guest-hangup' });
     this.pc.close();
-    ``;
     this.props.socket.emit('leave');
   };
 

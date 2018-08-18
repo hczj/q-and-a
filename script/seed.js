@@ -1,5 +1,6 @@
 'use strict';
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const db = require('../server/db');
 const {
   Organization,
@@ -23,6 +24,8 @@ const {
   messages,
   threads
 } = require('./data');
+
+const getRandomIdFrom = num => Math.floor(Math.random() * num) + 1;
 
 const getUniqueIds = (num, max) => {
   return [num, num > 3 ? num - 3 : num + 5, num < max - 3 ? num + 3 : num - 5];
@@ -62,7 +65,7 @@ async function seed() {
   const seedOrgs = await Promise.all(
     organizations.map(async organization => {
       const myOrg = await Organization.create(organization);
-      const myCatId = Math.floor(Math.random() * numOfCats) + 1;
+      const myCatId = getRandomIdFrom(numOfCats);
       const myCatIds = getUniqueIds(myCatId, numOfCats);
       await myOrg.setCategories(myCatIds);
     })
@@ -78,11 +81,11 @@ async function seed() {
   const seedUsers = await Promise.all(
     users.map(async user => {
       const myUser = await User.create(user);
-      const myId = Math.floor(Math.random() * numOfTopics) + 1;
+      const myId = getRandomIdFrom(numOfTopics);
       const myIds = getUniqueIds(myId, numOfTopics);
       await myUser.setTopics(myIds);
 
-      const myOrgId = Math.floor(Math.random() * numOfOrgs) + 1;
+      const myOrgId = getRandomIdFrom(numOfOrgs);
       await myUser.setOrganization(myOrgId);
 
       const myUserTopics = await UserTopic.findAll({
@@ -105,8 +108,8 @@ async function seed() {
   const seedQs = await Promise.all(
     questions.map(async question => {
       const myQuestion = await Question.create(question);
-      const myCatId = Math.floor(Math.random() * numOfCats) + 1;
-      const myUserId = Math.floor(Math.random() * numOfUsers) + 1;
+      const myCatId = getRandomIdFrom(numOfCats);
+      const myUserId = getRandomIdFrom(numOfUsers);
 
       await myQuestion.setCategory(myCatId);
       await myQuestion.setUser(myUserId);
@@ -128,7 +131,7 @@ async function seed() {
   const numOfQs = await Question.count(); // to randomly associate to questions
   const seedFeedback = await Promise.all(feedbacks.map(async feedback => {
     const myFeedback = await Feedback.create(feedback);
-    const myQId = Math.floor(Math.random() * numOfQs) + 1;
+    const myQId = getRandomIdFrom(numOfQs);
     await Question.update(
       { isActive: false },
       { where: { id: myQId } }
@@ -152,6 +155,81 @@ async function seed() {
     await myFeedback.setStudent(myStudent.dataValues.id);
   }));
   console.log(`seeded ${seedFeedback.length} feedbacks`);
+
+  // //
+  // // THREADS
+  // // =======
+  // const seedThreads = await Promise.all(threads.map(t => Thread.create(t)));
+  // console.log(`seeded ${seedThreads.length} threads`);
+
+  // //
+  // // MESSAGES
+  // // ========
+  // const uniqueThreadMap = new Map();
+
+  // // helper function to repeat this operation
+  // const getSenderAndReceiverIds = () => {
+  //   const myId = getRandomIdFrom(numOfUsers);
+  //   const myIds = getUniqueIds(myId, numOfUsers);
+  //   return [myIds[1], myIds[2]];
+  // };
+
+  // // helper function to check equality
+  // const senderReceiverPairAlreadyExists = (myArr, map) => {
+  //   for (let item of map.values()) {
+  //     const x = item.sort().toString();
+  //     const y = myArr.sort().toString();
+  //     console.log('x is ----->  ', x);
+  //     console.log('y is ----->  ', y);
+  //     if (x === y) return true;
+  //   }
+  //   return false;
+  // }
+
+  // const numOfThreads = await Thread.count(); // to randomly associate to thread
+  // const seedMsgs = await Promise.all(messages.map(async (message, i) => {
+  //   const myMessage = await Message.create(message);
+
+  //   const [mySenderId, myReceiverId] = await getSenderAndReceiverIds();
+
+  //   const mySender = await User.findById(mySenderId);
+  //   const myReceiver = await User.findById(myReceiverId);
+  //   await myMessage.setUser(mySender);
+
+  //   const pairExists = await senderReceiverPairAlreadyExists(
+  //     [mySenderId, myReceiverId], uniqueThreadMap
+  //   );
+  //   await console.log('>>>>>> output of pairExists is.....', pairExists);
+
+  //   let myThread;
+
+  //   if (pairExists) {
+  //     myThread = await Thread.findAll({
+  //       where: {
+  //         receiverId: { [Op.or]: [mySenderId, myReceiverId] },
+  //         senderId: { [Op.or]: [mySenderId, myReceiverId] }
+  //       }
+  //     });
+  //     // console.log('************', Object.keys(myThread.__proto__));
+  //   } else {
+  //     const [emptyThread] = await Thread.findAll({
+  //       where: { [Op.or]: [{ receiverId: null }, { senderId: null }] },
+  //       order: [[Sequelize.literal('random()')]],
+  //       limit: 1
+  //     });
+
+  //     myThread = await emptyThread;
+
+  //     await myThread.setSender(mySender);
+  //     await myThread.setReceiver(myReceiver);
+
+  //     await uniqueThreadMap.set(i, [mySenderId, myReceiverId]);
+  //   }
+
+  //   await myMessage.setThread(myThread);
+
+  //   await console.log('*&$%$&*^$#$%&*', uniqueThreadMap);
+  // }));
 
   //
   // THREADS

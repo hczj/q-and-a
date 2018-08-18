@@ -29,7 +29,7 @@ class Routes extends Component {
             <Route
               exact
               path="/"
-              render={() => <Redirect to="/dashboard/" />}
+              render={() => <Redirect to="/dashboard" />}
             />
             {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/manage" component={Manage} />

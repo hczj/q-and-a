@@ -1,42 +1,41 @@
 import React, { Fragment } from 'react';
+import moment from 'moment';
 
-const Threads = ({ threads, handleClick }) => {
+const Threads = ({ threads, myId, handleClick }) => {
   return (
     <Fragment>
-      <div className="box">
-        <table className="table is-fullwidth is-hoverable">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Message</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {threads.map(elem => {
-              const { thread, user } = elem;
-              return (
-                <tr
-                  key={thread.id}
-                  onClick={evt => handleClick(evt, thread.id)}
-                >
-                  <th>{user.firstName + ' ' + user.lastName}</th>
-                  <td>
-                    {thread.messages[thread.messages.length - 1] &&
-                      thread.messages[thread.messages.length - 1].content}
-                  </td>
-                  <td>
-                    {thread.messages.length > 0 &&
-                      new Date(
-                        thread.messages[thread.messages.length - 1].createdAt
-                      ).toLocaleDateString()}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      {threads.map((thread, i) => {
+        const notMe =
+          thread.senderId === myId ? thread.receiver : thread.sender;
+
+        const lastMessage = thread.messages[thread.messages.length - 1];
+
+        return (
+          <div
+            key={thread.id}
+            className={`thread-list-item ${i === 0 ? 'is-active' : ''}`}
+            onClick={event => handleClick(event, thread)}
+          >
+            <figure className="thread-list-item-figure">
+              <p className="image is-48x48">
+                <img src={notMe.imageUrl} className="is-rounded" />
+              </p>
+            </figure>
+
+            <div className="thread-list-item-details">
+              <div className="thread-list-item-details-header">
+                <p className="thread-list-item-name">{notMe.name}</p>
+                <span className="thread-list-item-date">
+                  {moment(lastMessage.createdAt).fromNow()}
+                </span>
+              </div>
+              <p className="thread-list-item-message">
+                {`${lastMessage.userId === myId ? 'You: ' : ''} ${lastMessage.content}`}
+              </p>
+            </div>
+          </div>
+        );
+      })}
     </Fragment>
   );
 };

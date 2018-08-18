@@ -30,7 +30,6 @@ export { default as FeedbackForm } from './feedback/feedback-form';
 
 // inbox
 export { default as Inbox } from './inbox/inbox';
-export { default as SingleThread } from './inbox/single-thread';
 
 // profile
 export { default as ProfileCard } from './profile/profile-card';

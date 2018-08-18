@@ -1,23 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const MessageList = ({ messages, myId }) => {
-  console.log('Messages is: ', messages);
-  return (
-    <div className="box">
-      {messages &&
-        messages.map(message => (
-          <article
-            key={message.id}
-            className={`message is-${
-              message.userId === myId ? 'primary' : 'dark'
-            }`}
-          >
-            <div className="message-body">{message.content}</div>
-          </article>
-        ))}
-    </div>
-  );
-};
+const MessageList = ({ thread, myId }) => (
+  <div className="thread-message-list">
+    {thread.messages &&
+      thread.messages.map(message => (
+        <div
+          key={message.id}
+          className={`message is-${
+            message.userId === myId ? 'primary' : 'secondary'
+          }`}
+        >
+          <div className="message-body">{message.content}</div>
+        </div>
+      ))}
+  </div>
+);
 
 export default MessageList;
