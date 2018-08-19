@@ -56,12 +56,21 @@ export const auth = (formData, method) => async dispatch => {
   dispatch(requestMe());
   let res;
   try {
-    const { firstName, lastName, email, password } = formData;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      organizationId,
+      isTeacher
+    } = formData;
     res = await axios.post(`/auth/${method}`, {
       firstName,
       lastName,
       email,
-      password
+      password,
+      organizationId,
+      isTeacher
     });
   } catch (authError) {
     return dispatch(receiveMe({ error: authError }));
