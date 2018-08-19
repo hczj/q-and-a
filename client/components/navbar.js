@@ -15,7 +15,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, isTeacher, me }) => (
   <nav className="navbar is-primary">
     <div className="container">
       <div className="navbar-brand">
-        <Link to="/dashboard" className="navbar-item has-background-primary">
+        <Link to="/" className="navbar-item has-background-primary">
           Q&A
         </Link>
         <div
@@ -69,6 +69,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, isTeacher, me }) => (
                 </div>
                 <div className="navbar-dropdown">
                   <NavLink
+                    exact
                     to="/dashboard"
                     className="navbar-item navbar-dropdown-header"
                   >
@@ -79,6 +80,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, isTeacher, me }) => (
                   </NavLink>
                   <hr className="navbar-divider" />
                   <NavLink
+                    exact
                     to="/dashboard"
                     className="navbar-item"
                     activeClassName="is-active"
@@ -93,7 +95,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, isTeacher, me }) => (
                     My Profile
                   </NavLink>
                   <NavLink
-                    to="/dashboard/"
+                    to="/dashboard/questions"
                     className="navbar-item"
                     activeClassName="is-active"
                   >
