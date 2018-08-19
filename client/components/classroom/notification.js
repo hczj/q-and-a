@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Notification = props => (
@@ -53,10 +54,15 @@ const Notification = props => (
         <p className="remote-left">The remote client hung up.</p>
         <p className="title is-4">New classroom</p>
         <p>Waiting for someone to join you.</p>
-        <p className="is-size-7"><a href={window.location.href}>{window.location.href}</a></p>
+        <p className="is-size-7"><a href={`/classroom/r/${props.room}`}>{window.location.href}</a></p>
       </div>
 
   </div>
 )
 
-export default Notification;
+const mapState = state => ({
+  room: state.classroom.room,
+  student: state.users.active
+})
+
+export default connect(mapState)(Notification);

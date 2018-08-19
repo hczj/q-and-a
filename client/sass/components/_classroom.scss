@@ -14,6 +14,17 @@ $notification-transition: all $speed $easing ($speed * 2);
 
 .create-classroom {
   box-shadow: 0 .5rem 4rem -0.5rem rgba($black, .1);
+  opacity: 1;
+  transform: translateY(0);
+  transition: all $speed $easing $speed;
+  visibility: visible;
+
+  &.is-hidden {
+    display: inherit !important;
+    opacity: 0;
+    transform: translateY(.25rem);
+    visibility: hidden;
+  }
 
   .question-card {
     align-items: center;
@@ -41,7 +52,7 @@ $notification-transition: all $speed $easing ($speed * 2);
   .question {
     font-size: 1.75em;
     font-weight: $weight-light;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     line-height: 1.125;
   }
 

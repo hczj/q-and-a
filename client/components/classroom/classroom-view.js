@@ -14,13 +14,14 @@ class ClassroomView extends Component {
 
   socket = io.connect();
 
-  componentDidMount() {
-    const roomId = this.props.match.params.room;
-
-    let questionId = 1,
-      teacherId = 2;
-
-    this.props.addRoom(roomId, questionId, teacherId);
+  async componentDidMount() {
+    const { location, addRoom } = this.props;
+    addRoom(
+      location.state.room,
+      location.state.questionId,
+      location.state.studentId,
+      location.state.teacherId
+    );
   }
 
   render() {
@@ -42,7 +43,10 @@ class ClassroomView extends Component {
 }
 
 const mapState = state => ({
-  room: state.classroom.id
+  room: state.classroom.room,
+  questionId: state.classroom.questionId,
+  studentId: state.classroom.studentId,
+  teacherId: state.classroom.teacherId
 });
 
 const mapDispatch = dispatch => ({

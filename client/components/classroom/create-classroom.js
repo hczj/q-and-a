@@ -13,7 +13,7 @@ import moment from 'moment';
 
 class CreateClassroom extends Component {
   state = {
-    roomId: '',
+    room: '',
     questionId: null,
     studentId: null,
     teacherId: null
@@ -29,13 +29,16 @@ class CreateClassroom extends Component {
     } = this.props;
     await loadInitialData();
     await getUser(location.state.studentId);
-    getQuestion(location.state.questionId);
+    await getQuestion(location.state.questionId);
+
     this.setState({
-      roomId: getRoomId(myId),
+      room: getRoomId(myId),
       questionId: location.state.questionId,
       studentId: location.state.studentId,
       teacherId: location.state.teacherId
     });
+
+    document.getElementById('card').classList.remove('is-hidden');
   }
 
   goBack = () => {
@@ -45,13 +48,13 @@ class CreateClassroom extends Component {
 
   render() {
     const { isLoading, question, user } = this.props;
-    if (!question.id && !user.id) return null;
+    if (isLoading || !question.id && !user.id) return null;
     return (
       <div className="hero">
         <div className="hero-body">
           <div className="container">
             <div className="column is-6 is-offset-3">
-              <div className="create-classroom">
+              <div className="create-classroom is-hidden" id="card">
                 <div className="question-card">
                   <figure className="image is-64x64">
                     <img className="is-rounded" src={user.imageUrl} />
@@ -68,8 +71,16 @@ class CreateClassroom extends Component {
                   </div>
                   <div className="buttons">
                     <Link
-                      to={`classroom/r/${this.state.roomId}`}
                       className="button is-primary"
+                      to={{
+                        pathname: `classroom/r/${this.state.room}`,
+                        state: {
+                          room: this.state.room,
+                          questionId: this.state.questionId,
+                          studentId: this.state.studentId,
+                          teacherId: this.state.teacherId
+                        }
+                      }}
                     >
                       Send
                     </Link>

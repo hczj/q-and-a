@@ -22,7 +22,6 @@ class ControlContainer extends Component {
   }
 
   componentDidMount() {
-    console.log('this.props', this.props)
     const { socket, video, audio } = this.props;
     this.setState({
       video: video,
