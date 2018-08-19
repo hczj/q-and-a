@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Topic, Organization } = require('../db/models/');
+const { User, Topic, Organization, Category } = require('../db/models/');
 module.exports = router;
 
 router.post('/login', async (req, res, next) => {
@@ -48,7 +48,10 @@ router.get('/me', async (req, res, next) => {
   try {
     if (req.user) {
       const user = await User.findById(req.user.dataValues.id, {
-        include: [{ model: Topic }, { model: Organization }]
+        include: [
+          { model: Topic },
+          { model: Organization, include: [Category] }
+        ]
       });
       res.json(user);
     }

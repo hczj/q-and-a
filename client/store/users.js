@@ -1,6 +1,6 @@
 import axios from 'axios';
 import history from '../history';
-
+import { addTopicToCategoryAll, removeTopicFromCategoryAll } from '../store';
 /**
  * ACTION TYPES
  */
@@ -16,6 +16,7 @@ const RECEIVE_USER = 'RECEIVE_USER';
 
 const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
 const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+const UPDATE_USER_TOPICS_SUCCESS = 'UPDATE_USER_TOPICS_SUCCESS';
 const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS';
 
 /**
@@ -125,6 +126,26 @@ export const updateUser = user => async dispatch => {
     const { data } = await axios.put(`/api/users/${user.id}`, user);
     dispatch(updateUserSuccess(data || {}));
     history.goBack();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const updateUserTopics = topics => async dispatch => {
+  try {
+    await axios.put(`/api/users/me/topics`, topics);
+    dispatch(me());
+    dispatch(removeTopicFromCategoryAll(topics.topicIds));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const removeUserTopic = topicId => async dispatch => {
+  try {
+    const { data } = await axios.delete(`/api/users/me/topics/${topicId}`);
+    dispatch(me());
+    dispatch(addTopicToCategoryAll(data || {}));
   } catch (err) {
     console.error(err);
   }

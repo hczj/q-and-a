@@ -22,6 +22,7 @@ export { default as Dashboard } from './dashboard/dashboard';
 export { default as Topics } from './dashboard/topics';
 export { default as DashboardMenu } from './dashboard/dashboard-menu';
 export { default as Main } from './dashboard/main';
+export { default as TopicsForm } from './dashboard/topics-form';
 
 // feedback
 export { default as Feedback } from './feedback/feedback';

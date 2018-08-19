@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { removeUserTopic, fetchCategoryTopics } from '../../store';
 import {
   Header,
   DashboardMenu,
@@ -20,8 +21,20 @@ class Dashboard extends Component {
     event.target.parentElement.classList.add('is-active');
   };
 
+  removeTopic = topicId => {
+    this.props.deleteTopic(topicId);
+  };
+
   render() {
-    const { isLoading, user, isTeacher, topics, feedback } = this.props;
+    const {
+      isLoading,
+      user,
+      isTeacher,
+      topics,
+      feedback,
+      organization,
+      categories
+    } = this.props;
     if (isLoading) return null;
     return (
       <div>
@@ -40,7 +53,15 @@ class Dashboard extends Component {
           <Route path="/dashboard/inbox" component={Inbox} />
           <Route
             path="/dashboard/topics"
-            render={() => <Topics topics={topics} />}
+            render={() => (
+              <Topics
+                topics={topics}
+                isTeacher={isTeacher}
+                organization={organization}
+                categories={categories}
+                removeTopic={this.removeTopic}
+              />
+            )}
           />
           <Route
             path="/dashboard/feedback/:feedbackId"
@@ -61,11 +82,22 @@ class Dashboard extends Component {
   }
 }
 
-const mapState = state => ({
-  isLoading: state.questions.isLoading,
-  isTeacher: state.me.isTeacher,
-  topics: state.me.topics,
-  user: state.me
+const mapDispatch = dispatch => ({
+  deleteTopic: topicId => dispatch(removeUserTopic(topicId)),
+  getCategoryTopics: () => dispatch(fetchCategoryTopics())
 });
 
-export default connect(mapState)(Dashboard);
+const mapState = state => {
+  let { organization } = state.me || { organization: [] };
+
+  return {
+    isLoading: state.questions.isLoading,
+    isTeacher: state.me.isTeacher,
+    topics: state.me.topics,
+    user: state.me,
+    organization,
+    categories: organization.categories
+  };
+};
+
+export default connect(mapState, mapDispatch)(Dashboard);
