@@ -12,7 +12,7 @@ class OrganizationDropdown extends Component {
     if (!organizations) return null;
     return (
       <Fragment>
-        <option>Select organization</option>
+        <option>Please select...</option>
         {organizations.map(organization => (
           <option key={organization.id} value={+organization.id}>
             {organization.name}

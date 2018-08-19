@@ -8,7 +8,7 @@ import MessageForm from './message-form';
 class Inbox extends Component {
   async componentDidMount() {
     await this.props.getThreads();
-    await this.props.getThread(this.props.threads[0].id);
+    // await this.props.getThread(this.props.threads[0].id);
   }
 
   handleClick = (event, thread) => {

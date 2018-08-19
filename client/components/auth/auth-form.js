@@ -6,8 +6,6 @@ import {
   Header,
   OrganizationDropdown,
   ValidateField
-  // validateLogin,
-  // validateSignup
 } from '../../components';
 
 import { validateLogin, validateSignup } from '../reusable/validate-field';
@@ -48,15 +46,17 @@ const AuthForm = props => {
               <div className="field">
                 <label className="label">Organization</label>
                 <div className="control">
-                  <Field
-                    className="select is-small"
-                    label="Organization"
-                    name="organizationId"
-                    type="select"
-                    component="select"
-                  >
-                    <OrganizationDropdown />
-                  </Field>
+                  <div className="select">
+                    <Field
+                      className="select"
+                      label="Organization"
+                      name="organizationId"
+                      type="select"
+                      component="select"
+                    >
+                      <OrganizationDropdown />
+                    </Field>
+                  </div>
                 </div>
               </div>
 

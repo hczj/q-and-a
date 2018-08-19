@@ -124,7 +124,6 @@ class MediaContainer extends Component {
     });
     // when our browser gets a candidate, send it to the peer
     this.pc.onicecandidate = event => {
-      console.log(event, 'onicecandidate');
       if (event.candidate) {
         this.props.socket.send({
           type: 'candidate',
@@ -135,7 +134,6 @@ class MediaContainer extends Component {
     };
     // when the other side added a media stream, show it on screen
     this.pc.onaddstream = event => {
-      console.log('onaddstream', event);
       this.remoteStream = event.stream;
       this.remoteVideo.srcObject = this.remoteStream = event.stream;
       this.setState({ bridge: 'established' });
