@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { auth } from '../../store';
 import {
   Header,
-  ValidateField,
+  OrganizationDropdown,
+  ValidateField
   // validateLogin,
   // validateSignup
 } from '../../components';
@@ -16,8 +16,6 @@ const AuthForm = props => {
   const {
     formName,
     displayName,
-    linkName,
-    linkDisplayName,
     subtitle,
     handleSubmit,
     error,
@@ -46,6 +44,49 @@ const AuthForm = props => {
                 type="text"
                 component={ValidateField}
               />
+
+              <div className="field">
+                <label className="label">Organization</label>
+                <div className="control">
+                  <Field
+                    className="select is-small"
+                    label="Organization"
+                    name="organizationId"
+                    type="select"
+                    component="select"
+                  >
+                    <OrganizationDropdown />
+                  </Field>
+                </div>
+              </div>
+
+              <div className="field">
+                <label className="label">Are you a teacher?</label>
+                <div className="field-body">
+                  <div className="field is-narrow">
+                    <div className="control">
+                      <label className="radio">
+                        <Field
+                          name="isTeacher"
+                          component="input"
+                          type="radio"
+                          value="true"
+                        />{' '}
+                        Yes
+                      </label>
+                      <label className="radio">
+                        <Field
+                          name="isTeacher"
+                          component="input"
+                          type="radio"
+                          value="false"
+                        />{' '}
+                        No
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </Fragment>
           )}
 
@@ -85,10 +126,6 @@ const AuthForm = props => {
           </div>
         </form>
       </div>
-      <p className="">
-        <Link to={`/${linkName}`}>{linkDisplayName}</Link>
-        {/*<a href="/auth/google">{displayName} with Google</a>*/}
-      </p>
     </div>
   );
 };
@@ -133,6 +170,8 @@ const mapDispatch = dispatch => {
       if (formName === 'signup') {
         formData.firstName = event.target.firstName.value;
         formData.lastName = event.target.lastName.value;
+        formData.organizationId = event.target.organizationId.value;
+        formData.isTeacher = event.target.isTeacher.value;
       }
       dispatch(auth(formData, formName));
     }

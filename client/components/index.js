@@ -8,6 +8,7 @@ export { default as Manage } from './admin/manage';
 // auth
 export { Login, Signup } from './auth/auth-form';
 export { default as Auth } from './auth/auth';
+export { default as OrganizationDropdown } from './auth/organization-dropdown';
 
 // classroom
 export { default as ClassroomView } from './classroom/classroom-view';
