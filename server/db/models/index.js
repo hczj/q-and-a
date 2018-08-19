@@ -7,6 +7,7 @@ const Question = require('./question');
 const Feedback = require('./feedback');
 const Thread = require('./thread');
 const Message = require('./message');
+const Classroom = require('./classroom');
 
 Organization.hasMany(User);
 User.belongsTo(Organization);
@@ -48,6 +49,10 @@ Category.hasMany(Topic);
 Question.belongsToMany(Topic, { through: 'questionTopics' });
 Topic.belongsToMany(Question, { through: 'questionTopics' });
 
+Classroom.belongsTo(Question);
+Classroom.belongsTo(User, { as: 'student' });
+Classroom.belongsTo(User, { as: 'teacher' });
+
 module.exports = {
   Organization,
   User,
@@ -57,5 +62,6 @@ module.exports = {
   Question,
   Feedback,
   Thread,
-  Message
+  Message,
+  Classroom
 };
