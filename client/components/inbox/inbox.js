@@ -8,9 +8,12 @@ import MessageForm from './message-form';
 class Inbox extends Component {
   async componentDidMount() {
     await this.props.getThreads();
-    // await this.props.getThread(this.props.threads[0].id);
+    if (this.props.threads[0].id) {
+      await this.props.getThread(this.props.threads[0].id);
+    }
   }
 
+  componentWillUnmount() {}
   handleClick = (event, thread) => {
     [...document.querySelectorAll('.thread-list-item')].map(el => {
       if (el.classList.contains('is-active')) {
