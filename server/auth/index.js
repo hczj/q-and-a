@@ -8,7 +8,7 @@ router.post('/login', async (req, res, next) => {
       where: {
         email: req.body.email
       },
-      include: Topic
+      include: [{ model: Topic }, { model: Organization, include: [Category] }]
     });
 
     if (!user) {

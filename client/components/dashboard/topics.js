@@ -2,16 +2,10 @@ import React from 'react';
 import { TopicsForm } from '../../components';
 import { arrayToSentence } from '../../utils';
 
-const Topics = ({
-  topics,
-  isTeacher,
-  removeTopic,
-  organization,
-  categories
-}) => {
+const Topics = ({ topics, isTeacher, removeTopic, organization }) => {
   if (!topics) return null;
   let categoryNames = arrayToSentence(
-    categories.map(category => category.name)
+    organization.categories.map(category => category.name)
   );
 
   return (
