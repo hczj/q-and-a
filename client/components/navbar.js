@@ -11,7 +11,7 @@ const toggleNavbarMenu = event => {
   navbarMenu.classList.toggle('is-active');
 };
 
-const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
+const Navbar = ({ handleClick, isLoggedIn, isAdmin, isTeacher, me }) => (
   <nav className="navbar is-primary">
     <div className="container">
       <div className="navbar-brand">
@@ -33,13 +33,6 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
           {isLoggedIn ? (
             <Fragment>
               {/* The navbar will show these links after you log in */}
-              <NavLink
-                to="/classroom"
-                className="navbar-item"
-                activeClassName="is-active"
-              >
-                Classroom
-              </NavLink>
               <NavLink
                 to="/questions"
                 className="navbar-item"

@@ -3,7 +3,58 @@ $toolbar-height: 90px;
 $notification-transition: all $speed $easing ($speed * 2);
 
 
-.classroom {}
+//
+// Create classroom
+// ================
+//
+// This is the card the displays after you click "Answer" and before you enter
+// a classroom (video chat). We show the teacher the student and question, and
+// ask the teacher to confirm before entering the classroom.
+// ----------------------------------------------------------------------------
+
+.create-classroom {
+  box-shadow: 0 .5rem 4rem -0.5rem rgba($black, .1);
+
+  .question-card {
+    align-items: center;
+    background-color: $primary;
+    color: $white;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .question-student {
+    color: rgba($white, .9);
+    font-size: 1.125em;
+    font-weight: $weight-bold;
+    margin-top: .25em;
+  }
+
+  .question-date {
+    color: rgba($white, .65);
+    font-size: .875em;
+  }
+
+  .question {
+    font-size: 1.75em;
+    font-weight: $weight-light;
+    margin-top: 1.5rem;
+    line-height: 1.125;
+  }
+
+  .send-invitation {
+    background-color: $white;
+    padding: 2rem;
+    text-align: center;
+
+    .buttons {
+      justify-content: center;
+    }
+  }
+}
 
 //
 // Classroom media

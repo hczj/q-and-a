@@ -17,15 +17,6 @@ const DELETE_QUESTION_SUCCESS = 'DELETE_QUESTION_SUCCESS';
 const REMOVE_ACTIVE_QUESTION = 'REMOVE_ACTIVE_QUESTION';
 
 /**
- * INITIAL STATE
- */
-const initialQuestions = {
-  isLoading: false,
-  active: {},
-  all: []
-};
-
-/**
  * ACTION CREATORS
  */
 const requestQuestions = () => ({ type: REQUEST_QUESTIONS });
@@ -140,6 +131,15 @@ export const updateQuestion = question => async dispatch => {
   } catch (err) {
     console.error(err);
   }
+};
+
+/**
+ * INITIAL STATE
+ */
+const initialQuestions = {
+  isLoading: false,
+  active: {},
+  all: []
 };
 
 /**

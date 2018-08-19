@@ -1,26 +1,53 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import Classroom from './classroom';
-import { getRoomId } from '../../utils';
-import { me } from '../../store';
+import { createClassroom } from '../../store';
+import io from 'socket.io-client';
+import { MediaContainer, ControlContainer } from '../../components';
 
 class ClassroomView extends Component {
-  state = { roomId: '' };
+  getUserMedia = navigator.mediaDevices
+    .getUserMedia({
+      audio: true,
+      video: true
+    })
+    .catch(err => alert('getUserMedia() error: ' + err.name));
 
-  async componentDidMount() {
-    await this.props.loadInitialData();
-    this.setState({ roomId: getRoomId(this.props.myId) })
+  socket = io.connect();
+
+  componentDidMount() {
+    const roomId = this.props.match.params.room;
+
+    let questionId = 1,
+      teacherId = 2;
+
+    this.props.addRoom(roomId, questionId, teacherId);
   }
 
   render() {
-    return <Classroom roomId={this.state.roomId} />;
+    return (
+      <Fragment>
+        <MediaContainer
+          media={media => (this.media = media)}
+          socket={this.socket}
+          getUserMedia={this.getUserMedia}
+        />
+        <ControlContainer
+          socket={this.socket}
+          media={this.media}
+          getUserMedia={this.getUserMedia}
+        />
+      </Fragment>
+    );
   }
 }
 
-const mapState = state => ({ myId: state.me.id });
+const mapState = state => ({
+  room: state.classroom.id
+});
 
 const mapDispatch = dispatch => ({
-  loadInitialData: () => dispatch(me())
+  addRoom: (room, questionId, teacherId) =>
+    dispatch(createClassroom(room, questionId, teacherId))
 });
 
 export default connect(mapState, mapDispatch)(ClassroomView);

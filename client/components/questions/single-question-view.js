@@ -11,7 +11,7 @@ class SingleQuestionView extends Component {
 
   render() {
     const { question, isLoading } = this.props;
-    const { topics, description, title } = question;
+    const { id, topics, description, title } = question;
 
     if (isLoading) return null;
     return (
@@ -31,7 +31,10 @@ class SingleQuestionView extends Component {
               </span>
             ))}
         </div>
-        <AnswerQuestionButton />
+        <AnswerQuestionButton
+          questionId={id}
+          studentId={1}
+        />
         <hr />
         {description}
       </div>
