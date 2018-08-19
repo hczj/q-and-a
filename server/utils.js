@@ -16,4 +16,13 @@ const isAdmin = (req, res, next) => {
   next();
 };
 
-module.exports = { isAllowed, isAdmin };
+const isTeacher = (req, res, next) => {
+  if (!req.user || !req.user.isTeacher) {
+    const err = new Error(`⛔ You must be a teacher to do that!`);
+    err.status = 401;
+    return next(err);
+  }
+  next();
+};
+
+module.exports = { isAllowed, isAdmin, isTeacher };
