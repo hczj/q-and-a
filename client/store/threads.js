@@ -11,14 +11,7 @@ const RECEIVE_USER_THREAD = 'RECEIVE_USER_THREAD';
 
 const CREATE_MESSAGE_SUCCESS = 'CREATE_MESSAGE';
 
-/**
- * INITIAL STATE
- */
-const initialThreads = {
-  isLoading: false,
-  active: {},
-  all: []
-};
+const REMOVE_ACTIVE_MESSAGE = 'REMOVE_ACTIVE_MESSAGE';
 
 /**
  * ACTION CREATORS
@@ -33,6 +26,8 @@ const createMessageSuccess = message => ({
   type: CREATE_MESSAGE_SUCCESS,
   message
 });
+
+export const removeActiveMessage = () => ({ type: REMOVE_ACTIVE_MESSAGE });
 
 /**
  * THUNK CREATORS
@@ -64,6 +59,15 @@ export const createMessage = message => async dispatch => {
   } catch (err) {
     console.log(err);
   }
+};
+
+/**
+ * INITIAL STATE
+ */
+const initialThreads = {
+  isLoading: false,
+  active: {},
+  all: []
 };
 
 /**
@@ -99,6 +103,12 @@ export default function(state = initialThreads, action) {
           ...state.active,
           messages: [...state.active.messages, action.message]
         }
+      };
+
+    case REMOVE_ACTIVE_MESSAGE:
+      return {
+        ...state,
+        active: {}
       };
 
     default:

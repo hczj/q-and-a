@@ -11,8 +11,9 @@ const SET_AUDIO = 'SET_AUDIO';
  * INITIAL STATE
  */
 const initialClassroom = {
-  id: null,
+  room: '',
   questionId: null,
+  studentId: null,
   teacherId: null,
   video: true,
   audio: true
@@ -21,10 +22,11 @@ const initialClassroom = {
 /**
  * ACTION CREATORS
  */
-export const createClassroom = (classroom, questionId, teacherId) => ({
+export const createClassroom = (room, questionId, studentId, teacherId) => ({
   type: CREATE_CLASSROOM,
-  classroom,
+  room,
   questionId,
+  studentId,
   teacherId
 });
 
@@ -41,8 +43,9 @@ export default function(state = initialClassroom, action) {
     case CREATE_CLASSROOM:
       return {
         ...state,
-        id: action.classroom,
+        room: action.room,
         questionId: action.questionId,
+        studentId: action.studentId,
         teacherId: action.teacherId
       };
 
