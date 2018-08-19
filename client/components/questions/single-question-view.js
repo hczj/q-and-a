@@ -11,9 +11,11 @@ class SingleQuestionView extends Component {
 
   render() {
     const { question, isLoading } = this.props;
-    const { id, topics, description, title } = question;
+    const { topics, title, description, user } = question;
 
-    if (isLoading) return null;
+    console.log('WHAT IS question', question)
+
+    if (isLoading || !user) return null;
     return (
       <div className="box">
         <Link to="/questions">
@@ -32,8 +34,8 @@ class SingleQuestionView extends Component {
             ))}
         </div>
         <AnswerQuestionButton
-          questionId={id}
-          studentId={1}
+          questionId={question.id}
+          studentId={user.id}
         />
         <hr />
         {description}
@@ -44,7 +46,8 @@ class SingleQuestionView extends Component {
 
 const mapState = state => ({
   isLoading: state.questions.isLoading,
-  question: state.questions.active
+  question: state.questions.active,
+  user: state.users.active
 });
 
 const mapDispatch = dispatch => ({

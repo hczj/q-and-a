@@ -6,8 +6,8 @@ socket.on('connect', () => {
   console.log('Connected!');
 });
 
-whiteboardEvent.on('join-room-whiteboard', roomname => {
-  socket.emit('join-room-whiteboard', roomname);
+whiteboardEvent.on('wb-join-room', room => {
+  socket.emit('wb-join-room', room);
 });
 whiteboardEvent.on('wb-draw-event', (start, end, color, lineWidth) => {
   socket.emit('wb-draw-event', start, end, color, lineWidth);

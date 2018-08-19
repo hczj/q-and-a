@@ -56,6 +56,7 @@ export const createMessage = message => async dispatch => {
   try {
     const { data } = await axios.post(`/api/threads`, message);
     dispatch(createMessageSuccess(data || {}));
+    dispatch(fetchThreads());
   } catch (err) {
     console.log(err);
   }
@@ -66,17 +67,24 @@ export const createMessage = message => async dispatch => {
  */
 const initialThreads = {
   isLoading: false,
-  active: {},
   all: []
 };
+
+
+const initialThread = {
+  isLoading: false,
+  id: null,
+  senderId: null,
+  receiverId: null,
+  messages: []
+}
 
 /**
  * REDUCER
  */
-export default function(state = initialThreads, action) {
+export const threadsReducer = (state = initialThreads, action) => {
   switch (action.type) {
     case REQUEST_USER_THREADS:
-    case REQUEST_USER_THREAD:
       return {
         ...state,
         isLoading: true
@@ -89,26 +97,38 @@ export default function(state = initialThreads, action) {
         all: action.threads
       };
 
+    case CREATE_MESSAGE_SUCCESS:
+      return {
+        ...state,
+      }
+
+    default:
+      return state;
+  }
+}
+
+export const threadReducer = (state = initialThread, action) => {
+  switch (action.type) {
+    case REQUEST_USER_THREAD:
+      return {
+        ...state,
+        isLoading: true
+      };
+
     case RECEIVE_USER_THREAD:
       return {
         ...state,
         isLoading: false,
-        active: action.thread
+        id: action.thread.id,
+        senderId: action.thread.senderId,
+        receiverId: action.thread.receiverId,
+        messages: action.thread.messages
       };
 
     case CREATE_MESSAGE_SUCCESS:
       return {
         ...state,
-        active: {
-          ...state.active,
-          messages: [...state.active.messages, action.message]
-        }
-      };
-
-    case REMOVE_ACTIVE_MESSAGE:
-      return {
-        ...state,
-        active: {}
+        messages: [...state.messages, action.message]
       };
 
     default:

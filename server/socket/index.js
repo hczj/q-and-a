@@ -62,11 +62,9 @@ module.exports = io => {
       socket.leave(room);
     });
 
-    socket.on('join-whiteboard-room', whiteboardRoom => {
-      console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', whiteboardRoom);
-      socket.join(whiteboardRoom);
-    });
-
+    //
+    // EDITOR EVENTS
+    // =============
     socket.on('editor-toggle-event', () => {
       socket.broadcast.to(room).emit('editor-toggle');
     });
@@ -77,6 +75,14 @@ module.exports = io => {
 
     socket.on('editor-mode-event', mode => {
       socket.broadcast.to(room).emit('editor-mode', mode);
+    });
+
+    //
+    // WHITEBOARD EVENTS
+    // =================
+    socket.on('wb-join-room', whiteboardRoom => {
+      console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', whiteboardRoom);
+      socket.join(whiteboardRoom);
     });
 
     socket.on('wb-toggle-event', () => {

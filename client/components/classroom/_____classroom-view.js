@@ -17,7 +17,16 @@ class ClassroomView extends Component {
   render() {
     return (
       <Fragment>
-
+        <MediaContainer
+          media={media => (this.media = media)}
+          socket={this.socket}
+          getUserMedia={this.getUserMedia}
+        />
+        <ControlContainer
+          socket={this.socket}
+          media={this.media}
+          getUserMedia={this.getUserMedia}
+        />
       </Fragment>
     );
   }

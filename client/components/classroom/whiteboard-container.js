@@ -3,7 +3,6 @@ import { TwitterPicker } from 'react-color';
 import { EventEmitter } from 'events';
 export const whiteboardEvent = new EventEmitter();
 import socket from '../../socket';
-// import Whiteboard from './whiteboard';
 
 export class WhiteboardContainer extends Component {
   state = {
@@ -23,7 +22,7 @@ export class WhiteboardContainer extends Component {
   lineEnd = [0, 0];
 
   componentDidMount() {
-    //const { socket } = this.props:
+    // const { socket } = this.props:
     socket.on('wb-draw', (start, end, color, lineWidth) => {
       console.log('draw from server');
       this.draw(start, end, color, lineWidth);

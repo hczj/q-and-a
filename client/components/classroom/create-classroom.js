@@ -6,7 +6,9 @@ import {
   fetchQuestion,
   fetchUser,
   removeActiveQuestion,
-  removeActiveUser
+  removeActiveUser,
+  createMessage,
+  createClassroom
 } from '../../store';
 import { getRoomId } from '../../utils';
 import moment from 'moment';
@@ -41,6 +43,18 @@ class CreateClassroom extends Component {
     document.getElementById('card').classList.remove('is-hidden');
   }
 
+  handleInvite = () => {
+    const invitation = `Hi ${this.props.user.firstName}. I have opened a classroom to help you with your question: "${this.props.question.title}". Please join me at ${window.location.origin}/classroom/r/${this.state.room}.`;
+
+    this.props.sendInvite({
+      content: invitation,
+      senderId: this.state.teacherId,
+      receiverId: this.state.studentId
+    });
+
+    this.props.addRoom(this.state.room, this.state.questionId, this.state.studentId, this.state.teacherId)
+  }
+
   goBack = () => {
     this.props.resetActive();
     this.props.history.goBack();
@@ -53,7 +67,7 @@ class CreateClassroom extends Component {
       <div className="hero">
         <div className="hero-body">
           <div className="container">
-            <div className="column is-6 is-offset-3">
+            <div className="column is-6 is-offset-3 is-4-widescreen is-offset-4-widescreen">
               <div className="create-classroom is-hidden" id="card">
                 <div className="question-card">
                   <figure className="image is-64x64">
@@ -71,6 +85,7 @@ class CreateClassroom extends Component {
                   </div>
                   <div className="buttons">
                     <Link
+                      onClick={this.handleInvite}
                       className="button is-primary"
                       to={{
                         pathname: `classroom/r/${this.state.room}`,
@@ -109,10 +124,13 @@ const mapDispatch = dispatch => ({
   loadInitialData: () => dispatch(me()),
   getQuestion: questionId => dispatch(fetchQuestion(questionId)),
   getUser: userId => dispatch(fetchUser(userId)),
+  sendInvite: data => dispatch(createMessage(data)),
   resetActive: () => {
     dispatch(removeActiveUser());
     dispatch(removeActiveQuestion());
-  }
+  },
+  addRoom: (room, questionId, teacherId) =>
+    dispatch(createClassroom(room, questionId, teacherId))
 });
 
 export default connect(mapState, mapDispatch)(CreateClassroom);

@@ -101,7 +101,7 @@ class ControlContainer extends Component {
     event.preventDefault();
     this.props.socket.emit('leave');
     this.props.removeRoom();
-    this.props.history.goBack();
+    this.props.history.go(-2);
   }
 
   handleHangup = () => {

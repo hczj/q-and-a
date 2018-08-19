@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { linkify } from '../../utils';
 
-const MessageList = ({ thread, myId }) => (
-  <div className="thread-message-list">
+const MessageList = ({ isLoading, thread, myId }) => (
+  <div className={`thread-message-list ${isLoading ? 'is-loading' : ''}`}>
     {thread.messages &&
       thread.messages.map(message => (
         <div
