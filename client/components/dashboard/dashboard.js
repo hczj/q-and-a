@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { removeUserTopic, fetchCategoryTopics } from '../../store';
+import {
+  removeUserTopic,
+  fetchCategoryTopics,
+  fetchQuestionsByUser
+} from '../../store';
 import {
   Header,
   DashboardMenu,
@@ -15,6 +19,10 @@ import {
 import { connect } from 'react-redux';
 
 class Dashboard extends Component {
+  componentDidMount() {
+    this.props.getQuestionsByUser();
+  }
+
   setActiveTab = event => {
     const tabs = [...document.querySelectorAll('[data-target-tab]')];
     tabs.forEach(t => t.classList.remove('is-active'));
@@ -33,7 +41,8 @@ class Dashboard extends Component {
       topics,
       feedback,
       organization,
-      categories
+      categories,
+      questions
     } = this.props;
     if (isLoading) return null;
     return (
@@ -74,7 +83,7 @@ class Dashboard extends Component {
 
           <Route
             path="/dashboard/active-questions"
-            component={ActiveQuestions}
+            render={() => <ActiveQuestions questions={questions} />}
           />
         </Switch>
       </div>
@@ -84,7 +93,8 @@ class Dashboard extends Component {
 
 const mapDispatch = dispatch => ({
   deleteTopic: topicId => dispatch(removeUserTopic(topicId)),
-  getCategoryTopics: () => dispatch(fetchCategoryTopics())
+  getCategoryTopics: () => dispatch(fetchCategoryTopics()),
+  getQuestionsByUser: () => dispatch(fetchQuestionsByUser())
 });
 
 const mapState = state => {
@@ -93,6 +103,7 @@ const mapState = state => {
   return {
     isLoading: state.questions.isLoading,
     isTeacher: state.me.isTeacher,
+    questions: state.questions.all,
     topics: state.me.topics,
     user: state.me,
     organization,

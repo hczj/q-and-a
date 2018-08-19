@@ -9,7 +9,7 @@ const Topics = ({
   organization,
   categories
 }) => {
-  if (!topics || !categories) return null;
+  if (!topics) return null;
   let categoryNames = arrayToSentence(
     categories.map(category => category.name)
   );
@@ -30,7 +30,7 @@ const Topics = ({
           <p>You are currently learning the following topics:</p>
         )}
         <div className="tags">
-          {topics.length &&
+          {topics.length > 0 ? (
             topics.map(topic => (
               <span key={topic.id} className="tag is-rounded is-large">
                 {topic.name}
@@ -40,7 +40,10 @@ const Topics = ({
                   onClick={() => removeTopic(topic.id)}
                 />
               </span>
-            ))}
+            ))
+          ) : (
+            <span>You currently have no topics!</span>
+          )}
         </div>
         <p>
           Click the x to remove a topic. If you'd like to add another topic, you

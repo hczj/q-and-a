@@ -57,7 +57,6 @@ export { default as TopicsInput } from './questions/topics-input';
 export { default as CategoryDropdown } from './reusable/category-dropdown';
 export { default as Header } from './reusable/header';
 export { default as NothingHere } from './reusable/nothing-here';
-export { default as QuestionCard } from './reusable/question-card';
 export {
   default as ValidateField,
   validateLogin,
