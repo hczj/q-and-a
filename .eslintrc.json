@@ -4,6 +4,7 @@
   "rules": {
     "semi": 0,
     "complexity": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "no-shadow": "off"
   }
 }

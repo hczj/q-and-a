@@ -1,4 +1,11 @@
 import React, { Fragment, Component } from 'react';
+import {
+  Queue,
+  Header,
+  NothingHere,
+  Button,
+  CategoryDropdown
+} from '../../components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
@@ -6,15 +13,9 @@ import {
   fetchQuestionsByCategory,
   removeActiveCategory,
   fetchCategory,
-  removeAllQuestions
+  removeAllQuestions,
+  updateQuestion
 } from '../../store';
-import {
-  Queue,
-  Header,
-  NothingHere,
-  AskQuestionButton,
-  CategoryDropdown
-} from '../../components';
 
 class QuestionQueue extends Component {
   componentDidMount() {
@@ -51,6 +52,12 @@ class QuestionQueue extends Component {
     }
   };
 
+  closeQuestion = question => {
+    question.isActive = false;
+    this.props.setQuestionInactive(question);
+    this.props.getQuestions();
+  };
+
   render() {
     const { questions, isTeacher } = this.props;
     return (
@@ -61,7 +68,13 @@ class QuestionQueue extends Component {
               <Header title="Questions" />
             </div>
             <div className="level-item">
-              {!isTeacher && <AskQuestionButton />}
+              {!isTeacher && (
+                <Button
+                  link="/ask-a-question"
+                  text="Ask a question!"
+                  classes="button is-link"
+                />
+              )}
             </div>
           </div>
         </nav>
@@ -89,7 +102,11 @@ class QuestionQueue extends Component {
 
           <hr />
 
-          {questions.length ? <Queue /> : <NothingHere />}
+          {questions.length ? (
+            <Queue closeQuestion={this.closeQuestion} />
+          ) : (
+            <NothingHere />
+          )}
         </div>
       </Fragment>
     );
@@ -109,7 +126,8 @@ const mapDispatch = dispatch => ({
     dispatch(fetchQuestionsByCategory(categoryId)),
   removeActiveCategory: () => dispatch(removeActiveCategory()),
   getCategory: categoryId => dispatch(fetchCategory(categoryId)),
-  removeAllQuestions: () => dispatch(removeAllQuestions())
+  removeAllQuestions: () => dispatch(removeAllQuestions()),
+  setQuestionInactive: question => dispatch(updateQuestion(question))
 });
 
 export default withRouter(connect(mapState, mapDispatch)(QuestionQueue));
