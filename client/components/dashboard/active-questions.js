@@ -8,7 +8,7 @@ const ActiveQuestions = ({ questions }) => {
       {questions.length === 0 ? (
         <Fragment>
           <Button
-            link="/classroom"
+            link="/ask-a-question"
             text="Ask a question!"
             classes="button is-link"
           />

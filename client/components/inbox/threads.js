@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
 
-const Threads = ({ threads, myId, handleClick }) => {
+const Threads = ({ isLoading, threads, myId, handleClick }) => {
   return (
     <Fragment>
       {threads.map((thread, i) => {
         const notMe =
           thread.senderId === myId ? thread.receiver : thread.sender;
 
-        const lastMessage = thread.messages[thread.messages.length - 1];
+        const lastMessage = thread.messages[0] || {userId: 0, content: '', createdAt: ''};
 
         return (
           <div

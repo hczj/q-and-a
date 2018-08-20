@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Button = ({ link, text, classes }) => (
-  <Link to={link} className={classes}>
+const Button = ({ link, text, classes, state }) => (
+  <Link to={{ pathname: link, state: state }} className={classes}>
     {text}
   </Link>
 );

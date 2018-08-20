@@ -35,6 +35,11 @@ const Question = ({ question, isTeacher, closeQuestion, myId }) => {
                     link="/classroom"
                     text="Answer"
                     classes="button is-link"
+                    state={{
+                      questionId: question.id,
+                      studentId: user.id,
+                      teacherId: myId
+                    }}
                   />
                 )}
                 {myId === question.userId && (

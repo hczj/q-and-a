@@ -11,11 +11,11 @@ const toggleNavbarMenu = event => {
   navbarMenu.classList.toggle('is-active');
 };
 
-const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
+const Navbar = ({ handleClick, isLoggedIn, isAdmin, isTeacher, me }) => (
   <nav className="navbar is-primary">
     <div className="container">
       <div className="navbar-brand">
-        <Link to="/dashboard" className="navbar-item has-background-primary">
+        <Link to="/" className="navbar-item has-background-primary">
           Q&A
         </Link>
         <div
@@ -33,13 +33,6 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
           {isLoggedIn ? (
             <Fragment>
               {/* The navbar will show these links after you log in */}
-              <NavLink
-                to="/classroom"
-                className="navbar-item"
-                activeClassName="is-active"
-              >
-                Classroom
-              </NavLink>
               <NavLink
                 to="/questions"
                 className="navbar-item"
@@ -76,6 +69,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
                 </div>
                 <div className="navbar-dropdown">
                   <NavLink
+                    exact
                     to="/dashboard"
                     className="navbar-item navbar-dropdown-header"
                   >
@@ -86,6 +80,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
                   </NavLink>
                   <hr className="navbar-divider" />
                   <NavLink
+                    exact
                     to="/dashboard"
                     className="navbar-item"
                     activeClassName="is-active"
@@ -100,7 +95,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, me }) => (
                     My Profile
                   </NavLink>
                   <NavLink
-                    to="/dashboard/"
+                    to="/dashboard/questions"
                     className="navbar-item"
                     activeClassName="is-active"
                   >

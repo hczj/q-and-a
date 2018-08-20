@@ -1,55 +1,62 @@
 import React, { Component } from 'react';
 import { TwitterPicker } from 'react-color';
+import clientSocket from '../../socket';
 import { EventEmitter } from 'events';
-export const whiteboardEvent = new EventEmitter();
-import socket from '../../socket';
-// import Whiteboard from './whiteboard';
+export const whiteboardEvents = new EventEmitter();
 
 export class WhiteboardContainer extends Component {
-  state = {
-    color: 'black',
-    lineWidth: 2,
-    isDrawing: false,
-    eraserToggle: false,
-    lineToggle: false
-  };
+  constructor(props) {
+    super(props);
+    this.canvas = null;
+    this.ctx = null;
+    this.previousColor = '';
+    this.mousePositionCurrent = [0, 0];
+    this.mousePositionPrevious = [0, 0];
+    this.lineStart = [0, 0];
+    this.lineEnd = [0, 0];
 
-  canvas = null;
-  ctx = null;
-  previousColor = '';
-  mousePositionCurrent = [0, 0];
-  mousePositionPrevious = [0, 0];
-  lineStart = [0, 0];
-  lineEnd = [0, 0];
-
-  componentDidMount() {
-    //const { socket } = this.props:
-    socket.on('wb-draw', (start, end, color, lineWidth) => {
-      console.log('draw from server');
-      this.draw(start, end, color, lineWidth);
-    });
-    socket.on('wb-clear', () => {
-      this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    });
-
-    this.ctx = this.canvas.getContext('2d');
-    this.canvas.addEventListener('mousedown', this.mouseDown);
-    this.canvas.addEventListener('mousemove', this.mouseMove);
-    this.canvas.addEventListener('mouseup', this.mouseUp);
+    this.state = {
+      color: 'black',
+      lineWidth: 2,
+      isDrawing: false,
+      eraserToggle: false,
+      lineToggle: false
+    };
   }
 
-  draw = (start, end, color, lineWidth) => {
-    this.ctx.beginPath();
-    this.ctx.lineWidth = lineWidth;
-    this.ctx.strokeStyle = color;
-    this.ctx.moveTo(...start);
-    this.ctx.lineTo(...end);
-    this.ctx.closePath();
-    this.ctx.stroke();
-    whiteboardEvent.emit('wb-draw-event', start, end, color, lineWidth);
+  componentDidMount() {
+    this.ctx = this.canvas.getContext('2d');
+    this.canvas.addEventListener('mousedown', this.handleMousedown);
+    this.canvas.addEventListener('mousemove', this.handleMousemove);
+    this.canvas.addEventListener('mouseup', this.handleMouseup);
+
+    clientSocket.on('wb-draw--from-server', (start, end, color, lineWidth) => {
+      this.draw(start, end, color, lineWidth, false);
+    });
+
+    clientSocket.on('wb-clear--from-server', () => {
+     this.clear(false)
+    });
+  }
+
+  componentWillUnmount() {
+    this.canvas.removeEventListener('mousedown', this.handleMousedown);
+    this.canvas.removeEventListener('mousemove', this.handleMousemove);
+    this.canvas.removeEventListener('mouseup', this.handleMouseup);
+  }
+
+  getMousePos(canvas, event) {
+    const rect = this.canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    return [
+      (event.clientX - rect.left) * scaleX,
+      (event.clientY - rect.top) * scaleY
+    ];
   };
 
-  mouseDown = event => {
+  handleMousedown = event => {
     this.setState({ isDrawing: true });
     this.mousePositionCurrent = this.getMousePos(this.canvas, event);
 
@@ -57,18 +64,7 @@ export class WhiteboardContainer extends Component {
       this.lineStart = this.getMousePos(this.canvas, event);
   };
 
-  getMousePos(canvas, event) {
-    let rect = this.canvas.getBoundingClientRect(),
-      scaleX = canvas.width / rect.width,
-      scaleY = canvas.height / rect.height;
-
-    return [
-      (event.clientX - rect.left) * scaleX,
-      (event.clientY - rect.top) * scaleY
-    ];
-  }
-
-  mouseUp = event => {
+  handleMouseup = event => {
     this.setState({ isDrawing: false });
     if (this.state.lineToggle) {
       this.lineEnd = this.getMousePos(this.canvas, event);
@@ -76,12 +72,13 @@ export class WhiteboardContainer extends Component {
         this.lineStart,
         this.lineEnd,
         this.state.color,
-        this.state.lineWidth
+        this.state.lineWidth,
+        true
       );
     }
   };
 
-  mouseMove = event => {
+  handleMousemove = event => {
     if (this.state.isDrawing && !this.state.lineToggle) {
       this.mousePositionPrevious = this.mousePositionCurrent;
       this.mousePositionCurrent = this.getMousePos(this.canvas, event);
@@ -89,22 +86,36 @@ export class WhiteboardContainer extends Component {
         this.mousePositionPrevious,
         this.mousePositionCurrent,
         this.state.color,
-        this.state.lineWidth
+        this.state.lineWidth,
+        true
       );
     }
   };
 
-  colorChange = color => {
-    const converted = `rgba(${Object.values(color.rgb)})`;
-    this.setState({ color: converted });
+  draw = (start, end, color, lineWidth, shouldBroadcast = true) => {
+    this.ctx.beginPath();
+    this.ctx.lineWidth = lineWidth;
+    this.ctx.strokeStyle = color;
+    this.ctx.moveTo(...start);
+    this.ctx.lineTo(...end);
+    this.ctx.closePath();
+    this.ctx.stroke();
+
+    shouldBroadcast &&
+      whiteboardEvents.emit('wb-draw', start, end, color, lineWidth);
   };
 
-  clear = () => {
+  clear = (shouldBroadcast = true) => {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    whiteboardEvent.emit('wb-clear-event');
+    shouldBroadcast && whiteboardEvents.emit('wb-clear');
   };
 
-  changeBrushSize = event => {
+  handleColorChange = color => {
+    const formattedColor = `rgba(${Object.values(color.rgb)})`;
+    this.setState({ color: formattedColor });
+  };
+
+  handleBrushSizeChange = event => {
     this.setState({ lineWidth: event.target.value });
   };
 
@@ -129,11 +140,6 @@ export class WhiteboardContainer extends Component {
   };
 
   render() {
-    let pathname = window.location.pathname;
-    whiteboardEvent.emit(
-      'join-room-whiteboard',
-      pathname.slice(12, pathname.length)
-    );
     return (
       <div className="whiteboard">
         <div className="file-menu">
@@ -156,7 +162,7 @@ export class WhiteboardContainer extends Component {
                     <div className="dropdown-content">
                       <TwitterPicker
                         color={this.state.color}
-                        onChangeComplete={this.colorChange}
+                        onChangeComplete={this.handleColorChange}
                         triangle="hide"
                         width="100%"
                       />
@@ -168,7 +174,7 @@ export class WhiteboardContainer extends Component {
                             type="number"
                             name="lineWidth"
                             value={this.state.lineWidth}
-                            onChange={this.changeBrushSize}
+                            onChange={this.handleBrushSizeChange}
                           />
                         </label>
                       </form>

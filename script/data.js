@@ -38,7 +38,7 @@ const users = [
     password: 'test',
     isAdmin: true,
     isTeacher: true,
-    imageUrl: 'https://randomuser.me/api/portraits/women/1.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/women/94.jpg'
   },
   {
     firstName: 'Zohaib',
@@ -49,7 +49,7 @@ const users = [
     password: 'test',
     isAdmin: true,
     isTeacher: true,
-    imageUrl: 'https://randomuser.me/api/portraits/men/1.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/men/95.jpg'
   },
   {
     firstName: 'Jerry',
@@ -86,12 +86,12 @@ const users = [
   {
     firstName: 'Ahmet',
     lastName: 'Abed',
-    location: 'Outer Space',
+    location: 'Australia',
     bio: loremIpsum,
     email: 'ahmet@example.com',
     password: 'test',
     isAdmin: false,
-    imageUrl: 'https://randomuser.me/api/portraits/men/15.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/men/58.jpg'
   },
   {
     firstName: 'Jill',
@@ -101,7 +101,7 @@ const users = [
     email: 'jill@example.com',
     password: 'test',
     isAdmin: false,
-    imageUrl: 'https://randomuser.me/api/portraits/women/27.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/women/30.jpg'
   },
   {
     firstName: 'Jake',
@@ -111,7 +111,7 @@ const users = [
     email: 'jake@example.com',
     password: 'test',
     isAdmin: false,
-    imageUrl: 'https://randomuser.me/api/portraits/men/26.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/men/41.jpg'
   },
   {
     firstName: 'Laura',
@@ -120,8 +120,8 @@ const users = [
     bio: loremIpsum,
     email: 'laura@example.com',
     password: 'test',
-    isAdmin: true,
-    imageUrl: 'https://randomuser.me/api/portraits/women/53.jpg'
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/women/24.jpg'
   },
   {
     firstName: 'Luis',
@@ -131,8 +131,17 @@ const users = [
     email: 'luis@example.com',
     password: 'test',
     isAdmin: false,
-    isTeacher: true,
     imageUrl: 'https://randomuser.me/api/portraits/men/71.jpg'
+  },
+  {
+    firstName: 'Sora',
+    lastName: 'Shiroma',
+    location: 'Kyoto',
+    bio: loremIpsum,
+    email: 'sora@example.com',
+    password: 'test',
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/men/90.jpg'
   },
   {
     firstName: 'Sayaka',
@@ -142,7 +151,47 @@ const users = [
     email: 'sayaka@example.com',
     password: 'test',
     isAdmin: false,
-    imageUrl: 'https://randomuser.me/api/portraits/women/14.jpg'
+    imageUrl: 'https://randomuser.me/api/portraits/women/27.jpg'
+  },
+  {
+    firstName: 'Nicki',
+    lastName: 'North',
+    location: 'Toronto',
+    bio: loremIpsum,
+    email: 'nicki@example.com',
+    password: 'test',
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/women/46.jpg'
+  },
+  {
+    firstName: 'Nathan',
+    lastName: 'North',
+    location: 'Montreal',
+    bio: loremIpsum,
+    email: 'nathan@example.com',
+    password: 'test',
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/men/54.jpg'
+  },
+  {
+    firstName: 'Paighten',
+    lastName: 'Parker',
+    location: 'Austin, TX',
+    bio: loremIpsum,
+    email: 'paighten@example.com',
+    password: 'test',
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/women/50.jpg'
+  },
+  {
+    firstName: 'Peter',
+    lastName: 'Parker',
+    location: 'New York City',
+    bio: loremIpsum,
+    email: 'peter@example.com',
+    password: 'test',
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/men/64.jpg'
   },
   {
     firstName: 'Farrokh',
@@ -151,9 +200,8 @@ const users = [
     bio: loremIpsum,
     email: 'farrokh@example.com',
     password: 'test',
-    isAdmin: true,
-    isTeacher: true,
-    imageUrl: 'https://randomuser.me/api/portraits/men/31.jpg'
+    isAdmin: false,
+    imageUrl: 'https://randomuser.me/api/portraits/men/86.jpg'
   }
 ];
 

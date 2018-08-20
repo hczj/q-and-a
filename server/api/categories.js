@@ -96,7 +96,10 @@ router.post('/', async (req, res, next) => {
 router.get('/:categoryId/questions', async (req, res, next) => {
   try {
     const questions = await Question.findAll({
-      where: { categoryId: req.params.categoryId },
+      where: {
+        categoryId: req.params.categoryId,
+        isActive: true
+      },
       include: [{ model: Topic }, { model: User }],
       order: [['createdAt', 'DESC']]
     });

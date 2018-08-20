@@ -7,7 +7,7 @@ import store from './store';
 import './socket';
 import './sass/index.scss';
 
-import { Navbar, ClassroomView, RoomView } from './components';
+import { Navbar, CreateClassroom, ClassroomView } from './components';
 import Routes from './routes';
 
 const RouteToLayout = ({ component: Component, ...rest }) => (
@@ -28,8 +28,8 @@ const MainLayout = () => (
 const AltLayout = () => (
   <Fragment>
     <Switch>
-      <Route exact path="/classroom" component={ClassroomView} />
-      <Route path="/classroom/r/:room" component={RoomView} />
+      <Route exact path="/classroom" component={CreateClassroom} />
+      <Route path="/classroom/r/:room" component={ClassroomView} />
     </Switch>
   </Fragment>
 );

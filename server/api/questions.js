@@ -16,22 +16,30 @@ router.get('/', async (req, res, next) => {
     const user = await User.findById(req.user.dataValues.id);
     const { organizationId } = user;
 
-    const organizationCategories = await OrganizationCategory.findAll({
+    const categories = await OrganizationCategory.findAll({
       where: { organizationId: organizationId }
     });
 
-    const categoryIds = await organizationCategories.map(
-      item => item.categoryId
-    );
+    const categoryIds = await categories.map(item => item.categoryId);
 
     const questions = await Question.findAll({
       where: {
-        categoryId: { [Op.or]: categoryIds },
-        isActive: true
+        isActive: true,
+        categoryId: { [Op.or]: categoryIds }
       },
-      include: [{ model: Topic }, { model: User }],
+      include: [
+        {
+          model: Topic,
+          attributes: ['id', 'name']
+        },
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName', 'imageUrl']
+        }
+      ],
       order: [['createdAt', 'DESC']]
     });
+
     res.json(questions);
   } catch (err) {
     next(err);
@@ -42,7 +50,16 @@ router.get('/', async (req, res, next) => {
 router.get('/:questionId', async (req, res, next) => {
   try {
     const question = await Question.findById(req.params.questionId, {
-      include: [Topic]
+      include: [
+        {
+          model: Topic,
+          attributes: ['id', 'name']
+        },
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName', 'imageUrl']
+        }
+      ]
     });
     res.json(question);
   } catch (err) {

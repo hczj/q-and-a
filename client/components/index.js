@@ -11,10 +11,13 @@ export { default as Auth } from './auth/auth';
 export { default as OrganizationDropdown } from './auth/organization-dropdown';
 
 // classroom
+export { default as CreateClassroom } from './classroom/create-classroom';
 export { default as ClassroomView } from './classroom/classroom-view';
-export { default as RoomView } from './classroom/room-view';
 export { default as MediaContainer } from './classroom/media-container';
 export { default as ControlContainer } from './classroom/control-container';
+export { default as MediaContainerNEW } from './classroom/_MediaContainer';
+export { default as ControlContainerNEW } from './classroom/_ControlContainer';
+
 
 // dashboard
 export { default as ActiveQuestions } from './dashboard/active-questions';

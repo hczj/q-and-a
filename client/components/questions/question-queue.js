@@ -7,6 +7,7 @@ import {
   CategoryDropdown
 } from '../../components';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import {
   fetchQuestions,
   fetchQuestionsByCategory,
@@ -15,7 +16,6 @@ import {
   removeAllQuestions,
   updateQuestion
 } from '../../store';
-import { withRouter } from 'react-router-dom';
 
 class QuestionQueue extends Component {
   componentDidMount() {

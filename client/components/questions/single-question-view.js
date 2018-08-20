@@ -14,9 +14,8 @@ class SingleQuestionView extends Component {
 
   render() {
     const { question, isLoading, isTeacher } = this.props;
-    const { topics, description, title } = question;
-
-    if (isLoading) return null;
+    const { topics, title, description, user } = question;
+    if (isLoading || !user) return null;
     return (
       <div className="box">
         <a onClick={() => this.goBack()}>
@@ -34,7 +33,10 @@ class SingleQuestionView extends Component {
               </span>
             ))}
         </div>
-        {isTeacher && <AnswerQuestionButton />}
+        {isTeacher && <AnswerQuestionButton
+          questionId={question.id}
+          studentId={user.id}
+        />}
         <hr />
         {description}
       </div>
@@ -44,8 +46,9 @@ class SingleQuestionView extends Component {
 
 const mapState = state => ({
   isLoading: state.questions.isLoading,
+  isTeacher: state.me.isTeacher,
   question: state.questions.active,
-  isTeacher: state.me.isTeacher
+  user: state.users.active
 });
 
 const mapDispatch = dispatch => ({

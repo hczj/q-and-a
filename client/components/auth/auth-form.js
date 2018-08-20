@@ -1,14 +1,9 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { auth } from '../../store';
-import {
-  Header,
-  OrganizationDropdown,
-  ValidateField
-  // validateLogin,
-  // validateSignup
-} from '../../components';
+import { Header, OrganizationDropdown, ValidateField } from '../../components';
 
 import { validateLogin, validateSignup } from '../reusable/validate-field';
 
@@ -48,15 +43,17 @@ const AuthForm = props => {
               <div className="field">
                 <label className="label">Organization</label>
                 <div className="control">
-                  <Field
-                    className="select is-small"
-                    label="Organization"
-                    name="organizationId"
-                    type="select"
-                    component="select"
-                  >
-                    <OrganizationDropdown />
-                  </Field>
+                  <div className="select">
+                    <Field
+                      className="select"
+                      label="Organization"
+                      name="organizationId"
+                      type="select"
+                      component="select"
+                    >
+                      <OrganizationDropdown />
+                    </Field>
+                  </div>
                 </div>
               </div>
 
@@ -126,6 +123,19 @@ const AuthForm = props => {
           </div>
         </form>
       </div>
+      <p className="is-size-7">
+        {formName === 'login' && (
+          <span>
+            New to Q&A? <Link to="/signup">Sign up for an account</Link>.
+          </span>
+        )}
+
+        {formName === 'signup' && (
+          <span>
+            Already have a Q&A account? <Link to="/login">Sign in</Link>.
+          </span>
+        )}
+      </p>
     </div>
   );
 };
