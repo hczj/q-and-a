@@ -7,7 +7,7 @@ const Queue = ({ questions }) => {
   return (
     <Fragment>
       {activeQs.map(question => (
-        <Question key={question.id} question={question} />
+        <Question key={question.id} question={question} answerBtn />
       ))}
     </Fragment>
   );

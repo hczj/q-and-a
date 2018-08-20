@@ -93,7 +93,7 @@ const mapState = state => ({
   category: state.categories.active
 });
 
-const mapDispatch = (dispatch, ownProps) => ({
+const mapDispatch = dispatch => ({
   getQuestions: () => dispatch(fetchQuestions()),
   getQuestionsByCategory: categoryId =>
     dispatch(fetchQuestionsByCategory(categoryId)),
