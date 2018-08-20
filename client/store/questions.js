@@ -15,6 +15,7 @@ const UPDATE_QUESTION_SUCCESS = 'UPDATE_QUESTION_SUCCESS';
 const DELETE_QUESTION_SUCCESS = 'DELETE_QUESTION_SUCCESS';
 
 const REMOVE_ACTIVE_QUESTION = 'REMOVE_ACTIVE_QUESTION';
+const REMOVE_ALL_QUESTIONS = 'REMOVE_ALL_QUESTIONS';
 
 /**
  * INITIAL STATE
@@ -50,6 +51,7 @@ const deleteQuestionSuccess = questionId => ({
 });
 
 export const removeActiveQuestion = () => ({ type: REMOVE_ACTIVE_QUESTION });
+export const removeAllQuestions = () => ({ type: REMOVE_ALL_QUESTIONS });
 
 /**
  * THUNK CREATORS
@@ -184,6 +186,12 @@ export default function(state = initialQuestions, action) {
       return {
         ...state,
         all: [...state.all].filter(item => item.id !== action.questionId)
+      };
+
+    case REMOVE_ALL_QUESTIONS:
+      return {
+        ...state,
+        all: []
       };
 
     case REMOVE_ACTIVE_QUESTION:

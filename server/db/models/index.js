@@ -58,5 +58,6 @@ module.exports = {
   Question,
   Feedback,
   Thread,
-  Message
+  Message,
+  OrganizationCategory
 };

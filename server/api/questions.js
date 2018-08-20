@@ -99,10 +99,7 @@ router.put('/:questionId', async (req, res, next) => {
     );
 
     const question = await Question.findById(req.params.questionId, {
-      include: [
-        { model: Topic },
-        { model: User }
-      ]
+      include: [{ model: Topic }, { model: User }]
     });
 
     res.json(question);
