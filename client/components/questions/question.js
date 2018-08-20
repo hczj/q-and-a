@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { AnswerQuestionButton } from '../../components';
+import { Button } from '../../components';
 
-const Question = ({ question, answerBtn, isTeacher }) => {
+const Question = ({ question, isTeacher, closeQuestion, myId }) => {
   const { title, description, topics, user, createdAt } = question;
   return (
     <div className="box">
@@ -30,10 +30,27 @@ const Question = ({ question, answerBtn, isTeacher }) => {
 
             <div className="level-right">
               <div className="level-item">
-                {answerBtn && isTeacher && <AnswerQuestionButton
-                  questionId={question.id}
-                  studentId={user.id}
-                />}
+                {isTeacher && (
+                  <Button
+                    link="/classroom"
+                    text="Answer"
+                    classes="button is-link"
+                    state={{
+                      questionId: question.id,
+                      studentId: user.id,
+                      teacherId: myId
+                    }}
+                  />
+                )}
+                {myId === question.userId && (
+                  <button
+                    type="button"
+                    className="button is-link"
+                    onClick={() => closeQuestion(question)}
+                  >
+                    Remove
+                  </button>
+                )}
               </div>
             </div>
           </nav>

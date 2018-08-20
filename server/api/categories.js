@@ -95,21 +95,15 @@ router.post('/', async (req, res, next) => {
 // get all questions in a category
 router.get('/:categoryId/questions', async (req, res, next) => {
   try {
-    if (!req.query.type || req.query.type === 'newest') {
-      const questions = await Question.findAll({
-        where: { categoryId: req.params.categoryId },
-        include: [{ model: Topic }, { model: User }],
-        order: [['createdAt', 'DESC']]
-      });
-      res.json(questions);
-    } else if (req.query.type === 'answered') {
-      const inactiveQuestions = await Question.findAll({
-        where: { categoryId: req.params.categoryId, isActive: false },
-        include: [{ model: Topic }, { model: User }],
-        order: [['createdAt', 'DESC']]
-      });
-      res.json(inactiveQuestions);
-    }
+    const questions = await Question.findAll({
+      where: {
+        categoryId: req.params.categoryId,
+        isActive: true
+      },
+      include: [{ model: Topic }, { model: User }],
+      order: [['createdAt', 'DESC']]
+    });
+    res.json(questions);
   } catch (err) {
     next(err);
   }

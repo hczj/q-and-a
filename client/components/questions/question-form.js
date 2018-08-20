@@ -11,7 +11,7 @@ import {
   CategoryDropdown,
   Header,
   TopicsInput,
-  ValidateField,
+  ValidateField
   // validateQuestion
 } from '../../components';
 import pickBy from 'lodash.pickby';
@@ -21,9 +21,8 @@ import { validateQuestion } from '../reusable/validate-field';
 
 class QuestionForm extends Component {
   componentDidMount() {
-    const { getUserCategories, removeActiveCategory } = this.props;
+    const { removeActiveCategory } = this.props;
     removeActiveCategory();
-    getUserCategories();
   }
 
   handleCategoryChange = event => {
@@ -122,7 +121,6 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   addQuestion: data => dispatch(createQuestion(data)),
-  getUserCategories: () => dispatch(fetchCategoriesByUser()),
   getCategory: categoryId => dispatch(fetchCategory(categoryId)),
   removeActiveCategory: () => dispatch(removeActiveCategory())
 });

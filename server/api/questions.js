@@ -1,60 +1,46 @@
 const router = require('express').Router();
-const { Question, Topic, UserTopic, User } = require('../db/models');
+const {
+  Question,
+  Topic,
+  UserTopic,
+  User,
+  OrganizationCategory
+} = require('../db/models');
 const Op = require('sequelize').Op;
 
 module.exports = router;
 
-// get all questions associated with topics user is interested in
+// get all questions in categories user is associated with
 router.get('/', async (req, res, next) => {
   try {
-    const topics = await UserTopic.findAll({
-      where: { userId: req.user.dataValues.id },
-      attributes: ['topicId'],
-      include: [{ model: Topic, attributes: ['categoryId'] }]
+    const user = await User.findById(req.user.dataValues.id);
+    const { organizationId } = user;
+
+    const categories = await OrganizationCategory.findAll({
+      where: { organizationId: organizationId }
     });
 
-    if (topics.length === 0) {
-      return res.json([]);
-    } else {
-      const categoryIds = topics.map(item => item.topic.categoryId);
-      const questions = await Question.findAll({
-        where: { categoryId: { [Op.or]: categoryIds } },
-        include: [
-          {
-            model: Topic,
-            attributes: ['id', 'name']
-          },
-          {
-            model: User,
-            attributes: ['id', 'firstName', 'lastName', 'imageUrl']
-          }
-        ],
-        order: [['createdAt', 'DESC']]
-      });
+    const categoryIds = await categories.map(item => item.categoryId);
 
-      if (!req.query.type || req.query.type === 'newest') {
-        res.json(questions);
-      } else if (req.query.type === 'answered') {
-        const inactiveQuestions = await Question.findAll({
-          where: {
-            categoryId: { [Op.or]: categoryIds },
-            isActive: false
-          },
-          include: [
-            {
-              model: Topic,
-              attributes: ['id', 'name']
-            },
-            {
-              model: User,
-              attributes: ['id', 'firstName', 'lastName', 'imageUrl']
-            }
-          ],
-          order: [['createdAt', 'DESC']]
-        });
-        res.json(inactiveQuestions);
-      }
-    }
+    const questions = await Question.findAll({
+      where: {
+        isActive: true,
+        categoryId: { [Op.or]: categoryIds }
+      },
+      include: [
+        {
+          model: Topic,
+          attributes: ['id', 'name']
+        },
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName', 'imageUrl']
+        }
+      ],
+      order: [['createdAt', 'DESC']]
+    });
+
+    res.json(questions);
   } catch (err) {
     next(err);
   }
@@ -119,7 +105,8 @@ router.put('/:questionId', async (req, res, next) => {
     await Question.update(
       {
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
+        isActive: req.body.isActive
       },
       {
         where: { id: req.params.questionId },

@@ -12,6 +12,9 @@ const Question = db.define('question', {
   description: {
     type: Sequelize.TEXT
   },
+  snippet: {
+    type: Sequelize.TEXT
+  },
   isActive: {
     type: Sequelize.BOOLEAN,
     defaultValue: true
