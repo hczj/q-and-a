@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { AnswerQuestionButton } from '../../components';
+import { Button } from '../../components';
 
-const Question = ({ question, answerBtn, isTeacher }) => {
+const Question = ({ question, isTeacher }) => {
   const { title, description, topics, user, createdAt } = question;
   return (
     <div className="box">
@@ -30,7 +30,16 @@ const Question = ({ question, answerBtn, isTeacher }) => {
 
             <div className="level-right">
               <div className="level-item">
-                {answerBtn && isTeacher && <AnswerQuestionButton />}
+                {isTeacher && (
+                  <Button
+                    link="/classroom"
+                    text="Answer"
+                    classes="button is-link"
+                  />
+                )}
+                {user.id === question.id && (
+                  <Button text="Remove question" classes="button is-link" />
+                )}
               </div>
             </div>
           </nav>

@@ -40,10 +40,6 @@ export { default as Profile } from './profile/profile';
 export { default as DashboardProfile } from './profile/dashboard-profile';
 
 // questions
-export {
-  default as AnswerQuestionButton
-} from './questions/answer-question-button';
-export { default as AskQuestionButton } from './questions/ask-question-button';
 export { default as QuestionForm } from './questions/question-form';
 export { default as QuestionQueue } from './questions/question-queue';
 export { default as Question } from './questions/question';
@@ -63,3 +59,4 @@ export {
   validateSignup,
   validateQuestion
 } from './reusable/validate-field';
+export { default as Button } from './reusable/button';

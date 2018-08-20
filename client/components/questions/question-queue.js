@@ -3,7 +3,7 @@ import {
   Queue,
   Header,
   NothingHere,
-  AskQuestionButton,
+  Button,
   CategoryDropdown
 } from '../../components';
 import { connect } from 'react-redux';
@@ -61,7 +61,13 @@ class QuestionQueue extends Component {
               <Header title="Questions" />
             </div>
             <div className="level-item">
-              {!isTeacher && <AskQuestionButton />}
+              {!isTeacher && (
+                <Button
+                  link="/ask-a-question"
+                  text="Ask a question!"
+                  classes="button is-link"
+                />
+              )}
             </div>
           </div>
         </nav>
