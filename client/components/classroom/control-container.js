@@ -10,13 +10,10 @@ import clientSocket from '../../socket';
 class ControlContainer extends Component {
   state = {
     sid: '',
+    message: '',
     audio: true,
     video: true
   };
-
-  // hideAuth = () => {
-  //   this.props.media.setState({ bridge: 'connecting' });
-  // }
 
   componentDidMount() {
     const { video, audio, mediaEvents, getUserMedia } = this.props;
@@ -25,18 +22,21 @@ class ControlContainer extends Component {
       audio: audio
     });
 
-    mediaEvents.on('approve', ({ sid }) => {
-      this.props.media.setState({ bridge: 'approve' });
-      this.setState({ sid });
+    clientSocket.on('rtc-approve--from-server', ({ message, sid }) => {
+      console.log('**** SERVER HAS APPROVED US!');
+      console.log('**** SERVER MESSAGE:', message);
+      console.log('**** SERVER SID:', sid);
+      this.setState({ message, sid });
     });
+
     mediaEvents.on('editor-toggle', () => {
       this.toggleEditor();
     });
+
     mediaEvents.on('wb-toggle', () => {
       this.toggleWhiteboard();
     });
 
-    mediaEvents.emit('find');
     getUserMedia.then(stream => {
       this.localStream = stream;
       this.localStream.getVideoTracks()[0].enabled = this.state.video;
@@ -44,16 +44,18 @@ class ControlContainer extends Component {
     });
   }
 
-  // send = event => {
-  //   event.preventDefault();
-  //   this.props.mediaEvents.emit('auth', this.state);
-  //   this.hideAuth();
-  // }
+  startCall = event => {
+    console.log('startCall func from `control-container`');
+    console.log('this.state', this.state);
+    event.preventDefault();
+    this.props.media.setState({ bridge: 'connecting' });
+    this.props.mediaEvents.emit('rtc-auth', this.state);
+  };
 
   handleInvitation = event => {
     event.preventDefault();
+    // emit either `rtc-accept` or `rtc-reject` from the event
     this.props.mediaEvents.emit([event.target.dataset.ref], this.state.sid);
-    this.hideAuth();
   }
 
   toggleVideo = () => {
@@ -96,16 +98,6 @@ class ControlContainer extends Component {
   handleHangup = () => {
     this.props.media.hangup();
   };
-
-
-  startCall = event => {
-    event.preventDefault();
-    this.props.media.setState({ bridge: 'connecting' });
-    this.props.mediaEvents.emit('rtc-auth', this.state);
-  };
-
-
-
 
   render() {
     return (

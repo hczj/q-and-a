@@ -90,7 +90,6 @@ export default function(state = initialClassroom, action) {
       };
 
     case RECEIVE_CLASSROOM:
-      console.log('reducer receive classroom', action)
       return {
         ...state,
         isLoading: false,

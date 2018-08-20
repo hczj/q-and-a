@@ -33,7 +33,6 @@ router.get('/:classroom', async (req, res, next) => {
         }
       ]
     });
-    console.log('************ GET CLASSROOM', classroom.dataValues);
     res.json(classroom);
   } catch (err) {
     next(err);
@@ -46,8 +45,6 @@ router.post('/', isTeacher, async (req, res, next) => {
     await classroom.setQuestion(req.body.questionId);
     await classroom.setStudent(req.body.studentId);
     await classroom.setTeacher(req.body.teacherId);
-    // console.log('***** CREATE CLASSROOM', classroom);
-    // console.log(Object.keys(classroom.__proto__));
     res.status(201).json(classroom);
   } catch (err) {
     next(err);

@@ -8,6 +8,9 @@ import 'brace/mode/css';
 import 'brace/mode/html';
 import 'brace/mode/javascript';
 import 'brace/mode/python';
+import clientSocket from '../../socket';
+import { EventEmitter } from 'events';
+export const editorEvents = new EventEmitter();
 
 const textMode = {
   mode: 'text',
@@ -42,17 +45,17 @@ export class EditorContainer extends Component {
   state = textMode;
 
   componentDidMount() {
-    const { socket } = this.props;
-    socket.on('editor-text', text => {
-      this.setState({ value: text });
+    clientSocket.on('editor-content--from-server', content => {
+      this.setState({ value: content });
     });
-    socket.on('editor-mode', mode => {
+
+    clientSocket.on('editor-mode--from-server', mode => {
       this.changeMode(mode);
     })
   }
 
-  handleTextChange = text => {
-    this.props.socket.emit('editor-text-event', text);
+  handleContentChange = content => {
+    editorEvents.emit('editor-content', content);
   };
 
   handleModeChange = event => {
@@ -64,7 +67,7 @@ export class EditorContainer extends Component {
     event.target.classList.add('is-active');
     const mode = event.target.dataset.mode;
     const name = event.target.dataset.name;
-    this.props.socket.emit('editor-mode-event', mode);
+    editorEvents.emit('editor-mode', mode);
     this.changeMode(mode, name);
   };
 
@@ -138,7 +141,7 @@ export class EditorContainer extends Component {
           value={this.state.value}
           mode={this.state.mode}
           theme={this.state.theme}
-          onChange={this.handleTextChange}
+          onChange={this.handleContentChange}
           name="ace-editor"
           width="100%"
           height="100%"

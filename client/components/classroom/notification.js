@@ -21,7 +21,7 @@ const Notification = props => {
           <p className="control">
             <button
               onClick={props.handleInvitation}
-              data-ref="accept"
+              data-ref="rtc-accept"
               className="button is-primary"
             >
               Accept
@@ -30,7 +30,7 @@ const Notification = props => {
           <p className="control">
             <button
               onClick={props.handleInvitation}
-              data-ref="reject"
+              data-ref="rtc-reject"
               className="button is-outlined"
             >
               Reject

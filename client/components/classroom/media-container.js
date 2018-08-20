@@ -30,8 +30,38 @@ class MediaContainer extends Component {
       stream => (this.localVideo.srcObject = this.localStream = stream)
     );
 
-    // clientSocket.on('message', this.onMessage);
-    // clientSocket.on('hangup', this.onRemoteHangup);
+    clientSocket.on('rtc-bridge--from-server', role => {
+      console.log('**** SERVER SENT US A BRIDGE');
+      console.log('**** SERVER BRIDGE CAME WITH A ROLE:', role);
+      this.init();
+    });
+
+    clientSocket.on('create-room--from-server', room => {
+      console.log('**** THE SERVER SAID TO CREATE ROOM:', room);
+      this.setState({ user: 'host', bridge: 'create' })
+    });
+
+    clientSocket.on('join-room--from-server', room => {
+      console.log('**** SERVER WANTS US TO JOIN ROOM:', room);
+      this.setState({ user: 'guest', bridge: 'join' });
+    });
+
+    clientSocket.on('room-is-full--from-server', this.notifyClientRoomIsFull);
+
+    clientSocket.on('rtc-message--from-server', message => {
+      console.log('**** SERVER SENT A MESSAGE:', message);
+      this.onMessage(message);
+    });
+
+    clientSocket.on('rtc-approve--from-server', ({ message, sid }) => {
+      console.log('**** SERVER HAS APPROVED US!');
+      this.setState({ bridge: 'approve' });
+    });
+
+    clientSocket.on('rtc-hangup--from-server', () => {
+      console.log('**** SERVER WANTS US TO HANGUP')
+      this.onRemoteHangup();
+    });
   }
 
   componentWillUnmount() {
@@ -42,34 +72,34 @@ class MediaContainer extends Component {
     this.props.mediaEvents.emit('leave');
   }
 
-  onRemoteHangup = () => {
-    this.setState({
-      user: 'host',
-      bridge: 'host-hangup'
-    });
-  };
-
-  onMessage = msg => {
-    if (msg.type === 'offer') {
+  onMessage = message => {
+    if (message.type === 'offer') {
       // set remote description and answer
-      this.pc.setRemoteDescription(new RTCSessionDescription(msg));
+      this.pc.setRemoteDescription(new RTCSessionDescription(message));
       this.pc
         .createAnswer()
         .then(this.setDescription)
         .then(this.sendDescription)
         .catch(this.handleError); // handle the failure to connect
-    } else if (msg.type === 'answer') {
+    } else if (message.type === 'answer') {
       // set remote description
-      this.pc.setRemoteDescription(new RTCSessionDescription(msg));
-    } else if (msg.type === 'candidate') {
+      this.pc.setRemoteDescription(new RTCSessionDescription(message));
+    } else if (message.type === 'candidate') {
       // add ice candidate
       this.pc.addIceCandidate(
         new RTCIceCandidate({
-          sdpMLineIndex: msg.mlineindex,
-          candidate: msg.candidate
+          sdpMLineIndex: message.mlineindex,
+          candidate: message.candidate
         })
       );
     }
+  };
+
+  onRemoteHangup = () => {
+    this.setState({
+      user: 'host',
+      bridge: 'host-hangup'
+    });
   };
 
   sendData = msg => this.dc.send(JSON.stringify(msg));
@@ -86,17 +116,21 @@ class MediaContainer extends Component {
     };
   };
 
-  setDescription = offer => this.pc.setLocalDescription(offer);
+  setDescription = offer => {
+    this.pc.setLocalDescription(offer);
+  };
 
   // send the offer to a server to be forwarded to the other peer
-  sendDescription = () => this.props.mediaEvents.send(this.pc.localDescription);
+  sendDescription = () => {
+    this.props.mediaEvents.emit('rtc-message', this.pc.localDescription);
+  };
 
   hangup = () => {
     if (!this.pc) return;
     this.setState({ feedback: 'has-feedback-form' });
     this.setState({ user: 'guest', bridge: 'guest-hangup' });
     this.pc.close();
-    this.props.mediaEvents.emit('leave');
+    this.props.mediaEvents.emit('rtc-hangup');
   };
 
   handleError = err => console.log('error!', err);
@@ -112,18 +146,6 @@ class MediaContainer extends Component {
   notifyClientRoomIsFull = () => {
     this.setState({ bridge: 'full' });
   };
-
-  //
-  // HEY!
-  // RENAME THIS TO BE MORE CLEAR!
-  // ==================================================
-  hideAuth = () => {};
-
-  startCall = event => {
-    event.preventDefault();
-    this.setState({ bridge: 'connecting' });
-    this.props.mediaEvents.emit('rtc-auth', this.state);
-  }
 
   init = () => {
     // wait for local media to be ready
@@ -147,7 +169,7 @@ class MediaContainer extends Component {
     // when our browser gets a candidate, send it to the peer
     this.pc.onicecandidate = event => {
       if (event.candidate) {
-        this.props.mediaEvents.send({
+        this.props.mediaEvents.emit('rtc-message', {
           type: 'candidate',
           mlineindex: event.candidate.sdpMLineIndex,
           candidate: event.candidate.candidate
@@ -181,33 +203,7 @@ class MediaContainer extends Component {
     }
   };
 
-
-
-
-
-
-
-
   render() {
-
-    clientSocket.on('bridge', role => this.props.media.init());
-
-    clientSocket.on('create-room--from-server', room => {
-      console.log('**** THE SERVER SAID TO CREATE ROOM:', room);
-      this.setState({ user: 'host', bridge: 'create' })
-    });
-
-    clientSocket.on('join-room--from-server', room => {
-      console.log('**** SERVER WANTS US TO JOIN ROOM:', room);
-      this.setState({ user: 'guest', bridge: 'join' });
-    });
-
-    clientSocket.on('room-is-full--from-server', this.notifyClientRoomIsFull);
-
-
-
-
-
     const { bridge, whiteboard, editor, feedback } = this.state;
     return (
       <div
