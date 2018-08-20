@@ -1,20 +1,23 @@
-import React from 'react';
-import { Header, QuestionCard } from '../../components';
+import React, { Fragment } from 'react';
+import { Header, Question, AskQuestionButton } from '../../components';
 
-export default ({ questions, myId }) => {
-  const activeQs = questions.filter(
-    question => question.userId === myId && question.isActive
-  );
+const ActiveQuestions = ({ questions }) => {
+  const activeQs = questions.filter(question => question.isActive);
 
-  if (activeQs.length === 0) return null;
   return (
     <div className="box">
       <Header title="Active Questions" size="is-3" />
-      <div className="columns">
-        {activeQs.map(question => (
-          <QuestionCard key={question.id} {...question} />
-        ))}
-      </div>
+      {activeQs.length === 0 ? (
+        <Fragment>
+          <AskQuestionButton />
+        </Fragment>
+      ) : (
+        activeQs.map(question => (
+          <Question key={question.id} question={question} answerBtn={false} />
+        ))
+      )}
     </div>
   );
 };
+
+export default ActiveQuestions;

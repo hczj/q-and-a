@@ -15,7 +15,10 @@ const UPDATE_CATEGORY_SUCCESS = 'UPDATE_CATEGORY_SUCCESS';
 const DELETE_CATEGORY_SUCCESS = 'DELETE_CATEGORY_SUCCESS';
 
 const REMOVE_ACTIVE_CATEGORY = 'REMOVE_ACTIVE_CATEGORY';
+const REMOVE_ALL_CATEGORIES = 'REMOVE_ALL_CATEGORIES';
 
+const ADD_TOPIC_TO_CATEGORY_ALL = 'ADD_TOPIC_TO_CATEGORY_ALL';
+const REMOVE_TOPIC_FROM_ALL = 'REMOVE_TOPIC_FROM_ALL';
 /**
  * INITIAL STATE
  */
@@ -52,7 +55,19 @@ const deleteCategorySuccess = categoryId => ({
   categoryId
 });
 
+export const addTopicToCategoryAll = topic => ({
+  type: ADD_TOPIC_TO_CATEGORY_ALL,
+  topic
+});
+
+export const removeTopicFromCategoryAll = topicIds => ({
+  type: REMOVE_TOPIC_FROM_ALL,
+  topicIds
+});
+
 export const removeActiveCategory = () => ({ type: REMOVE_ACTIVE_CATEGORY });
+
+export const removeAllCategories = () => ({ type: REMOVE_ALL_CATEGORIES });
 
 /**
  * THUNK CREATORS
@@ -71,6 +86,16 @@ export const fetchCategoriesByUser = () => async dispatch => {
   dispatch(requestCategories());
   try {
     const { data } = await axios.get(`/api/users/me/categories`);
+    dispatch(receiveCategories(data || []));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const fetchCategoryTopics = () => async dispatch => {
+  dispatch(requestCategories());
+  try {
+    const { data } = await axios.get(`/api/categories/topics`);
     dispatch(receiveCategories(data || []));
   } catch (err) {
     console.error(err);
@@ -135,10 +160,30 @@ export default function(state = initialCategories, action) {
         all: [...state.all]
       };
 
+    case ADD_TOPIC_TO_CATEGORY_ALL:
+      return {
+        ...state,
+        all: [...state.all, action.topic]
+      };
+
+    case REMOVE_TOPIC_FROM_ALL:
+      return {
+        ...state,
+        all: [...state.all].filter(
+          item => action.topicIds.indexOf(item.id) === -1
+        )
+      };
+
     case DELETE_CATEGORY_SUCCESS:
       return {
         ...state,
         all: [...state.all].filter(item => item.id !== action.categoryId)
+      };
+
+    case REMOVE_ALL_CATEGORIES:
+      return {
+        ...state,
+        all: []
       };
 
     case REMOVE_ACTIVE_CATEGORY:

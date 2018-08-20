@@ -5,7 +5,8 @@ import {
   fetchQuestions,
   fetchQuestionsByCategory,
   removeActiveCategory,
-  fetchCategory
+  fetchCategory,
+  removeAllQuestions
 } from '../../store';
 import {
   Queue,
@@ -17,10 +18,18 @@ import {
 
 class QuestionQueue extends Component {
   componentDidMount() {
-    const { getQuestions, category, removeActiveCategory } = this.props;
+    const {
+      getQuestions,
+      category,
+      removeActiveCategory,
+      removeAllQuestions
+    } = this.props;
+
+    removeAllQuestions();
     if (category) {
       removeActiveCategory();
     }
+
     getQuestions();
   }
 
@@ -43,7 +52,7 @@ class QuestionQueue extends Component {
   };
 
   render() {
-    const { questions } = this.props;
+    const { questions, isTeacher } = this.props;
     return (
       <Fragment>
         <nav className="level">
@@ -52,7 +61,7 @@ class QuestionQueue extends Component {
               <Header title="Questions" />
             </div>
             <div className="level-item">
-              <AskQuestionButton />
+              {!isTeacher && <AskQuestionButton />}
             </div>
           </div>
         </nav>
@@ -90,15 +99,17 @@ class QuestionQueue extends Component {
 const mapState = state => ({
   questions: state.questions.all,
   isLoading: state.questions.isLoading,
-  category: state.categories.active
+  category: state.categories.active,
+  isTeacher: state.me.isTeacher
 });
 
-const mapDispatch = (dispatch, ownProps) => ({
+const mapDispatch = dispatch => ({
   getQuestions: () => dispatch(fetchQuestions()),
   getQuestionsByCategory: categoryId =>
     dispatch(fetchQuestionsByCategory(categoryId)),
   removeActiveCategory: () => dispatch(removeActiveCategory()),
-  getCategory: categoryId => dispatch(fetchCategory(categoryId))
+  getCategory: categoryId => dispatch(fetchCategory(categoryId)),
+  removeAllQuestions: () => dispatch(removeAllQuestions())
 });
 
 export default withRouter(connect(mapState, mapDispatch)(QuestionQueue));

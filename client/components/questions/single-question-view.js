@@ -1,26 +1,29 @@
 import React, { Component } from 'react';
-import { Header, AnswerQuestionButton, NothingHere } from '../../components';
+import { Header, AnswerQuestionButton } from '../../components';
 import { connect } from 'react-redux';
 import { fetchQuestion } from '../../store';
-import { Link } from 'react-router-dom';
 
 class SingleQuestionView extends Component {
   componentDidMount() {
     this.props.getQuestion(this.props.match.params.questionId);
   }
 
+  goBack = () => {
+    this.props.history.goBack();
+  };
+
   render() {
-    const { question, isLoading } = this.props;
+    const { question, isLoading, isTeacher } = this.props;
     const { topics, title, description, user } = question;
     if (isLoading || !user) return null;
     return (
       <div className="box">
-        <Link to="/questions">
+        <a onClick={() => this.goBack()}>
           <span className="icon">
             <i className="fas fa-long-arrow-alt-left" />
           </span>
           <span>Back to Questions</span>
-        </Link>
+        </a>
         <Header title={title} />
         <div className="tags">
           {topics &&
@@ -30,10 +33,10 @@ class SingleQuestionView extends Component {
               </span>
             ))}
         </div>
-        <AnswerQuestionButton
+        {isTeacher && <AnswerQuestionButton
           questionId={question.id}
           studentId={user.id}
-        />
+        />}
         <hr />
         {description}
       </div>
@@ -43,6 +46,7 @@ class SingleQuestionView extends Component {
 
 const mapState = state => ({
   isLoading: state.questions.isLoading,
+  isTeacher: state.me.isTeacher,
   question: state.questions.active,
   user: state.users.active
 });

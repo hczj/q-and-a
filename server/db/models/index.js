@@ -1,6 +1,7 @@
 const Organization = require('./organization');
 const User = require('./user');
 const Category = require('./category');
+const OrganizationCategory = require('./organization-category');
 const Topic = require('./topic');
 const UserTopic = require('./user-topic');
 const Question = require('./question');
@@ -12,8 +13,8 @@ const Classroom = require('./classroom');
 Organization.hasMany(User);
 User.belongsTo(Organization);
 
-Organization.belongsToMany(Category, { through: 'organizationCategory' });
-Category.belongsToMany(Organization, { through: 'organizationCategory' });
+Organization.belongsToMany(Category, { through: OrganizationCategory });
+Category.belongsToMany(Organization, { through: OrganizationCategory });
 
 Question.belongsTo(User);
 User.hasMany(Question);
@@ -57,6 +58,7 @@ module.exports = {
   Organization,
   User,
   Category,
+  OrganizationCategory,
   Topic,
   UserTopic,
   Question,
