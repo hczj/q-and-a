@@ -7,12 +7,13 @@ const Question = require('./question');
 const Feedback = require('./feedback');
 const Thread = require('./thread');
 const Message = require('./message');
+const OrganizationCategory = require('./organization-category');
 
 Organization.hasMany(User);
 User.belongsTo(Organization);
 
-Organization.belongsToMany(Category, { through: 'organizationCategory' });
-Category.belongsToMany(Organization, { through: 'organizationCategory' });
+Organization.belongsToMany(Category, { through: OrganizationCategory });
+Category.belongsToMany(Organization, { through: OrganizationCategory });
 
 Question.belongsTo(User);
 User.hasMany(Question);
