@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import { mediaEvents } from './components/classroom/classroom-view';
 import { whiteboardEvents } from './components/classroom/whiteboard-container';
+import { editorEvents } from './components/classroom/editor-container';
 
 const clientSocket = io(window.location.origin);
 let roomName = window.location.pathname;
