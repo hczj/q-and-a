@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Topic, Organization } = require('../db/models/');
+const { User, Topic, Organization, Category } = require('../db/models/');
 module.exports = router;
 
 router.post('/login', async (req, res, next) => {
@@ -8,7 +8,7 @@ router.post('/login', async (req, res, next) => {
       where: {
         email: req.body.email
       },
-      include: Topic
+      include: [{ model: Topic }, { model: Organization, include: [Category] }]
     });
 
     if (!user) {
@@ -27,7 +27,10 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
-    const user = await User.create(req.body);
+    const newUser = await User.create(req.body);
+    const user = await User.findById(newUser.id, {
+      include: [{ model: Topic }, { model: Organization, include: [Category] }]
+    });
     req.login(user, err => (err ? next(err) : res.json(user)));
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
@@ -48,7 +51,10 @@ router.get('/me', async (req, res, next) => {
   try {
     if (req.user) {
       const user = await User.findById(req.user.dataValues.id, {
-        include: [{ model: Topic }, { model: Organization }]
+        include: [
+          { model: Topic },
+          { model: Organization, include: [Category] }
+        ]
       });
       res.json(user);
     }

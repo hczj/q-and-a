@@ -6,7 +6,8 @@ const {
   UserTopic,
   Category,
   Thread,
-  Message
+  Message,
+  Organization
 } = require('../db/models');
 const { isAdmin } = require('../utils');
 const Op = require('sequelize').Op;
@@ -75,7 +76,8 @@ router.get('/me/categories', async (req, res, next) => {
 router.get('/me/questions', async (req, res, next) => {
   try {
     const questions = await Question.findAll({
-      where: { userId: req.user.dataValues.id }
+      where: { userId: req.user.dataValues.id },
+      include: [{ model: Topic }, { model: User }]
     });
     res.json(questions);
   } catch (err) {
@@ -119,6 +121,41 @@ router.put('/:userId', isAdmin, async (req, res, next) => {
       }
     );
     res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// update your topics
+router.put('/me/topics', (req, res, next) => {
+  try {
+    req.body.topicIds.map(async topic => {
+      await UserTopic.findOrCreate({
+        where: {
+          userId: req.user.dataValues.id,
+          topicId: topic
+        }
+      });
+    });
+
+    res.sendStatus(201);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// remove a user topic
+router.delete('/me/topics/:topicId', async (req, res, next) => {
+  try {
+    await UserTopic.destroy({
+      where: {
+        userId: req.user.dataValues.id,
+        topicId: req.params.topicId
+      }
+    });
+
+    const topic = await Topic.findById(req.params.topicId);
+    res.status(201).send(topic);
   } catch (err) {
     next(err);
   }

@@ -24,6 +24,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// get a specific feedback
 router.get('/:feedbackId', async (req, res, next) => {
   try {
     const feedback = await Feedback.findById(req.params.feedbackId, {

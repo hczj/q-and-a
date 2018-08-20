@@ -22,6 +22,7 @@ export { default as Dashboard } from './dashboard/dashboard';
 export { default as Topics } from './dashboard/topics';
 export { default as DashboardMenu } from './dashboard/dashboard-menu';
 export { default as Main } from './dashboard/main';
+export { default as TopicsForm } from './dashboard/topics-form';
 
 // feedback
 export { default as Feedback } from './feedback/feedback';
@@ -56,7 +57,6 @@ export { default as TopicsInput } from './questions/topics-input';
 export { default as CategoryDropdown } from './reusable/category-dropdown';
 export { default as Header } from './reusable/header';
 export { default as NothingHere } from './reusable/nothing-here';
-export { default as QuestionCard } from './reusable/question-card';
 export {
   default as ValidateField,
   validateLogin,
