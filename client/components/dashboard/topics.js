@@ -40,8 +40,8 @@ const Topics = ({ topics, isTeacher, removeTopic, organization }) => {
           )}
         </div>
         <p>
-          Click the x to remove a topic. If you'd like to add another topic, you
-          may do so below.
+          Click the x to remove a topic. If you would like to add another topic,
+          you may do so below.
         </p>
         <TopicsForm />
       </div>
