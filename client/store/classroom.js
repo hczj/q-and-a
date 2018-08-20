@@ -4,26 +4,14 @@ import history from '../history';
 /**
  * ACTION TYPES
  */
-const REQUEST_CLASROOM = 'REQUEST_CLASROOM';
-const RECEIVE_CLASROOM = 'RECEIVE_CLASROOM';
+const REQUEST_CLASSROOM = 'REQUEST_CLASSROOM';
+const RECEIVE_CLASSROOM = 'RECEIVE_CLASSROOM';
 
 const CREATE_CLASSROOM_SUCCESS = 'CREATE_CLASSROOM_SUCCESS';
 const DELETE_CLASSROOM_SUCCESS = 'DELETE_CLASSROOM_SUCCESS';
 
 const SET_VIDEO = 'SET_VIDEO';
 const SET_AUDIO = 'SET_AUDIO';
-
-/**
- * INITIAL STATE
- */
-const initialClassroom = {
-  room: '',
-  questionId: null,
-  studentId: null,
-  teacherId: null,
-  video: true,
-  audio: true
-};
 
 /**
  * ACTION CREATORS
@@ -69,7 +57,6 @@ export const createClassroom = classroomData => {
 };
 
 export const deleteClassroom = classroom => async dispatch => {
-  console.log('CLASSROOM', classroom);
   try {
     const { data } = await axios.delete(`/api/classrooms/${classroom}`);
     dispatch(deleteClassroomSuccess(data));
@@ -79,17 +66,47 @@ export const deleteClassroom = classroom => async dispatch => {
 };
 
 /**
+ * INITIAL STATE
+ */
+const initialClassroom = {
+  isLoading: false,
+  room: '',
+  question: {},
+  student: {},
+  teacher: {},
+  video: true,
+  audio: true
+};
+
+/**
  * REDUCER
  */
 export default function(state = initialClassroom, action) {
   switch (action.type) {
+    case REQUEST_CLASSROOM:
+      return {
+        ...state,
+        isLoading: true
+      };
+
+    case RECEIVE_CLASSROOM:
+      console.log('reducer receive classroom', action)
+      return {
+        ...state,
+        isLoading: false,
+        room: action.classroom.room,
+        question: action.classroom.question,
+        student: action.classroom.student,
+        teacher: action.classroom.teacher
+      }
+
     case CREATE_CLASSROOM_SUCCESS:
       return {
         ...state,
         room: action.classroom.room,
-        questionId: action.classroom.questionId,
-        studentId: action.classroom.studentId,
-        teacherId: action.classroom.teacherId
+        question: action.classroom.question,
+        student: action.classroom.student,
+        teacher: action.classroom.teacher
       };
 
     case DELETE_CLASSROOM_SUCCESS:

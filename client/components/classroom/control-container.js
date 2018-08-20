@@ -5,6 +5,7 @@ import { setVideo, setAudio, deleteClassroom } from '../../store';
 import Toolbar from './toolbar';
 import Menu from './menu';
 import Notification from './notification';
+import clientSocket from '../../socket';
 
 class ControlContainer extends Component {
   state = {
@@ -13,57 +14,45 @@ class ControlContainer extends Component {
     video: true
   };
 
-  hideAuth = () => {
-    this.props.media.setState({ bridge: 'connecting' });
-  }
-
-  full = () => {
-    this.props.media.setState({ bridge: 'full' });
-  }
+  // hideAuth = () => {
+  //   this.props.media.setState({ bridge: 'connecting' });
+  // }
 
   componentDidMount() {
-    const { socket, video, audio } = this.props;
+    const { video, audio, mediaEvents, getUserMedia } = this.props;
     this.setState({
       video: video,
       audio: audio
     });
 
-    socket.on('create', () =>
-      this.props.media.setState({ user: 'host', bridge: 'create' })
-    );
-    socket.on('full', this.full);
-    socket.on('bridge', role => this.props.media.init());
-    socket.on('join', () =>
-      this.props.media.setState({ user: 'guest', bridge: 'join' })
-    );
-    socket.on('approve', ({ sid }) => {
+    mediaEvents.on('approve', ({ sid }) => {
       this.props.media.setState({ bridge: 'approve' });
       this.setState({ sid });
     });
-    socket.on('editor-toggle', () => {
+    mediaEvents.on('editor-toggle', () => {
       this.toggleEditor();
     });
-    socket.on('wb-toggle', () => {
+    mediaEvents.on('wb-toggle', () => {
       this.toggleWhiteboard();
     });
 
-    socket.emit('find');
-    this.props.getUserMedia.then(stream => {
+    mediaEvents.emit('find');
+    getUserMedia.then(stream => {
       this.localStream = stream;
       this.localStream.getVideoTracks()[0].enabled = this.state.video;
       this.localStream.getAudioTracks()[0].enabled = this.state.audio;
     });
   }
 
-  send = event => {
-    event.preventDefault();
-    this.props.socket.emit('auth', this.state);
-    this.hideAuth();
-  }
+  // send = event => {
+  //   event.preventDefault();
+  //   this.props.mediaEvents.emit('auth', this.state);
+  //   this.hideAuth();
+  // }
 
   handleInvitation = event => {
     event.preventDefault();
-    this.props.socket.emit([event.target.dataset.ref], this.state.sid);
+    this.props.mediaEvents.emit([event.target.dataset.ref], this.state.sid);
     this.hideAuth();
   }
 
@@ -82,7 +71,7 @@ class ControlContainer extends Component {
   };
 
   toggleWhiteboard = async emit => {
-    if (emit) this.props.socket.emit('wb-toggle-event');
+    if (emit) this.props.mediaEvents.emit('wb-toggle-event');
     await this.props.media.setState((prevState, props) => {
       const hasWhiteboard = !prevState.whiteboard ? 'has-whiteboard' : '';
       return { whiteboard: hasWhiteboard }
@@ -90,7 +79,7 @@ class ControlContainer extends Component {
   }
 
   toggleEditor = async emit => {
-    if (emit) this.props.socket.emit('editor-toggle-event');
+    if (emit) this.props.mediaEvents.emit('editor-toggle-event');
     await this.props.media.setState((prevState, props) => {
       const hasEditor = !prevState.editor ? 'has-editor' : '';
       return { editor: hasEditor }
@@ -99,14 +88,24 @@ class ControlContainer extends Component {
 
   handleExit = event => {
     event.preventDefault();
-    this.props.socket.emit('leave');
-    this.props.removeRoom();
+    this.props.mediaEvents.emit('leave');
+    this.props.removeRoom(this.props.match.params.room);
     this.props.history.go(-2);
   }
 
   handleHangup = () => {
     this.props.media.hangup();
-  }
+  };
+
+
+  startCall = event => {
+    event.preventDefault();
+    this.props.media.setState({ bridge: 'connecting' });
+    this.props.mediaEvents.emit('rtc-auth', this.state);
+  };
+
+
+
 
   render() {
     return (
@@ -118,7 +117,7 @@ class ControlContainer extends Component {
         />
         <Notification
           {...this.state}
-          send={this.send}
+          startCall={this.startCall}
           handleInvitation={this.handleInvitation}
         />
         <Toolbar
@@ -134,6 +133,10 @@ class ControlContainer extends Component {
 }
 
 const mapState = state => ({
+  room: state.classroom.room,
+  question: state.classroom.question,
+  student: state.classroom.student,
+  teacher: state.classroom.teacher,
   video: state.classroom.video,
   audio: state.classroom.audio
 });
@@ -141,7 +144,7 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   setVideo: bool => dispatch(setVideo(bool)),
   setAudio: bool => dispatch(setAudio(bool)),
-  removeRoom: () => dispatch(deleteClassroom())
+  removeRoom: room => dispatch(deleteClassroom(room))
 });
 
 export default withRouter(connect(mapState, mapDispatch)(ControlContainer));

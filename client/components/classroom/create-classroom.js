@@ -8,7 +8,8 @@ import {
   removeActiveQuestion,
   removeActiveUser,
   createMessage,
-  createClassroom
+  createClassroom,
+  deleteClassroom
 } from '../../store';
 import { getRoomId } from '../../utils';
 import moment from 'moment';
@@ -41,6 +42,9 @@ class CreateClassroom extends Component {
     });
 
     document.getElementById('card').classList.remove('is-hidden');
+
+    const { room, questionId, studentId, teacherId } = this.state;
+    this.props.addRoom({ room, questionId, studentId, teacherId });
   }
 
   handleInvite = () => {
@@ -51,12 +55,11 @@ class CreateClassroom extends Component {
       senderId: this.state.teacherId,
       receiverId: this.state.studentId
     });
-
-    this.props.addRoom(this.state.room, this.state.questionId, this.state.studentId, this.state.teacherId)
   }
 
   goBack = () => {
     this.props.resetActive();
+    this.props.removeRoom(this.state.room);
     this.props.history.goBack();
   };
 
@@ -130,7 +133,8 @@ const mapDispatch = dispatch => ({
     dispatch(removeActiveQuestion());
   },
   addRoom: (room, questionId, teacherId) =>
-    dispatch(createClassroom(room, questionId, teacherId))
+    dispatch(createClassroom(room, questionId, teacherId)),
+  removeRoom: room => dispatch(deleteClassroom(room))
 });
 
 export default connect(mapState, mapDispatch)(CreateClassroom);

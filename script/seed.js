@@ -10,8 +10,9 @@ const {
   UserTopic,
   Question,
   Feedback,
+  Thread,
   Message,
-  Thread
+  Classroom
 } = require('../server/db/models');
 
 const {
@@ -21,8 +22,8 @@ const {
   topics,
   questions,
   feedbacks,
-  messages,
-  threads
+  threads,
+  messages
 } = require('./data');
 
 const getRandomIdFrom = num => Math.floor(Math.random() * num) + 1;

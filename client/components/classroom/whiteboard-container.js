@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { TwitterPicker } from 'react-color';
 import { EventEmitter } from 'events';
-export const whiteboardEvent = new EventEmitter();
-import socket from '../../socket';
+export const whiteboardEvents = new EventEmitter();
 
 export class WhiteboardContainer extends Component {
   state = {
@@ -22,12 +21,11 @@ export class WhiteboardContainer extends Component {
   lineEnd = [0, 0];
 
   componentDidMount() {
-    // const { socket } = this.props:
-    socket.on('wb-draw', (start, end, color, lineWidth) => {
+    whiteboardEvents.on('wb-draw', (start, end, color, lineWidth) => {
       console.log('draw from server');
       this.draw(start, end, color, lineWidth);
     });
-    socket.on('wb-clear', () => {
+    whiteboardEvents.on('wb-clear', () => {
       this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     });
 
@@ -45,7 +43,7 @@ export class WhiteboardContainer extends Component {
     this.ctx.lineTo(...end);
     this.ctx.closePath();
     this.ctx.stroke();
-    whiteboardEvent.emit('wb-draw-event', start, end, color, lineWidth);
+    whiteboardEvents.emit('wb-draw-event', start, end, color, lineWidth);
   };
 
   mouseDown = event => {
@@ -100,7 +98,7 @@ export class WhiteboardContainer extends Component {
 
   clear = () => {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    whiteboardEvent.emit('wb-clear-event');
+    whiteboardEvents.emit('wb-clear-event');
   };
 
   changeBrushSize = event => {
@@ -128,11 +126,11 @@ export class WhiteboardContainer extends Component {
   };
 
   render() {
-    let pathname = window.location.pathname;
-    whiteboardEvent.emit(
-      'join-room-whiteboard',
-      pathname.slice(12, pathname.length)
-    );
+    // let pathname = window.location.pathname;
+    // whiteboardEvents.emit(
+    //   'wb-join-room',
+    //   pathname.slice(12, pathname.length)
+    // );
     return (
       <div className="whiteboard">
         <div className="file-menu">

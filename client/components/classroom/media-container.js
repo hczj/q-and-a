@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Whiteboard from './whiteboard-container';
 import Editor from './editor-container';
 import { FeedbackForm } from '../../components';
+import clientSocket from '../../socket';
+
 
 class MediaContainer extends Component {
   state = {
@@ -11,6 +13,9 @@ class MediaContainer extends Component {
     editor: '',
     feedback: ''
   };
+
+  // localVideo = document.getElementById('#local-video');
+  // remoteVideo = document.getElementById('#remote-video');
 
   componentWillMount() {
     // chrome polyfill for connection between local device and remote peer
@@ -24,8 +29,9 @@ class MediaContainer extends Component {
     this.props.getUserMedia.then(
       stream => (this.localVideo.srcObject = this.localStream = stream)
     );
-    this.props.socket.on('message', this.onMessage);
-    this.props.socket.on('hangup', this.onRemoteHangup);
+
+    // clientSocket.on('message', this.onMessage);
+    // clientSocket.on('hangup', this.onRemoteHangup);
   }
 
   componentWillUnmount() {
@@ -33,7 +39,7 @@ class MediaContainer extends Component {
     if (this.localStream !== undefined) {
       this.localStream.getVideoTracks()[0].stop();
     }
-    this.props.socket.emit('leave');
+    this.props.mediaEvents.emit('leave');
   }
 
   onRemoteHangup = () => {
@@ -83,14 +89,14 @@ class MediaContainer extends Component {
   setDescription = offer => this.pc.setLocalDescription(offer);
 
   // send the offer to a server to be forwarded to the other peer
-  sendDescription = () => this.props.socket.send(this.pc.localDescription);
+  sendDescription = () => this.props.mediaEvents.send(this.pc.localDescription);
 
   hangup = () => {
     if (!this.pc) return;
     this.setState({ feedback: 'has-feedback-form' });
     this.setState({ user: 'guest', bridge: 'guest-hangup' });
     this.pc.close();
-    this.props.socket.emit('leave');
+    this.props.mediaEvents.emit('leave');
   };
 
   handleError = err => console.log('error!', err);
@@ -102,6 +108,22 @@ class MediaContainer extends Component {
   closeWhiteboard = () => {
     this.setState({ whiteboard: '' });
   };
+
+  notifyClientRoomIsFull = () => {
+    this.setState({ bridge: 'full' });
+  };
+
+  //
+  // HEY!
+  // RENAME THIS TO BE MORE CLEAR!
+  // ==================================================
+  hideAuth = () => {};
+
+  startCall = event => {
+    event.preventDefault();
+    this.setState({ bridge: 'connecting' });
+    this.props.mediaEvents.emit('rtc-auth', this.state);
+  }
 
   init = () => {
     // wait for local media to be ready
@@ -125,7 +147,7 @@ class MediaContainer extends Component {
     // when our browser gets a candidate, send it to the peer
     this.pc.onicecandidate = event => {
       if (event.candidate) {
-        this.props.socket.send({
+        this.props.mediaEvents.send({
           type: 'candidate',
           mlineindex: event.candidate.sdpMLineIndex,
           candidate: event.candidate.candidate
@@ -159,17 +181,48 @@ class MediaContainer extends Component {
     }
   };
 
+
+
+
+
+
+
+
   render() {
+
+    clientSocket.on('bridge', role => this.props.media.init());
+
+    clientSocket.on('create-room--from-server', room => {
+      console.log('**** THE SERVER SAID TO CREATE ROOM:', room);
+      this.setState({ user: 'host', bridge: 'create' })
+    });
+
+    clientSocket.on('join-room--from-server', room => {
+      console.log('**** SERVER WANTS US TO JOIN ROOM:', room);
+      this.setState({ user: 'guest', bridge: 'join' });
+    });
+
+    clientSocket.on('room-is-full--from-server', this.notifyClientRoomIsFull);
+
+
+
+
+
     const { bridge, whiteboard, editor, feedback } = this.state;
     return (
       <div
         className={`classroom-media ${bridge} ${whiteboard} ${editor} ${feedback}`}
       >
         <div className="video is-remote">
-          <video ref={ref => (this.remoteVideo = ref)} autoPlay />
+          <video
+            id="#remote-video"
+            ref={ref => (this.remoteVideo = ref)}
+            autoPlay
+          />
         </div>
         <div className="video is-local">
           <video
+            id="#local-video"
             ref={ref => (this.localVideo = ref)}
             autoPlay
             muted
@@ -178,9 +231,9 @@ class MediaContainer extends Component {
         </div>
         <Whiteboard
           closeWhiteboard={this.closeWhiteboard}
-          socket={this.props.socket}
+          socket={this.props.mediaEvents}
         />
-        <Editor closeEditor={this.closeEditor} socket={this.props.socket} />
+        <Editor closeEditor={this.closeEditor} socket={this.props.mediaEvents} />
         <FeedbackForm />
       </div>
     );

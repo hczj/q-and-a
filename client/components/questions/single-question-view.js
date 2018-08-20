@@ -12,9 +12,6 @@ class SingleQuestionView extends Component {
   render() {
     const { question, isLoading } = this.props;
     const { topics, title, description, user } = question;
-
-    console.log('WHAT IS question', question)
-
     if (isLoading || !user) return null;
     return (
       <div className="box">

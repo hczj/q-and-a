@@ -1,15 +1,39 @@
 const router = require('express').Router();
-const { Classroom } = require('../db/models');
+const { Classroom, Question, User } = require('../db/models');
 const Op = require('sequelize').Op;
 const { isAdmin, isTeacher } = require('../utils');
 module.exports = router;
 
-router.get('/', async (req, res, next) => {
+router.get('/', isAdmin, async (req, res, next) => {
   try {
-    const myId = req.user.dataValues.id;
-    const classroom = await Classroom.findAll({
-      where: { [Op.or]: [{ studentId: myId }, { teacherId: myId }] }
+    const classroom = await Classroom.findAll();
+    res.json(classroom);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/:classroom', async (req, res, next) => {
+  try {
+    const classroom = await Classroom.findById(req.params.classroom, {
+      include: [
+        {
+          model: Question,
+          attributes: ['id', 'title']
+        },
+        {
+          model: User,
+          as: 'student',
+          attributes: ['id', 'firstName', 'lastName', 'imageUrl']
+        },
+        {
+          model: User,
+          as: 'teacher',
+          attributes: ['id', 'firstName', 'lastName', 'imageUrl']
+        }
+      ]
     });
+    console.log('************ GET CLASSROOM', classroom.dataValues);
     res.json(classroom);
   } catch (err) {
     next(err);
@@ -19,9 +43,11 @@ router.get('/', async (req, res, next) => {
 router.post('/', isTeacher, async (req, res, next) => {
   try {
     const classroom = await Classroom.create({ room: req.body.room });
-    classroom.setQuestion(req.body.questionId);
-    classroom.setStudent(req.body.studentId);
-    classroom.setTeacher(req.body.teacherId);
+    await classroom.setQuestion(req.body.questionId);
+    await classroom.setStudent(req.body.studentId);
+    await classroom.setTeacher(req.body.teacherId);
+    // console.log('***** CREATE CLASSROOM', classroom);
+    // console.log(Object.keys(classroom.__proto__));
     res.status(201).json(classroom);
   } catch (err) {
     next(err);

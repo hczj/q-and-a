@@ -53,9 +53,9 @@ class Routes extends Component {
 }
 
 const mapState = state => ({
-  isLoading: !!state.me.isLoading,
   isLoggedIn: !!state.me.id,
-  isAdmin: !!state.me.isAdmin,
+  isLoading: state.me.isLoading,
+  isAdmin: state.me.isAdmin,
   myId: state.me.id
 });
 

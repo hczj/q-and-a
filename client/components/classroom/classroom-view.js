@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { createClassroom } from '../../store';
-import io from 'socket.io-client';
+import { createClassroom, fetchClassroom } from '../../store';
 import { MediaContainer, ControlContainer } from '../../components';
+import { EventEmitter } from 'events';
+export const mediaEvents = new EventEmitter();
 
 class ClassroomView extends Component {
   getUserMedia = navigator.mediaDevices
@@ -12,27 +13,42 @@ class ClassroomView extends Component {
     })
     .catch(err => alert('getUserMedia() error: ' + err.name));
 
-  socket = io.connect();
+  // componentWillMount() {
+  //   console.log('location state room', this.props.location.state.room);
+  //   this.props.getClassroom(this.props.location.state.room);
+  // }
+
+  async componentDidMount() {
+    // console.log('location state room', this.props.location.state.room);
+    await this.props.getClassroom(this.props.match.params.room);
+    mediaEvents.emit('find-room', this.props.match.params.room);
+  }
 
   render() {
     return (
       <Fragment>
-
+        <MediaContainer
+          media={media => (this.media = media)}
+          mediaEvents={mediaEvents}
+          getUserMedia={this.getUserMedia}
+        />
+        <ControlContainer
+          mediaEvents={mediaEvents}
+          // socket={this.socket}
+          media={this.media}
+          getUserMedia={this.getUserMedia}
+        />
       </Fragment>
     );
   }
 }
 
 const mapState = state => ({
-  room: state.classroom.room,
-  questionId: state.classroom.questionId,
-  studentId: state.classroom.studentId,
-  teacherId: state.classroom.teacherId
+  classroom: state.classroom
 });
 
 const mapDispatch = dispatch => ({
-  // addRoom: (room, questionId, teacherId) =>
-  //   dispatch(createClassroom(room, questionId, teacherId))
+  getClassroom: classroom => dispatch(fetchClassroom(classroom))
 });
 
 export default connect(mapState, mapDispatch)(ClassroomView);

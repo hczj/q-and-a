@@ -8,7 +8,7 @@ const Threads = ({ isLoading, threads, myId, handleClick }) => {
         const notMe =
           thread.senderId === myId ? thread.receiver : thread.sender;
 
-        const lastMessage = thread.messages[0];
+        const lastMessage = thread.messages[0] || {userId: 0, content: '', createdAt: ''};
 
         return (
           <div
