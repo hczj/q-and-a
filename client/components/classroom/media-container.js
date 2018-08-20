@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Whiteboard from './whiteboard-container';
 import Editor from './editor-container';
 import { FeedbackForm } from '../../components';
+import clientSocket from '../../socket';
+
 
 class MediaContainer extends Component {
   state = {
@@ -11,6 +13,9 @@ class MediaContainer extends Component {
     editor: '',
     feedback: ''
   };
+
+  // localVideo = document.getElementById('#local-video');
+  // remoteVideo = document.getElementById('#remote-video');
 
   componentWillMount() {
     // chrome polyfill for connection between local device and remote peer
@@ -24,8 +29,39 @@ class MediaContainer extends Component {
     this.props.getUserMedia.then(
       stream => (this.localVideo.srcObject = this.localStream = stream)
     );
-    this.props.socket.on('message', this.onMessage);
-    this.props.socket.on('hangup', this.onRemoteHangup);
+
+    clientSocket.on('rtc-bridge--from-server', role => {
+      console.log('**** SERVER SENT US A BRIDGE');
+      console.log('**** SERVER BRIDGE CAME WITH A ROLE:', role);
+      this.init();
+    });
+
+    clientSocket.on('create-room--from-server', room => {
+      console.log('**** THE SERVER SAID TO CREATE ROOM:', room);
+      this.setState({ user: 'host', bridge: 'create' })
+    });
+
+    clientSocket.on('join-room--from-server', room => {
+      console.log('**** SERVER WANTS US TO JOIN ROOM:', room);
+      this.setState({ user: 'guest', bridge: 'join' });
+    });
+
+    clientSocket.on('room-is-full--from-server', this.notifyClientRoomIsFull);
+
+    clientSocket.on('rtc-message--from-server', message => {
+      console.log('**** SERVER SENT A MESSAGE:', message);
+      this.onMessage(message);
+    });
+
+    clientSocket.on('rtc-approve--from-server', ({ message, sid }) => {
+      console.log('**** SERVER HAS APPROVED US!');
+      this.setState({ bridge: 'approve' });
+    });
+
+    clientSocket.on('rtc-hangup--from-server', () => {
+      console.log('**** SERVER WANTS US TO HANGUP')
+      this.onRemoteHangup();
+    });
   }
 
   componentWillUnmount() {
@@ -33,37 +69,37 @@ class MediaContainer extends Component {
     if (this.localStream !== undefined) {
       this.localStream.getVideoTracks()[0].stop();
     }
-    this.props.socket.emit('leave');
+    this.props.mediaEvents.emit('leave');
   }
+
+  onMessage = message => {
+    if (message.type === 'offer') {
+      // set remote description and answer
+      this.pc.setRemoteDescription(new RTCSessionDescription(message));
+      this.pc
+        .createAnswer()
+        .then(this.setDescription)
+        .then(this.sendDescription)
+        .catch(this.handleError); // handle the failure to connect
+    } else if (message.type === 'answer') {
+      // set remote description
+      this.pc.setRemoteDescription(new RTCSessionDescription(message));
+    } else if (message.type === 'candidate') {
+      // add ice candidate
+      this.pc.addIceCandidate(
+        new RTCIceCandidate({
+          sdpMLineIndex: message.mlineindex,
+          candidate: message.candidate
+        })
+      );
+    }
+  };
 
   onRemoteHangup = () => {
     this.setState({
       user: 'host',
       bridge: 'host-hangup'
     });
-  };
-
-  onMessage = msg => {
-    if (msg.type === 'offer') {
-      // set remote description and answer
-      this.pc.setRemoteDescription(new RTCSessionDescription(msg));
-      this.pc
-        .createAnswer()
-        .then(this.setDescription)
-        .then(this.sendDescription)
-        .catch(this.handleError); // handle the failure to connect
-    } else if (msg.type === 'answer') {
-      // set remote description
-      this.pc.setRemoteDescription(new RTCSessionDescription(msg));
-    } else if (msg.type === 'candidate') {
-      // add ice candidate
-      this.pc.addIceCandidate(
-        new RTCIceCandidate({
-          sdpMLineIndex: msg.mlineindex,
-          candidate: msg.candidate
-        })
-      );
-    }
   };
 
   sendData = msg => this.dc.send(JSON.stringify(msg));
@@ -80,17 +116,21 @@ class MediaContainer extends Component {
     };
   };
 
-  setDescription = offer => this.pc.setLocalDescription(offer);
+  setDescription = offer => {
+    this.pc.setLocalDescription(offer);
+  };
 
   // send the offer to a server to be forwarded to the other peer
-  sendDescription = () => this.props.socket.send(this.pc.localDescription);
+  sendDescription = () => {
+    this.props.mediaEvents.emit('rtc-message', this.pc.localDescription);
+  };
 
   hangup = () => {
     if (!this.pc) return;
     this.setState({ feedback: 'has-feedback-form' });
     this.setState({ user: 'guest', bridge: 'guest-hangup' });
     this.pc.close();
-    this.props.socket.emit('leave');
+    this.props.mediaEvents.emit('rtc-hangup');
   };
 
   handleError = err => console.log('error!', err);
@@ -101,6 +141,10 @@ class MediaContainer extends Component {
 
   closeWhiteboard = () => {
     this.setState({ whiteboard: '' });
+  };
+
+  notifyClientRoomIsFull = () => {
+    this.setState({ bridge: 'full' });
   };
 
   init = () => {
@@ -124,9 +168,8 @@ class MediaContainer extends Component {
     });
     // when our browser gets a candidate, send it to the peer
     this.pc.onicecandidate = event => {
-      console.log(event, 'onicecandidate');
       if (event.candidate) {
-        this.props.socket.send({
+        this.props.mediaEvents.emit('rtc-message', {
           type: 'candidate',
           mlineindex: event.candidate.sdpMLineIndex,
           candidate: event.candidate.candidate
@@ -135,7 +178,6 @@ class MediaContainer extends Component {
     };
     // when the other side added a media stream, show it on screen
     this.pc.onaddstream = event => {
-      console.log('onaddstream', event);
       this.remoteStream = event.stream;
       this.remoteVideo.srcObject = this.remoteStream = event.stream;
       this.setState({ bridge: 'established' });
@@ -168,10 +210,15 @@ class MediaContainer extends Component {
         className={`classroom-media ${bridge} ${whiteboard} ${editor} ${feedback}`}
       >
         <div className="video is-remote">
-          <video ref={ref => (this.remoteVideo = ref)} autoPlay />
+          <video
+            id="#remote-video"
+            ref={ref => (this.remoteVideo = ref)}
+            autoPlay
+          />
         </div>
         <div className="video is-local">
           <video
+            id="#local-video"
             ref={ref => (this.localVideo = ref)}
             autoPlay
             muted
@@ -180,9 +227,9 @@ class MediaContainer extends Component {
         </div>
         <Whiteboard
           closeWhiteboard={this.closeWhiteboard}
-          socket={this.props.socket}
+          socket={this.props.mediaEvents}
         />
-        <Editor closeEditor={this.closeEditor} socket={this.props.socket} />
+        <Editor closeEditor={this.closeEditor} socket={this.props.mediaEvents} />
         <FeedbackForm />
       </div>
     );

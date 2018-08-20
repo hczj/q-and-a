@@ -21,11 +21,16 @@ router.get('/', async (req, res, next) => {
         },
         {
           model: Message,
-          attributes: ['id', 'content', 'createdAt', 'userId']
+          attributes: ['id', 'content', 'createdAt', 'userId'],
+          include: [{
+            model: User,
+            attributes: ['firstName', 'lastName']
+          }],
+          // limit: 1
         }
       ],
-      order: [[Message, 'id', 'ASC']],
-      attributes: ['id', 'createdAt', 'senderId', 'receiverId']
+      order: [[Message, 'id', 'DESC']],
+      attributes: ['id', 'senderId', 'receiverId']
     });
 
     res.json(threads);
@@ -52,11 +57,15 @@ router.get('/:threadId', async (req, res, next) => {
         },
         {
           model: Message,
-          attributes: ['id', 'content', 'createdAt', 'userId']
+          attributes: ['id', 'content', 'createdAt', 'userId'],
+          include: [{
+            model: User,
+            attributes: ['firstName', 'lastName']
+          }]
         }
       ],
       order: [[Message, 'id', 'ASC']],
-      attributes: ['id', 'createdAt', 'senderId', 'receiverId']
+      attributes: ['id', 'senderId', 'receiverId']
     });
 
     res.json(thread);
@@ -65,15 +74,33 @@ router.get('/:threadId', async (req, res, next) => {
   }
 });
 
-// POST /api/messages
 router.post('/', async (req, res, next) => {
   try {
-    const newMessage = await Message.create({
-      content: req.body.content,
-      threadId: req.body.threadId,
-      userId: req.user.dataValues.id
-    });
-    res.status(201).json(newMessage);
+    const { content, senderId, receiverId } = req.body;
+    let threadId = req.body.threadId;
+
+    if (!threadId) {
+      const [thread] = await Thread.findOrCreate({
+        where: {
+          [Op.and]: [
+            { senderId: { [Op.or]: [senderId, receiverId] } },
+            { receiverId: { [Op.or]: [senderId, receiverId] } }
+          ]
+        }
+      });
+
+      thread.setSender(senderId);
+      thread.setReceiver(receiverId);
+
+      threadId = thread.dataValues.id;
+    }
+
+    const message = await Message.create({ content });
+
+    message.setThread(threadId);
+    message.setUser(req.user.dataValues.id);
+
+    res.status(201).json(message);
   } catch (err) {
     next(err);
   }

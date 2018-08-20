@@ -19,7 +19,16 @@ router.get('/', async (req, res, next) => {
       const categoryIds = topics.map(item => item.topic.categoryId);
       const questions = await Question.findAll({
         where: { categoryId: { [Op.or]: categoryIds } },
-        include: [{ model: Topic }, { model: User }],
+        include: [
+          {
+            model: Topic,
+            attributes: ['id', 'name']
+          },
+          {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName', 'imageUrl']
+          }
+        ],
         order: [['createdAt', 'DESC']]
       });
 
@@ -27,8 +36,20 @@ router.get('/', async (req, res, next) => {
         res.json(questions);
       } else if (req.query.type === 'answered') {
         const inactiveQuestions = await Question.findAll({
-          where: { categoryId: req.params.categoryId, isActive: false },
-          include: [{ model: Topic }, { model: User }],
+          where: {
+            categoryId: { [Op.or]: categoryIds },
+            isActive: false
+          },
+          include: [
+            {
+              model: Topic,
+              attributes: ['id', 'name']
+            },
+            {
+              model: User,
+              attributes: ['id', 'firstName', 'lastName', 'imageUrl']
+            }
+          ],
           order: [['createdAt', 'DESC']]
         });
         res.json(inactiveQuestions);
@@ -43,7 +64,16 @@ router.get('/', async (req, res, next) => {
 router.get('/:questionId', async (req, res, next) => {
   try {
     const question = await Question.findById(req.params.questionId, {
-      include: [Topic]
+      include: [
+        {
+          model: Topic,
+          attributes: ['id', 'name']
+        },
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName', 'imageUrl']
+        }
+      ]
     });
     res.json(question);
   } catch (err) {

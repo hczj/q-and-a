@@ -6,6 +6,17 @@ export const getRoomId = (userId = 0) => {
   return userId + Math.round(Math.random() * 36 ** 12).toString(36);
 };
 
+export const linkify = text => {
+  const urls = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim; // `http://`, `https://`, `ftp://`
+  const pseudoUrls = /(^|[^\/])(www\.[\S]+(\b|$))/gim; // `www.` by itself
+  const emails = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
+
+  return text
+    .replace(urls, '<a href="$&">$&</a>')
+    .replace(pseudoUrls, '$1<a href="https://$2">$2</a>')
+    .replace(emails, '<a href="mailto:$&">$&</a>');
+};
+
 export const slugify = text => {
   const a = `àáäâèéëêìíïîòóöôùúüûñ`;
   const b = `aaaaeeeeiiiioooouuuun`;
@@ -24,6 +35,6 @@ export const slugify = text => {
 };
 
 export const arrayToSentence = arr => {
-  var last = arr.pop();
-  return arr.join(', ') + ' and ' + last;
+  const last = arr.pop();
+  return `${arr.join(', ')}, and ${last}`;
 };

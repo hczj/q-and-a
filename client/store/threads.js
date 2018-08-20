@@ -11,14 +11,7 @@ const RECEIVE_USER_THREAD = 'RECEIVE_USER_THREAD';
 
 const CREATE_MESSAGE_SUCCESS = 'CREATE_MESSAGE';
 
-/**
- * INITIAL STATE
- */
-const initialThreads = {
-  isLoading: false,
-  active: {},
-  all: []
-};
+const REMOVE_ACTIVE_MESSAGE = 'REMOVE_ACTIVE_MESSAGE';
 
 /**
  * ACTION CREATORS
@@ -33,6 +26,8 @@ const createMessageSuccess = message => ({
   type: CREATE_MESSAGE_SUCCESS,
   message
 });
+
+export const removeActiveMessage = () => ({ type: REMOVE_ACTIVE_MESSAGE });
 
 /**
  * THUNK CREATORS
@@ -61,18 +56,35 @@ export const createMessage = message => async dispatch => {
   try {
     const { data } = await axios.post(`/api/threads`, message);
     dispatch(createMessageSuccess(data || {}));
+    dispatch(fetchThreads());
   } catch (err) {
     console.log(err);
   }
 };
 
 /**
+ * INITIAL STATE
+ */
+const initialThreads = {
+  isLoading: false,
+  all: []
+};
+
+
+const initialThread = {
+  isLoading: false,
+  id: null,
+  senderId: null,
+  receiverId: null,
+  messages: []
+}
+
+/**
  * REDUCER
  */
-export default function(state = initialThreads, action) {
+export const threadsReducer = (state = initialThreads, action) => {
   switch (action.type) {
     case REQUEST_USER_THREADS:
-    case REQUEST_USER_THREAD:
       return {
         ...state,
         isLoading: true
@@ -85,20 +97,38 @@ export default function(state = initialThreads, action) {
         all: action.threads
       };
 
+    case CREATE_MESSAGE_SUCCESS:
+      return {
+        ...state,
+      }
+
+    default:
+      return state;
+  }
+}
+
+export const threadReducer = (state = initialThread, action) => {
+  switch (action.type) {
+    case REQUEST_USER_THREAD:
+      return {
+        ...state,
+        isLoading: true
+      };
+
     case RECEIVE_USER_THREAD:
       return {
         ...state,
         isLoading: false,
-        active: action.thread
+        id: action.thread.id,
+        senderId: action.thread.senderId,
+        receiverId: action.thread.receiverId,
+        messages: action.thread.messages
       };
 
     case CREATE_MESSAGE_SUCCESS:
       return {
         ...state,
-        active: {
-          ...state.active,
-          messages: [...state.active.messages, action.message]
-        }
+        messages: [...state.messages, action.message]
       };
 
     default:

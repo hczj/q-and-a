@@ -1,12 +1,6 @@
 import React, { Fragment, Component } from 'react';
-import {
-  Queue,
-  Header,
-  NothingHere,
-  AskQuestionButton,
-  CategoryDropdown
-} from '../../components';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import {
   fetchQuestions,
   fetchQuestionsByCategory,
@@ -14,7 +8,13 @@ import {
   fetchCategory,
   removeAllQuestions
 } from '../../store';
-import { withRouter } from 'react-router-dom';
+import {
+  Queue,
+  Header,
+  NothingHere,
+  AskQuestionButton,
+  CategoryDropdown
+} from '../../components';
 
 class QuestionQueue extends Component {
   componentDidMount() {

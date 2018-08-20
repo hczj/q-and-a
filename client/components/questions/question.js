@@ -30,7 +30,10 @@ const Question = ({ question, answerBtn, isTeacher }) => {
 
             <div className="level-right">
               <div className="level-item">
-                {answerBtn && isTeacher && <AnswerQuestionButton />}
+                {answerBtn && isTeacher && <AnswerQuestionButton
+                  questionId={question.id}
+                  studentId={user.id}
+                />}
               </div>
             </div>
           </nav>

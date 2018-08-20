@@ -7,6 +7,7 @@ router.use('/categories', require('./categories'));
 router.use('/threads', require('./threads'));
 router.use('/feedback', require('./feedback'));
 router.use('/organizations', require('./organizations'));
+router.use('/classrooms', require('./classrooms'));
 
 router.use((req, res, next) => {
   const error = new Error('Not Found');

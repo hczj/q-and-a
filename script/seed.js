@@ -10,8 +10,9 @@ const {
   UserTopic,
   Question,
   Feedback,
+  Thread,
   Message,
-  Thread
+  Classroom
 } = require('../server/db/models');
 
 const {
@@ -21,8 +22,8 @@ const {
   topics,
   questions,
   feedbacks,
-  messages,
-  threads
+  threads,
+  messages
 } = require('./data');
 
 const getRandomIdFrom = num => Math.floor(Math.random() * num) + 1;
@@ -104,23 +105,27 @@ async function seed() {
   //
   // QUESTIONS
   // =========
-  const numOfUsers = await User.count(); // to randomly associate to users
+  // to randomly associate to users
+  const myStudents = await User.findAndCountAll({
+    where: { isTeacher: false },
+    attributes: ['id']
+  });
   const seedQs = await Promise.all(
     questions.map(async question => {
       const myQuestion = await Question.create(question);
       const myCatId = getRandomIdFrom(numOfCats);
-      const myUserId = getRandomIdFrom(numOfUsers);
+      const myRandomIndex = Math.floor(Math.random() * myStudents.count);
 
       await myQuestion.setCategory(myCatId);
-      await myQuestion.setUser(myUserId);
+      await myQuestion.setUser(myStudents.rows[myRandomIndex]);
 
       const myTopics = await Topic.findAll({
         where: { categoryId: myCatId },
         attributes: ['id']
       });
 
-      const index = Math.floor(Math.random() * myTopics.length);
-      await myQuestion.setTopics(myTopics[index]);
+      const myTopicIndex = Math.floor(Math.random() * myTopics.length);
+      await myQuestion.setTopics(myTopics[myTopicIndex]);
     })
   );
   console.log(`seeded ${seedQs.length} questions`);
@@ -165,6 +170,7 @@ async function seed() {
   // //
   // // MESSAGES
   // // ========
+  // const numOfUsers = await User.count(); // to randomly associate to users
   // const uniqueThreadMap = new Map();
 
   // // helper function to repeat this operation

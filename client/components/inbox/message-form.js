@@ -4,8 +4,8 @@ import { createMessage } from '../../store';
 
 class MessageForm extends Component {
   handleMessageSubmit = data => {
-    const { sendMessage, id } = this.props;
-    sendMessage({ content: data, threadId: id });
+    const { sendMessage, senderId, receiverId, threadId } = this.props;
+    sendMessage({ content: data, senderId, receiverId, threadId });
   };
 
   submitOnEnter = event => {
@@ -39,10 +39,11 @@ class MessageForm extends Component {
   }
 }
 
-const mapState = state => {
-  const { id } = state.threads.active || { id: 0 };
-  return { id };
-};
+const mapState = state => ({
+  senderId: state.thread.senderId,
+  receiverId: state.thread.receiverId,
+  threadId: state.thread.id
+});
 
 const mapDispatch = dispatch => ({
   sendMessage: data => dispatch(createMessage(data))

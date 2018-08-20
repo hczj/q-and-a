@@ -10,7 +10,6 @@ import {
   Dashboard,
   Profile,
   SingleQuestionView,
-  SingleThread,
   SingleFeedback
 } from './components';
 import { me } from './store';
@@ -24,25 +23,25 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
     return (
       <Switch>
+        <Route
+          exact
+          path="/"
+          render={() =>
+            isLoggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />
+          }
+        />
         {isLoggedIn && (
           <Switch>
-            <Route
-              exact
-              path="/"
-              render={() => <Redirect to="/dashboard" />}
-            />
             {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/manage" component={Manage} />
             <Route path="/dashboard" component={Dashboard} {...this.props} />
             <Route exact path="/ask-a-question" component={QuestionForm} />
             <Route exact path="/questions" component={QuestionQueue} />
             <Route
-              exact
               path="/questions/question/:questionId"
               component={SingleQuestionView}
             />
             <Route exact path="/profile/:id" component={Profile} />
-            <Route exact path="/inbox/thread/:id" component={SingleThread} />
           </Switch>
         )}
 
@@ -54,9 +53,9 @@ class Routes extends Component {
 }
 
 const mapState = state => ({
-  isLoading: !!state.me.isLoading,
   isLoggedIn: !!state.me.id,
-  isAdmin: !!state.me.isAdmin,
+  isLoading: state.me.isLoading,
+  isAdmin: state.me.isAdmin,
   myId: state.me.id
 });
 
