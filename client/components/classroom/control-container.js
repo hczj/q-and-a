@@ -45,8 +45,6 @@ class ControlContainer extends Component {
   }
 
   startCall = event => {
-    console.log('startCall func from `control-container`');
-    console.log('this.state', this.state);
     event.preventDefault();
     this.props.media.setState({ bridge: 'connecting' });
     this.props.mediaEvents.emit('rtc-auth', this.state);
@@ -86,17 +84,27 @@ class ControlContainer extends Component {
       const hasEditor = !prevState.editor ? 'has-editor' : '';
       return { editor: hasEditor }
     });
+  };
+
+  goBack = (event, num = -1) => {
+    event.preventDefault();
+    this.props.history.go(num);
   }
 
   handleExit = event => {
     event.preventDefault();
     this.props.mediaEvents.emit('leave');
     this.props.removeRoom(this.props.match.params.room);
+    console.log('THIS.PROPS.HISTORY', this.props.history);
     this.props.history.go(-2);
   }
 
   handleHangup = () => {
-    this.props.media.hangup();
+    const { myId, teacher, media } = this.props;
+
+    // who hung up the call?
+    const user = (myId === teacher.id) ? 'teacher' : 'student';
+    media.hangup(user);
   };
 
   render() {
@@ -111,6 +119,7 @@ class ControlContainer extends Component {
           {...this.state}
           startCall={this.startCall}
           handleInvitation={this.handleInvitation}
+          goBack={this.goBack}
         />
         <Toolbar
           {...this.state}
@@ -125,6 +134,7 @@ class ControlContainer extends Component {
 }
 
 const mapState = state => ({
+  myId: state.me.id,
   room: state.classroom.room,
   question: state.classroom.question,
   student: state.classroom.student,

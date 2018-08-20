@@ -13,13 +13,7 @@ class ClassroomView extends Component {
     })
     .catch(err => alert('getUserMedia() error: ' + err.name));
 
-  // componentWillMount() {
-  //   console.log('location state room', this.props.location.state.room);
-  //   this.props.getClassroom(this.props.location.state.room);
-  // }
-
   async componentDidMount() {
-    // console.log('location state room', this.props.location.state.room);
     await this.props.getClassroom(this.props.match.params.room);
     mediaEvents.emit('find-room', this.props.match.params.room);
   }
@@ -34,7 +28,6 @@ class ClassroomView extends Component {
         />
         <ControlContainer
           mediaEvents={mediaEvents}
-          // socket={this.socket}
           media={this.media}
           getUserMedia={this.getUserMedia}
         />

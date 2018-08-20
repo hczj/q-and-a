@@ -21,9 +21,6 @@ const Toolbar = props => (
       <button onClick={props.handleExit} className="button button-exit">
         <IconExit />
       </button>
-      <button onClick={props.handleHangup} className="button button-hangup">
-        <IconHangup />
-      </button>
       <button
         onClick={props.toggleAudio}
         className={`button button-audio is-${props.audio}`}
@@ -35,6 +32,9 @@ const Toolbar = props => (
         className={`button button-video is-${props.video}`}
       >
         <IconVideo />
+      </button>
+      <button onClick={props.handleHangup} className="button button-hangup">
+        <IconHangup />
       </button>
       <button onClick={ToggleFullScreen} className="button button-fullscreen">
         <IconFullScreen />

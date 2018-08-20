@@ -32,7 +32,6 @@ class MediaContainer extends Component {
 
     clientSocket.on('rtc-bridge--from-server', role => {
       console.log('**** SERVER SENT US A BRIDGE');
-      console.log('**** SERVER BRIDGE CAME WITH A ROLE:', role);
       this.init();
     });
 
@@ -43,7 +42,7 @@ class MediaContainer extends Component {
 
     clientSocket.on('join-room--from-server', room => {
       console.log('**** SERVER WANTS US TO JOIN ROOM:', room);
-      this.setState({ user: 'guest', bridge: 'join' });
+      this.setState({ user: 'guest', bridge: 'calling' });
     });
 
     clientSocket.on('room-is-full--from-server', this.notifyClientRoomIsFull);
@@ -58,9 +57,9 @@ class MediaContainer extends Component {
       this.setState({ bridge: 'approve' });
     });
 
-    clientSocket.on('rtc-hangup--from-server', () => {
+    clientSocket.on('rtc-hangup--from-server', user => {
       console.log('**** SERVER WANTS US TO HANGUP')
-      this.onRemoteHangup();
+      this.onRemoteHangup(user);
     });
   }
 
@@ -95,11 +94,11 @@ class MediaContainer extends Component {
     }
   };
 
-  onRemoteHangup = () => {
-    this.setState({
-      user: 'host',
-      bridge: 'host-hangup'
-    });
+  onRemoteHangup = user => {
+    if (user === 'student') {
+      this.setState({ feedback: 'has-feedback-form' });
+    }
+    this.setState({ user, bridge: `${user}-hangup` });
   };
 
   sendData = msg => this.dc.send(JSON.stringify(msg));
@@ -125,12 +124,16 @@ class MediaContainer extends Component {
     this.props.mediaEvents.emit('rtc-message', this.pc.localDescription);
   };
 
-  hangup = () => {
+  hangup = user => {
     if (!this.pc) return;
-    this.setState({ feedback: 'has-feedback-form' });
-    this.setState({ user: 'guest', bridge: 'guest-hangup' });
+
+    if (user === 'student') {
+      this.setState({ feedback: 'has-feedback-form' });
+    }
+
+    this.setState({ user, bridge: `${user}-hangup` });
     this.pc.close();
-    this.props.mediaEvents.emit('rtc-hangup');
+    this.props.mediaEvents.emit('rtc-hangup', user);
   };
 
   handleError = err => console.log('error!', err);

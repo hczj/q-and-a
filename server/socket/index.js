@@ -60,8 +60,8 @@ module.exports = io => {
     });
 
     // hangup
-    serverSocket.on('rtc-hangup--from-client', () => {
-      serverSocket.broadcast.to(room).emit('rtc-hangup--from-server');
+    serverSocket.on('rtc-hangup--from-client', user => {
+      serverSocket.broadcast.to(room).emit('rtc-hangup--from-server', user);
       serverSocket.leave(room);
     });
 

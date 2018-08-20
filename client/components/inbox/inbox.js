@@ -7,9 +7,14 @@ import MessageForm from './message-form';
 
 class Inbox extends Component {
   async componentDidMount() {
-    await this.props.getThreads();
-    if (this.props.threads[0].id) {
-      await this.props.getThread(this.props.threads[0].id);
+    const { getThreads, getThread, threads } = this.props;
+    await getThreads();
+    // TODO
+    // look at the below code and see what is happening
+    // it was working (loading threads and then the first thread
+    // so it's messages fill the message list window). now it's not.
+    if (threads.length > 0 && threads[0].id) {
+      await getThread(threads[0].id);
     }
   }
 

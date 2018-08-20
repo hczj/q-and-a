@@ -6,11 +6,27 @@ const Notification = props => {
   if (!props.student) return null;
   return (
     <div className="classroom-notification">
-      <div className="notification content" id="request-access">
-        <p className="title is-4">New call</p>
-        <p>You have been invited to join {props.teacher.firstName} in a video classroom. Click start to begin!</p>
+      <div className="notification" id="waiting">
+        <p className="title is-3">New classroom</p>
+        <p className="subtitle is-5">Waiting for {props.student.firstName} to join</p>
+        <figure className="contact-image image is-128x128">
+          <img src={props.student.imageUrl} className="is-rounded" />
+        </figure>
+        <p className="contact-name">{props.student.name}</p>
+        <p className="contact-question">"{props.question.title}"</p>
+      </div>
+
+      <div className="notification content" id="start-call">
+        {/*<p className="title is-3">Calling {props.teacher.name}</p>
+        <figure className="contact-image image is-128x128">
+          <img src={props.teacher.imageUrl} className="is-rounded" />
+        </figure>
+        <p className="contact-name">{props.teacher.name}</p>*/}
+        <p className="title is-3">New classroom</p>
+        <p className="subtitle is-5">You have been invited to a classroom session with {props.teacher.name}. Click start to begin the call.</p>
         <div className="buttons">
           <a onClick={props.startCall} className="button is-primary">Start</a>
+          <button onClick={event => props.goBack(event)} className="button is-light">Go Back</button>
         </div>
       </div>
 
@@ -45,15 +61,6 @@ const Notification = props => {
         <Link className="button is-primary" to="/classroom">
           Go back
         </Link>
-      </div>
-
-      <div className="notification content" id="waiting">
-        {/*<p className="remote-left">The remote client hung up.</p>*/}
-        <p className="title is-4">New classroom</p>
-        <p>Waiting for {props.student.firstName} to join the call.</p>
-        <p className="is-size-7">
-          <a href={`/classroom/r/${props.room}`}>{window.location.href}</a>
-        </p>
       </div>
     </div>
   );

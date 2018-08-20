@@ -38,9 +38,9 @@ mediaEvents.on('rtc-accept', data => {
   clientSocket.emit('rtc-accept--from-client', data);
 });
 
-mediaEvents.on('rtc-hangup', () => {
-  console.log('*** MEDIA EVENT ON HANGUP -- client/socket.js');
-  clientSocket.emit('rtc-hangup--from-client');
+mediaEvents.on('rtc-hangup', user => {
+  console.log('*** WHO HUNG UP?', user);
+  clientSocket.emit('rtc-hangup--from-client', user);
 });
 
 whiteboardEvents.on('wb-draw', (start, end, color, lineWidth) => {
