@@ -12,7 +12,8 @@ import {
   fetchQuestionsByCategory,
   removeActiveCategory,
   fetchCategory,
-  removeAllQuestions
+  removeAllQuestions,
+  updateQuestion
 } from '../../store';
 import { withRouter } from 'react-router-dom';
 
@@ -49,6 +50,12 @@ class QuestionQueue extends Component {
       await getQuestionsByCategory(categoryId);
       await getCategory(categoryId);
     }
+  };
+
+  closeQuestion = question => {
+    question.isActive = false;
+    this.props.setQuestionInactive(question);
+    this.props.getQuestions();
   };
 
   render() {
@@ -95,7 +102,11 @@ class QuestionQueue extends Component {
 
           <hr />
 
-          {questions.length ? <Queue /> : <NothingHere />}
+          {questions.length ? (
+            <Queue closeQuestion={this.closeQuestion} />
+          ) : (
+            <NothingHere />
+          )}
         </div>
       </Fragment>
     );
@@ -115,7 +126,8 @@ const mapDispatch = dispatch => ({
     dispatch(fetchQuestionsByCategory(categoryId)),
   removeActiveCategory: () => dispatch(removeActiveCategory()),
   getCategory: categoryId => dispatch(fetchCategory(categoryId)),
-  removeAllQuestions: () => dispatch(removeAllQuestions())
+  removeAllQuestions: () => dispatch(removeAllQuestions()),
+  setQuestionInactive: question => dispatch(updateQuestion(question))
 });
 
 export default withRouter(connect(mapState, mapDispatch)(QuestionQueue));

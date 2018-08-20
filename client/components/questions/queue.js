@@ -2,12 +2,17 @@ import React, { Fragment } from 'react';
 import { Question } from '../../components';
 import { connect } from 'react-redux';
 
-const Queue = ({ questions, isTeacher }) => {
-  const activeQs = questions.filter(question => question.isActive);
+const Queue = ({ questions, isTeacher, closeQuestion, myId }) => {
   return (
     <Fragment>
-      {activeQs.map(question => (
-        <Question key={question.id} question={question} isTeacher={isTeacher} />
+      {questions.map(question => (
+        <Question
+          key={question.id}
+          question={question}
+          isTeacher={isTeacher}
+          closeQuestion={closeQuestion}
+          myId={myId}
+        />
       ))}
     </Fragment>
   );
@@ -15,7 +20,8 @@ const Queue = ({ questions, isTeacher }) => {
 
 const mapState = state => ({
   questions: state.questions.all,
-  isTeacher: state.me.isTeacher
+  isTeacher: state.me.isTeacher,
+  myId: state.me.id
 });
 
 export default connect(mapState)(Queue);

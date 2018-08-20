@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { Button } from '../../components';
 
-const Question = ({ question, isTeacher }) => {
+const Question = ({ question, isTeacher, closeQuestion, myId }) => {
   const { title, description, topics, user, createdAt } = question;
   return (
     <div className="box">
@@ -37,8 +37,14 @@ const Question = ({ question, isTeacher }) => {
                     classes="button is-link"
                   />
                 )}
-                {user.id === question.id && (
-                  <Button text="Remove question" classes="button is-link" />
+                {myId === question.userId && (
+                  <button
+                    type="button"
+                    className="button is-link"
+                    onClick={() => closeQuestion(question)}
+                  >
+                    Remove
+                  </button>
                 )}
               </div>
             </div>

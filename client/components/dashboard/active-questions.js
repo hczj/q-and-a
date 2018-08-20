@@ -2,12 +2,10 @@ import React, { Fragment } from 'react';
 import { Header, Question, Button } from '../../components';
 
 const ActiveQuestions = ({ questions }) => {
-  const activeQs = questions.filter(question => question.isActive);
-
   return (
     <div className="box">
       <Header title="Active Questions" size="is-3" />
-      {activeQs.length === 0 ? (
+      {questions.length === 0 ? (
         <Fragment>
           <Button
             link="/classroom"
@@ -16,7 +14,7 @@ const ActiveQuestions = ({ questions }) => {
           />
         </Fragment>
       ) : (
-        activeQs.map(question => (
+        questions.map(question => (
           <Question key={question.id} question={question} />
         ))
       )}
