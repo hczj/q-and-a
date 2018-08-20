@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { AnswerQuestionButton } from '../../components';
 
-const Question = ({ question, answerBtn }) => {
+const Question = ({ question, answerBtn, isTeacher }) => {
   const { title, description, topics, user, createdAt } = question;
   return (
     <div className="box">
@@ -30,7 +30,7 @@ const Question = ({ question, answerBtn }) => {
 
             <div className="level-right">
               <div className="level-item">
-                {answerBtn && <AnswerQuestionButton />}
+                {answerBtn && isTeacher && <AnswerQuestionButton />}
               </div>
             </div>
           </nav>

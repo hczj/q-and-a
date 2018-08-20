@@ -13,7 +13,7 @@ class SingleQuestionView extends Component {
   };
 
   render() {
-    const { question, isLoading } = this.props;
+    const { question, isLoading, isTeacher } = this.props;
     const { topics, description, title } = question;
 
     if (isLoading) return null;
@@ -34,7 +34,7 @@ class SingleQuestionView extends Component {
               </span>
             ))}
         </div>
-        <AnswerQuestionButton />
+        {isTeacher && <AnswerQuestionButton />}
         <hr />
         {description}
       </div>
@@ -44,7 +44,8 @@ class SingleQuestionView extends Component {
 
 const mapState = state => ({
   isLoading: state.questions.isLoading,
-  question: state.questions.active
+  question: state.questions.active,
+  isTeacher: state.me.isTeacher
 });
 
 const mapDispatch = dispatch => ({
