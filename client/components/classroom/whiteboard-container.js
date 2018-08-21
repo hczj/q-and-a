@@ -29,9 +29,12 @@ export class WhiteboardContainer extends Component {
     this.canvas.addEventListener('mousemove', this.handleMousemove);
     this.canvas.addEventListener('mouseup', this.handleMouseup);
 
-    clientSocket.on('wb-draw--from-server', (start, end, color, lineWidth, eraser) => {
-      this.draw(start, end, color, lineWidth, eraser, false);
-    });
+    clientSocket.on(
+      'wb-draw--from-server',
+      (start, end, color, lineWidth, eraser) => {
+        this.draw(start, end, color, lineWidth, eraser, false);
+      }
+    );
 
     clientSocket.on('wb-clear--from-server', () => this.handleClear(false));
   }
@@ -51,7 +54,7 @@ export class WhiteboardContainer extends Component {
       (event.clientX - rect.left) * scaleX,
       (event.clientY - rect.top) * scaleY
     ];
-  };
+  }
 
   handleMousedown = event => {
     this.setState({ isDrawing: true });
@@ -92,13 +95,20 @@ export class WhiteboardContainer extends Component {
     }
   };
 
-  draw = (start, end, color = 'black', lineWidth, eraser = false, shouldBroadcast = true) => {
+  draw = (
+    start,
+    end,
+    color = 'black',
+    lineWidth,
+    eraser = false,
+    shouldBroadcast = true
+  ) => {
     this.ctx.beginPath();
     this.ctx.lineWidth = lineWidth;
     this.ctx.strokeStyle = color;
 
     if (eraser) {
-      this.ctx.globalCompositeOperation="destination-out";
+      this.ctx.globalCompositeOperation = 'destination-out';
       this.ctx.arc(...start, ...end, 4, 0, Math.PI * 2, false);
       this.ctx.fill();
     } else {
@@ -126,9 +136,13 @@ export class WhiteboardContainer extends Component {
     this.setState({ lineWidth: event.target.value });
   };
 
-  handleCloseWhiteboard = event => {
-    whiteboardEvents.emit('wb-toggle');
-  }
+  handleCloseWhiteboard = (shouldBroadcast = true) => {
+    shouldBroadcast && whiteboardEvents.emit('wb-toggle');
+  };
+
+  handleFullscreen = (shouldBroadcast = true) => {
+    shouldBroadcast && whiteboardEvents.emit('wb-fullscreen');
+  };
 
   toggleEraser = () => {
     if (this.state.color !== 'white') this.previousColor = this.state.color;
@@ -176,7 +190,14 @@ export class WhiteboardContainer extends Component {
                         onChangeComplete={this.handleColorChange}
                         triangle="hide"
                         width="100%"
-                        colors={['#8420ff', '#fe13ff', '#00d1b2', '#ffd12c', '#d1001f', '#000000']}
+                        colors={[
+                          '#8420ff',
+                          '#fe13ff',
+                          '#00d1b2',
+                          '#ffd12c',
+                          '#d1001f',
+                          '#000000'
+                        ]}
                       />
 
                       <form onSubmit={event => event.preventDefault()}>
@@ -205,6 +226,14 @@ export class WhiteboardContainer extends Component {
             <div className="level-right">
               <div className="level-item">
                 <button
+                  className="button is-small is-premary"
+                  onClick={this.handleFullscreen}
+                >
+                  Fullscreen
+                </button>
+              </div>
+              <div className="level-item">
+                <button
                   className="button is-small is-primary"
                   onClick={this.handleClear}
                 >
@@ -220,7 +249,12 @@ export class WhiteboardContainer extends Component {
             </div>
           </div>
         </div>
-        <canvas id="canvas" width={window.innerWidth} height={window.innerHeight} ref={canvas => (this.canvas = canvas)} />
+        <canvas
+          id="canvas"
+          width={window.innerWidth}
+          height={window.innerHeight}
+          ref={canvas => (this.canvas = canvas)}
+        />
       </div>
     );
   }

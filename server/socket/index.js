@@ -97,6 +97,10 @@ module.exports = io => {
       serverSocket.broadcast.to(room).emit('wb-clear--from-server');
     });
 
+    serverSocket.on('wb-fullscreen--from-client', () => {
+      io.in(room).emit('wb-fullscreen--from-server');
+    });
+
     //
     // EDITOR EVENTS
     // =============

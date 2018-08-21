@@ -2,7 +2,6 @@ $menu-width: 75px;
 $toolbar-height: 90px;
 $notification-transition: all $speed $easing ($speed * 2);
 
-
 //
 // Create classroom
 // ================
@@ -13,7 +12,7 @@ $notification-transition: all $speed $easing ($speed * 2);
 // ----------------------------------------------------------------------------
 
 .create-classroom {
-  box-shadow: 0 .5rem 4rem -0.5rem rgba($black, .1);
+  box-shadow: 0 0.5rem 4rem -0.5rem rgba($black, 0.1);
   opacity: 1;
   transform: translateY(0);
   transition: all $speed $easing $speed;
@@ -22,7 +21,7 @@ $notification-transition: all $speed $easing ($speed * 2);
   &.is-hidden {
     display: inherit !important;
     opacity: 0;
-    transform: translateY(.25rem);
+    transform: translateY(0.25rem);
     visibility: hidden;
   }
 
@@ -38,15 +37,15 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 
   .question-student {
-    color: rgba($white, .9);
+    color: rgba($white, 0.9);
     font-size: 1.125em;
     font-weight: $weight-bold;
-    margin-top: .25em;
+    margin-top: 0.25em;
   }
 
   .question-date {
-    color: rgba($white, .65);
-    font-size: .875em;
+    color: rgba($white, 0.65);
+    font-size: 0.875em;
   }
 
   .question {
@@ -76,22 +75,31 @@ $notification-transition: all $speed $easing ($speed * 2);
 .classroom-media {
   overflow: hidden;
   position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: $menu-width;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: $menu-width;
 
-  &.has-editor {}
-  &.has-whiteboard {}
+  &.has-editor {
+  }
+  &.has-whiteboard {
+  }
 
   // RTC-related statuses
-  &.create {}
-  &.calling {}
-  &.approve {}
-  &.established {}
-  &.full {}
-  &.host.hangup {}
-  &.guest.hangup {}
+  &.create {
+  }
+  &.calling {
+  }
+  &.approve {
+  }
+  &.established {
+  }
+  &.full {
+  }
+  &.host.hangup {
+  }
+  &.guest.hangup {
+  }
 }
 
 .video {
@@ -118,7 +126,6 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 }
 
-
 //
 // Classroom tools
 // ===============
@@ -131,10 +138,10 @@ $notification-transition: all $speed $easing ($speed * 2);
 .whiteboard {
   opacity: 0;
   position: absolute;
-    top: 0;
-    right: 50%;
-    bottom: 0;
-    left: 0;
+  top: 0;
+  right: 50%;
+  bottom: 0;
+  left: 0;
   transition: opacity $speed $easing;
   visibility: hidden;
 
@@ -149,28 +156,39 @@ $notification-transition: all $speed $easing ($speed * 2);
     bottom: 50%;
   }
 
+  .has-whiteboard.is-fullscreen & {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    canvas {
+      background-color: transparent;
+    }
+  }
+
   canvas {
     background-color: $white;
     cursor: crosshair;
     position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     width: 100%;
     height: 100%;
   }
 }
 
 .editor {
-  border-right: 1px solid rgba($black, .1);
+  border-right: 1px solid rgba($black, 0.1);
   opacity: 0;
   overflow: hidden;
   position: absolute;
-    top: 0;
-    right: 50%;
-    bottom: 0;
-    left: 0;
+  top: 0;
+  right: 50%;
+  bottom: 0;
+  left: 0;
   transition: opacity $speed $easing;
   visibility: hidden;
 
@@ -182,7 +200,7 @@ $notification-transition: all $speed $easing ($speed * 2);
 
 .file-menu {
   background-color: $white-ter;
-  border-bottom: 1px solid rgba($black, .06);
+  border-bottom: 1px solid rgba($black, 0.06);
   cursor: default;
   font-size: $size-7;
   margin: 0 !important;
@@ -233,7 +251,7 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 
   .twitter-picker {
-    border: 1px solid rgba($black, .1) !important;
+    border: 1px solid rgba($black, 0.1) !important;
     borer-radius: 0 !important;
     box-shadow: none !important;
     padding-bottom: 6px;
@@ -241,9 +259,8 @@ $notification-transition: all $speed $easing ($speed * 2);
 }
 
 // Editor syntax menu
-#menu-syntax {}
-
-
+#menu-syntax {
+}
 
 //
 // Classroom Menu
@@ -399,7 +416,6 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 }
 
-
 //
 // Notifications
 // =============
@@ -435,7 +451,7 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 
   .contact-image {
-    margin: 0 auto .5rem !important;
+    margin: 0 auto 0.5rem !important;
   }
 
   .contact-name {
@@ -443,7 +459,7 @@ $notification-transition: all $speed $easing ($speed * 2);
     font-size: 1.25rem;
     font-weight: $weight-bold;
     line-height: 1.125;
-    margin-bottom: .25rem;
+    margin-bottom: 0.25rem;
   }
 
   .contact-question {
@@ -518,10 +534,6 @@ $notification-transition: all $speed $easing ($speed * 2);
   height: 100%;
 }
 
-
-
-
-
 //
 // Reposition video
 // ================
@@ -538,12 +550,13 @@ $notification-transition: all $speed $easing ($speed * 2);
     min-width: 140px;
 
     video {
-      box-shadow: 0 .5rem 3rem rgba($black, .2);
+      box-shadow: 0 0.5rem 3rem rgba($black, 0.2);
       width: auto;
       height: auto;
     }
   }
-  .video.is-remote {}
+  .video.is-remote {
+  }
 
   // only displaying the editor -- local
   &.has-editor .video.is-local {
@@ -571,9 +584,20 @@ $notification-transition: all $speed $easing ($speed * 2);
     left: 50%;
   }
 
+  &.has-whiteboard.is-fullscreen .video.is-remote {
+    left: 0;
+  }
+
   // displaying both tools
-  &.has-editor.has-whiteboard .video.is-local {}
+  &.has-editor.has-whiteboard .video.is-local {
+  }
   &.has-editor.has-whiteboard .video.is-remote {
     top: 50%;
+  }
+  &.has-editor.has-whiteboard.is-fullscreen .video.is-remote {
+    left: 50%;
+  }
+  canvas {
+    background-color: transparent;
   }
 }

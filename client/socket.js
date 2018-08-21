@@ -35,7 +35,7 @@ mediaEvents.on('rtc-hangup', () => {
 });
 
 whiteboardEvents.on('wb-toggle', () => {
-  console.log('CLIENT SOCKET WHITEBOARD TOGGLE EVENT')
+  console.log('CLIENT SOCKET WHITEBOARD TOGGLE EVENT');
   clientSocket.emit('wb-toggle--from-client');
 });
 
@@ -54,6 +54,9 @@ whiteboardEvents.on('wb-clear', () => {
   clientSocket.emit('wb-clear--from-client');
 });
 
+whiteboardEvents.on('wb-fullscreen', () => {
+  clientSocket.emit('wb-fullscreen--from-client');
+});
 
 editorEvents.on('editor-toggle', () => {
   clientSocket.emit('editor-toggle--from-client');
