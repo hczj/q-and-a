@@ -181,6 +181,7 @@ class MediaContainer extends Component {
     // when our browser gets a candidate, send it to the peer
     this.pc.onicecandidate = event => {
       if (event.candidate) {
+        console.log('*** ON ICE CANDIDATE EVENT', event);
         this.props.mediaEvents.emit('rtc-message', {
           type: 'candidate',
           mlineindex: event.candidate.sdpMLineIndex,
