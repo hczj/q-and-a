@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
 import {
   removeUserTopic,
   fetchCategoryTopics,
-  fetchQuestionsByUser
+  fetchQuestionsByUser,
+  fetchAllFeedback
 } from '../../store';
 import {
   Header,
-  DashboardMenu,
-  DashboardProfile,
-  Inbox,
-  Topics,
-  Feedback,
+  UsersOnline,
+  QuestionsOpen,
+  AnswersToday,
   ActiveQuestions,
-  Main,
-  SingleFeedback
+  Feedback,
+  Topics,
+  AddATopic,
+  QueueStatus
 } from '../../components';
 import { connect } from 'react-redux';
 import { EventEmitter } from 'events';
@@ -24,6 +24,7 @@ export const notificationEvents = new EventEmitter();
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getQuestionsByUser();
+    this.props.getFeedback();
     clientSocket.on('connected', roomUrl => {
       console.log('THIS IS THE ROOM URL: ', roomUrl);
       this.notify(roomUrl);
@@ -77,59 +78,49 @@ class Dashboard extends Component {
   };
 
   render() {
-    const {
-      isLoading,
-      user,
-      isTeacher,
-      topics,
-      feedback,
-      organization,
-      categories,
-      questions
-    } = this.props;
-    if (isLoading) return null;
-
+    const { user, isTeacher, feedback, questions, topics } = this.props;
     return (
       <div>
         <Header title={`${isTeacher ? `Teacher` : `Student`} Dashboard`} />
-        <DashboardMenu isTeacher={isTeacher} handleClick={this.setActiveTab} />
-        <Switch>
-          <Route
-            exact
-            path="/(dashboard|dashboard/main)"
-            render={() => <Main user={user} isTeacher={isTeacher} />}
-          />
-          <Route
-            path="/dashboard/profile"
-            render={() => <DashboardProfile user={user} />}
-          />
-          <Route path="/dashboard/inbox" component={Inbox} />
-          <Route
-            path="/dashboard/topics"
-            render={() => (
+        <div className="container">
+          <section className="hero is-dark welcome is-small">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title">Hello, {user.firstName}.</h1>
+                <h2 className="subtitle">I hope you are having a great day!</h2>
+              </div>
+            </div>
+          </section>
+          <section className="info-tiles">
+            <div className="tile is-ancestor has-text-centered">
+              <UsersOnline isTeacher={isTeacher} />
+              <QuestionsOpen />
+              {isTeacher ? (
+                <AnswersToday isTeacher={isTeacher} />
+              ) : (
+                <QueueStatus />
+              )}
+            </div>
+          </section>
+          <div className="columns">
+            <div className="column is-6">
+              {isTeacher ? (
+                <Feedback feedback={feedback} />
+              ) : (
+                <ActiveQuestions questions={questions} />
+              )}
+            </div>
+
+            <div className="column is-6">
               <Topics
                 topics={topics}
                 isTeacher={isTeacher}
-                organization={organization}
-                categories={categories}
                 removeTopic={this.removeTopic}
               />
-            )}
-          />
-          <Route
-            path="/dashboard/feedback/:feedbackId"
-            component={SingleFeedback}
-          />
-          <Route
-            path="/dashboard/feedback"
-            render={() => <Feedback feedback={feedback} />}
-          />
-
-          <Route
-            path="/dashboard/active-questions"
-            render={() => <ActiveQuestions questions={questions} />}
-          />
-        </Switch>
+              <AddATopic topics={topics} />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -138,21 +129,16 @@ class Dashboard extends Component {
 const mapDispatch = dispatch => ({
   deleteTopic: topicId => dispatch(removeUserTopic(topicId)),
   getCategoryTopics: () => dispatch(fetchCategoryTopics()),
-  getQuestionsByUser: () => dispatch(fetchQuestionsByUser())
+  getQuestionsByUser: () => dispatch(fetchQuestionsByUser()),
+  getFeedback: () => dispatch(fetchAllFeedback())
 });
 
-const mapState = state => {
-  let { organization } = state.me || { organization: [] };
-
-  return {
-    isLoading: state.questions.isLoading,
-    isTeacher: state.me.isTeacher,
-    questions: state.questions.all,
-    topics: state.me.topics,
-    user: state.me,
-    organization,
-    categories: organization.categories
-  };
-};
+const mapState = state => ({
+  isTeacher: state.me.isTeacher,
+  questions: state.questions.all,
+  topics: state.me.topics,
+  user: state.me,
+  feedback: state.feedback.all
+});
 
 export default connect(mapState, mapDispatch)(Dashboard);

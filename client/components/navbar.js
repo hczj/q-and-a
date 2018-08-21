@@ -51,18 +51,18 @@ class Navbar extends Component {
                   >
                     <span>Questions</span>
                     <span className="icon">
-                      <i className="fas fa-question-circle"></i>
+                      <i className="fas fa-question-circle" />
                     </span>
                   </NavLink>
                   <NavLink
-                    to="/dashboard/inbox"
+                    to="/inbox"
                     className="navbar-item"
                     activeClassName="is-active"
                     onClick={this.closeNavbarMenu}
                   >
                     <span>Messages</span>
                     <span className="icon">
-                      <i className="fas fa-comment-dots"></i>
+                      <i className="fas fa-comment-dots" />
                     </span>
 
                     {/*<span className="fa-layers fa-fw">
@@ -108,16 +108,25 @@ class Navbar extends Component {
                       >
                         My Profile
                       </NavLink>
+                      {isTeacher ? (
+                        <NavLink
+                          to="/dashboard"
+                          className="navbar-item"
+                          activeClassName="is-active"
+                        >
+                          My Feedback
+                        </NavLink>
+                      ) : (
+                        <NavLink
+                          to="/questions"
+                          className="navbar-item"
+                          activeClassName="is-active"
+                        >
+                          My Questions
+                        </NavLink>
+                      )}
                       <NavLink
-                        to="/dashboard/questions"
-                        className="navbar-item"
-                        activeClassName="is-active"
-                        onClick={this.closeNavbarMenu}
-                      >
-                        My Questions
-                      </NavLink>
-                      <NavLink
-                        to="/dashboard/inbox"
+                        to="/inbox"
                         className="navbar-item"
                         activeClassName="is-active"
                         onClick={this.closeNavbarMenu}
@@ -126,14 +135,14 @@ class Navbar extends Component {
                       </NavLink>
                       <hr className="navbar-divider" />
                       {isAdmin && (
-                          <NavLink
-                            to="/manage"
-                            className="navbar-item"
-                            activeClassName="is-active"
-                            onClick={this.closeNavbarMenu}
-                          >
-                            Manage
-                          </NavLink>
+                        <NavLink
+                          to="/manage"
+                          className="navbar-item"
+                          activeClassName="is-active"
+                          onClick={this.closeNavbarMenu}
+                        >
+                          Manage
+                        </NavLink>
                       )}
                       <a
                         href="#"

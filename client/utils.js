@@ -33,8 +33,3 @@ export const slugify = text => {
     .replace(/-{2,}/g, '-') // replace multiple dashes with single dash
     .replace(/^-+|-+$/g, ''); // remove leading and trailing dash
 };
-
-export const arrayToSentence = arr => {
-  const last = arr.pop();
-  return `${arr.join(', ')}, and ${last}`;
-};

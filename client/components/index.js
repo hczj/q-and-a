@@ -18,29 +18,30 @@ export { default as ControlContainer } from './classroom/control-container';
 export { default as MediaContainerNEW } from './classroom/_MediaContainer';
 export { default as ControlContainerNEW } from './classroom/_ControlContainer';
 
-
 // dashboard
 export { default as ActiveQuestions } from './dashboard/active-questions';
+export { default as AddATopic } from './dashboard/add-a-topic';
+export { default as AnswersToday } from './dashboard/answers-today';
 export { default as Dashboard } from './dashboard/dashboard';
-export { default as Topics } from './dashboard/topics';
-export { default as DashboardMenu } from './dashboard/dashboard-menu';
+export { default as FeedbackRow } from './dashboard/feedback-row';
+export { default as Feedback } from './dashboard/feedback';
 export { default as Main } from './dashboard/main';
+export { default as QuestionsOpen } from './dashboard/questions-open';
+export { default as QueueStatus } from './dashboard/queue-status';
 export { default as TopicsForm } from './dashboard/topics-form';
-
-// feedback
-export { default as Feedback } from './feedback/feedback';
-export { default as SingleFeedback } from './feedback/single-feedback';
-export { default as FeedbackTable } from './feedback/feedback-table';
-export { default as FeedbackForm } from './feedback/feedback-form';
+export { default as Topics } from './dashboard/topics';
+export { default as UsersOnline } from './dashboard/users-online';
 
 // inbox
 export { default as Inbox } from './inbox/inbox';
+export { default as MessageForm } from './inbox/message-form';
+export { default as MessageList } from './inbox/message-list';
+export { default as Threads } from './inbox/threads';
 
 // profile
 export { default as ProfileCard } from './profile/profile-card';
 export { default as ProfileTopics } from './profile/profile-topics';
 export { default as Profile } from './profile/profile';
-export { default as DashboardProfile } from './profile/dashboard-profile';
 
 // questions
 export { default as QuestionForm } from './questions/question-form';
@@ -53,6 +54,7 @@ export {
 export { default as TopicsInput } from './questions/topics-input';
 
 // reusable
+export { default as Button } from './reusable/button';
 export { default as CategoryDropdown } from './reusable/category-dropdown';
 export { default as Header } from './reusable/header';
 export { default as NothingHere } from './reusable/nothing-here';
@@ -62,4 +64,3 @@ export {
   validateSignup,
   validateQuestion
 } from './reusable/validate-field';
-export { default as Button } from './reusable/button';
