@@ -17,6 +17,7 @@ class Inbox extends Component {
       }
     });
     event.currentTarget.classList.add('is-active');
+    this.props.getThread(thread.id);
   };
 
   render() {

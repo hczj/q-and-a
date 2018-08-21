@@ -49,32 +49,30 @@ class Navbar extends Component {
                     activeClassName="is-active"
                     onClick={this.closeNavbarMenu}
                   >
-                    Questions
+                    <span>Questions</span>
+                    <span className="icon">
+                      <i className="fas fa-question-circle"></i>
+                    </span>
                   </NavLink>
-                  {isAdmin && (
-                    <NavLink
-                      to="/manage"
-                      className="navbar-item"
-                      activeClassName="is-active"
-                      onClick={this.closeNavbarMenu}
-                    >
-                      Manage
-                    </NavLink>
-                  )}
                   <NavLink
                     to="/dashboard/inbox"
                     className="navbar-item"
                     activeClassName="is-active"
                     onClick={this.closeNavbarMenu}
                   >
-                    <span className="fa-layers fa-fw">
+                    <span>Messages</span>
+                    <span className="icon">
+                      <i className="fas fa-comment-dots"></i>
+                    </span>
+
+                    {/*<span className="fa-layers fa-fw">
                       <i className="fas fa-envelope" />
                       <i
                         className="fas fa-circle"
                         data-fa-transform="shrink-6 up-7 right-7"
                         style={{ color: 'Tomato' }}
                       />
-                    </span>
+                    </span>*/}
                   </NavLink>
                   <div className="navbar-item has-dropdown is-hoverable">
                     <div className="navbar-link">
@@ -127,6 +125,16 @@ class Navbar extends Component {
                         My Inbox
                       </NavLink>
                       <hr className="navbar-divider" />
+                      {isAdmin && (
+                          <NavLink
+                            to="/manage"
+                            className="navbar-item"
+                            activeClassName="is-active"
+                            onClick={this.closeNavbarMenu}
+                          >
+                            Manage
+                          </NavLink>
+                      )}
                       <a
                         href="#"
                         onClick={handleLogout}
