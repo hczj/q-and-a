@@ -5,13 +5,13 @@ module.exports = io => {
     );
 
     let room = '';
-
+    let userId = '';
     const create = err => {
       if (err) return console.log('*** CREATE ERROR', err);
       console.log('============> WHY AM I IN THIS FUNCTION?');
       serverSocket.join(room);
       serverSocket.emit('create-room--from-server');
-    }
+    };
 
     serverSocket.on('rtc-message--from-client', msg => {
       console.log('**** SERVER SOCKET HAS RECEIVED A MESSAGE', msg);
@@ -21,7 +21,7 @@ module.exports = io => {
     serverSocket.on('find-room--from-client', newRoom => {
       console.log('**** SERVER SOCKET IS LOOKING FOR A ROOM:', newRoom);
       const socketRoom = serverSocket.adapter.rooms[newRoom];
-
+      console.log(socketRoom);
       if (socketRoom === undefined) {
         // the passed in room doesn't exist, so create it
         room = newRoom;
@@ -31,9 +31,11 @@ module.exports = io => {
       } else if (socketRoom.length === 1) {
         // there is one client in the room, so allow another client to join
         room = newRoom;
-        console.log('**** SERVER SOCKET HAS TOLD THE SECOND CLIENT TO JOIN:', room);
+        console.log(
+          '**** SERVER SOCKET HAS TOLD THE SECOND CLIENT TO JOIN:',
+          room
+        );
         serverSocket.emit('join-room--from-server', room);
-
       } else {
         console.log('**** THIS ROOM IS FULL AND YOU CANNOT JOIN');
         // max of two clients per room
@@ -66,6 +68,19 @@ module.exports = io => {
     });
 
     //
+    // NOTIFICATION EVENTS
+    // =================
+    serverSocket.on('notification-join-room--from-client', studentId => {
+      console.log('students id', studentId);
+      userId = studentId.toString;
+      serverSocket.join(userId);
+    });
+
+    serverSocket.on('notification-to-student--from-client', roomUrl  => {
+      serverSocket.broadcast.to(userId).emit('connected', roomUrl);
+    });
+
+    //
     // WHITEBOARD EVENTS
     // =================
     serverSocket.on('wb-toggle--from-client', () => {
@@ -74,7 +89,9 @@ module.exports = io => {
 
     serverSocket.on('wb-draw--from-client', (start, end, color, lineWidth) => {
       console.log('**** SERVER SOCKET WANT TO DRAW FROM CLIENT');
-      serverSocket.broadcast.to(room).emit('wb-draw--from-server', start, end, color, lineWidth);
+      serverSocket.broadcast
+        .to(room)
+        .emit('wb-draw--from-server', start, end, color, lineWidth);
     });
 
     serverSocket.on('wb-clear--from-client', () => {
@@ -89,7 +106,9 @@ module.exports = io => {
     });
 
     serverSocket.on('editor-content--from-client', content => {
-      serverSocket.broadcast.to(room).emit('editor-content--from-server', content);
+      serverSocket.broadcast
+        .to(room)
+        .emit('editor-content--from-server', content);
     });
 
     serverSocket.on('editor-mode--from-client', mode => {
@@ -102,17 +121,6 @@ module.exports = io => {
     serverSocket.on('disconnect', () => {
       console.log(`socket ID ${serverSocket.id} has disconnected`);
     });
-
-
-
-
-
-
-
-
-
-
-
 
     // let room = '';
 
@@ -129,9 +137,9 @@ module.exports = io => {
 
     // serverSocket.on('find', () => {
     //   console.log('joined!');
-      // const url = serverSocket.request.headers.referer.split('/');
-      // room = url[url.length - 1];
-      // console.log(room);
+    // const url = serverSocket.request.headers.referer.split('/');
+    // room = url[url.length - 1];
+    // console.log(room);
     //   const sr = io.serverSockets.adapter.rooms[room];
     //   if (sr === undefined) {
     //     // no room with such name is found so create it
@@ -167,14 +175,6 @@ module.exports = io => {
     //   serverSocket.broadcast.to(room).emit('hangup');
     //   serverSocket.leave(room);
     // });
-
-
-
-
-
-
-
-
 
     //
     // EDITOR EVENTS

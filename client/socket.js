@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 import { mediaEvents } from './components/classroom/classroom-view';
 import { whiteboardEvents } from './components/classroom/whiteboard-container';
 import { editorEvents } from './components/classroom/editor-container';
+import { notificationEvents } from './components/dashboard/dashboard';
 
 const clientSocket = io(window.location.origin);
 let roomName = window.location.pathname;
@@ -21,11 +22,11 @@ mediaEvents.on('find-room', room => {
 });
 
 mediaEvents.on('join-room', room => {
-  console.log('CREATING A BRAND NEW ROOM NOW:', room)
+  console.log('CREATING A BRAND NEW ROOM NOW:', room);
 });
 
 mediaEvents.on('join-room', room => {
-  console.log('OK OK OK, LETS JOIN THIS ROOM:', room)
+  console.log('OK OK OK, LETS JOIN THIS ROOM:', room);
 });
 
 mediaEvents.on('rtc-auth', data => {
@@ -49,6 +50,15 @@ whiteboardEvents.on('wb-draw', (start, end, color, lineWidth) => {
 
 whiteboardEvents.on('wb-clear', () => {
   clientSocket.emit('wb-clear--from-client');
+});
+
+notificationEvents.on('notification-join-room', userId => {
+  console.log('naisu');
+  clientSocket.emit('notification-join-room--from-client', userId);
+});
+
+notificationEvents.on('notification-to-student', roomUrl => {
+  clientSocket.emit('notification-to-student--from-client', roomUrl);
 });
 
 editorEvents.on('editor-content', content => {
