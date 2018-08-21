@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { createFeedback } from '../../store';
@@ -16,7 +16,7 @@ class FeedbackForm extends Component {
     const { pristine, reset, submitting, handleSubmit } = this.props;
 
     return (
-      <Fragment>
+      <div className="feedback-form">
         <Header title="Feedback" />
         <p>Please take a moment to leave feedback about your session.</p>
         <form onSubmit={handleSubmit(this.handleFeedbackSubmit)}>
@@ -48,7 +48,7 @@ class FeedbackForm extends Component {
             </div>
           </div>
         </form>
-      </Fragment>
+      </div>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, AnswerQuestionButton } from '../../components';
+import { Header, Button } from '../../components';
 import { connect } from 'react-redux';
 import { fetchQuestion } from '../../store';
 
@@ -13,7 +13,7 @@ class SingleQuestionView extends Component {
   };
 
   render() {
-    const { question, isLoading, isTeacher } = this.props;
+    const { question, isLoading, isTeacher, myId } = this.props;
     const { topics, title, description, user } = question;
     if (isLoading || !user) return null;
     return (
@@ -33,10 +33,18 @@ class SingleQuestionView extends Component {
               </span>
             ))}
         </div>
-        {isTeacher && <AnswerQuestionButton
-          questionId={question.id}
-          studentId={user.id}
-        />}
+        {isTeacher && (
+          <Button
+            link="/classroom"
+            text="Answer"
+            classes="button is-link"
+            state={{
+              questionId: question.id,
+              studentId: user.id,
+              teacherId: myId
+            }}
+          />
+        )}
         <hr />
         {description}
       </div>
@@ -46,6 +54,7 @@ class SingleQuestionView extends Component {
 
 const mapState = state => ({
   isLoading: state.questions.isLoading,
+  myId: state.me.id,
   isTeacher: state.me.isTeacher,
   question: state.questions.active,
   user: state.users.active

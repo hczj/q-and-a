@@ -86,12 +86,12 @@ $notification-transition: all $speed $easing ($speed * 2);
 
   // RTC-related statuses
   &.create {}
-  &.join {}
+  &.calling {}
   &.approve {}
   &.established {}
   &.full {}
-  &.host-hangup {}
-  &.guest-hangup {}
+  &.host.hangup {}
+  &.guest.hangup {}
 }
 
 .video {
@@ -150,6 +150,7 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 
   canvas {
+    background-color: $white;
     cursor: crosshair;
     position: absolute;
       top: 0;
@@ -406,26 +407,52 @@ $notification-transition: all $speed $easing ($speed * 2);
 // RTCPeerConnection statuses, mainly
 // ----------------------------------------------------------------------------
 .classroom-notification {
-  width: 50%;
-  min-width: 300px;
-  max-width: 600px;
+  width: 90%;
   position: absolute;
   top: 50%;
   left: calc(50% + #{$menu-width});
   transform: translate3d(-50%, -50%, 0);
   z-index: 999;
 
+  @include tablet {
+    width: 380px;
+  }
+
   .notification {
     background-color: $white;
     box-shadow: 0 1rem 3rem rgba($black, 0.175);
     font-size: 1.25rem;
     opacity: 0;
+    padding: 1.5rem;
     transform: translateY(0.25rem);
     transition: $notification-transition;
     visibility: hidden;
     width: 100%;
   }
+
+  #waiting {
+    text-align: center;
+  }
+
+  .contact-image {
+    margin: 0 auto .5rem !important;
+  }
+
+  .contact-name {
+    color: $grey-dark;
+    font-size: 1.25rem;
+    font-weight: $weight-bold;
+    line-height: 1.125;
+    margin-bottom: .25rem;
+  }
+
+  .contact-question {
+    color: $grey;
+    font-size: 1rem;
+    line-height: 1.125;
+  }
 }
+
 .feedback-form {
   background-color: white;
   padding: 1rem;
@@ -444,12 +471,12 @@ $notification-transition: all $speed $easing ($speed * 2);
     visibility: visible;
   }
 }
-.join,
+.calling,
 .approve,
 .full,
 .create,
-// .guest-hangup,
-.host-hangup {
+.guest.hangup,
+.host.hangup {
   & ~ .classroom-notification .notification {
     opacity: 1;
     transform: translateY(0);
@@ -457,7 +484,8 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 }
 
-#request-access,
+#call-start,
+#call-end,
 #grant-access,
 #room-full,
 #waiting,
@@ -465,12 +493,10 @@ $notification-transition: all $speed $easing ($speed * 2);
   display: none;
 }
 
-.join ~ .classroom-notification #request-access,
-// .guest-hangup ~ .classroom-notification #grant-access,
+.calling ~ .classroom-notification #call-start,
 .approve ~ .classroom-notification #grant-access,
 .full ~ .classroom-notification #room-full,
-.host-hangup ~ .classroom-notification #waiting,
-.host-hangup ~ .classroom-notification #remote-left,
+.host.hangup ~ .classroom-notification #call-end,
 .create ~ .classroom-notification #waiting {
   display: block;
 }

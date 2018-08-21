@@ -8,12 +8,8 @@ import MessageForm from './message-form';
 class Inbox extends Component {
   async componentDidMount() {
     await this.props.getThreads();
-    if (this.props.threads[0].id) {
-      await this.props.getThread(this.props.threads[0].id);
-    }
   }
 
-  componentWillUnmount() {}
   handleClick = (event, thread) => {
     [...document.querySelectorAll('.thread-list-item')].map(el => {
       if (el.classList.contains('is-active')) {
@@ -25,20 +21,14 @@ class Inbox extends Component {
   };
 
   render() {
-    const {
-      isLoadingThreads,
-      isLoadingThread,
-      threads,
-      thread,
-      myId
-    } = this.props;
+    const { isLoadingThread, threads, thread, myId } = this.props;
+    if (!thread && !threads) return null;
     return (
       <div className="inbox">
         <div className="columns is-gapless">
           <div className="column is-5">
             <div className="thread-list">
               <Threads
-                isLoading={isLoadingThreads}
                 threads={threads}
                 myId={myId}
                 handleClick={this.handleClick}
@@ -47,11 +37,13 @@ class Inbox extends Component {
           </div>
           <div className="column is-7">
             <div className="thread">
-              <MessageList
-                isLoading={isLoadingThread}
-                thread={thread}
-                myId={myId}
-              />
+              {thread && (
+                <MessageList
+                  isLoading={isLoadingThread}
+                  thread={thread}
+                  myId={myId}
+                />
+              )}
               <MessageForm />
             </div>
           </div>

@@ -42,20 +42,15 @@ class CreateClassroom extends Component {
       teacherId: location.state.teacherId
     });
 
-    document.getElementById('card').classList.remove('is-hidden');
+    const card = document.getElementById('card');
+    if (card) card.classList.remove('is-hidden');
 
     const { room, questionId, studentId, teacherId } = this.state;
     this.props.addRoom({ room, questionId, studentId, teacherId });
   }
 
   handleInvite = () => {
-    const invitation = `Hi ${
-      this.props.user.firstName
-    }. I have opened a classroom to help you with your question: "${
-      this.props.question.title
-    }". Please join me at ${window.location.origin}/classroom/r/${
-      this.state.room
-    }`;
+    const invitation = `Hi ${this.props.user.firstName}. I'm happy to help you with your question: "${this.props.question.title}". Join me in a video call at ${window.location.origin}/classroom/r/${this.state.room}.`;
 
     this.props.sendInvite({
       content: invitation,
