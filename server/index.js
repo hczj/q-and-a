@@ -108,8 +108,8 @@ const options = {
 
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
-  const server = https.createServer(options, app).listen(PORT, () => {
-    console.log(`Mixing it up on port https://127.0.0.1:${PORT}`)
+  const server = http.createServer(options, app).listen(PORT, () => {
+    // console.log(`Mixing it up on port https://127.0.0.1:${PORT}`)
   });
 
   // const server = app.listen(PORT, () =>
