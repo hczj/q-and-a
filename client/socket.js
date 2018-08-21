@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { mediaEvents } from './components/classroom/classroom-view';
-import { whiteboardEvents } from './components/classroom/whiteboard-container';
-import { editorEvents } from './components/classroom/editor-container';
+import { whiteboardEvents, editorEvents } from './components/classroom/control-container';
+// import { editorEvents } from './components/classroom/control-container';
 
 const clientSocket = io(window.location.origin);
 let roomName = window.location.pathname;
@@ -32,11 +32,19 @@ mediaEvents.on('rtc-hangup', () => {
 });
 
 whiteboardEvents.on('wb-toggle', () => {
+  console.log('CLIENT SOCKET WHITEBOARD TOGGLE EVENT')
   clientSocket.emit('wb-toggle--from-client');
 });
 
-whiteboardEvents.on('wb-draw', (start, end, color, lineWidth) => {
-  clientSocket.emit('wb-draw--from-client', start, end, color, lineWidth);
+whiteboardEvents.on('wb-draw', (start, end, color, lineWidth, eraser) => {
+  clientSocket.emit(
+    'wb-draw--from-client',
+    start,
+    end,
+    color,
+    lineWidth,
+    eraser
+  );
 });
 
 whiteboardEvents.on('wb-clear', () => {
@@ -51,8 +59,10 @@ editorEvents.on('editor-content', content => {
   clientSocket.emit('editor-content--from-client', content);
 });
 
-editorEvents.on('editor-mode', mode => {
-  clientSocket.emit('editor-mode--from-client', mode);
+editorEvents.on('editor-mode', (mode, name) => {
+  console.log('CLIENT SOCKET EDITOR MODE', mode);
+  console.log('CLIENT SOCKET EDITOR NAME', name);
+  clientSocket.emit('editor-mode--from-client', (mode, name));
 });
 
 export default clientSocket;

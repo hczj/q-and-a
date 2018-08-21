@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import brace from 'brace';
 import AceEditor from 'react-ace';
 import 'brace/theme/monokai';
 import 'brace/theme/textmate';
@@ -9,8 +8,7 @@ import 'brace/mode/html';
 import 'brace/mode/javascript';
 import 'brace/mode/python';
 import clientSocket from '../../socket';
-import { EventEmitter } from 'events';
-export const editorEvents = new EventEmitter();
+import { editorEvents } from './control-container';
 
 const textMode = {
   mode: 'text',
@@ -34,31 +32,31 @@ const codeMode = {
   fontSize: 14
 };
 
-const modes = [
-  { name: 'CSS', type: 'css' },
-  { name: 'HTML', type: 'html' },
-  { name: 'JavaScript', type: 'javascript' },
-  { name: 'Python', type: 'python' }
-];
-
 export class EditorContainer extends Component {
   state = textMode;
+
+  modes = [
+    { name: 'CSS', type: 'css' },
+    { name: 'HTML', type: 'html' },
+    { name: 'JavaScript', type: 'javascript' },
+    { name: 'Python', type: 'python' }
+  ];
 
   componentDidMount() {
     clientSocket.on('editor-content--from-server', content => {
       this.setState({ value: content });
     });
 
-    clientSocket.on('editor-mode--from-server', mode => {
-      this.changeMode(mode);
-    })
+    clientSocket.on('editor-mode--from-server', (mode, name) => {
+      this.changeMode(mode, name, false);
+    });
   }
 
   handleContentChange = content => {
     editorEvents.emit('editor-content', content);
   };
 
-  handleModeChange = event => {
+  handleModeChange = async event => {
     [...document.querySelectorAll('#menu-syntax .dropdown-item')].map(el => {
       if (el.classList.contains('is-active')) {
         el.classList.remove('is-active');
@@ -67,11 +65,11 @@ export class EditorContainer extends Component {
     event.target.classList.add('is-active');
     const mode = event.target.dataset.mode;
     const name = event.target.dataset.name;
-    editorEvents.emit('editor-mode', mode);
+
     this.changeMode(mode, name);
   };
 
-  changeMode = (mode, name) => {
+  changeMode = (mode, name, shouldBroadcast = true) => {
     if (!mode) return;
 
     if (mode === 'text') {
@@ -79,10 +77,12 @@ export class EditorContainer extends Component {
     } else {
       this.setState({ ...codeMode, mode, name });
     }
-  }
 
-  handleDropdownClick = event => {
-    // event.currentTarget.classList.toggle('is-active');
+    shouldBroadcast && editorEvents.emit('editor-mode', (mode, name));
+  };
+
+  handleCloseEditor = event => {
+    editorEvents.emit('editor-toggle');
   };
 
   render() {
@@ -109,12 +109,13 @@ export class EditorContainer extends Component {
                       <a
                         className="dropdown-item is-active"
                         data-mode="text"
+                        data-name="Plain Text"
                         onClick={this.handleModeChange}
                       >
                         Plain Text
                       </a>
                       <hr className="dropdown-divider" />
-                      {modes.map(mode => (
+                      {this.modes.map(mode => (
                         <a
                           key={mode.type}
                           className="dropdown-item"
@@ -132,7 +133,10 @@ export class EditorContainer extends Component {
             </div>
             <div className="level-right">
               <div className="level-item">
-                <a className="delete is-small" onClick={this.props.closeEditor} />
+                <a
+                  className="delete is-small"
+                  onClick={this.handleCloseEditor}
+                />
               </div>
             </div>
           </div>

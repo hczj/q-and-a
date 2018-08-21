@@ -17,11 +17,6 @@ const Notification = props => {
       </div>
 
       <div className="notification content" id="call-start">
-        {/*<p className="title is-3">Calling {props.teacher.name}</p>
-        <figure className="contact-image image is-128x128">
-          <img src={props.teacher.imageUrl} className="is-rounded" />
-        </figure>
-        <p className="contact-name">{props.teacher.name}</p>*/}
         <p className="title is-3">New classroom</p>
         <p className="subtitle is-5">You have been invited to a classroom session with {props.teacher.name}. Click start to begin the call.</p>
         <div className="buttons">

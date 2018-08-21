@@ -11,7 +11,7 @@ module.exports = io => {
       console.log('============> WHY AM I IN THIS FUNCTION?');
       serverSocket.join(room);
       serverSocket.emit('create-room--from-server');
-    }
+    };
 
     serverSocket.on('rtc-message--from-client', msg => {
       console.log('**** SERVER SOCKET HAS RECEIVED A MESSAGE', msg);
@@ -33,7 +33,6 @@ module.exports = io => {
         room = newRoom;
         // console.log('**** SERVER SOCKET HAS TOLD THE SECOND CLIENT TO JOIN:', room);
         serverSocket.emit('join-room--from-server', room);
-
       } else {
         // console.log('**** THIS ROOM IS FULL AND YOU CANNOT JOIN');
         // max of two clients per room
@@ -68,13 +67,19 @@ module.exports = io => {
     // WHITEBOARD EVENTS
     // =================
     serverSocket.on('wb-toggle--from-client', () => {
-      serverSocket.broadcast.to(room).emit('wb-toggle--from-server');
+      // send to all clients in room, including sender
+      io.in(room).emit('wb-toggle--from-server');
     });
 
-    serverSocket.on('wb-draw--from-client', (start, end, color, lineWidth) => {
-      // console.log('**** SERVER SOCKET WANT TO DRAW FROM CLIENT');
-      serverSocket.broadcast.to(room).emit('wb-draw--from-server', start, end, color, lineWidth);
-    });
+    serverSocket.on(
+      'wb-draw--from-client',
+      (start, end, color, lineWidth, eraser) => {
+        // console.log('**** SERVER SOCKET WANT TO DRAW FROM CLIENT');
+        serverSocket.broadcast
+          .to(room)
+          .emit('wb-draw--from-server', start, end, color, lineWidth, eraser);
+      }
+    );
 
     serverSocket.on('wb-clear--from-client', () => {
       serverSocket.broadcast.to(room).emit('wb-clear--from-server');
@@ -84,15 +89,22 @@ module.exports = io => {
     // EDITOR EVENTS
     // =============
     serverSocket.on('editor-toggle--from-client', () => {
-      serverSocket.broadcast.to(room).emit('editor-toggle--from-server');
+      // send to all clients in room, including sender
+      io.in(room).emit('editor-toggle--from-server');
     });
 
     serverSocket.on('editor-content--from-client', content => {
-      serverSocket.broadcast.to(room).emit('editor-content--from-server', content);
+      serverSocket.broadcast
+        .to(room)
+        .emit('editor-content--from-server', content);
     });
 
-    serverSocket.on('editor-mode--from-client', mode => {
-      serverSocket.broadcast.to(room).emit('editor-mode--from-server', mode);
+    serverSocket.on('editor-mode--from-client', (mode, name) => {
+      console.log('**** SERVER SOCKET EDITOR MODE', mode);
+      console.log('**** SERVER SOCKET EDITOR NAME', name);
+      serverSocket.broadcast
+        .to(room)
+        .emit('editor-mode--from-server', (mode, name));
     });
 
     //
@@ -101,118 +113,5 @@ module.exports = io => {
     serverSocket.on('disconnect', () => {
       console.log(`socket ID ${serverSocket.id} has disconnected`);
     });
-
-
-
-
-
-
-
-
-
-
-
-
-    // let room = '';
-
-    // const create = err => {
-    //   if (err) return console.error(err);
-    //   serverSocket.join(room);
-    //   serverSocket.emit('create');
-    // };
-
-    // // sending to all clients in the room except sender
-    // serverSocket.on('message', msg => {
-    //   serverSocket.broadcast.to(room).emit('message', msg);
-    // });
-
-    // serverSocket.on('find', () => {
-    //   console.log('joined!');
-      // const url = serverSocket.request.headers.referer.split('/');
-      // room = url[url.length - 1];
-      // console.log(room);
-    //   const sr = io.serverSockets.adapter.rooms[room];
-    //   if (sr === undefined) {
-    //     // no room with such name is found so create it
-    //     serverSocket.join(room);
-
-    //     serverSocket.emit('create');
-    //   } else if (sr.length === 1) {
-    //     serverSocket.emit('join');
-    //   } else {
-    //     // max two clients
-    //     serverSocket.emit('full', room);
-    //   }
-    // });
-
-    // serverSocket.on('auth', data => {
-    //   console.log('serverSocket auth data', data);
-    //   data.sid = serverSocket.id;
-    //   // sending to all clients in the room except sender
-    //   serverSocket.broadcast.to(room).emit('approve', data);
-    // });
-
-    // serverSocket.on('accept', id => {
-    //   console.log('serverSocket accept id', id);
-    //   io.serverSockets.connected[id].join(room);
-    //   // sending to all clients in the room — including sender
-    //   io.in(room).emit('bridge');
-    // });
-
-    // serverSocket.on('reject', () => serverSocket.emit('full'));
-
-    // serverSocket.on('leave', () => {
-    //   // sending to all clients in the room except sender
-    //   serverSocket.broadcast.to(room).emit('hangup');
-    //   serverSocket.leave(room);
-    // });
-
-
-
-
-
-
-
-
-
-    //
-    // EDITOR EVENTS
-    // =============
-    // serverSocket.on('editor-toggle-event', () => {
-    //   serverSocket.broadcast.to(room).emit('editor-toggle');
-    // });
-
-    // serverSocket.on('editor-text-event', text => {
-    //   serverSocket.broadcast.to(room).emit('editor-text', text);
-    // });
-
-    // serverSocket.on('editor-mode-event', mode => {
-    //   serverSocket.broadcast.to(room).emit('editor-mode', mode);
-    // });
-
-    //
-    // WHITEBOARD EVENTS
-    // =================
-    // serverSocket.on('wb-join-room', whiteboardRoom => {
-    //   console.log('****** WHITEBOARD ROOM', whiteboardRoom);
-    //   serverSocket.join(whiteboardRoom);
-    // });
-
-    // serverSocket.on('wb-toggle-event', () => {
-    //   serverSocket.broadcast.to(room).emit('wb-toggle');
-    // });
-
-    // serverSocket.on('wb-draw-event', (start, end, color, lineWidth) => {
-    //   const url = serverSocket.request.headers.referer.split('/');
-    //   room = url[url.length - 1];
-    //   console.log(room);
-    //   serverSocket.broadcast.to(room).emit('wb-draw', start, end, color, lineWidth);
-    // });
-
-    // serverSocket.on('wb-clear-event', () => {
-    //   const url = serverSocket.request.headers.referer.split('/');
-    //   room = url[url.length - 1];
-    //   serverSocket.broadcast.to(room).emit('wb-clear');
-    // });
   });
 };

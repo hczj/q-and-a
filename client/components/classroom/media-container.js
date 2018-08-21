@@ -54,6 +54,14 @@ class MediaContainer extends Component {
     clientSocket.on('rtc-hangup--from-server', () => {
       this.onRemoteHangup();
     });
+
+    clientSocket.on('editor-toggle--from-server', () => {
+      this.toggleEditor();
+    });
+
+    clientSocket.on('wb-toggle--from-server', () => {
+      this.toggleWhiteboard();
+    });
   }
 
   componentWillUnmount() {
@@ -137,12 +145,14 @@ class MediaContainer extends Component {
 
   handleError = err => console.log('error!', err);
 
-  closeEditor = () => {
-    this.setState({ editor: '' });
+  toggleEditor = () => {
+    const hasEditor = !this.state.editor ? 'has-editor' : '';
+    this.setState({ editor: hasEditor });
   };
 
-  closeWhiteboard = () => {
-    this.setState({ whiteboard: '' });
+  toggleWhiteboard = () => {
+    const hasWhiteboard = !this.state.whiteboard ? 'has-whiteboard' : '';
+    this.setState({ whiteboard: hasWhiteboard });
   };
 
   notifyClientRoomIsFull = () => {
@@ -228,11 +238,11 @@ class MediaContainer extends Component {
           />
         </div>
         <Whiteboard
-          closeWhiteboard={this.closeWhiteboard}
+          // toggleWhiteboard={this.toggleWhiteboard}
           // socket={this.props.mediaEvents}
         />
         <Editor
-          closeEditor={this.closeEditor}
+          // toggleEditor={this.toggleEditor}
           // socket={this.props.mediaEvents}
         />
         <FeedbackForm />

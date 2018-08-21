@@ -150,6 +150,7 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 
   canvas {
+    background-color: $white;
     cursor: crosshair;
     position: absolute;
       top: 0;
