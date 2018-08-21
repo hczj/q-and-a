@@ -15,7 +15,7 @@ class TopicsForm extends Component {
   }
 
   handleTopicsSubmit = data => {
-    const { addTopics, getCategoryTopics } = this.props;
+    const { addTopics } = this.props;
     const { topic } = data;
 
     const strTopicIds = keys(pickBy(topic));
@@ -34,11 +34,12 @@ class TopicsForm extends Component {
             {topics.map(topic => (
               <div className="field" key={topic.id}>
                 <Field
+                  className="checkbox"
                   component="input"
                   name={`topic.${topic.id}`}
                   type="checkbox"
                 />
-                <label>{topic.name}</label>
+                <label> {topic.name}</label>
               </div>
             ))}
           </div>

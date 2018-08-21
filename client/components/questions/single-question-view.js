@@ -22,7 +22,7 @@ class SingleQuestionView extends Component {
           <span className="icon">
             <i className="fas fa-long-arrow-alt-left" />
           </span>
-          <span>Back to Questions</span>
+          <span>Back</span>
         </a>
         <Header title={title} />
         <div className="tags">
