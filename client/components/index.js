@@ -15,8 +15,7 @@ export { default as CreateClassroom } from './classroom/create-classroom';
 export { default as ClassroomView } from './classroom/classroom-view';
 export { default as MediaContainer } from './classroom/media-container';
 export { default as ControlContainer } from './classroom/control-container';
-export { default as MediaContainerNEW } from './classroom/_MediaContainer';
-export { default as ControlContainerNEW } from './classroom/_ControlContainer';
+export { default as FeedbackForm } from './classroom/feedback-form';
 
 // dashboard
 export { default as ActiveQuestions } from './dashboard/active-questions';
