@@ -90,8 +90,8 @@ $notification-transition: all $speed $easing ($speed * 2);
   &.approve {}
   &.established {}
   &.full {}
-  &.host-hangup {}
-  &.guest-hangup {}
+  &.host.hangup {}
+  &.guest.hangup {}
 }
 
 .video {
@@ -406,13 +406,16 @@ $notification-transition: all $speed $easing ($speed * 2);
 // RTCPeerConnection statuses, mainly
 // ----------------------------------------------------------------------------
 .classroom-notification {
-  min-width: 300px;
-  max-width: 460px;
+  width: 90%;
   position: absolute;
   top: 50%;
   left: calc(50% + #{$menu-width});
   transform: translate3d(-50%, -50%, 0);
   z-index: 999;
+
+  @include tablet {
+    width: 380px;
+  }
 
   .notification {
     background-color: $white;
@@ -439,11 +442,13 @@ $notification-transition: all $speed $easing ($speed * 2);
     font-size: 1.25rem;
     font-weight: $weight-bold;
     line-height: 1.125;
+    margin-bottom: .25rem;
   }
 
   .contact-question {
     color: $grey;
     font-size: 1rem;
+    line-height: 1.125;
   }
 }
 
@@ -469,8 +474,8 @@ $notification-transition: all $speed $easing ($speed * 2);
 .approve,
 .full,
 .create,
-// .guest-hangup,
-.host-hangup {
+.guest.hangup,
+.host.hangup {
   & ~ .classroom-notification .notification {
     opacity: 1;
     transform: translateY(0);
@@ -478,7 +483,8 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 }
 
-#start-call,
+#call-start,
+#call-end,
 #grant-access,
 #room-full,
 #waiting,
@@ -486,12 +492,10 @@ $notification-transition: all $speed $easing ($speed * 2);
   display: none;
 }
 
-.calling ~ .classroom-notification #start-call,
-// .guest-hangup ~ .classroom-notification #grant-access,
+.calling ~ .classroom-notification #call-start,
 .approve ~ .classroom-notification #grant-access,
 .full ~ .classroom-notification #room-full,
-.host-hangup ~ .classroom-notification #waiting,
-.host-hangup ~ .classroom-notification #remote-left,
+.host.hangup ~ .classroom-notification #call-end,
 .create ~ .classroom-notification #waiting {
   display: block;
 }
