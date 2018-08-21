@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { fetchThreads, fetchThread } from '../../store';
-import Threads from './threads';
-import MessageList from './message-list';
-import MessageForm from './message-form';
+import { Threads, MessageList, MessageForm, Header } from '../../components';
 
 class Inbox extends Component {
   async componentDidMount() {
@@ -33,30 +31,33 @@ class Inbox extends Component {
       myId
     } = this.props;
     return (
-      <div className="inbox">
-        <div className="columns is-gapless">
-          <div className="column is-5">
-            <div className="thread-list">
-              <Threads
-                isLoading={isLoadingThreads}
-                threads={threads}
-                myId={myId}
-                handleClick={this.handleClick}
-              />
+      <Fragment>
+        <Header title="Inbox" />
+        <div className="inbox">
+          <div className="columns is-gapless">
+            <div className="column is-5">
+              <div className="thread-list">
+                <Threads
+                  isLoading={isLoadingThreads}
+                  threads={threads}
+                  myId={myId}
+                  handleClick={this.handleClick}
+                />
+              </div>
             </div>
-          </div>
-          <div className="column is-7">
-            <div className="thread">
-              <MessageList
-                isLoading={isLoadingThread}
-                thread={thread}
-                myId={myId}
-              />
-              <MessageForm />
+            <div className="column is-7">
+              <div className="thread">
+                <MessageList
+                  isLoading={isLoadingThread}
+                  thread={thread}
+                  myId={myId}
+                />
+                <MessageForm />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

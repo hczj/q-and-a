@@ -1,14 +1,18 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
 
-const Threads = ({ isLoading, threads, myId, handleClick }) => {
+const Threads = ({ threads, myId, handleClick }) => {
   return (
     <Fragment>
       {threads.map((thread, i) => {
         const notMe =
           thread.senderId === myId ? thread.receiver : thread.sender;
 
-        const lastMessage = thread.messages[0] || {userId: 0, content: '', createdAt: ''};
+        const lastMessage = thread.messages[0] || {
+          userId: 0,
+          content: '',
+          createdAt: ''
+        };
 
         return (
           <div
@@ -30,7 +34,9 @@ const Threads = ({ isLoading, threads, myId, handleClick }) => {
                 </span>
               </div>
               <p className="thread-list-item-message">
-                {`${lastMessage.userId === myId ? 'You: ' : ''} ${lastMessage.content}`}
+                {`${lastMessage.userId === myId ? 'You: ' : ''} ${
+                  lastMessage.content
+                }`}
               </p>
             </div>
           </div>

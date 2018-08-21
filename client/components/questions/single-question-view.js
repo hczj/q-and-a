@@ -22,7 +22,7 @@ class SingleQuestionView extends Component {
           <span className="icon">
             <i className="fas fa-long-arrow-alt-left" />
           </span>
-          <span>Back to Questions</span>
+          <span>Back</span>
         </a>
         <Header title={title} />
         <div className="tags">
@@ -33,10 +33,9 @@ class SingleQuestionView extends Component {
               </span>
             ))}
         </div>
-        {isTeacher && <AnswerQuestionButton
-          questionId={question.id}
-          studentId={user.id}
-        />}
+        {isTeacher && (
+          <AnswerQuestionButton questionId={question.id} studentId={user.id} />
+        )}
         <hr />
         {description}
       </div>

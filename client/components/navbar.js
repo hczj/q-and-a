@@ -40,6 +40,13 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, isTeacher, me }) => (
               >
                 Questions
               </NavLink>
+              <NavLink
+                to="/dashboard"
+                className="navbar-item"
+                activeClassName="is-active"
+              >
+                Dashboard
+              </NavLink>
               {isAdmin && (
                 <NavLink
                   to="/manage"
@@ -50,7 +57,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, isTeacher, me }) => (
                 </NavLink>
               )}
               <NavLink
-                to="/dashboard/inbox"
+                to="/inbox"
                 className="navbar-item"
                 activeClassName="is-active"
               >
@@ -80,29 +87,31 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, isTeacher, me }) => (
                   </NavLink>
                   <hr className="navbar-divider" />
                   <NavLink
-                    exact
-                    to="/dashboard"
-                    className="navbar-item"
-                    activeClassName="is-active"
-                  >
-                    My Dashboard
-                  </NavLink>
-                  <NavLink
                     to={`/profile/${me.id}`}
                     className="navbar-item"
                     activeClassName="is-active"
                   >
                     My Profile
                   </NavLink>
+                  {isTeacher ? (
+                    <NavLink
+                      to="/dashboard"
+                      className="navbar-item"
+                      activeClassName="is-active"
+                    >
+                      My Feedback
+                    </NavLink>
+                  ) : (
+                    <NavLink
+                      to="/questions"
+                      className="navbar-item"
+                      activeClassName="is-active"
+                    >
+                      My Questions
+                    </NavLink>
+                  )}
                   <NavLink
-                    to="/dashboard/questions"
-                    className="navbar-item"
-                    activeClassName="is-active"
-                  >
-                    My Questions
-                  </NavLink>
-                  <NavLink
-                    to="/dashboard/inbox"
+                    to="/inbox"
                     className="navbar-item"
                     activeClassName="is-active"
                   >
