@@ -113,7 +113,7 @@ const startListening = () => {
   // });
 
   const server = app.listen(PORT, () =>
-    console.log(`Mixing it up on port http://localhost:${PORT}`)
+    // console.log(`Mixing it up on port http://localhost:${PORT}`)
   );
 
   // set up our socket control center

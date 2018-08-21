@@ -42,8 +42,7 @@ class MediaContainer extends Component {
       this.notifyClientRoomIsFull();
     });
 
-    clientSocket.on('rtc-message--from-server', message => {
-      console.log('**** SERVER SOCKET SENT A MESSAGE', message);
+
       this.onMessage(message);
     });
 
@@ -73,10 +72,7 @@ class MediaContainer extends Component {
   }
 
   onMessage = message => {
-    if (!message) {
-      console.log('WHYYYYYYY IS THIS BROKEN?');
-      return;
-    };
+    if (!message) return;
 
     if (message.type === 'offer') {
       // set remote description and answer
