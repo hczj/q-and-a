@@ -48,6 +48,8 @@ export class EditorContainer extends Component {
     });
 
     clientSocket.on('editor-mode--from-server', (mode, name) => {
+      console.log('mode from server', mode);
+      console.log('name from server', name);
       this.changeMode(mode, name, false);
     });
   }
@@ -78,7 +80,7 @@ export class EditorContainer extends Component {
       this.setState({ ...codeMode, mode, name });
     }
 
-    shouldBroadcast && editorEvents.emit('editor-mode', (mode, name));
+    shouldBroadcast && editorEvents.emit('editor-mode', mode, name);
   };
 
   handleCloseEditor = event => {
