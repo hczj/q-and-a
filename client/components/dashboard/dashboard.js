@@ -17,16 +17,59 @@ import {
   SingleFeedback
 } from '../../components';
 import { connect } from 'react-redux';
+import { EventEmitter } from 'events';
+import clientSocket from '../../socket';
+export const notificationEvents = new EventEmitter();
 
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getQuestionsByUser();
+    clientSocket.on('connected', roomUrl => {
+      console.log('THIS IS THE ROOM URL: ', roomUrl);
+      this.notify(roomUrl);
+    });
+    if (!this.props.isTeacher) {
+      notificationEvents.emit('notification-join-room', this.props.user.id);
+    }
+    Notification.requestPermission().then(function(result) {
+      console.log(result);
+    });
   }
 
   setActiveTab = event => {
     const tabs = [...document.querySelectorAll('[data-target-tab]')];
     tabs.forEach(t => t.classList.remove('is-active'));
     event.target.parentElement.classList.add('is-active');
+  };
+
+  notify = roomUrl => {
+    if (!('Notification' in window)) {
+      alert('This browser does not support desktop notification');
+    } else if (Notification.permission === 'granted') {
+      let notification = new Notification('Your Classroom is Ready!', {
+        body: 'Click to Accept'
+      });
+      if (roomUrl) {
+        notification.onclick = event => {
+          event.preventDefault();
+          window.open(roomUrl);
+        };
+      }
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission(function(permission) {
+        if (permission === 'granted') {
+          let notification = new Notification('Your Classroom is Ready!', {
+            body: 'Click to Accept'
+          });
+          if (roomUrl) {
+            notification.onclick = event => {
+              event.preventDefault();
+              window.open(roomUrl);
+            };
+          }
+        }
+      });
+    }
   };
 
   removeTopic = topicId => {
@@ -45,6 +88,7 @@ class Dashboard extends Component {
       questions
     } = this.props;
     if (isLoading) return null;
+
     return (
       <div>
         <Header title={`${isTeacher ? `Teacher` : `Student`} Dashboard`} />

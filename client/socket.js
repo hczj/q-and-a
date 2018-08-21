@@ -1,7 +1,10 @@
 import io from 'socket.io-client';
 import { mediaEvents } from './components/classroom/classroom-view';
-import { whiteboardEvents, editorEvents } from './components/classroom/control-container';
-// import { editorEvents } from './components/classroom/control-container';
+import {
+  whiteboardEvents,
+  editorEvents
+} from './components/classroom/control-container';
+import { notificationEvents } from './components/dashboard/dashboard';
 
 const clientSocket = io(window.location.origin);
 let roomName = window.location.pathname;
@@ -51,6 +54,7 @@ whiteboardEvents.on('wb-clear', () => {
   clientSocket.emit('wb-clear--from-client');
 });
 
+
 editorEvents.on('editor-toggle', () => {
   clientSocket.emit('editor-toggle--from-client');
 });
@@ -63,6 +67,15 @@ editorEvents.on('editor-mode', (mode, name) => {
   console.log('CLIENT SOCKET EDITOR MODE', mode);
   console.log('CLIENT SOCKET EDITOR NAME', name);
   clientSocket.emit('editor-mode--from-client', (mode, name));
+});
+
+notificationEvents.on('notification-join-room', userId => {
+  console.log('naisu');
+  clientSocket.emit('notification-join-room--from-client', userId);
+});
+
+notificationEvents.on('notification-to-student', roomUrl => {
+  clientSocket.emit('notification-to-student--from-client', roomUrl);
 });
 
 export default clientSocket;

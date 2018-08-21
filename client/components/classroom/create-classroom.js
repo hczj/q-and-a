@@ -13,6 +13,7 @@ import {
 } from '../../store';
 import { getRoomId } from '../../utils';
 import moment from 'moment';
+import { notificationEvents } from '../dashboard/dashboard';
 
 class CreateClassroom extends Component {
   state = {
@@ -56,7 +57,12 @@ class CreateClassroom extends Component {
       senderId: this.state.teacherId,
       receiverId: this.state.studentId
     });
-  }
+    notificationEvents.emit('notification-join-room', this.state.studentId);
+    notificationEvents.emit(
+      'notification-to-student',
+      `${window.location.origin}/classroom/r/${this.state.room}`
+    );
+  };
 
   goBack = () => {
     this.props.resetActive();
@@ -66,7 +72,7 @@ class CreateClassroom extends Component {
 
   render() {
     const { isLoading, question, user } = this.props;
-    if (isLoading || !question.id && !user.id) return null;
+    if (isLoading || (!question.id && !user.id)) return null;
     return (
       <div className="hero">
         <div className="hero-body">

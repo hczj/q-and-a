@@ -5,7 +5,7 @@ module.exports = io => {
     );
 
     let room = '';
-
+    let userId = '';
     const create = err => {
       if (err) return console.log('*** CREATE ERROR', err);
       console.log('============> WHY AM I IN THIS FUNCTION?');
@@ -21,7 +21,6 @@ module.exports = io => {
     serverSocket.on('find-room--from-client', newRoom => {
       // console.log('**** SERVER SOCKET IS LOOKING FOR A ROOM:', newRoom);
       const socketRoom = io.sockets.adapter.rooms[newRoom];
-
       if (socketRoom === undefined) {
         // the passed in room doesn't exist, so create it
         room = newRoom;
@@ -61,6 +60,19 @@ module.exports = io => {
     serverSocket.on('rtc-hangup--from-client', () => {
       serverSocket.broadcast.to(room).emit('rtc-hangup--from-server');
       serverSocket.leave(room);
+    });
+
+    //
+    // NOTIFICATION EVENTS
+    // =================
+    serverSocket.on('notification-join-room--from-client', studentId => {
+      console.log('students id', studentId);
+      userId = studentId.toString;
+      serverSocket.join(userId);
+    });
+
+    serverSocket.on('notification-to-student--from-client', roomUrl  => {
+      serverSocket.broadcast.to(userId).emit('connected', roomUrl);
     });
 
     //
