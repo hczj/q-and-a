@@ -1,0 +1,80 @@
+.question-card {
+  & + &  {
+    border-top: 2px solid $hr-background-color;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+  }
+}
+
+.question-student {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  width: 25%;
+
+  @include tablet {
+    width: 20%;
+  }
+
+  @include desktop {
+    width: 16.66667%;
+  }
+
+  .image {
+    margin: 0 auto .5rem;
+  }
+
+  .name {
+    color: $grey-dark;
+    font-weight: $weight-medium;
+    line-height: 1.125;
+    transition: all $speed $easing;
+  }
+
+  .time {
+    color: $grey-light;
+    font-size: .875rem;
+  }
+
+  a:hover .name {
+    color: $link;
+  }
+}
+
+.question-content {
+  min-width: 0; // for flex + text-overflow bug
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+
+  .title {
+    margin-bottom: .25rem;
+  }
+
+  p {
+    color: $grey;
+    max-height: 1.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .tag {
+    background-color: transparent;
+    border: 1px solid $grey-light;
+    color: $grey;
+    cursor: default;
+    font-size: .75rem;
+  }
+}
+
+.question-actions {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+
+  .button + .button {
+    margin-top: .5rem;
+  }
+}

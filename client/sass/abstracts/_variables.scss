@@ -74,8 +74,9 @@ $colors: mergeColorMaps(
 
 $body-background-color: #f7f6fb;
 
-// $box-radius: 0;
+$box-radius: 0;
 // $box-shadow: 0 1rem 3rem rgba($black, 0.175);
+$box-shadow: 0 .5rem 4rem -0.5rem rgba($black, 0.1);
 // $box-padding: 1.5rem;
 
 // $card-shadow: 0 .125rem .125rem rgba($black, 0.1);

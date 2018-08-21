@@ -59,7 +59,7 @@ class QuestionQueue extends Component {
   };
 
   render() {
-    const { questions, isTeacher } = this.props;
+    const { questions, isTeacher, category } = this.props;
     return (
       <Fragment>
         <nav className="level">
@@ -83,7 +83,10 @@ class QuestionQueue extends Component {
           <nav className="level">
             <div className="level-left">
               <div className="level-item">
-                <Header title="Your Topics" size="is-4" />
+                <Header
+                  title={`${category.name ? category.name : 'Your Topics'}`}
+                  size="is-5"
+                />
               </div>
             </div>
 
