@@ -78,7 +78,7 @@ export class EditorContainer extends Component {
       this.setState({ ...codeMode, mode, name });
     }
 
-    shouldBroadcast && editorEvents.emit('editor-mode', (mode, name));
+    shouldBroadcast && editorEvents.emit('editor-mode', mode, name);
   };
 
   handleCloseEditor = event => {

@@ -71,7 +71,7 @@ module.exports = io => {
       serverSocket.join(userId);
     });
 
-    serverSocket.on('notification-to-student--from-client', roomUrl  => {
+    serverSocket.on('notification-to-student--from-client', roomUrl => {
       serverSocket.broadcast.to(userId).emit('connected', roomUrl);
     });
 
@@ -116,7 +116,7 @@ module.exports = io => {
       console.log('**** SERVER SOCKET EDITOR NAME', name);
       serverSocket.broadcast
         .to(room)
-        .emit('editor-mode--from-server', (mode, name));
+        .emit('editor-mode--from-server', mode, name);
     });
 
     //
