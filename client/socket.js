@@ -64,13 +64,10 @@ editorEvents.on('editor-content', content => {
 });
 
 editorEvents.on('editor-mode', (mode, name) => {
-  console.log('CLIENT SOCKET EDITOR MODE', mode);
-  console.log('CLIENT SOCKET EDITOR NAME', name);
   clientSocket.emit('editor-mode--from-client', mode, name);
 });
 
 notificationEvents.on('notification-join-room', userId => {
-  console.log('naisu');
   clientSocket.emit('notification-join-room--from-client', userId);
 });
 
