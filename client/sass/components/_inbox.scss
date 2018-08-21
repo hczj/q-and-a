@@ -9,21 +9,29 @@
 
 .thread-list-item {
   align-items: center;
+  border-left: 2px solid transparent;
   cursor: pointer;
   display: flex;
   font-size: 1rem;
   padding: .75rem;
-  transition: all $speed $easing;
-
-  &:hover,
-  &.is-active {
-    background-color: rgba($black, .04);
-  }
+  transition: background-color $speed $easing;
 
   &:hover {
+    background-color: rgba($primary, .04);
+
     .thread-list-item-message,
     .thread-list-item-date {
       color: darken($grey-light, 10%);
+    }
+  }
+
+  &.is-active {
+    background-color: rgba($primary, .08);
+    border-left-color: $primary;
+
+    .thread-list-item-message,
+    .thread-list-item-date {
+      color: $grey;
     }
   }
 }

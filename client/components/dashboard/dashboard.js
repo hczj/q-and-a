@@ -17,26 +17,68 @@ import {
   QueueStatus
 } from '../../components';
 import { connect } from 'react-redux';
+import { EventEmitter } from 'events';
+import clientSocket from '../../socket';
+export const notificationEvents = new EventEmitter();
 
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getQuestionsByUser();
     this.props.getFeedback();
+    clientSocket.on('connected', roomUrl => {
+      console.log('THIS IS THE ROOM URL: ', roomUrl);
+      this.notify(roomUrl);
+    });
+    if (!this.props.isTeacher) {
+      notificationEvents.emit('notification-join-room', this.props.user.id);
+    }
+    Notification.requestPermission().then(function(result) {
+      console.log(result);
+    });
   }
+
+  setActiveTab = event => {
+    const tabs = [...document.querySelectorAll('[data-target-tab]')];
+    tabs.forEach(t => t.classList.remove('is-active'));
+    event.target.parentElement.classList.add('is-active');
+  };
+
+  notify = roomUrl => {
+    if (!('Notification' in window)) {
+      alert('This browser does not support desktop notification');
+    } else if (Notification.permission === 'granted') {
+      let notification = new Notification('Your Classroom is Ready!', {
+        body: 'Click to Accept'
+      });
+      if (roomUrl) {
+        notification.onclick = event => {
+          event.preventDefault();
+          window.open(roomUrl);
+        };
+      }
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission(function(permission) {
+        if (permission === 'granted') {
+          let notification = new Notification('Your Classroom is Ready!', {
+            body: 'Click to Accept'
+          });
+          if (roomUrl) {
+            notification.onclick = event => {
+              event.preventDefault();
+              window.open(roomUrl);
+            };
+          }
+        }
+      });
+    }
+  };
 
   removeTopic = topicId => {
     this.props.deleteTopic(topicId);
   };
 
   render() {
-    const {
-      user,
-      isTeacher,
-      feedback,
-      questions,
-      topics,
-      organization
-    } = this.props;
+    const { user, isTeacher, feedback, questions, topics } = this.props;
     return (
       <div>
         <Header title={`${isTeacher ? `Teacher` : `Student`} Dashboard`} />
@@ -74,7 +116,6 @@ class Dashboard extends Component {
                 topics={topics}
                 isTeacher={isTeacher}
                 removeTopic={this.removeTopic}
-                organization={organization}
               />
               <AddATopic topics={topics} />
             </div>
@@ -92,18 +133,12 @@ const mapDispatch = dispatch => ({
   getFeedback: () => dispatch(fetchAllFeedback())
 });
 
-const mapState = state => {
-  let { organization } = state.me || { organization: [] };
-
-  return {
-    isTeacher: state.me.isTeacher,
-    questions: state.questions.all,
-    topics: state.me.topics,
-    user: state.me,
-    organization,
-    categories: organization.categories,
-    feedback: state.feedback.all
-  };
-};
+const mapState = state => ({
+  isTeacher: state.me.isTeacher,
+  questions: state.questions.all,
+  topics: state.me.topics,
+  user: state.me,
+  feedback: state.feedback.all
+});
 
 export default connect(mapState, mapDispatch)(Dashboard);

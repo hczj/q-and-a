@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { TwitterPicker } from 'react-color';
 import clientSocket from '../../socket';
-import { EventEmitter } from 'events';
-export const whiteboardEvents = new EventEmitter();
+import { whiteboardEvents } from './control-container';
 
 export class WhiteboardContainer extends Component {
   constructor(props) {
@@ -10,8 +9,8 @@ export class WhiteboardContainer extends Component {
     this.canvas = null;
     this.ctx = null;
     this.previousColor = '';
-    this.mousePositionCurrent = [0, 0];
-    this.mousePositionPrevious = [0, 0];
+    this.currentMousePos = [0, 0];
+    this.previousMousePos = [0, 0];
     this.lineStart = [0, 0];
     this.lineEnd = [0, 0];
 
@@ -30,13 +29,11 @@ export class WhiteboardContainer extends Component {
     this.canvas.addEventListener('mousemove', this.handleMousemove);
     this.canvas.addEventListener('mouseup', this.handleMouseup);
 
-    clientSocket.on('wb-draw--from-server', (start, end, color, lineWidth) => {
-      this.draw(start, end, color, lineWidth, false);
+    clientSocket.on('wb-draw--from-server', (start, end, color, lineWidth, eraser) => {
+      this.draw(start, end, color, lineWidth, eraser, false);
     });
 
-    clientSocket.on('wb-clear--from-server', () => {
-     this.clear(false)
-    });
+    clientSocket.on('wb-clear--from-server', () => this.handleClear(false));
   }
 
   componentWillUnmount() {
@@ -58,7 +55,7 @@ export class WhiteboardContainer extends Component {
 
   handleMousedown = event => {
     this.setState({ isDrawing: true });
-    this.mousePositionCurrent = this.getMousePos(this.canvas, event);
+    this.currentMousePos = this.getMousePos(this.canvas, event);
 
     if (this.state.lineToggle)
       this.lineStart = this.getMousePos(this.canvas, event);
@@ -79,33 +76,43 @@ export class WhiteboardContainer extends Component {
   };
 
   handleMousemove = event => {
+    if (!event.buttons) return;
+
     if (this.state.isDrawing && !this.state.lineToggle) {
-      this.mousePositionPrevious = this.mousePositionCurrent;
-      this.mousePositionCurrent = this.getMousePos(this.canvas, event);
+      this.previousMousePos = this.currentMousePos;
+      this.currentMousePos = this.getMousePos(this.canvas, event);
       this.draw(
-        this.mousePositionPrevious,
-        this.mousePositionCurrent,
+        this.previousMousePos,
+        this.currentMousePos,
         this.state.color,
         this.state.lineWidth,
+        this.state.eraserToggle,
         true
       );
     }
   };
 
-  draw = (start, end, color, lineWidth, shouldBroadcast = true) => {
+  draw = (start, end, color = 'black', lineWidth, eraser = false, shouldBroadcast = true) => {
     this.ctx.beginPath();
     this.ctx.lineWidth = lineWidth;
     this.ctx.strokeStyle = color;
-    this.ctx.moveTo(...start);
-    this.ctx.lineTo(...end);
-    this.ctx.closePath();
-    this.ctx.stroke();
+
+    if (eraser) {
+      this.ctx.globalCompositeOperation="destination-out";
+      this.ctx.arc(...start, ...end, 4, 0, Math.PI * 2, false);
+      this.ctx.fill();
+    } else {
+      this.ctx.moveTo(...start);
+      this.ctx.lineTo(...end);
+      this.ctx.closePath();
+      this.ctx.stroke();
+    }
 
     shouldBroadcast &&
-      whiteboardEvents.emit('wb-draw', start, end, color, lineWidth);
+      whiteboardEvents.emit('wb-draw', start, end, color, lineWidth, eraser);
   };
 
-  clear = (shouldBroadcast = true) => {
+  handleClear = (shouldBroadcast = true) => {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     shouldBroadcast && whiteboardEvents.emit('wb-clear');
   };
@@ -118,6 +125,10 @@ export class WhiteboardContainer extends Component {
   handleBrushSizeChange = event => {
     this.setState({ lineWidth: event.target.value });
   };
+
+  handleCloseWhiteboard = event => {
+    whiteboardEvents.emit('wb-toggle');
+  }
 
   toggleEraser = () => {
     if (this.state.color !== 'white') this.previousColor = this.state.color;
@@ -194,7 +205,7 @@ export class WhiteboardContainer extends Component {
               <div className="level-item">
                 <button
                   className="button is-small is-primary"
-                  onClick={this.clear}
+                  onClick={this.handleClear}
                 >
                   Clear
                 </button>
@@ -202,7 +213,7 @@ export class WhiteboardContainer extends Component {
               <div className="level-item">
                 <a
                   className="delete is-small"
-                  onClick={this.props.closeWhiteboard}
+                  onClick={this.handleCloseWhiteboard}
                 />
               </div>
             </div>

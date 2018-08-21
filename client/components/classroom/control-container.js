@@ -5,6 +5,9 @@ import { setVideo, setAudio, deleteClassroom } from '../../store';
 import Toolbar from './toolbar';
 import Menu from './menu';
 import Notification from './notification';
+import { EventEmitter } from 'events';
+export const whiteboardEvents = new EventEmitter();
+export const editorEvents = new EventEmitter();
 import clientSocket from '../../socket';
 
 class ControlContainer extends Component {
@@ -16,6 +19,7 @@ class ControlContainer extends Component {
   };
 
   componentDidMount() {
+    console.log('whiteboardEvents', whiteboardEvents);
     const { video, audio, mediaEvents, getUserMedia } = this.props;
     this.setState({
       video: video,
@@ -23,18 +27,7 @@ class ControlContainer extends Component {
     });
 
     clientSocket.on('rtc-approve--from-server', ({ message, sid }) => {
-      console.log('**** SERVER HAS APPROVED US!');
-      console.log('**** SERVER MESSAGE:', message);
-      console.log('**** SERVER SID:', sid);
       this.setState({ message, sid });
-    });
-
-    mediaEvents.on('editor-toggle', () => {
-      this.toggleEditor();
-    });
-
-    mediaEvents.on('wb-toggle', () => {
-      this.toggleWhiteboard();
     });
 
     getUserMedia.then(stream => {
@@ -45,8 +38,6 @@ class ControlContainer extends Component {
   }
 
   startCall = event => {
-    console.log('startCall func from `control-container`');
-    console.log('this.state', this.state);
     event.preventDefault();
     this.props.media.setState({ bridge: 'connecting' });
     this.props.mediaEvents.emit('rtc-auth', this.state);
@@ -56,7 +47,7 @@ class ControlContainer extends Component {
     event.preventDefault();
     // emit either `rtc-accept` or `rtc-reject` from the event
     this.props.mediaEvents.emit([event.target.dataset.ref], this.state.sid);
-  }
+  };
 
   toggleVideo = () => {
     const video = (this.localStream.getVideoTracks()[0].enabled = !this.state
@@ -72,28 +63,21 @@ class ControlContainer extends Component {
     this.props.setAudio(audio);
   };
 
-  toggleWhiteboard = async emit => {
-    if (emit) this.props.mediaEvents.emit('wb-toggle-event');
-    await this.props.media.setState((prevState, props) => {
-      const hasWhiteboard = !prevState.whiteboard ? 'has-whiteboard' : '';
-      return { whiteboard: hasWhiteboard }
-    });
-  }
+  toggleEditor = () => editorEvents.emit('editor-toggle');
 
-  toggleEditor = async emit => {
-    if (emit) this.props.mediaEvents.emit('editor-toggle-event');
-    await this.props.media.setState((prevState, props) => {
-      const hasEditor = !prevState.editor ? 'has-editor' : '';
-      return { editor: hasEditor }
-    });
-  }
+  toggleWhiteboard = () => whiteboardEvents.emit('wb-toggle');
+
+  goBack = (event, num = -1) => {
+    event.preventDefault();
+    this.props.history.go(num);
+  };
 
   handleExit = event => {
     event.preventDefault();
-    this.props.mediaEvents.emit('leave');
+    this.props.mediaEvents.emit('rtc-hangup');
     this.props.removeRoom(this.props.match.params.room);
     this.props.history.go(-2);
-  }
+  };
 
   handleHangup = () => {
     this.props.media.hangup();
@@ -111,6 +95,7 @@ class ControlContainer extends Component {
           {...this.state}
           startCall={this.startCall}
           handleInvitation={this.handleInvitation}
+          goBack={this.goBack}
         />
         <Toolbar
           {...this.state}

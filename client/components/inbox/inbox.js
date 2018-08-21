@@ -6,12 +6,8 @@ import { Threads, MessageList, MessageForm, Header } from '../../components';
 class Inbox extends Component {
   async componentDidMount() {
     await this.props.getThreads();
-    if (this.props.threads[0].id) {
-      await this.props.getThread(this.props.threads[0].id);
-    }
   }
 
-  componentWillUnmount() {}
   handleClick = (event, thread) => {
     [...document.querySelectorAll('.thread-list-item')].map(el => {
       if (el.classList.contains('is-active')) {
@@ -23,41 +19,34 @@ class Inbox extends Component {
   };
 
   render() {
-    const {
-      isLoadingThreads,
-      isLoadingThread,
-      threads,
-      thread,
-      myId
-    } = this.props;
+    const { isLoadingThread, threads, thread, myId } = this.props;
+    if (!thread && !threads) return null;
     return (
-      <Fragment>
-        <Header title="Inbox" />
-        <div className="inbox">
-          <div className="columns is-gapless">
-            <div className="column is-5">
-              <div className="thread-list">
-                <Threads
-                  isLoading={isLoadingThreads}
-                  threads={threads}
-                  myId={myId}
-                  handleClick={this.handleClick}
-                />
-              </div>
+      <div className="inbox">
+        <div className="columns is-gapless">
+          <div className="column is-5">
+            <div className="thread-list">
+              <Threads
+                threads={threads}
+                myId={myId}
+                handleClick={this.handleClick}
+              />
             </div>
-            <div className="column is-7">
-              <div className="thread">
+          </div>
+          <div className="column is-7">
+            <div className="thread">
+              {thread && (
                 <MessageList
                   isLoading={isLoadingThread}
                   thread={thread}
                   myId={myId}
                 />
-                <MessageForm />
-              </div>
+              )}
+              <MessageForm />
             </div>
           </div>
         </div>
-      </Fragment>
+      </div>
     );
   }
 }

@@ -10,12 +10,16 @@ const Menu = props => (
         </a>
       </li>
       <li>
-        <a onClick={() => props.toggleEditor(true)}>
+        <a
+          onClick={props.toggleEditor}
+        >
           <i className="fas fa-code" />
         </a>
       </li>
       <li>
-        <a onClick={() => props.toggleWhiteboard(true)}>
+        <a
+         onClick={props.toggleWhiteboard}
+        >
           <i className="fas fa-pen" />
         </a>
       </li>
