@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
 
-const Threads = ({ isLoading, threads, myId, handleClick }) => {
+const Threads = ({ threads, myId, handleClick }) => {
   return (
     <Fragment>
       {threads.map((thread, i) => {
