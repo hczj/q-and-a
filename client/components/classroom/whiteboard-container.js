@@ -16,7 +16,7 @@ export class WhiteboardContainer extends Component {
 
     this.state = {
       color: 'black',
-      lineWidth: 2,
+      lineWidth: 3,
       isDrawing: false,
       eraserToggle: false,
       lineToggle: false
@@ -220,7 +220,7 @@ export class WhiteboardContainer extends Component {
             </div>
           </div>
         </div>
-        <canvas id="canvas" ref={canvas => (this.canvas = canvas)} />
+        <canvas id="canvas" width={window.innerWidth} height={window.innerHeight} ref={canvas => (this.canvas = canvas)} />
       </div>
     );
   }
