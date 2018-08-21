@@ -176,6 +176,7 @@ export class WhiteboardContainer extends Component {
                         onChangeComplete={this.handleColorChange}
                         triangle="hide"
                         width="100%"
+                        colors={['#8420ff', '#fe13ff', '#00d1b2', '#ffd12c', '#d1001f', '#000000']}
                       />
 
                       <form onSubmit={event => event.preventDefault()}>
