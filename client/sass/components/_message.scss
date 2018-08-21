@@ -10,6 +10,7 @@
 
     a {
       transition: opacity $speed $easing;
+      word-break: break-word;
 
       &:hover {
         opacity: 0.8;
