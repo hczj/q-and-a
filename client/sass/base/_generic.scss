@@ -1,3 +1,11 @@
 a {
   transition: all $speed $easing;
+
+  .title & {
+    color: inherit;
+
+    &:hover {
+      color: $link;
+    }
+  }
 }
