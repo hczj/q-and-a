@@ -19,49 +19,48 @@ module.exports = io => {
     });
 
     serverSocket.on('find-room--from-client', newRoom => {
-      console.log('**** SERVER SOCKET IS LOOKING FOR A ROOM:', newRoom);
-      const socketRoom = serverSocket.adapter.rooms[newRoom];
+      // console.log('**** SERVER SOCKET IS LOOKING FOR A ROOM:', newRoom);
+      const socketRoom = io.sockets.adapter.rooms[newRoom];
 
       if (socketRoom === undefined) {
         // the passed in room doesn't exist, so create it
         room = newRoom;
         serverSocket.join(room);
         serverSocket.emit('create-room--from-server', room);
-        console.log('**** NO ROOM EXISTS, SO CREATE ROOM:', room);
+        // console.log('**** NO ROOM EXISTS, SO CREATE ROOM:', room);
       } else if (socketRoom.length === 1) {
         // there is one client in the room, so allow another client to join
         room = newRoom;
-        console.log('**** SERVER SOCKET HAS TOLD THE SECOND CLIENT TO JOIN:', room);
+        // console.log('**** SERVER SOCKET HAS TOLD THE SECOND CLIENT TO JOIN:', room);
         serverSocket.emit('join-room--from-server', room);
 
       } else {
-        console.log('**** THIS ROOM IS FULL AND YOU CANNOT JOIN');
+        // console.log('**** THIS ROOM IS FULL AND YOU CANNOT JOIN');
         // max of two clients per room
         serverSocket.emit('room-is-full--from-server');
       }
     });
 
-    // incoming call???
     serverSocket.on('rtc-auth--from-client', data => {
-      console.log('**** SERVER SOCKET AUTH DATA', data);
+      // console.log('**** SERVER SOCKET AUTH DATA', data);
       data.sid = serverSocket.id;
       serverSocket.broadcast.to(room).emit('rtc-approve--from-server', data);
     });
 
     serverSocket.on('rtc-accept--from-client', id => {
-      console.log('**** SERVER SOCKET HAS ACCEPTED ID:', id);
+      // console.log('**** SERVER SOCKET HAS ACCEPTED ID:', id);
       io.sockets.connected[id].join(room);
       io.in(room).emit('rtc-bridge--from-server');
     });
 
     serverSocket.on('rtc-reject--from-client', () => {
-      console.log('**** SERVER SOCKET HAS REJECTED THE REQUEST TO JOIN');
+      // console.log('**** SERVER SOCKET HAS REJECTED THE REQUEST TO JOIN');
       serverSocket.emit('room-is-full--from-server');
     });
 
     // hangup
-    serverSocket.on('rtc-hangup--from-client', user => {
-      serverSocket.broadcast.to(room).emit('rtc-hangup--from-server', user);
+    serverSocket.on('rtc-hangup--from-client', () => {
+      serverSocket.broadcast.to(room).emit('rtc-hangup--from-server');
       serverSocket.leave(room);
     });
 
@@ -73,7 +72,7 @@ module.exports = io => {
     });
 
     serverSocket.on('wb-draw--from-client', (start, end, color, lineWidth) => {
-      console.log('**** SERVER SOCKET WANT TO DRAW FROM CLIENT');
+      // console.log('**** SERVER SOCKET WANT TO DRAW FROM CLIENT');
       serverSocket.broadcast.to(room).emit('wb-draw--from-server', start, end, color, lineWidth);
     });
 

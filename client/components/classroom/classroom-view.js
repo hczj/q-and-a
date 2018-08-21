@@ -25,11 +25,14 @@ class ClassroomView extends Component {
           media={media => (this.media = media)}
           mediaEvents={mediaEvents}
           getUserMedia={this.getUserMedia}
+          classroom={this.props.classroom}
+          myId={this.props.myId}
         />
         <ControlContainer
           mediaEvents={mediaEvents}
           media={this.media}
           getUserMedia={this.getUserMedia}
+          myId={this.props.myId}
         />
       </Fragment>
     );
@@ -37,6 +40,7 @@ class ClassroomView extends Component {
 }
 
 const mapState = state => ({
+  myId: state.me.id,
   classroom: state.classroom
 });
 

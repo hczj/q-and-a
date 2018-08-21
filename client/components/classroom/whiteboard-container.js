@@ -34,9 +34,7 @@ export class WhiteboardContainer extends Component {
       this.draw(start, end, color, lineWidth, false);
     });
 
-    clientSocket.on('wb-clear--from-server', () => {
-     this.clear(false)
-    });
+    clientSocket.on('wb-clear--from-server', () => this.clear(false));
   }
 
   componentWillUnmount() {

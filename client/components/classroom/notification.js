@@ -16,7 +16,7 @@ const Notification = props => {
         <p className="contact-question">"{props.question.title}"</p>
       </div>
 
-      <div className="notification content" id="start-call">
+      <div className="notification content" id="call-start">
         {/*<p className="title is-3">Calling {props.teacher.name}</p>
         <figure className="contact-image image is-128x128">
           <img src={props.teacher.imageUrl} className="is-rounded" />
@@ -30,9 +30,18 @@ const Notification = props => {
         </div>
       </div>
 
+      <div className="notification content" id="call-end">
+        <p className="title is-3">End of session</p>
+        <p className="subtitle is-5">Your call with {props.student.firstName} has ended</p>
+        <div className="buttons">
+          <a onClick={props.startCall} className="button is-primary">Call Back</a>
+          <button onClick={event => props.goBack(event)} className="button is-light">Leave Room</button>
+        </div>
+      </div>
+
       <div className="notification content" id="grant-access">
-        <p className="title is-4">Incoming request</p>
-        <p>{props.student.firstName} wants to join your classroom.</p>
+        <p className="title is-3">Incoming request</p>
+        <p className="subtitle is-5">{props.student.firstName} is calling you</p>
         <div className="field is-grouped">
           <p className="control">
             <button
@@ -56,11 +65,11 @@ const Notification = props => {
       </div>
 
       <div className="notification content" id="room-full">
-        <p className="title is-4">Whoops!</p>
-        <p>This classroom is unavailable.</p>
-        <Link className="button is-primary" to="/classroom">
-          Go back
-        </Link>
+        <p className="title is-3">We're sorry</p>
+        <p className="subtitle is-5">This classroom is unavailable.</p>
+        <div className="buttons">
+          <button onClick={event => props.goBack(event)} className="button is-primary">Go Back</button>
+        </div>
       </div>
     </div>
   );

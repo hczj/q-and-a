@@ -23,13 +23,10 @@ class ControlContainer extends Component {
     });
 
     clientSocket.on('rtc-approve--from-server', ({ message, sid }) => {
-      console.log('**** SERVER HAS APPROVED US!');
-      console.log('**** SERVER MESSAGE:', message);
-      console.log('**** SERVER SID:', sid);
       this.setState({ message, sid });
     });
 
-    mediaEvents.on('editor-toggle', () => {
+    mediaEvents.on('editor-toggle--from-server', () => {
       this.toggleEditor();
     });
 
@@ -93,18 +90,13 @@ class ControlContainer extends Component {
 
   handleExit = event => {
     event.preventDefault();
-    this.props.mediaEvents.emit('leave');
+    this.props.mediaEvents.emit('rtc-hangup');
     this.props.removeRoom(this.props.match.params.room);
-    console.log('THIS.PROPS.HISTORY', this.props.history);
     this.props.history.go(-2);
   }
 
   handleHangup = () => {
-    const { myId, teacher, media } = this.props;
-
-    // who hung up the call?
-    const user = (myId === teacher.id) ? 'teacher' : 'student';
-    media.hangup(user);
+    this.props.media.hangup();
   };
 
   render() {
@@ -134,7 +126,6 @@ class ControlContainer extends Component {
 }
 
 const mapState = state => ({
-  myId: state.me.id,
   room: state.classroom.room,
   question: state.classroom.question,
   student: state.classroom.student,

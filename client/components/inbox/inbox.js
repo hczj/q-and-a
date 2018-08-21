@@ -7,18 +7,9 @@ import MessageForm from './message-form';
 
 class Inbox extends Component {
   async componentDidMount() {
-    const { getThreads, getThread, threads, thread } = this.props;
-    await getThreads();
-    // TODO
-    // look at the below code and see what is happening
-    // it was working (loading threads and then the first thread
-    // so it's messages fill the message list window). now it's not.
-    if (!thread.id && threads[0]) {
-      await getThread(threads[0].id);
-    }
+    await this.props.getThreads();
   }
 
-  componentWillUnmount() {}
   handleClick = (event, thread) => {
     [...document.querySelectorAll('.thread-list-item')].map(el => {
       if (el.classList.contains('is-active')) {
@@ -26,7 +17,6 @@ class Inbox extends Component {
       }
     });
     event.currentTarget.classList.add('is-active');
-    this.props.getThread(thread.id);
   };
 
   render() {

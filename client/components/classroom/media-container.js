@@ -4,7 +4,6 @@ import Editor from './editor-container';
 import { FeedbackForm } from '../../components';
 import clientSocket from '../../socket';
 
-
 class MediaContainer extends Component {
   state = {
     user: '',
@@ -13,9 +12,6 @@ class MediaContainer extends Component {
     editor: '',
     feedback: ''
   };
-
-  // localVideo = document.getElementById('#local-video');
-  // remoteVideo = document.getElementById('#remote-video');
 
   componentWillMount() {
     // chrome polyfill for connection between local device and remote peer
@@ -31,35 +27,32 @@ class MediaContainer extends Component {
     );
 
     clientSocket.on('rtc-bridge--from-server', role => {
-      console.log('**** SERVER SENT US A BRIDGE');
       this.init();
     });
 
     clientSocket.on('create-room--from-server', room => {
-      console.log('**** THE SERVER SAID TO CREATE ROOM:', room);
-      this.setState({ user: 'host', bridge: 'create' })
+      this.setState({ user: 'host', bridge: 'create' });
     });
 
     clientSocket.on('join-room--from-server', room => {
-      console.log('**** SERVER WANTS US TO JOIN ROOM:', room);
       this.setState({ user: 'guest', bridge: 'calling' });
     });
 
-    clientSocket.on('room-is-full--from-server', this.notifyClientRoomIsFull);
+    clientSocket.on('room-is-full--from-server', () => {
+      this.notifyClientRoomIsFull();
+    });
 
     clientSocket.on('rtc-message--from-server', message => {
-      console.log('**** SERVER SENT A MESSAGE:', message);
+      console.log('**** SERVER SOCKET SENT A MESSAGE', message);
       this.onMessage(message);
     });
 
     clientSocket.on('rtc-approve--from-server', ({ message, sid }) => {
-      console.log('**** SERVER HAS APPROVED US!');
       this.setState({ bridge: 'approve' });
     });
 
-    clientSocket.on('rtc-hangup--from-server', user => {
-      console.log('**** SERVER WANTS US TO HANGUP')
-      this.onRemoteHangup(user);
+    clientSocket.on('rtc-hangup--from-server', () => {
+      this.onRemoteHangup();
     });
   }
 
@@ -72,6 +65,11 @@ class MediaContainer extends Component {
   }
 
   onMessage = message => {
+    if (!message) {
+      console.log('WHYYYYYYY IS THIS BROKEN?');
+      return;
+    };
+
     if (message.type === 'offer') {
       // set remote description and answer
       this.pc.setRemoteDescription(new RTCSessionDescription(message));
@@ -94,11 +92,12 @@ class MediaContainer extends Component {
     }
   };
 
-  onRemoteHangup = user => {
-    if (user === 'student') {
+  onRemoteHangup = () => {
+    if (this.props.myId === this.props.classroom.student.id) {
       this.setState({ feedback: 'has-feedback-form' });
     }
-    this.setState({ user, bridge: `${user}-hangup` });
+
+    this.setState({ bridge: 'hangup' });
   };
 
   sendData = msg => this.dc.send(JSON.stringify(msg));
@@ -124,16 +123,16 @@ class MediaContainer extends Component {
     this.props.mediaEvents.emit('rtc-message', this.pc.localDescription);
   };
 
-  hangup = user => {
+  hangup = () => {
     if (!this.pc) return;
 
-    if (user === 'student') {
+    if (this.props.myId === this.props.classroom.student.id) {
       this.setState({ feedback: 'has-feedback-form' });
     }
 
-    this.setState({ user, bridge: `${user}-hangup` });
+    this.setState({ bridge: 'hangup' });
     this.pc.close();
-    this.props.mediaEvents.emit('rtc-hangup', user);
+    this.props.mediaEvents.emit('rtc-hangup');
   };
 
   handleError = err => console.log('error!', err);
@@ -207,10 +206,10 @@ class MediaContainer extends Component {
   };
 
   render() {
-    const { bridge, whiteboard, editor, feedback } = this.state;
+    const { user, bridge, whiteboard, editor, feedback } = this.state;
     return (
       <div
-        className={`classroom-media ${bridge} ${whiteboard} ${editor} ${feedback}`}
+        className={`classroom-media ${user} ${bridge} ${whiteboard} ${editor} ${feedback}`}
       >
         <div className="video is-remote">
           <video
@@ -230,9 +229,12 @@ class MediaContainer extends Component {
         </div>
         <Whiteboard
           closeWhiteboard={this.closeWhiteboard}
-          socket={this.props.mediaEvents}
+          // socket={this.props.mediaEvents}
         />
-        <Editor closeEditor={this.closeEditor} socket={this.props.mediaEvents} />
+        <Editor
+          closeEditor={this.closeEditor}
+          // socket={this.props.mediaEvents}
+        />
         <FeedbackForm />
       </div>
     );
