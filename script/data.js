@@ -5,7 +5,7 @@ const organizations = [
     name: `Fullstack Academy`,
     location: `Chicago, Illinois`,
     email: `fullstack@example.com`
-  },
+  }
   // {
   //   name: `Eastern High School`,
   //   location: `Denver, CO`,
@@ -207,55 +207,52 @@ const users = [
 
 const questions = [
   {
-    title: `Why does the thing do the stuff?`,
-    description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`
+    title: `Uncaught error when replacing original field?`,
+    description: `So I want to replace field city with my custom model, but I get this error. I think maybe some domain trying to use old 'city' field, but I can't find it.`
   },
   {
-    title: `How do I accomplish this other thing???`
+    title: `Cannot access (or ping) a particular website (buxfer.com) from Amazon Workspace Linux Desktop`
   },
   {
-    title: `Can you help me learn how to do this?`,
-    description: `Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`
+    title: `Keystroke display while in VS Code?`,
+    description: `I'm trying to find a keystroke software that will display the keystrokes being used while I'm in VS Code. This would be for presenting or doing screencast.`
   },
   {
-    title: `Would you help me try to learn this?`,
-    description: `Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tempor incididunt ut labore et dolore magna aliqua.`
+    title: `Angular-cli installation with npm, keep getting an error??`,
+    description: `When I am installing angular-cli using npm, typing the following npm install -g @angular/cli throws an error.`
   },
   {
-    title: `HELP! I can't figure out why this that or the other.`,
-    description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam!!!!!!!`
+    title: `Github Commit Push raises 403 Error due to nonlocality`,
+    description:
+      "I am trying to push a commit to my repository. But I am getting a curious 403 error message from github that I can't find any documentation for on the internet"
   },
   {
-    title: `Has anyone used this software before?`,
-    description: loremIpsum
+    title: `Xcode project crashing every time it is opened?`,
+    description: `I can't know for sure what caused it, but it happened when I was adding Binaries and Libraries I created (I am new to it, so may have done something wrong). You can also see a few lines in the log screenshot about Frameworks, so this might have been the cause.`
   },
   {
-    title: `Need help debugging this issue...`,
-    description: `Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`
+    title: `How do I make a C++ object non-copyable?`
   },
   {
-    title: `What would I need to do here?`,
-    description: loremIpsum
+    title: `How do I simplify radical math expressions?`
   },
   {
-    title: `SOMEONE PLEASE HELP ME`,
-    description: `I am so lost`
+    title: `Find the x and y intercepts, the vertex and the axis of symmetry of the parabola with equation y = - x 2 + 2 x + 3?`,
+    description: `I've been trying to figure this out for the past two hours!!!`
   },
   {
-    title: `I'm not really sure why this isn't working`,
-    description: `Exercitation ullamco laboris nisi ut aliquip ex ea.`
+    title: `Two cars started from the same point, at 5 am, traveling in opposite directions at 40 and 50 mph respectively. At what time will they be 450 miles apart?`,
+    description: "My parents aren't good at math!!"
   },
   {
-    title: `Would you do this or that to solve this problem?`,
-    description: loremIpsum
+    title: `Decompose into partial fractions : (5x + 10) / x(x + 5)`
   },
   {
-    title: `Why doesn't this work?`,
-    description: `Ut enim adipisicing elit, sed do eiusmod dolore ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip`
+    title: `Has anyone used an abacus before?`
   },
   {
-    title: `Do you know how this can be fixed?`,
-    description: loremIpsum
+    title: `Can someone explain the origin of south asian tensions??`,
+    description: 'Is it mostly religious or what??'
   },
   {
     title: `Will you please take a look at this this I'm doing?`,
@@ -290,10 +287,10 @@ const questions = [
 const feedbacks = [
   {
     rating: 2,
-    content: loremIpsum
+    content: "I really don't think this instructor explained things well."
   },
   {
-    rating: 3,
+    rating: 3
   },
   {
     rating: 5,
@@ -301,35 +298,37 @@ const feedbacks = [
   },
   {
     rating: 4,
-    content: loremIpsum
+    content:
+      'That was great! I just needed a little bit more guidance on my last issue there.'
   },
   {
-    rating: 4,
+    rating: 4
   },
   {
     rating: 3,
-    content: loremIpsum
+    content:
+      "It was sort of helpful, I don't feel like everything was clarified..."
   },
   {
-    rating: 5,
+    rating: 5
   },
   {
     rating: 1,
     content: `my teacher was rude`
-  },
+  }
 ];
 
 const categories = [
-  { name: `Coding` },
-  { name: `Cooking` },
-  { name: `Science` },
-  { name: `Music` },
-  { name: `Business` },
-  { name: `Beauty & Makeup` },
-  { name: `Photography` },
-  { name: `Math` },
-  { name: `Graphic Design` },
-  { name: `Arts & Crafts` }
+  { name: `Coding`, imageUrl: '../public/Logos/coding.png' },
+  { name: `Cooking`, imageUrl: '../public/Logos/cooking.png' },
+  { name: `Science`, imageUrl: '../public/Logos/cooking.png' },
+  { name: `Music`, imageUrl: '../public/Logos/music.png' },
+  { name: `Business`, imageUrl: '../public/Logos/business.png' },
+  { name: `Beauty & Makeup`, imageUrl: '../public/Logos/beauty.png' },
+  { name: `Photography`, imageUrl: '../public/Logos/photography.png' },
+  { name: `Math`, imageUrl: '../public/Logos/cooking.png' },
+  { name: `Graphic Design`, imageUrl: '../public/Logos/graphic_design.png' },
+  { name: `Arts & Crafts`, imageUrl: '../public/Logos/cooking.png' }
 ];
 
 const topics = [
@@ -566,35 +565,26 @@ const messages = [
   { content: `are you going to the party?` },
   { content: `How are you doing today?` },
   { content: `Im well, how are you?` },
-  { content: `idk i think he's weird but then again maybe not` },
   { content: `Hello you!` },
   { content: `do you want to hang out?` },
-  { content: `😱` },
   { content: `Hola!!` },
-  { content: `wtf???????????` },
   { content: `Don't you love this cool new site?` },
   { content: `Como estas?` },
   { content: `Muy bien, y tu?!` },
   { content: `well...???` },
   { content: `Asi asi` },
   { content: `aight.` },
-  { content: loremIpsum },
   { content: `Have a good night!` },
   { content: `that's cute` },
   { content: `yooo` },
   { content: `man I'll never understand that` },
-  { content: `u up?` },
   { content: `Hey are you still around?` },
   { content: `On my way!` },
-  { content: `😍😍😍` },
   { content: `I don't think I can make it today` },
-  { content: `hey...` },
-  { content: `OMG!` },
+  { content: `hey!` },
   { content: `would you please let me know asap?` },
   { content: `It's been such a long time!` },
   { content: `Ok I'll see you there!` },
-  { content: `I love you too!!!!` },
-  { content: `We should hang out` },
   { content: `That's good to hear.` }
 ];
 
