@@ -42,7 +42,7 @@ class Routes extends Component {
               component={SingleQuestionView}
             />
             <Route exact path="/profile/:id" component={Profile} />
-            <Route exact path="/inbox" component={Inbox} />
+            <Route exact path="/messages" component={Inbox} />
           </Switch>
         )}
 

@@ -42,7 +42,7 @@ class MediaContainer extends Component {
       this.notifyClientRoomIsFull();
     });
 
-
+    clientSocket.on('rtc-message--from-server', message => {
       this.onMessage(message);
     });
 

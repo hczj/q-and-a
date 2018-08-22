@@ -122,7 +122,9 @@ export const threadReducer = (state = initialThread, action) => {
         isLoading: false,
         id: action.thread.id,
         senderId: action.thread.senderId,
+        sender: action.thread.sender,
         receiverId: action.thread.receiverId,
+        receiver: action.thread.receiver,
         messages: action.thread.messages
       };
 

@@ -55,7 +55,7 @@ class Navbar extends Component {
                     </span>
                   </NavLink>
                   <NavLink
-                    to="/inbox"
+                    to="/messages"
                     className="navbar-item"
                     activeClassName="is-active"
                     onClick={this.closeNavbarMenu}
@@ -116,14 +116,6 @@ class Navbar extends Component {
                           My Questions
                         </NavLink>
                       )}
-                      <NavLink
-                        to="/inbox"
-                        className="navbar-item"
-                        activeClassName="is-active"
-                        onClick={this.closeNavbarMenu}
-                      >
-                        My Inbox
-                      </NavLink>
                       <hr className="navbar-divider" />
                       {isAdmin && (
                         <NavLink
