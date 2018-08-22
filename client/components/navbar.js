@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import { logout } from '../store';
+import { Logo } from '../components';
 
 class Navbar extends Component {
   toggleNavbarMenu = event => {
@@ -25,7 +26,7 @@ class Navbar extends Component {
         <div className="container">
           <div className="navbar-brand">
             <Link to="/" className="navbar-item has-background-primary">
-              Q&A
+              <Logo />
             </Link>
             <div
               id="burger"
