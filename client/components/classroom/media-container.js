@@ -62,6 +62,9 @@ class MediaContainer extends Component {
     clientSocket.on('wb-toggle--from-server', () => {
       this.toggleWhiteboard();
     });
+    clientSocket.on('wb-fullscreen--from-server', () => {
+      this.toggleWhiteboardFullscreen();
+    });
   }
 
   componentWillUnmount() {
@@ -76,7 +79,7 @@ class MediaContainer extends Component {
     if (!message) {
       console.log('WHYYYYYYY IS THIS BROKEN?');
       return;
-    };
+    }
 
     if (message.type === 'offer') {
       // set remote description and answer
@@ -153,6 +156,15 @@ class MediaContainer extends Component {
   toggleWhiteboard = () => {
     const hasWhiteboard = !this.state.whiteboard ? 'has-whiteboard' : '';
     this.setState({ whiteboard: hasWhiteboard });
+  };
+
+  toggleWhiteboardFullscreen = () => {
+    if (this.state.whiteboard === 'has-whiteboard') {
+      this.setState({ whiteboard: 'has-whiteboard is-fullscreen' });
+    } else {
+      this.setState({ whiteboard: 'has-whiteboard' });
+      console.log(this.state.whiteboard);
+    }
   };
 
   notifyClientRoomIsFull = () => {
@@ -239,12 +251,12 @@ class MediaContainer extends Component {
           />
         </div>
         <Whiteboard
-          // toggleWhiteboard={this.toggleWhiteboard}
-          // socket={this.props.mediaEvents}
+        // toggleWhiteboard={this.toggleWhiteboard}
+        // socket={this.props.mediaEvents}
         />
         <Editor
-          // toggleEditor={this.toggleEditor}
-          // socket={this.props.mediaEvents}
+        // toggleEditor={this.toggleEditor}
+        // socket={this.props.mediaEvents}
         />
         <FeedbackForm />
       </div>

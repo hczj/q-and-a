@@ -64,15 +64,6 @@ class Navbar extends Component {
                     <span className="icon">
                       <i className="fas fa-comment-dots" />
                     </span>
-
-                    {/*<span className="fa-layers fa-fw">
-                      <i className="fas fa-envelope" />
-                      <i
-                        className="fas fa-circle"
-                        data-fa-transform="shrink-6 up-7 right-7"
-                        style={{ color: 'Tomato' }}
-                      />
-                    </span>*/}
                   </NavLink>
                   <div className="navbar-item has-dropdown is-hoverable">
                     <div className="navbar-link">
