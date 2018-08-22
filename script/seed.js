@@ -124,41 +124,74 @@ async function seed() {
         attributes: ['id']
       });
 
-      const myTopicIndex = Math.floor(Math.random() * myTopics.length);
+      const myTopicIndex = Math.floor(Math.random() * myTopics.length - 4 + 4);
       await myQuestion.setTopics(myTopics[myTopicIndex]);
     })
   );
+
+  const codeQuestionIds = [1, 2, 3, 4, 5, 6, 7];
+  const codeQuestions = await Question.findAll({
+    where: { id: codeQuestionIds }
+  });
+  const codeCategory = await Category.findById(1);
+  codeQuestions.forEach(q => q.setCategory(codeCategory));
+
+  const codeTopicIds = [1, 2, 3, 4];
+  const codeQuestionTopics = await Topic.findAll({
+    where: { id: codeTopicIds }
+  });
+
+  codeQuestions.forEach(async q => {
+    const codeTopicId = Math.floor(Math.random() * 4);
+    await q.setTopics(codeQuestionTopics[codeTopicId]);
+  });
+
+  const mathQuestionIds = [8, 9, 10, 11, 12];
+  const mathQuestions = await Question.findAll({
+    where: { id: mathQuestionIds }
+  });
+  const mathCategory = await Category.findById(8);
+  mathQuestions.forEach(q => q.setCategory(mathCategory));
+
+  const mathTopicIds = [15, 16, 17];
+  const mathQuestionTopics = await Topic.findAll({
+    where: { id: mathTopicIds }
+  });
+
+  mathQuestions.forEach(async q => {
+    const mathTopicId = Math.floor(Math.random() * 3);
+    await q.setTopics(mathQuestionTopics[mathTopicId]);
+  });
   console.log(`seeded ${seedQs.length} questions`);
 
   //
   // FEEDBACK
   // ========
   const numOfQs = await Question.count(); // to randomly associate to questions
-  const seedFeedback = await Promise.all(feedbacks.map(async feedback => {
-    const myFeedback = await Feedback.create(feedback);
-    const myQId = getRandomIdFrom(numOfQs);
-    await Question.update(
-      { isActive: false },
-      { where: { id: myQId } }
-    );
-    await myFeedback.setQuestion(myQId);
+  const seedFeedback = await Promise.all(
+    feedbacks.map(async feedback => {
+      const myFeedback = await Feedback.create(feedback);
+      const myQId = getRandomIdFrom(numOfQs);
+      await Question.update({ isActive: false }, { where: { id: myQId } });
+      await myFeedback.setQuestion(myQId);
 
-    const [myTeacher] = await User.findAll({
-      where: { isTeacher: true },
-      attributes: ['id'],
-      order: [[Sequelize.literal('random()')]],
-      limit: 1
-    });
-    await myFeedback.setTeacher(myTeacher.dataValues.id);
+      const [myTeacher] = await User.findAll({
+        where: { isTeacher: true },
+        attributes: ['id'],
+        order: [[Sequelize.literal('random()')]],
+        limit: 1
+      });
+      await myFeedback.setTeacher(myTeacher.dataValues.id);
 
-    const [myStudent] = await User.findAll({
-      where: { isTeacher: false },
-      attributes: ['id'],
-      order: [[Sequelize.literal('random()')]],
-      limit: 1
-    });
-    await myFeedback.setStudent(myStudent.dataValues.id);
-  }));
+      const [myStudent] = await User.findAll({
+        where: { isTeacher: false },
+        attributes: ['id'],
+        order: [[Sequelize.literal('random()')]],
+        limit: 1
+      });
+      await myFeedback.setStudent(myStudent.dataValues.id);
+    })
+  );
   console.log(`seeded ${seedFeedback.length} feedbacks`);
 
   // //
