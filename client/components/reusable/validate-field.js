@@ -69,51 +69,6 @@ export default props => {
     return '';
   }
 
-  if (type === 'star-rating') {
-    return (
-      <div className="field">
-        <div className="control star-rating">
-          <div className="stars-wrapper">
-            <input {...input} id="star5" type="radio" name={name} value="5" />
-            <label htmlFor="star5" className="radio">
-              <span className="icon">
-                <i className="fas fa-star" />
-              </span>
-            </label>
-
-            <input {...input} id="star4" type="radio" name={name} value="4" />
-            <label htmlFor="star4" className="radio">
-              <span className="icon">
-                <i className="fas fa-star" />
-              </span>
-            </label>
-
-            <input {...input} id="star3" type="radio" name={name} value="3" />
-            <label htmlFor="star3" className="radio">
-              <span className="icon">
-                <i className="fas fa-star" />
-              </span>
-            </label>
-
-            <input {...input} id="star2" type="radio" name={name} value="2" />
-            <label htmlFor="star2" className="radio">
-              <span className="icon">
-                <i className="fas fa-star" />
-              </span>
-            </label>
-
-            <input {...input} id="star1" type="radio" name={name} value="1" />
-            <label htmlFor="star1" className="radio">
-              <span className="icon">
-                <i className="fas fa-star" />
-              </span>
-            </label>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (type === 'select') {
     return (
       <div className="field">
