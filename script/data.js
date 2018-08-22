@@ -6,26 +6,6 @@ const organizations = [
     location: `Chicago, Illinois`,
     email: `fullstack@example.com`
   }
-  // {
-  //   name: `Eastern High School`,
-  //   location: `Denver, CO`,
-  //   email: `eastern@example.edu`
-  // },
-  // {
-  //   name: `Rising Stars`,
-  //   location: `Brazil`,
-  //   email: `stars@example.com`
-  // },
-  // {
-  //   name: `Love2Learn`,
-  //   location: `Tokyo`,
-  //   email: `love2learn@example.com`
-  // },
-  // {
-  //   name: `Watertown Jr. High`,
-  //   location: `Watertown, NE`,
-  //   email: `watertown@example.edu`
-  // }
 ];
 
 const users = [
@@ -300,7 +280,7 @@ const feedbacks = [
   },
   {
     rating: 5,
-    content: `Really helpful!!!!!!!`
+    content: `Really helpful!!`
   },
   {
     rating: 4,
@@ -326,15 +306,15 @@ const feedbacks = [
 
 const categories = [
   { name: `Coding`, imageUrl: '../public/Logos/coding.png' },
-  { name: `Cooking`, imageUrl: '../public/Logos/cooking.png' },
-  { name: `Science`, imageUrl: '../public/Logos/cooking.png' },
-  { name: `Music`, imageUrl: '../public/Logos/music.png' },
-  { name: `Business`, imageUrl: '../public/Logos/business.png' },
-  { name: `Beauty & Makeup`, imageUrl: '../public/Logos/beauty.png' },
-  { name: `Photography`, imageUrl: '../public/Logos/photography.png' },
   { name: `Math`, imageUrl: '../public/Logos/cooking.png' },
   { name: `Graphic Design`, imageUrl: '../public/Logos/graphic_design.png' },
-  { name: `Arts & Crafts`, imageUrl: '../public/Logos/cooking.png' }
+  // { name: `Cooking`, imageUrl: '../public/Logos/cooking.png' },
+  // { name: `Science`, imageUrl: '../public/Logos/cooking.png' },
+  // { name: `Music`, imageUrl: '../public/Logos/music.png' },
+  // { name: `Business`, imageUrl: '../public/Logos/business.png' },
+  // { name: `Beauty & Makeup`, imageUrl: '../public/Logos/beauty.png' },
+  // { name: `Photography`, imageUrl: '../public/Logos/photography.png' },
+  // { name: `Arts & Crafts`, imageUrl: '../public/Logos/cooking.png' }
 ];
 
 const topics = [
@@ -355,44 +335,12 @@ const topics = [
     category: `Coding`
   },
   {
-    name: `Pasta`,
-    category: `Cooking`
+    name: `Redux`,
+    category: `Coding`
   },
   {
-    name: `Basket Weaving`,
-    category: `Arts & Crafts`
-  },
-  {
-    name: `Guitar`,
-    category: `Music`
-  },
-  {
-    name: `Piano`,
-    category: `Music`
-  },
-  {
-    name: `Finance`,
-    category: `Business`
-  },
-  {
-    name: `Management`,
-    category: `Business`
-  },
-  {
-    name: `Skincare`,
-    category: `Beauty & Makeup`
-  },
-  {
-    name: `Hair`,
-    category: `Beauty & Makeup`
-  },
-  {
-    name: `Photoshop`,
-    category: `Photography`
-  },
-  {
-    name: `Portraits`,
-    category: `Photography`
+    name: `MySQL`,
+    category: `Coding`
   },
   {
     name: `Algebra`,
@@ -405,26 +353,6 @@ const topics = [
   {
     name: `Statistics`,
     category: `Math`
-  },
-  {
-    name: `Chemistry`,
-    category: `Science`
-  },
-  {
-    name: `Physics`,
-    category: `Science`
-  },
-  {
-    name: `Drawing`,
-    category: `Graphic Design`
-  },
-  {
-    name: `Cartoons`,
-    category: `Graphic Design`
-  },
-  {
-    name: `Logo Design`,
-    category: `Graphic Design`
   }
 ];
 
