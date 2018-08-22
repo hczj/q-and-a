@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { createFeedback } from '../../store';
-import { Header } from '../../components';
+import { Header, ValidateField } from '../../components';
 
 class FeedbackForm extends Component {
   handleFeedbackSubmit = data => {
@@ -20,7 +20,15 @@ class FeedbackForm extends Component {
         <Header title="Feedback" />
         <p>Please take a moment to leave feedback about your session.</p>
         <form onSubmit={handleSubmit(this.handleFeedbackSubmit)}>
-          <Field label="Rating" name="rating" type="number" component="input" />
+          <Field
+            label="Rating"
+            name="rating"
+            type="number"
+            component="input"
+            placeholder="On a scale from 1 to 5"
+            min={1}
+            max={5}
+          />
 
           <Field
             label="Feedback"

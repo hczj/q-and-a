@@ -101,7 +101,7 @@ class Navbar extends Component {
                       </NavLink>
                       {isTeacher ? (
                         <NavLink
-                          to="/dashboard"
+                          to="/dashboard/feedback"
                           className="navbar-item"
                           activeClassName="is-active"
                         >
@@ -118,14 +118,17 @@ class Navbar extends Component {
                       )}
                       <hr className="navbar-divider" />
                       {isAdmin && (
-                        <NavLink
-                          to="/manage"
-                          className="navbar-item"
-                          activeClassName="is-active"
-                          onClick={this.closeNavbarMenu}
-                        >
-                          Manage
-                        </NavLink>
+                        <Fragment>
+                          <NavLink
+                            to="/manage"
+                            className="navbar-item"
+                            activeClassName="is-active"
+                            onClick={this.closeNavbarMenu}
+                          >
+                            Manage
+                          </NavLink>
+                          <hr className="navbar-divider" />
+                        </Fragment>
                       )}
                       <a
                         href="#"

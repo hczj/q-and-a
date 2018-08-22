@@ -19,7 +19,6 @@ class ControlContainer extends Component {
   };
 
   componentDidMount() {
-    console.log('whiteboardEvents', whiteboardEvents);
     const { video, audio, mediaEvents, getUserMedia } = this.props;
     this.setState({
       video: video,
@@ -69,14 +68,16 @@ class ControlContainer extends Component {
 
   goBack = (event, num = -1) => {
     event.preventDefault();
+    this.props.mediaEvents.emit('rtc-hangup');
     this.props.history.go(num);
   };
 
   handleExit = event => {
+    console.log('handleExit props', this.props);
     event.preventDefault();
     this.props.mediaEvents.emit('rtc-hangup');
     this.props.removeRoom(this.props.match.params.room);
-    this.props.history.go(-2);
+    this.props.history.push('/dashboard');
   };
 
   handleHangup = () => {
@@ -95,6 +96,7 @@ class ControlContainer extends Component {
           {...this.state}
           startCall={this.startCall}
           handleInvitation={this.handleInvitation}
+          handleExit={this.handleExit}
           goBack={this.goBack}
         />
         <Toolbar

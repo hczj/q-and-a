@@ -1,4 +1,4 @@
-.question-card {
+.single-question-card {
   & + &  {
     border-top: 2px solid $hr-background-color;
     padding-top: 1.5rem;
@@ -6,7 +6,7 @@
   }
 }
 
-.question-student {
+.single-question-student {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -42,7 +42,7 @@
   }
 }
 
-.question-content {
+.single-question-content {
   min-width: 0; // for flex + text-overflow bug
   padding-left: 1.75rem;
   padding-right: 1.75rem;
@@ -69,7 +69,7 @@
   }
 }
 
-.question-actions {
+.single-question-actions {
   display: flex;
   flex-direction: column;
   flex: none;

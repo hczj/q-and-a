@@ -75,8 +75,6 @@ class MediaContainer extends Component {
   }
 
   onMessage = message => {
-    if (!message) return;
-
     if (message.type === 'offer') {
       // set remote description and answer
       this.pc.setRemoteDescription(new RTCSessionDescription(message));
@@ -100,7 +98,9 @@ class MediaContainer extends Component {
   };
 
   onRemoteHangup = () => {
+    console.log('onRemoteHangup props', this.props);
     if (this.props.myId === this.props.classroom.student.id) {
+      console.log('onRemoteHangup -- I AM THE STUDENT');
       this.setState({ feedback: 'has-feedback-form' });
     }
 
@@ -132,8 +132,10 @@ class MediaContainer extends Component {
 
   hangup = () => {
     if (!this.pc) return;
+    console.log('hangup props', this.props);
 
     if (this.props.myId === this.props.classroom.student.id) {
+      console.log('hangup -- I AM THE STUDENT');
       this.setState({ feedback: 'has-feedback-form' });
     }
 
