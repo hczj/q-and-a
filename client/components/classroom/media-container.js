@@ -107,19 +107,19 @@ class MediaContainer extends Component {
     this.setState({ bridge: 'hangup' });
   };
 
-  sendData = msg => this.dc.send(JSON.stringify(msg));
+  // sendData = msg => this.dc.send(JSON.stringify(msg));
 
-  // Set up the data channel message handler
-  setupDataHandlers = () => {
-    this.dc.onmessage = err => {
-      const msg = JSON.parse(err.data);
-      console.log('received message over data channel:' + msg);
-    };
-    this.dc.onclose = () => {
-      this.remoteStream.getVideoTracks()[0].stop();
-      console.log('The Data Channel is Closed');
-    };
-  };
+  // // Set up the data channel message handler
+  // setupDataHandlers = () => {
+  //   this.dc.onmessage = err => {
+  //     const msg = JSON.parse(err.data);
+  //     console.log('received message over data channel:' + msg);
+  //   };
+  //   this.dc.onclose = () => {
+  //     this.remoteStream.getVideoTracks()[0].stop();
+  //     console.log('The Data Channel is Closed');
+  //   };
+  // };
 
   setDescription = offer => {
     this.pc.setLocalDescription(offer);
@@ -157,12 +157,10 @@ class MediaContainer extends Component {
   };
 
   toggleWhiteboardFullscreen = () => {
-    if (this.state.whiteboard === 'has-whiteboard') {
-      this.setState({ whiteboard: 'has-whiteboard is-fullscreen' });
-    } else {
-      this.setState({ whiteboard: 'has-whiteboard' });
-      console.log(this.state.whiteboard);
-    }
+    const isFullscreen =
+      this.state.whiteboard === 'has-whiteboard' ? 'is-fullscreen' : '';
+
+    this.setState({ whiteboard: `has-whiteboard ${isFullscreen}` });
   };
 
   notifyClientRoomIsFull = () => {
@@ -172,8 +170,8 @@ class MediaContainer extends Component {
   init = () => {
     // wait for local media to be ready
     const attachMediaIfReady = () => {
-      this.dc = this.pc.createDataChannel('chat');
-      this.setupDataHandlers();
+      // this.dc = this.pc.createDataChannel('chat');
+      // this.setupDataHandlers();
       console.log('attachMediaIfReady');
       this.pc
         .createOffer()
@@ -191,7 +189,6 @@ class MediaContainer extends Component {
     // when our browser gets a candidate, send it to the peer
     this.pc.onicecandidate = event => {
       if (event.candidate) {
-        console.log('*** ON ICE CANDIDATE EVENT', event);
         this.props.mediaEvents.emit('rtc-message', {
           type: 'candidate',
           mlineindex: event.candidate.sdpMLineIndex,
@@ -205,16 +202,16 @@ class MediaContainer extends Component {
       this.remoteVideo.srcObject = this.remoteStream = event.stream;
       this.setState({ bridge: 'established' });
     };
-    this.pc.ondatachannel = event => {
-      // data channel
-      this.dc = event.channel;
-      this.setupDataHandlers();
-      this.sendData({
-        peerMediaStream: {
-          video: this.localStream.getVideoTracks()[0].enabled
-        }
-      });
-    };
+    // this.pc.ondatachannel = event => {
+    //   // data channel
+    //   this.dc = event.channel;
+    //   this.setupDataHandlers();
+    //   this.sendData({
+    //     peerMediaStream: {
+    //       video: this.localStream.getVideoTracks()[0].enabled
+    //     }
+    //   });
+    // };
     // attach local media to the peer connection
     this.localStream
       .getTracks()
@@ -256,7 +253,7 @@ class MediaContainer extends Component {
         // toggleEditor={this.toggleEditor}
         // socket={this.props.mediaEvents}
         />
-        <FeedbackForm />
+        <FeedbackForm  />
       </div>
     );
   }

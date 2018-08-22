@@ -75,7 +75,7 @@ class ControlContainer extends Component {
   handleExit = event => {
     console.log('handleExit props', this.props);
     event.preventDefault();
-    this.props.mediaEvents.emit('rtc-hangup');
+    // this.props.mediaEvents.emit('rtc-hangup');
     this.props.removeRoom(this.props.match.params.room);
     this.props.history.push('/dashboard');
   };

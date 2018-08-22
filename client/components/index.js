@@ -1,6 +1,7 @@
 // root
 export { default as Navbar } from './navbar';
 export { default as PageNotFound } from './page-not-found';
+export { default as Logo } from './logo';
 
 // admin
 export { default as Manage } from './admin/manage';
