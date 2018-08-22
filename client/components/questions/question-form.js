@@ -1,18 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
 import {
   createQuestion,
   fetchCategoriesByUser,
   fetchCategory,
   removeActiveCategory
 } from '../../store';
-import { connect } from 'react-redux';
 import {
   CategoryDropdown,
   Header,
   TopicsInput,
   ValidateField
-  // validateQuestion
 } from '../../components';
 import pickBy from 'lodash.pickby';
 import keys from 'lodash.keys';
@@ -36,9 +35,9 @@ class QuestionForm extends Component {
     }
   };
 
-  handleQuestionSubmit = data => {
+  handleQuestionSubmit = values => {
+    const { title, description, categoryId, topic } = values;
     const { addQuestion } = this.props;
-    const { title, description, categoryId, topic } = data;
 
     const strTopicIds = keys(pickBy(topic));
     const topicIds = strTopicIds.map(id => +id);
@@ -51,12 +50,13 @@ class QuestionForm extends Component {
 
     return (
       <Fragment>
-        <Header title="Ask a question!" />
+        <Header title="Ask a question" />
         <form onSubmit={handleSubmit(this.handleQuestionSubmit)}>
           <Field
             label="Title"
             name="title"
             type="text"
+            placeholder="What's your question? Be specific."
             component={ValidateField}
           />
 
@@ -64,6 +64,7 @@ class QuestionForm extends Component {
             label="Description"
             name="description"
             type="textarea"
+            rows={10}
             component={ValidateField}
           />
 
@@ -92,19 +93,18 @@ class QuestionForm extends Component {
 
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-link" type="submit">
+              <button
+                type="submit"
+                className="button is-link"
+                disabled={pristine || submitting}
+              >
                 Submit
               </button>
             </div>
 
             <div className="control">
-              <button
-                className="button is-light"
-                type="button"
-                disabled={pristine || submitting}
-                onClick={reset}
-              >
-                Clear
+              <button type="button" className="button is-light" onClick={reset}>
+                Reset
               </button>
             </div>
           </div>
@@ -113,6 +113,11 @@ class QuestionForm extends Component {
     );
   }
 }
+
+QuestionForm = reduxForm({
+  form: 'addQuestion',
+  validate: validateQuestion
+})(QuestionForm);
 
 const mapState = state => ({
   categories: state.categories.all,
@@ -125,9 +130,4 @@ const mapDispatch = dispatch => ({
   removeActiveCategory: () => dispatch(removeActiveCategory())
 });
 
-QuestionForm = connect(mapState, mapDispatch)(QuestionForm);
-
-export default reduxForm({
-  form: 'question',
-  validate: validateQuestion
-})(QuestionForm);
+export default connect(mapState, mapDispatch)(QuestionForm);

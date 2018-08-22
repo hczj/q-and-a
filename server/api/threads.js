@@ -61,7 +61,7 @@ router.get('/:threadId', async (req, res, next) => {
           include: [{
             model: User,
             attributes: ['firstName', 'lastName']
-          }]
+          }],
         }
       ],
       order: [[Message, 'id', 'ASC']],

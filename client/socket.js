@@ -7,14 +7,13 @@ import {
 import { notificationEvents } from './components/dashboard/dashboard';
 
 const clientSocket = io(window.location.origin);
-let roomName = window.location.pathname;
+// const roomName = window.location.pathname;
 
 clientSocket.on('connect', () => {
   console.log('Socket connected!');
 });
 
 mediaEvents.on('rtc-message', message => {
-  console.log('*** MEDIA EVENT ON MESSSAGE', message);
   clientSocket.emit('rtc-message--from-client', message);
 });
 

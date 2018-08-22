@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { createClassroom, fetchClassroom } from '../../store';
+import { me, createClassroom, fetchClassroom } from '../../store';
 import { MediaContainer, ControlContainer } from '../../components';
 import { EventEmitter } from 'events';
 export const mediaEvents = new EventEmitter();
@@ -14,6 +14,9 @@ class ClassroomView extends Component {
     .catch(err => alert('getUserMedia() error: ' + err.name));
 
   async componentDidMount() {
+    if (!this.props.myId) {
+      await this.props.loadInitialData();
+    }
     await this.props.getClassroom(this.props.match.params.room);
     mediaEvents.emit('find-room', this.props.match.params.room);
   }
@@ -45,6 +48,7 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
+  loadInitialData: () => dispatch(me()),
   getClassroom: classroom => dispatch(fetchClassroom(classroom))
 });
 

@@ -27,6 +27,13 @@ const MainLayout = () => (
 
 const AltLayout = () => (
   <Fragment>
+    <Navbar />
+    <Routes />
+  </Fragment>
+);
+
+const ClassroomLayout = () => (
+  <Fragment>
     <Switch>
       <Route exact path="/classroom" component={CreateClassroom} />
       <Route path="/classroom/r/:room" component={ClassroomView} />
@@ -38,7 +45,8 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Switch>
-        <RouteToLayout path="/classroom" component={AltLayout} />
+        <RouteToLayout path="/classroom" component={ClassroomLayout} />
+        <RouteToLayout path="/messages" component={AltLayout} />
         <RouteToLayout component={MainLayout} />
       </Switch>
     </Router>

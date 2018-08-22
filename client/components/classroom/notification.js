@@ -21,7 +21,7 @@ const Notification = props => {
         <p className="subtitle is-5">You have been invited to a classroom session with {props.teacher.name}. Click start to begin the call.</p>
         <div className="buttons">
           <a onClick={props.startCall} className="button is-primary">Start</a>
-          <button onClick={event => props.goBack(event)} className="button is-light">Go Back</button>
+          <button onClick={event => props.goBack(event)} className="button is-light">Cancel</button>
         </div>
       </div>
 
@@ -29,8 +29,7 @@ const Notification = props => {
         <p className="title is-3">End of session</p>
         <p className="subtitle is-5">Your call with {props.student.firstName} has ended</p>
         <div className="buttons">
-          <a onClick={props.startCall} className="button is-primary">Call Back</a>
-          <button onClick={event => props.goBack(event)} className="button is-light">Leave Room</button>
+          <button onClick={event => props.handleExit(event)} className="button is-primary">Exit Room</button>
         </div>
       </div>
 

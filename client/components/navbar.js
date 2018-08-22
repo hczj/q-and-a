@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import { logout } from '../store';
+import { Logo } from '../components';
 
 class Navbar extends Component {
   toggleNavbarMenu = event => {
@@ -25,7 +26,7 @@ class Navbar extends Component {
         <div className="container">
           <div className="navbar-brand">
             <Link to="/" className="navbar-item has-background-primary">
-              Q&A
+              <Logo />
             </Link>
             <div
               id="burger"
@@ -55,7 +56,7 @@ class Navbar extends Component {
                     </span>
                   </NavLink>
                   <NavLink
-                    to="/inbox"
+                    to="/messages"
                     className="navbar-item"
                     activeClassName="is-active"
                     onClick={this.closeNavbarMenu}
@@ -101,7 +102,7 @@ class Navbar extends Component {
                       </NavLink>
                       {isTeacher ? (
                         <NavLink
-                          to="/dashboard"
+                          to="/dashboard/feedback"
                           className="navbar-item"
                           activeClassName="is-active"
                         >
@@ -116,24 +117,19 @@ class Navbar extends Component {
                           My Questions
                         </NavLink>
                       )}
-                      <NavLink
-                        to="/inbox"
-                        className="navbar-item"
-                        activeClassName="is-active"
-                        onClick={this.closeNavbarMenu}
-                      >
-                        My Inbox
-                      </NavLink>
                       <hr className="navbar-divider" />
                       {isAdmin && (
-                        <NavLink
-                          to="/manage"
-                          className="navbar-item"
-                          activeClassName="is-active"
-                          onClick={this.closeNavbarMenu}
-                        >
-                          Manage
-                        </NavLink>
+                        <Fragment>
+                          <NavLink
+                            to="/manage"
+                            className="navbar-item"
+                            activeClassName="is-active"
+                            onClick={this.closeNavbarMenu}
+                          >
+                            Manage
+                          </NavLink>
+                          <hr className="navbar-divider" />
+                        </Fragment>
                       )}
                       <a
                         href="#"
