@@ -33,6 +33,22 @@ export const validateSignup = values => {
   return errors;
 }
 
+export const validateQuestion = values => {
+  const errors = {};
+  if (!values.title) {
+    errors.title = `Title is a required field.`;
+  }
+  return errors;
+}
+
+export const validateFeedback = values => {
+  const errors = {};
+  if (!values.rating) {
+    errors.rating = `Rating is a required field.`;
+  }
+  return errors;
+}
+
 export default props => {
   const {
     input, label, type, name, helpText,
@@ -51,6 +67,51 @@ export default props => {
     if (touched && error) return `${FAS} fa-exclamation-triangle`;
     if (touched && !error && dirty) return `${FAS} fa-check`;
     return '';
+  }
+
+  if (type === 'star-rating') {
+    return (
+      <div className="field">
+        <div className="control star-rating">
+          <div className="stars-wrapper">
+            <input {...input} id="star5" type="radio" name={name} value="5" />
+            <label htmlFor="star5" className="radio">
+              <span className="icon">
+                <i className="fas fa-star" />
+              </span>
+            </label>
+
+            <input {...input} id="star4" type="radio" name={name} value="4" />
+            <label htmlFor="star4" className="radio">
+              <span className="icon">
+                <i className="fas fa-star" />
+              </span>
+            </label>
+
+            <input {...input} id="star3" type="radio" name={name} value="3" />
+            <label htmlFor="star3" className="radio">
+              <span className="icon">
+                <i className="fas fa-star" />
+              </span>
+            </label>
+
+            <input {...input} id="star2" type="radio" name={name} value="2" />
+            <label htmlFor="star2" className="radio">
+              <span className="icon">
+                <i className="fas fa-star" />
+              </span>
+            </label>
+
+            <input {...input} id="star1" type="radio" name={name} value="1" />
+            <label htmlFor="star1" className="radio">
+              <span className="icon">
+                <i className="fas fa-star" />
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (type === 'select') {
@@ -93,6 +154,7 @@ export default props => {
         <div className="control has-icons-right">
           <textarea
             {...input}
+            placeholder={extraProps.placeholder}
             className={`textarea ${getValidateClassNames(touched, error)}`}
           />
           <span className="icon is-small is-right">
@@ -118,6 +180,7 @@ export default props => {
             min={extraProps.min}
             max={extraProps.max}
             step={extraProps.step}
+            placeholder={extraProps.placeholder}
             className={`input ${getValidateClassNames(touched, error)}`}
           />
           {valid &&
@@ -162,6 +225,7 @@ export default props => {
             {...input}
             type={type}
             className={`input ${getValidateClassNames(touched, error)}`}
+            placeholder={extraProps.placeholder}
           />
           <span className="icon is-small is-right">
             <i
