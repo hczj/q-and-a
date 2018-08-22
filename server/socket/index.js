@@ -66,7 +66,6 @@ module.exports = io => {
     // NOTIFICATION EVENTS
     // =================
     serverSocket.on('notification-join-room--from-client', studentId => {
-      console.log('students id', studentId);
       userId = studentId.toString;
       serverSocket.join(userId);
     });

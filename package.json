@@ -56,6 +56,7 @@
     "passport-google-oauth": "^1.0.0",
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
+    "pretty-checkbox": "3.0.3",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-ace": "^6.1.4",

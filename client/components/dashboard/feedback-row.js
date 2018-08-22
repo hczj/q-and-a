@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const FeedbackRow = ({ id, question, createdAt, rating }) => {
+const FeedbackRow = ({ question, createdAt, rating }) => {
   let ratingArr = new Array(rating).fill('');
 
   return (

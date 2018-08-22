@@ -1,8 +1,7 @@
 import React from 'react';
 import { TopicsForm } from '../../components';
 
-const AddATopic = ({ topics }) => {
-  if (topics.length === 0) return null;
+const AddATopic = () => {
   return (
     <div className="card">
       <header className="card-header">
