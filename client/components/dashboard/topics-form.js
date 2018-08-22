@@ -31,37 +31,49 @@ class TopicsForm extends Component {
       <Fragment>
         <form onSubmit={handleSubmit(this.handleTopicsSubmit)}>
           <div className="field">
-            {topics.map(topic => (
-              <div className="field" key={topic.id}>
-                <Field
-                  className="checkbox"
-                  component="input"
-                  name={`topic.${topic.id}`}
-                  type="checkbox"
-                />
-                <label> {topic.name}</label>
+            {topics.length > 0 ? (
+              topics.map(topic => (
+                <div
+                  className="pretty p-default p-curve p-fill p-bigger"
+                  key={topic.id}
+                >
+                  <Field
+                    component="input"
+                    name={`topic.${topic.id}`}
+                    type="checkbox"
+                  />
+                  <div className="state">
+                    <label> {topic.name}</label>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="box">
+                <p>You're currently signed up for all topics!</p>
               </div>
-            ))}
+            )}
           </div>
 
-          <div className="field is-grouped">
-            <div className="control">
-              <button className="button is-link" type="submit">
-                Submit
-              </button>
-            </div>
+          {topics.length > 0 && (
+            <div className="field is-grouped">
+              <div className="control">
+                <button className="button is-link is-small" type="submit">
+                  Submit
+                </button>
+              </div>
 
-            <div className="control">
-              <button
-                className="button is-light"
-                type="button"
-                disabled={pristine || submitting}
-                onClick={reset}
-              >
-                Clear
-              </button>
+              <div className="control">
+                <button
+                  className="button is-light is-small"
+                  type="button"
+                  disabled={pristine || submitting}
+                  onClick={reset}
+                >
+                  Clear
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </form>
       </Fragment>
     );

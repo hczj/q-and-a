@@ -13,9 +13,8 @@
 @import '../../node_modules/bulma';
 @import '../../node_modules/bulma-switch/dist/css/bulma-switch';
 
-
-
-
+// pretty checkboxes
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
 
 //
 // Add custom code base
@@ -46,6 +45,7 @@
 @import 'components/question';
 @import 'components/classroom';
 @import 'components/inbox';
+@import 'components/dashboard';
 @import 'components/star-rating';
 
 @import 'layout/header';

@@ -118,7 +118,7 @@ class Dashboard extends Component {
                 isTeacher={isTeacher}
                 removeTopic={this.removeTopic}
               />
-              <AddATopic topics={topics} />
+              <AddATopic />
             </div>
           </div>
         </div>

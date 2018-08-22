@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Topics = ({ topics, removeTopic }) => {
-  if (!topics) return null;
   return (
     <div className="card">
       <header className="card-header">
@@ -14,24 +13,25 @@ const Topics = ({ topics, removeTopic }) => {
       </header>
 
       <div className="card-content">
-        <div className="content">
-          <div className="tags">
-            {topics.length > 0 ? (
-              topics.map(topic => (
-                <span key={topic.id} className="tag is-rounded is-medium">
-                  {topic.name}
-                  <button
-                    type="button"
-                    className="delete is-small"
+        <div className="field is-grouped is-grouped-multiline">
+          {topics.length > 0 &&
+            topics.map(topic => (
+              <div className="control" key={topic.id}>
+                <div className="tags has-addons">
+                  <span className="tag is-light">{topic.name}</span>
+                  <a
+                    className="tag is-delete"
                     onClick={() => removeTopic(topic.id)}
                   />
-                </span>
-              ))
-            ) : (
-              <span>You currently have no topics!</span>
-            )}
-          </div>
+                </div>
+              </div>
+            ))}
         </div>
+        {topics.length === 0 && (
+          <div className="box">
+            <p>You currently have no topics!</p>
+          </div>
+        )}
       </div>
     </div>
   );
