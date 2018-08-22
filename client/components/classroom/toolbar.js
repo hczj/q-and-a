@@ -18,9 +18,6 @@ const Toolbar = props => (
       <span className="text in-progress">Call in Progress</span>
     </div>
     <div className="media-controls">
-      <button onClick={props.handleExit} className="button button-exit">
-        <IconExit />
-      </button>
       <button
         onClick={props.toggleAudio}
         className={`button button-audio is-${props.audio}`}

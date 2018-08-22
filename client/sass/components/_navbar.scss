@@ -1,5 +1,20 @@
 .navbar {}
 
+.navbar-brand {
+
+  svg {
+    height: 1.75rem;
+
+    .p1 {
+      fill: $white;
+    }
+
+    .p2 {
+      fill: rgba($white, .7);
+    }
+  }
+}
+
 .navbar .button.is-light {
   background-color: rgba($white, .2);
   color: $white;

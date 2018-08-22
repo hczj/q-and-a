@@ -10,7 +10,8 @@ import {
   Dashboard,
   Profile,
   SingleQuestionView,
-  Inbox
+  Inbox,
+  FeedbackForm
 } from './components';
 import { me } from './store';
 
@@ -26,13 +27,14 @@ class Routes extends Component {
         <Route
           exact
           path="/"
-          render={() =>
-            isLoggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />
-          }
+          render={() => (
+            <Redirect to={`/${isLoggedIn ? 'dashboard' : 'login'}`} />
+          )}
         />
         {isLoggedIn && (
           <Switch>
             {/* LOGGED-IN ONLY ROUTES */}
+            <Route path="/(login|signup)" render={() => <Redirect to="/dashboard" />} />
             <Route path="/manage" component={Manage} />
             <Route path="/dashboard" component={Dashboard} />
             <Route exact path="/ask-a-question" component={QuestionForm} />
@@ -42,7 +44,7 @@ class Routes extends Component {
               component={SingleQuestionView}
             />
             <Route exact path="/profile/:id" component={Profile} />
-            <Route exact path="/inbox" component={Inbox} />
+            <Route exact path="/messages" component={Inbox} />
           </Switch>
         )}
 

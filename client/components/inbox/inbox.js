@@ -21,30 +21,31 @@ class Inbox extends Component {
   render() {
     const { isLoadingThread, threads, thread, myId } = this.props;
     if (!thread && !threads) return null;
+    if (!thread.sender && !thread.receiver) return null;
+    const notMe =
+      thread.senderId === myId ? thread.receiver.name : thread.sender.name;
     return (
       <div className="inbox">
-        <div className="columns is-gapless">
-          <div className="column is-5">
-            <div className="thread-list">
-              <Threads
-                threads={threads}
-                myId={myId}
-                handleClick={this.handleClick}
-              />
-            </div>
+        <div className="thread-list">
+          <div className="thread-header">
+            <span>Messages</span>
           </div>
-          <div className="column is-7">
-            <div className="thread">
-              {thread && (
-                <MessageList
-                  isLoading={isLoadingThread}
-                  thread={thread}
-                  myId={myId}
-                />
-              )}
-              <MessageForm />
-            </div>
-          </div>
+          <Threads
+            threads={threads}
+            myId={myId}
+            handleClick={this.handleClick}
+          />
+        </div>
+        <div className="thread">
+          {thread && (
+            <MessageList
+              isLoading={isLoadingThread}
+              thread={thread}
+              myId={myId}
+              notMe={notMe}
+            />
+          )}
+          <MessageForm />
         </div>
       </div>
     );

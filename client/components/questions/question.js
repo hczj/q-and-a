@@ -6,9 +6,9 @@ import { Button } from '../../components';
 const Question = ({ question, isTeacher, closeQuestion, myId }) => {
   const { title, description, topics, user, createdAt } = question;
   return (
-    <div className="question-card">
+    <div className="single-question-card">
       <div className="columns">
-        <div className="column question-student">
+        <div className="column single-question-student">
           <Link to={`/profile/${user.id}`}>
             <figure className="image is-64x64">
               <img className="is-rounded" src={user.imageUrl} />
@@ -17,7 +17,7 @@ const Question = ({ question, isTeacher, closeQuestion, myId }) => {
           </Link>
           <div className="time">asked {moment(createdAt).fromNow()}</div>
         </div>
-        <div className="column question-content">
+        <div className="column single-question-content">
           <div className="content">
             <h2 className="title is-4">
               <Link to={`/questions/question/${question.id}`}>
@@ -34,7 +34,7 @@ const Question = ({ question, isTeacher, closeQuestion, myId }) => {
             </div>
           </div>
         </div>
-        <div className="column question-actions">
+        <div className="column single-question-actions">
           {isTeacher && (
             <Button
               link="/classroom"

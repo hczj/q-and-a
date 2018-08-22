@@ -33,6 +33,22 @@ export const validateSignup = values => {
   return errors;
 }
 
+export const validateQuestion = values => {
+  const errors = {};
+  if (!values.title) {
+    errors.title = `Title is a required field.`;
+  }
+  return errors;
+}
+
+export const validateFeedback = values => {
+  const errors = {};
+  if (!values.rating) {
+    errors.rating = `Rating is a required field.`;
+  }
+  return errors;
+}
+
 export default props => {
   const {
     input, label, type, name, helpText,
@@ -93,6 +109,7 @@ export default props => {
         <div className="control has-icons-right">
           <textarea
             {...input}
+            placeholder={extraProps.placeholder}
             className={`textarea ${getValidateClassNames(touched, error)}`}
           />
           <span className="icon is-small is-right">
@@ -118,6 +135,7 @@ export default props => {
             min={extraProps.min}
             max={extraProps.max}
             step={extraProps.step}
+            placeholder={extraProps.placeholder}
             className={`input ${getValidateClassNames(touched, error)}`}
           />
           {valid &&
@@ -162,6 +180,7 @@ export default props => {
             {...input}
             type={type}
             className={`input ${getValidateClassNames(touched, error)}`}
+            placeholder={extraProps.placeholder}
           />
           <span className="icon is-small is-right">
             <i

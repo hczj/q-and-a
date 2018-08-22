@@ -1,70 +1,165 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { createFeedback } from '../../store';
-import { Header } from '../../components';
+import { createFeedback, updateQuestion } from '../../store';
+import { Header, ValidateField } from '../../components';
+import { validateFeedback } from '../reusable/validate-field';
 
 class FeedbackForm extends Component {
-  handleFeedbackSubmit = data => {
-    const { addFeedback, questionId, studentId, teacherId } = this.props;
-    const { rating, content } = data;
+  handleFeedbackSubmit = values => {
+    const { rating, content } = values;
+    const { addFeedback, classroom } = this.props;
+    const questionId = classroom.question.id;
+    const studentId = classroom.student.id;
+    const teacherId = classroom.teacher.id;
 
     addFeedback({ rating, content, questionId, studentId, teacherId });
+    this.closeQuestion(this.props.classroom.question);
+  };
+
+  closeQuestion = question => {
+    question.isActive = false;
+    this.props.setQuestionInactive(question);
   };
 
   render() {
-    const { pristine, reset, submitting, handleSubmit } = this.props;
+    const { pristine, reset, submitting, handleSubmit, classroom } = this.props;
 
     return (
-      <div className="feedback-form">
-        <Header title="Feedback" />
-        <p>Please take a moment to leave feedback about your session.</p>
-        <form onSubmit={handleSubmit(this.handleFeedbackSubmit)}>
-          <Field label="Rating" name="rating" type="number" component="input" />
+      <div className="feedback-form modal">
+        <div className="modal-background" />
+        <div className="modal-content">
+          <div className="box">
+            <h3 className="title is-4 is-marginless">
+              {`How was your session ${
+                classroom && classroom.teacher
+                  ? `with ${classroom.teacher.firstName}`
+                  : `today`
+              }?`}
+            </h3>
+            <form onSubmit={handleSubmit(this.handleFeedbackSubmit)}>
+              <div className="field">
+                <div className="control star-rating">
+                  <div className="stars-wrapper">
+                    <Field
+                      id="star5"
+                      name="rating"
+                      component="input"
+                      type="radio"
+                      value="5"
+                    />
+                    <label htmlFor="star5" className="radio">
+                      <span className="icon">
+                        <i className="fas fa-star" />
+                      </span>
+                    </label>
 
-          <Field
-            label="Feedback"
-            name="content"
-            type="textarea"
-            component="input"
-          />
+                    <Field
+                      id="star4"
+                      name="rating"
+                      component="input"
+                      type="radio"
+                      value="4"
+                    />
+                    <label htmlFor="star4" className="radio">
+                      <span className="icon">
+                        <i className="fas fa-star" />
+                      </span>
+                    </label>
 
-          <div className="field is-grouped">
-            <div className="control">
-              <button className="button is-link" type="submit">
-                Submit
-              </button>
-            </div>
+                    <Field
+                      id="star3"
+                      name="rating"
+                      component="input"
+                      type="radio"
+                      value="3"
+                    />
+                    <label htmlFor="star3" className="radio">
+                      <span className="icon">
+                        <i className="fas fa-star" />
+                      </span>
+                    </label>
 
-            <div className="control">
-              <button
-                className="button is-light"
-                type="button"
-                disabled={pristine || submitting}
-                onClick={reset}
-              >
-                Clear
-              </button>
-            </div>
+                    <Field
+                      id="star2"
+                      name="rating"
+                      component="input"
+                      type="radio"
+                      value="2"
+                    />
+                    <label htmlFor="star2" className="radio">
+                      <span className="icon">
+                        <i className="fas fa-star" />
+                      </span>
+                    </label>
+
+                    <Field
+                      id="star1"
+                      name="rating"
+                      component="input"
+                      type="radio"
+                      value="1"
+                    />
+                    <label htmlFor="star1" className="radio">
+                      <span className="icon">
+                        <i className="fas fa-star" />
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <Field
+                label="Feedback"
+                name="content"
+                type="textarea"
+                row={6}
+                placeholder="Please leave any comments you'd like to share..."
+                component={ValidateField}
+              />
+
+              <div className="field is-grouped">
+                <div className="control">
+                  <button
+                    type="submit"
+                    className="button is-link"
+                    disabled={pristine || submitting}
+                  >
+                    Submit
+                  </button>
+                </div>
+
+                <div className="control">
+                  <button
+                    type="button"
+                    className="button is-light"
+                    onClick={reset}
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     );
   }
 }
 
+FeedbackForm = reduxForm({
+  form: 'addFeedback',
+  validate: validateFeedback
+})(FeedbackForm);
+
 const mapState = state => ({
-  teacherId: state.classroom.teacherId,
-  questionId: state.classroom.questionId,
+  classroom: state.classroom,
   studentId: state.me.id
 });
 
 const mapDispatch = dispatch => ({
-  addFeedback: data => dispatch(createFeedback(data))
+  addFeedback: data => dispatch(createFeedback(data)),
+  setQuestionInactive: question => dispatch(updateQuestion(question))
 });
 
-FeedbackForm = connect(mapState, mapDispatch)(FeedbackForm);
-
-export default reduxForm({
-  form: 'feedback'
-})(FeedbackForm);
+export default connect(mapState, mapDispatch)(FeedbackForm);

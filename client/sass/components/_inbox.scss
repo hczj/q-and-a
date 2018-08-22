@@ -1,10 +1,39 @@
 .inbox {
   background-color: $white;
+  display: flex;
+  overflow: hidden;
+  position: absolute;
+    top: 52px; // height of navbar;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.thread-header {
+  background-color: $white;
+  border-bottom: 1px solid $border;
+  padding: .75rem;
+  text-align: center;
+  z-index: 9;
+
+  & > span {
+    font-weight: $weight-medium;
+  }
 }
 
 .thread-list {
   border-right: 1px solid $border;
+  overflow-y: scroll;
   height: 100%;
+
+  @include tablet {
+    flex: none;
+    width: 41.666667%;
+  }
+
+  @include desktop {
+    width: 33.33333%;
+  }
 }
 
 .thread-list-item {
@@ -42,8 +71,13 @@
 }
 
 .thread-list-item-details {
+  display: none;
   flex: 1 1 auto;
   min-width: 0; // needed for text-overflow truncate bug
+
+  @include tablet {
+    display: block;
+  }
 }
 
 .thread-list-item-details-header {
@@ -83,25 +117,56 @@
 .thread {
   display: flex;
   flex-direction: column;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
   height: 100%;
   justify-content: space-between;
   position: relative;
+
+  @include tablet {
+    flex: none;
+    width: 58.33333%;
+  }
+
+  @include desktop {
+    width: 66.66667%;
+  }
 }
 
 .thread-message-list {
-  padding: 1.5rem 1.5rem 1.5rem;
+  overflow-y: scroll;
+  padding: 0 1.5rem;
+  position: absolute;
+    top: 49px;
+    right: 0;
+    bottom: 93px;
+    left: 0;
+  z-index: 0;
 
   @include desktop {
-    padding: 3rem 3rem 3rem;
+    padding: 0 3rem;
+  }
+
+  .message {
+    margin-top: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 1.5rem;
+    }
+
+    @include widescreen {
+      font-size: 1.125rem;
+    }
   }
 }
 
 .thread-message-form {
-  // position: absolute;
-  //   top: auto;
-  //   right: 0;
-  //   bottom: 0;
-  //   left: 0;
+  position: absolute;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
   z-index: 9;
 
   .textarea {

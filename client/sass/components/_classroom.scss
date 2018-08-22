@@ -469,24 +469,10 @@ $notification-transition: all $speed $easing ($speed * 2);
   }
 }
 
-.feedback-form {
-  background-color: white;
-  padding: 1rem;
-  height: 15rem;
-  width: 15rem;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 999;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-
-  .has-feedback-form & {
-    opacity: 1;
-    visibility: visible;
-  }
+.has-feedback-form .feedback-form {
+  display: flex;
 }
+
 .calling,
 .approve,
 .full,

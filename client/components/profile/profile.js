@@ -13,7 +13,7 @@ class Profile extends React.Component {
     if (isLoading) return null;
     return (
       <div className="columns is-centered">
-        <div className="column">
+        <div className="column is-6 is-4-desktop is-3-fullhd">
           <ProfileCard user={user} />
         </div>
         <div className="column">

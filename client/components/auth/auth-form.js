@@ -91,6 +91,7 @@ const AuthForm = props => {
             label="Email"
             name="email"
             type="email"
+            placeholder="email@example.com"
             component={ValidateField}
           />
 
