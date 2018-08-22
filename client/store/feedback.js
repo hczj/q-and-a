@@ -17,15 +17,6 @@ const DELETE_FEEDBACK_SUCCESS = 'DELETE_FEEDBACK_SUCCESS';
 const REMOVE_ACTIVE_FEEDBACK = 'REMOVE_ACTIVE_FEEDBACK';
 
 /**
- * INITIAL STATE
- */
-const initialFeedback = {
-  isLoading: false,
-  active: {},
-  all: []
-};
-
-/**
  * ACTION CREATORS
  */
 const requestAllFeedback = () => ({ type: REQUEST_ALL_FEEDBACK });
@@ -94,6 +85,15 @@ export const updateFeedback = feedback => async dispatch => {
   } catch (err) {
     console.error(err);
   }
+};
+
+/**
+ * INITIAL STATE
+ */
+const initialFeedback = {
+  isLoading: false,
+  active: {},
+  all: []
 };
 
 /**

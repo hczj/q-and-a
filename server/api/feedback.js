@@ -43,3 +43,18 @@ router.get('/:feedbackId', async (req, res, next) => {
     next(err);
   }
 });
+
+router.post('/', async (req, res, next) => {
+  try {
+    const feedback = await Feedback.create({
+      rating: req.body.rating,
+      content: req.body.content
+    });
+    await feedback.setQuestion(req.body.questionId);
+    await feedback.setStudent(req.body.studentId);
+    await feedback.setTeacher(req.body.teacherId);
+    res.status(201).json(feedback);
+  } catch (err) {
+    next(err);
+  }
+})
