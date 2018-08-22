@@ -25,16 +25,17 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.getQuestionsByUser();
     this.props.getFeedback();
+
     clientSocket.on('connected', roomUrl => {
       console.log('THIS IS THE ROOM URL: ', roomUrl);
       this.notify(roomUrl);
     });
+
     if (!this.props.isTeacher) {
       notificationEvents.emit('notification-join-room', this.props.user.id);
     }
-    Notification.requestPermission().then(function(result) {
-      console.log(result);
-    });
+
+    Notification.requestPermission().then(result => console.log(result));
   }
 
   setActiveTab = event => {
@@ -47,7 +48,7 @@ class Dashboard extends Component {
     if (!('Notification' in window)) {
       alert('This browser does not support desktop notification');
     } else if (Notification.permission === 'granted') {
-      let notification = new Notification('Your Classroom is Ready!', {
+      const notification = new Notification('You have been invited to a classroom!', {
         body: 'Click to Accept'
       });
       if (roomUrl) {
@@ -57,9 +58,9 @@ class Dashboard extends Component {
         };
       }
     } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission(function(permission) {
+      Notification.requestPermission(permission => {
         if (permission === 'granted') {
-          let notification = new Notification('Your Classroom is Ready!', {
+          const notification = new Notification('You have been invited to a classroom!', {
             body: 'Click to Accept'
           });
           if (roomUrl) {
