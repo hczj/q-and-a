@@ -207,80 +207,86 @@ const users = [
 
 const questions = [
   {
-    title: `Uncaught error when replacing original field?`,
+    title: `How do I return the response from an asynchronous call?`,
     description: `So I want to replace field city with my custom model, but I get this error. I think maybe some domain trying to use old 'city' field, but I can't find it.`
   },
   {
-    title: `Cannot access (or ping) a particular website (buxfer.com) from Amazon Workspace Linux Desktop`
+    title: `Does Python have a ternary conditional operator?`,
+    description: `If Python does not have a ternary conditional operator, is it possible to simulate one using other language constructs?`
   },
   {
     title: `Keystroke display while in VS Code?`,
     description: `I'm trying to find a keystroke software that will display the keystrokes being used while I'm in VS Code. This would be for presenting or doing screencast.`
   },
   {
-    title: `Angular-cli installation with npm, keep getting an error??`,
+    title: `Angular-cli installation with npm, keep getting an error?`,
     description: `When I am installing angular-cli using npm, typing the following npm install -g @angular/cli throws an error.`
   },
   {
-    title: `Github Commit Push raises 403 Error due to nonlocality`,
+    title: `Github Commit Push raises 403 Error due to nonlocality?`,
     description:
-      "I am trying to push a commit to my repository. But I am getting a curious 403 error message from github that I can't find any documentation for on the internet"
+      "I am trying to push a commit to my repository. But I am getting a curious 403 error message from github that I can't find any documentation for on the internet."
   },
   {
     title: `Xcode project crashing every time it is opened?`,
     description: `I can't know for sure what caused it, but it happened when I was adding Binaries and Libraries I created (I am new to it, so may have done something wrong). You can also see a few lines in the log screenshot about Frameworks, so this might have been the cause.`
   },
   {
-    title: `How do I make a C++ object non-copyable?`
+    title: `What is the most efficient way to deep clone an object in JavaScript?`,
+    description: `What is the most efficient way to clone a JavaScript object? I've seen obj = eval(uneval(o)); being used, but that's non-standard and only supported by Firefox. I've done things like obj = JSON.parse(JSON.stringify(o)); but question the efficiency. I've also seen recursive copying functions with various flaws. I'm surprised no canonical solution exists.`
   },
   {
-    title: `How do I simplify radical math expressions?`
+    title: `What is a plain English explanation of “Big O” notation?`,
+    description: `I'd prefer as little formal definition as possible and simple mathematics.`
   },
   {
-    title: `Find the x and y intercepts, the vertex and the axis of symmetry of the parabola with equation y = - x 2 + 2 x + 3?`,
-    description: `I've been trying to figure this out for the past two hours!!!`
+    title: `Is Java “pass-by-reference” or “pass-by-value”?`,
+    description: `I always thought Java was pass-by-reference. However, I've seen a couple of blog posts that claim that it isn't. I don't think I understand the distinction they're making. What is the explanation?`
   },
   {
-    title: `Two cars started from the same point, at 5 am, traveling in opposite directions at 40 and 50 mph respectively. At what time will they be 450 miles apart?`,
-    description: "My parents aren't good at math!!"
+    title: `Which equals operator (== vs ===) should be used in JavaScript comparisons?`,
+    description: `I'm using JSLint to go through JavaScript, and it's returning many suggestions to replace == (two equals signs) with === (three equals signs) when doing things like comparing idSele_UNVEHtype.value.length == 0 inside of an if statement. Is there a performance benefit to replacing == with ===?`
   },
   {
-    title: `Decompose into partial fractions : (5x + 10) / x(x + 5)`
+    title: `Can comments be used in JSON?`,
+    description: `Can I use comments inside a JSON file? If so, how?`
   },
   {
-    title: `Has anyone used an abacus before?`
+    title: `How do I remove a particular element from an array in JavaScript?`,
+    description: `I have an array of integers, and I'm using the .push() method to add elements to it. Is there a simple way to remove a specific element from an array? The equivalent of something like array.remove(int). I have to use core JavaScript - no frameworks are allowed.`
   },
   {
-    title: `Can someone explain the origin of south asian tensions??`,
-    description: 'Is it mostly religious or what??'
+    title: `What does “use strict” do in JavaScript, and what is the reasoning behind it?`,
+    description: `Recently, I ran some of my JavaScript code through Crockford's JSLint, and it gave the following error: Problem at line 1 character 1: Missing "use strict" statement.`
   },
   {
-    title: `Will you please take a look at this this I'm doing?`,
-    description: `Nisi ut aliquip consequat tempor incididunt dolor sit amet, consectetur adipisicing elit, sed do...`
+    title: `What and where are the stack and heap?`,
+    description: `Programming language books explain that value types are created on the stack, and reference types are created on the heap, without explaining what these two things are. I haven't read a clear explanation of this. `
   },
   {
-    title: `Can someone take a look at what I'm working on??`,
-    description: loremIpsum
+    title: `How to check whether a string contains a substring in JavaScript?`,
+    description: `Usually I would expect a String.contains() method, but there doesn't seem to be one. What is a reasonable way to check for this?`
   },
   {
-    title: `I need someone to look at this thing I'm doing. Please!`,
-    description: `Laboris nisi ut aliquip ex ea commodo consequat tempor incididunt ut labore et dolore magna aliqua.`
+    title: `How do JavaScript closures work?`,
+    description: `How would you explain JavaScript closures to someone with a knowledge of the concepts they consist of (for example functions, variables and the like), but does not understand closures themselves?`
   },
   {
-    title: `Does anyone know how to get this to happen?`,
-    description: `Ut aliquip commodo consequat incididunt ut labore aliqua.`
+    title: `How do I redirect to another webpage?`,
+    description: `How can I redirect the user from one page to another using jQuery or pure JavaScript?`
   },
   {
-    title: `Have you ever worked with this or that before?`,
-    description: `Quis exercitation laboris nisi ut aliquip.`
+    title: `What does the “yield” keyword do?`,
+    description: `What is the use of the yield keyword in Python? What does it do?`
   },
   {
-    title: `Has anyone solved this problem before? I'm having a hard time figuring this out`,
-    description: loremIpsum
+    title: `What is the correct JSON content type?`,
+    description:
+      'I have been messing around with JSON for some time, just pushing it out as text and it hasn not hurt anybody (that I know of), but I would like to start doing things properly. I have seen so many purported standards for the JSON content type, but which is correct, or best? I gather that there are security and browser support issues varying between them.'
   },
   {
-    title: `How can I get this to start working??`,
-    description: `Lorem ipsum adipisicing elit, sed do eiusmod dolore magna aliqua.`
+    title: `How to undo the most recent commits in Git?`,
+    description: `I accidentally committed wrong files to Git, but I haven't pushed the commit to the server yet. How can I undo those commits from the local repository?`
   }
 ];
 
