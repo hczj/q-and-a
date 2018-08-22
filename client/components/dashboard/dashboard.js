@@ -81,7 +81,7 @@ class Dashboard extends Component {
   render() {
     const { user, isTeacher, feedback, questions, topics } = this.props;
     return (
-      <div>
+      <div className="the-dashboard">
         <Header title={`${isTeacher ? `Teacher` : `Student`} Dashboard`} />
         <div className="container">
           <section className="hero is-dark welcome is-small">
