@@ -1,4 +1,3 @@
-'use strict';
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const db = require('../server/db');
@@ -11,8 +10,7 @@ const {
   Question,
   Feedback,
   Thread,
-  Message,
-  Classroom
+  Message
 } = require('../server/db/models');
 
 const {
@@ -29,7 +27,12 @@ const {
 const getRandomIdFrom = num => Math.floor(Math.random() * num) + 1;
 
 const getUniqueIds = (num, max) => {
-  return [num, num > 3 ? num - 3 : num + 5, num < max - 3 ? num + 3 : num - 5];
+  return [
+    num,
+    num > 4 ? num - 4 : num + 9,
+    num < max - 4 ? num + 3 : num - 8,
+    num > 6 ? num - 6 : num + 5
+  ];
 };
 
 async function seed() {
@@ -62,14 +65,11 @@ async function seed() {
   //
   // ORGANIZATIONS
   // =============
-  const numOfCats = await Category.count(); // to randomly associate to cats
+  const allCats = await Category.findAll({ attributes: ['id'] });
   const seedOrgs = await Promise.all(
     organizations.map(async organization => {
       const myOrg = await Organization.create(organization);
-      // const myCatId = getRandomIdFrom(numOfCats);
-      // const myCatIds = getUniqueIds(myCatId, numOfCats);
-      // there are only 3 categories...
-      await myOrg.setCategories([1,2,3]);
+      await myOrg.setCategories(allCats);
     })
   );
   console.log(`seeded ${seedOrgs.length} organizations`);
@@ -83,8 +83,8 @@ async function seed() {
   const seedUsers = await Promise.all(
     users.map(async user => {
       const myUser = await User.create(user);
-      const myId = getRandomIdFrom(numOfTopics);
-      const myIds = getUniqueIds(myId, numOfTopics);
+      const myId = await getRandomIdFrom(numOfTopics);
+      const myIds = await getUniqueIds(myId, numOfTopics);
       await myUser.setTopics(myIds);
 
       const myOrgId = getRandomIdFrom(numOfOrgs);
@@ -106,7 +106,6 @@ async function seed() {
   //
   // QUESTIONS
   // =========
-  // to randomly associate to users
   const myStudents = await User.findAndCountAll({
     where: { isTeacher: false },
     attributes: ['id']
@@ -114,60 +113,27 @@ async function seed() {
   const seedQs = await Promise.all(
     questions.map(async question => {
       const myQuestion = await Question.create(question);
-      const myCatId = getRandomIdFrom(numOfCats);
+      const myCatId = await Category.findOne({
+        where: { name: question.category },
+        attributes: ['id']
+      });
       const myRandomIndex = Math.floor(Math.random() * myStudents.count);
 
       await myQuestion.setCategory(myCatId);
       await myQuestion.setUser(myStudents.rows[myRandomIndex]);
 
       const myTopics = await Topic.findAll({
-        where: { categoryId: myCatId },
-        attributes: ['id']
+        where: {
+          name: { [Op.or]: question.topics }
+        }
       });
-
-      const myTopicIndex = Math.floor(Math.random() * myTopics.length - 4 + 4);
-      await myQuestion.setTopics(myTopics[myTopicIndex]);
+      await myQuestion.setTopics(myTopics);
     })
   );
 
-  const codeQuestionIds = [1, 2, 3, 4, 5, 6, 7];
-  const codeQuestions = await Question.findAll({
-    where: { id: codeQuestionIds }
-  });
-  const codeCategory = await Category.findById(1);
-  codeQuestions.forEach(q => q.setCategory(codeCategory));
-
-  const codeTopicIds = [1, 2, 3, 4];
-  const codeQuestionTopics = await Topic.findAll({
-    where: { id: codeTopicIds }
-  });
-
-  codeQuestions.forEach(async q => {
-    const codeTopicId = Math.floor(Math.random() * 4);
-    await q.setTopics(codeQuestionTopics[codeTopicId]);
-  });
-
-  const mathQuestionIds = [8, 9, 10, 11, 12];
-  const mathQuestions = await Question.findAll({
-    where: { id: mathQuestionIds }
-  });
-  const mathCategory = await Category.findById(8);
-  mathQuestions.forEach(q => q.setCategory(mathCategory));
-
-  const mathTopicIds = [15, 16, 17];
-  const mathQuestionTopics = await Topic.findAll({
-    where: { id: mathTopicIds }
-  });
-
-  mathQuestions.forEach(async q => {
-    const mathTopicId = Math.floor(Math.random() * 3);
-    await q.setTopics(mathQuestionTopics[mathTopicId]);
-  });
-  console.log(`seeded ${seedQs.length} questions`);
-
   //
-  // FEEDBACK
-  // ========
+  // FEEDBACKS
+  // =========
   const numOfQs = await Question.count(); // to randomly associate to questions
   const seedFeedback = await Promise.all(
     feedbacks.map(async feedback => {
@@ -239,8 +205,6 @@ async function seed() {
   }
 
   console.log(`seeded ${allMsgs.length} messages`);
-
-  console.log(`***  seeded successfully  ***`);
 }
 
 async function runSeed() {

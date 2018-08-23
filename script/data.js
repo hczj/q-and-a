@@ -1,4 +1,90 @@
-let loremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`;
+const loremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`;
+
+// Categories
+const PROGRAMMING = 'Programming';
+const MATH = 'Math';
+const SCIENCE = 'Science';
+const DESIGN = 'Design';
+const MUSIC = 'Music';
+
+// Topics
+const PYTHON = 'Python';
+const JAVASCRIPT = 'JavaScript';
+const _JSON = 'JSON';
+const REACT = 'React.js';
+const ANGULAR = 'Angular';
+const GIT = 'Git';
+const GITHUB = 'GitHub';
+const XCODE = 'Xcode';
+const NODE = 'Node';
+const DATA = 'Data Structures';
+const STACK = 'Stack';
+const HEAP = 'Heap';
+
+const ALGEBRA = 'Algebra';
+const CALCULUS = 'Calculus';
+const PROBABILITY = 'Probability';
+
+const BIOLOGY = 'Biology';
+const CHEMISTRY = 'Chemistry';
+
+const TYPOGRAPHY = 'Typography';
+const ILLUSTRATOR = 'Adobe Illustrator';
+const LOGO = 'Logo Design';
+
+const GUITAR = 'Guitar';
+const PIANO = 'Piano';
+const THEORY = 'Music Theory';
+const EQUIPMENT = 'Music Equipment';
+
+/**
+ *************************
+ *************************
+
+  SEED DATA OBJECTS BELOW
+
+ *************************
+ *************************
+ */
+
+const categories = [
+  { name: PROGRAMMING },
+  { name: MATH },
+  { name: SCIENCE },
+  { name: DESIGN },
+  { name: MUSIC }
+];
+
+const topics = [
+  { name: PYTHON, category: PROGRAMMING },
+  { name: JAVASCRIPT, category: PROGRAMMING },
+  { name: _JSON, category: PROGRAMMING },
+  { name: REACT, category: PROGRAMMING },
+  { name: ANGULAR, category: PROGRAMMING },
+  { name: GIT, category: PROGRAMMING },
+  { name: GITHUB, category: PROGRAMMING },
+  { name: XCODE, category: PROGRAMMING },
+  { name: NODE, category: PROGRAMMING },
+  { name: DATA, category: PROGRAMMING },
+  { name: STACK, category: PROGRAMMING },
+  { name: HEAP, category: PROGRAMMING },
+
+  { name: ALGEBRA, category: MATH },
+  { name: CALCULUS, category: MATH },
+  { name: PROBABILITY, category: MATH },
+
+  { name: BIOLOGY, category: SCIENCE },
+  { name: CHEMISTRY, category: SCIENCE },
+
+  { name: TYPOGRAPHY, category: DESIGN },
+  { name: ILLUSTRATOR, category: DESIGN },
+  { name: LOGO, category: DESIGN },
+
+  { name: PIANO, category: MUSIC },
+  { name: GUITAR, category: MUSIC },
+  { name: THEORY, category: MUSIC },
+  { name: EQUIPMENT, category: MUSIC },
+];
 
 const organizations = [
   {
@@ -186,97 +272,223 @@ const users = [
 ];
 
 const questions = [
-  {
-    title: `How do I return the response from an asynchronous call?`,
-    description: `So I want to replace field city with my custom model, but I get this error. I think maybe some domain trying to use old 'city' field, but I can't find it.`
-  },
+  /**
+   * PROGRAMMING
+   */
   {
     title: `Does Python have a ternary conditional operator?`,
-    description: `If Python does not have a ternary conditional operator, is it possible to simulate one using other language constructs?`
-  },
-  {
-    title: `Keystroke display while in VS Code?`,
-    description: `I'm trying to find a keystroke software that will display the keystrokes being used while I'm in VS Code. This would be for presenting or doing screencast.`
+    description: `If Python does not have a ternary conditional operator, is it possible to simulate one using other language constructs?`,
+    category: PROGRAMMING,
+    topics: [PYTHON]
   },
   {
     title: `Angular-cli installation with npm, keep getting an error?`,
-    description: `When I am installing angular-cli using npm, typing the following npm install -g @angular/cli throws an error.`
+    description: `When I am installing angular-cli using npm, typing the following npm install -g @angular/cli throws an error.`,
+    category: PROGRAMMING,
+    topics: [ANGULAR, NODE]
   },
   {
     title: `Github Commit Push raises 403 Error due to nonlocality?`,
     description:
-      "I am trying to push a commit to my repository. But I am getting a curious 403 error message from github that I can't find any documentation for on the internet."
+      "I am trying to push a commit to my repository. But I am getting a curious 403 error message from github that I can't find any documentation for on the internet.",
+    category: PROGRAMMING,
+    topics: [GIT, GITHUB]
   },
   {
     title: `Xcode project crashing every time it is opened?`,
-    description: `I can't know for sure what caused it, but it happened when I was adding Binaries and Libraries I created (I am new to it, so may have done something wrong). You can also see a few lines in the log screenshot about Frameworks, so this might have been the cause.`
+    description: `I can't know for sure what caused it, but it happened when I was adding Binaries and Libraries I created (I am new to it, so may have done something wrong). You can also see a few lines in the log screenshot about Frameworks, so this might have been the cause.`,
+    category: PROGRAMMING,
+    topics: [XCODE]
   },
   {
     title: `What is the most efficient way to deep clone an object in JavaScript?`,
-    description: `What is the most efficient way to clone a JavaScript object? I've seen obj = eval(uneval(o)); being used, but that's non-standard and only supported by Firefox. I've done things like obj = JSON.parse(JSON.stringify(o)); but question the efficiency. I've also seen recursive copying functions with various flaws. I'm surprised no canonical solution exists.`
+    description: `What is the most efficient way to clone a JavaScript object? I've seen obj = eval(uneval(o)); being used, but that's non-standard and only supported by Firefox. I've done things like obj = JSON.parse(JSON.stringify(o)); but question the efficiency. I've also seen recursive copying functions with various flaws. I'm surprised no canonical solution exists.`,
+    category: PROGRAMMING,
+    topics: [JAVASCRIPT]
   },
   {
     title: `What is a plain English explanation of “Big O” notation?`,
-    description: `I'd prefer as little formal definition as possible and simple mathematics.`
-  },
-  {
-    title: `Is Java “pass-by-reference” or “pass-by-value”?`,
-    description: `I always thought Java was pass-by-reference. However, I've seen a couple of blog posts that claim that it isn't. I don't think I understand the distinction they're making. What is the explanation?`
+    description: `I'd prefer as little formal definition as possible and simple mathematics.`,
+    category: PROGRAMMING,
+    topics: [DATA]
   },
   {
     title: `Which equals operator (== vs ===) should be used in JavaScript comparisons?`,
-    description: `I'm using JSLint to go through JavaScript, and it's returning many suggestions to replace == (two equals signs) with === (three equals signs) when doing things like comparing idSele_UNVEHtype.value.length == 0 inside of an if statement. Is there a performance benefit to replacing == with ===?`
+    description: `I'm using JSLint to go through JavaScript, and it's returning many suggestions to replace == (two equals signs) with === (three equals signs) when doing things like comparing idSele_UNVEHtype.value.length == 0 inside of an if statement. Is there a performance benefit to replacing == with ===?`,
+    category: PROGRAMMING,
+    topics: [JAVASCRIPT]
   },
   {
     title: `Can comments be used in JSON?`,
-    description: `Can I use comments inside a JSON file? If so, how?`
+    description: `Can I use comments inside a JSON file? If so, how?`,
+    category: PROGRAMMING,
+    topics: [JAVASCRIPT, _JSON]
   },
   {
     title: `How do I remove a particular element from an array in JavaScript?`,
-    description: `I have an array of integers, and I'm using the .push() method to add elements to it. Is there a simple way to remove a specific element from an array? The equivalent of something like array.remove(int). I have to use core JavaScript - no frameworks are allowed.`
+    description: `I have an array of integers, and I'm using the .push() method to add elements to it. Is there a simple way to remove a specific element from an array? The equivalent of something like array.remove(int). I have to use core JavaScript - no frameworks are allowed.`,
+    category: PROGRAMMING,
+    topics: [JAVASCRIPT]
   },
   {
     title: `What does “use strict” do in JavaScript, and what is the reasoning behind it?`,
-    description: `Recently, I ran some of my JavaScript code through Crockford's JSLint, and it gave the following error: Problem at line 1 character 1: Missing "use strict" statement.`
+    description: `Recently, I ran some of my JavaScript code through Crockford's JSLint, and it gave the following error: Problem at line 1 character 1: Missing "use strict" statement.`,
+    category: PROGRAMMING,
+    topics: [JAVASCRIPT]
   },
   {
     title: `What and where are the stack and heap?`,
-    description: `Programming language books explain that value types are created on the stack, and reference types are created on the heap, without explaining what these two things are. I haven't read a clear explanation of this. `
-  },
-  {
-    title: `How to check whether a string contains a substring in JavaScript?`,
-    description: `Usually I would expect a String.contains() method, but there doesn't seem to be one. What is a reasonable way to check for this?`
+    description: `Programming language books explain that value types are created on the stack, and reference types are created on the heap, without explaining what these two things are. I haven't read a clear explanation of this.`,
+    category: PROGRAMMING,
+    topics: [DATA]
   },
   {
     title: `How do JavaScript closures work?`,
-    description: `How would you explain JavaScript closures to someone with a knowledge of the concepts they consist of (for example functions, variables and the like), but does not understand closures themselves?`
-  },
-  {
-    title: `How do I redirect to another webpage?`,
-    description: `How can I redirect the user from one page to another using jQuery or pure JavaScript?`
+    description: `How would you explain JavaScript closures to someone with a knowledge of the concepts they consist of (for example functions, variables and the like), but does not understand closures themselves?`,
+    category: PROGRAMMING,
+    topics: [JAVASCRIPT]
   },
   {
     title: `What does the “yield” keyword do?`,
-    description: `What is the use of the yield keyword in Python? What does it do?`
+    description: `What is the use of the yield keyword in Python? What does it do?`,
+    category: PROGRAMMING,
+    topics: [PYTHON]
   },
   {
     title: `What is the correct JSON content type?`,
     description:
-      'I have been messing around with JSON for some time, just pushing it out as text and it hasn not hurt anybody (that I know of), but I would like to start doing things properly. I have seen so many purported standards for the JSON content type, but which is correct, or best? I gather that there are security and browser support issues varying between them.'
+      'I have been messing around with JSON for some time, just pushing it out as text and it hasn not hurt anybody (that I know of), but I would like to start doing things properly. I have seen so many purported standards for the JSON content type, but which is correct, or best? I gather that there are security and browser support issues varying between them.',
+    category: PROGRAMMING,
+    topics: [_JSON]
   },
   {
     title: `How to undo the most recent commits in Git?`,
-    description: `I accidentally committed wrong files to Git, but I haven't pushed the commit to the server yet. How can I undo those commits from the local repository?`
-  }
+    description: `I accidentally committed wrong files to Git, but I haven't pushed the commit to the server yet. How can I undo those commits from the local repository?`,
+    category: PROGRAMMING,
+    topics: [GIT]
+  },
+
+  /**
+   * MATH
+   */
+  {
+    title: `Is there a combinatorical proof for this probability?`,
+    description: `Is there a more combinatorical proof of the probability above? I used to use probability trees and the falling factorial to calculate P(A) when I was a kid until a math professor I met by chance pointed out that the combinatorical way of calculating P(A) like above is much faster. Now with the constraint of the special card suddenly I'm introducing conditional probability again in P(Ak) and an implicit probability tree, so I want to know if I can get rid of this again?`,
+    category: MATH,
+    topics: [PROBABILITY]
+  },
+  {
+    title: `how to change a cone's base area and height?`,
+    description: `How to make some cones with different heights and same mass and base area and also with different base area and same height and mass?`,
+    category: MATH,
+    topics: [ALGEBRA]
+  },
+  {
+    title: `Linearity of a function when its codomain has dimension K > 1`,
+    category: MATH,
+    topics: [ALGEBRA]
+  },
+  {
+    title: `How to understand the Floquet Theory?`,
+    description: `I would also need some guidance on the basic understanding about the Floquet analysis. I am an engineering researcher, and may not have the essential mathematical background to easily understand the Floquet theory.`,
+    category: MATH,
+    topics: [CALCULUS]
+  },
+
+  /**
+   * SCIENCE
+   */
+   {
+    title: `Where does NADP+ come from?`,
+    description: `Trying to understand Photosynthesis better. I understand the NADP+ is reduced to NADPH in light dependent reactions and NADPH is then recycled back into NADP+ in the Calvin cycle. What I don't understand is where does the NADP+ come from initially?`,
+    category: SCIENCE,
+    topics: [BIOLOGY]
+   },
+   {
+    title: `What chemical effect does stress cause in the body that causes so many problems?`,
+    description: `I'm the kind of person who tries to understand how things work fundamentally. Can someone explain what chemical effects can occur because of stress and how a neurological state causes those changes?`,
+    category: SCIENCE,
+    topics: [BIOLOGY]
+   },
+  {
+    title: `How does NaCl maintain its crystalline structure?`,
+    description: `My understanding is that NaCl is an ionic compound, in which Cl becomes (effectively) Cl− and Na becomes Na+. So I understand why I would get a "sea" of particles that would stick together. But why does the above mean that it will have a face centered cubic structure with the ions held in place so rigidly?`,
+    category: SCIENCE,
+    topics: [CHEMISTRY]
+  },
+  {
+    title: `Will magnesium chloride and ascorbic acid react in solution?`,
+    description: `Both magnesium chloride dissolved in distilled water and ascorbic acid dissolved in distillled water have been separately shown to have a number of health benefits when applied topically to the skin. I am wondering if these will react if they are both dissolved in the same container?`,
+    category: SCIENCE,
+    topics: [CHEMISTRY]
+  },
+
+  /**
+  * DESIGN
+  */
+  {
+    title: `Is there an dynamically changing font?`,
+    description: `I'm thinking something that isn't perfectly monospaced/spaced, but as you type it organically lays out the font with random splines or something and random spacing, but the splines would be contained inside a shape of a letter that would also be randomly scaled and rotated just slightly across each character stroke.`,
+    category: DESIGN,
+    topics: [TYPOGRAPHY]
+  },
+  {
+    title: `Identify Rounded Modern Sans Serif`,
+    description: `Can anyone ID this font? It is giving me fits even though I feel like its on the tip of my tongue..`,
+    category: DESIGN,
+    topics: [TYPOGRAPHY]
+  },
+  {
+    title: `How to make text fit to area text box in Illustrator CC`,
+    category: DESIGN,
+    topics: [ILLUSTRATOR, TYPOGRAPHY]
+  },
+  {
+    title: `Help improving colors on logo design`,
+    description: `Im in the process of design a logo for a project I'm working on, but I'm not a brand designer/specialist, I'm just a webdesigner.`,
+    category: DESIGN,
+    topics: [LOGO]
+  },
+  {
+    title: `Optimal background for a mobile wallpaper?`,
+    description: `I would appreciate feedback on the current background and how it is or isn't a good fit`,
+    category: DESIGN,
+    topics: [LOGO, ILLUSTRATOR]
+  },
+
+  /**
+   * MUSIC
+   */
+  {
+    title: `Is there a special term for this type of alternate picking?`,
+    description: `I'm looking to see if there's a special word for a type of alternate picking commonly heard in metal that involves playing a series of notes on a lower string while also playing notes on a higher string in between.`,
+    category: MUSIC,
+    topics: [GUITAR, THEORY]
+  },
+  {
+    title: `What setup do I need to hear my vocals and guitar through headphones while playing?`,
+    description: `I know very little about electrical music equipment. If so, what would I need?`,
+    category: MUSIC,
+    topics: [GUITAR, EQUIPMENT]
+  },
+  {
+    title: `How do you play a scale "in sixths" or "in thirds"?`,
+    description: `What do these terms refer to? Does it mean the length of the note (in beats)?`,
+    category: MUSIC,
+    topics: [PIANO, THEORY]
+  },
+  {
+    title: `What kind of practice leads to the ability to play the exact melody in my mind?`,
+    description: `How can we acquire the ability to play a guitar or piano like singing (without thinking)? What kind of practice can help me achieve this goal ?`,
+    category: MUSIC,
+    topics: [THEORY]
+  },
 ];
 
 const feedbacks = [
   {
     rating: 2,
-    content: "I really don't think this instructor explained things well."
-  },
-  {
-    rating: 3
+    content: "I don't think this instructor explained things well."
   },
   {
     rating: 5,
@@ -288,7 +500,7 @@ const feedbacks = [
       'That was great! I just needed a little bit more guidance on my last issue there.'
   },
   {
-    rating: 4
+    rating: 5
   },
   {
     rating: 3,
@@ -296,63 +508,11 @@ const feedbacks = [
       "It was sort of helpful, I don't feel like everything was clarified..."
   },
   {
-    rating: 5
+    rating: 4,
+    content: `thank you`
   },
   {
-    rating: 1,
-    content: `my teacher was rude`
-  }
-];
-
-const categories = [
-  { name: `Coding`, imageUrl: '../public/Logos/coding.png' },
-  { name: `Math`, imageUrl: '../public/Logos/cooking.png' },
-  { name: `Graphic Design`, imageUrl: '../public/Logos/graphic_design.png' },
-  // { name: `Cooking`, imageUrl: '../public/Logos/cooking.png' },
-  // { name: `Science`, imageUrl: '../public/Logos/cooking.png' },
-  // { name: `Music`, imageUrl: '../public/Logos/music.png' },
-  // { name: `Business`, imageUrl: '../public/Logos/business.png' },
-  // { name: `Beauty & Makeup`, imageUrl: '../public/Logos/beauty.png' },
-  // { name: `Photography`, imageUrl: '../public/Logos/photography.png' },
-  // { name: `Arts & Crafts`, imageUrl: '../public/Logos/cooking.png' }
-];
-
-const topics = [
-  {
-    name: `Python`,
-    category: `Coding`
-  },
-  {
-    name: `JavaScript`,
-    category: `Coding`
-  },
-  {
-    name: `React.js`,
-    category: `Coding`
-  },
-  {
-    name: `Sequelize`,
-    category: `Coding`
-  },
-  {
-    name: `Redux`,
-    category: `Coding`
-  },
-  {
-    name: `MySQL`,
-    category: `Coding`
-  },
-  {
-    name: `Algebra`,
-    category: `Math`
-  },
-  {
-    name: `Calculus`,
-    category: `Math`
-  },
-  {
-    name: `Statistics`,
-    category: `Math`
+    rating: 3
   }
 ];
 
@@ -491,35 +651,42 @@ const threads = [
   }
 ];
 
-// const threads = new Array(15).fill({});
-
 const messages = [
-  { content: `Hello there!!` },
-  { content: `Hi!!` },
-  { content: `are you going to the party?` },
+  { content: `Hello there!` },
+  { content: `Hi!!!` },
+  { content: `do you understand the homework?` },
   { content: `How are you doing today?` },
   { content: `Im well, how are you?` },
-  { content: `Hello you!` },
-  { content: `do you want to hang out?` },
+  { content: `hey you!` },
+  { content: `do you want to hang out after class?` },
   { content: `Hola!!` },
-  { content: `Don't you love this cool new site?` },
+  { content: `was it helpful?` },
+  { content: `Don't you love this cool new app?` },
   { content: `Como estas?` },
-  { content: `Muy bien, y tu?!` },
   { content: `well...???` },
-  { content: `Asi asi` },
+  { content: `did you finish your assignment?` },
   { content: `aight.` },
   { content: `Have a good night!` },
   { content: `that's cute` },
-  { content: `yooo` },
-  { content: `man I'll never understand that` },
+  { content: `yoooo` },
+  { content: `man I'll never understand this` },
   { content: `Hey are you still around?` },
+  { content: `I could really use more help` },
   { content: `On my way!` },
+  { content: `I need another classroom session` },
+  { content: `how did you do on the test?` },
   { content: `I don't think I can make it today` },
   { content: `hey!` },
   { content: `would you please let me know asap?` },
   { content: `It's been such a long time!` },
+  { content: `can we reschedule?` },
   { content: `Ok I'll see you there!` },
-  { content: `That's good to hear.` }
+  { content: `That's good to hear.` },
+  { content: `???` },
+  { content: `what do you think?` },
+  { content: `are you studying this topic?` },
+  { content: `Can you help me out?` },
+  { content: `I just need a few more minutes!` },
 ];
 
 module.exports = {
