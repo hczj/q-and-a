@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   removeUserTopic,
   fetchCategoryTopics,
@@ -81,48 +81,79 @@ class Dashboard extends Component {
   render() {
     const { user, isTeacher, feedback, questions, topics } = this.props;
     return (
-      <div className="the-dashboard">
+      <Fragment>
         <Header title={`${isTeacher ? `Teacher` : `Student`} Dashboard`} />
-        <div className="container">
-          <section className="hero is-dark welcome is-small">
-            <div className="hero-body">
-              <div className="container">
-                <h1 className="title">Hello, {user.firstName}.</h1>
-                <h2 className="subtitle">I hope you are having a great day!</h2>
-              </div>
-            </div>
-          </section>
-          <section className="info-tiles">
-            <div className="tile is-ancestor has-text-centered">
-              <UsersOnline isTeacher={isTeacher} />
-              <QuestionsOpen />
-              {isTeacher ? (
-                <AnswersToday isTeacher={isTeacher} />
-              ) : (
-                <QueueStatus />
-              )}
-            </div>
-          </section>
-          <div className="columns">
-            <div className="column is-6">
-              {isTeacher ? (
-                <Feedback feedback={feedback} />
-              ) : (
-                <ActiveQuestions questions={questions} />
-              )}
-            </div>
+        <div className="dashboard">
+            <section className="dashboard-welcome">
+                  <p className="title">
+                    Hello, {user.firstName}!
+                  </p>
+                  <p className="subtitle">
+                    We hope you are having a great day!
+                  </p>
+            </section>
 
-            <div className="column is-6">
-              <Topics
-                topics={topics}
-                isTeacher={isTeacher}
-                removeTopic={this.removeTopic}
-              />
-              <AddATopic />
-            </div>
-          </div>
+            <section className="tile is-ancestor">
+              <div className="is-vertical tile">
+                <div className="tile dashboard-callouts">
+                  <div className="is-parent is-vertical tile">
+                    <UsersOnline isTeacher={isTeacher} />
+                  </div>
+                  <div className="tile is-parent">
+                    <QuestionsOpen />
+                  </div>
+                  <div className="tile is-parent">
+                    {isTeacher ? (
+                      <AnswersToday isTeacher={isTeacher} />
+                    ) : (
+                      <QueueStatus />
+                    )}
+                  </div>
+                </div>
+                <div className="tile">
+                  <div className="tile is-parent">
+                    {isTeacher ? (
+                      <Feedback feedback={feedback} />
+                    ) : (
+                      <ActiveQuestions questions={questions} />
+                    )}
+                  </div>
+                  <div className="tile is-parent is-vertical">
+                    <Topics
+                      topics={topics}
+                      isTeacher={isTeacher}
+                      removeTopic={this.removeTopic}
+                    />
+                    <AddATopic />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+
+
+
+            {/*<div className="columns">
+              <div className="column is-6">
+                {isTeacher ? (
+                  <Feedback feedback={feedback} />
+                ) : (
+                  <ActiveQuestions questions={questions} />
+                )}
+              </div>
+
+              <div className="column is-6">
+                <Topics
+                  topics={topics}
+                  isTeacher={isTeacher}
+                  removeTopic={this.removeTopic}
+                />
+                <AddATopic />
+              </div>
+            </div>*/}
+
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

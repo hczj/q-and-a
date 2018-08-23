@@ -1,63 +1,84 @@
-.the-dashboard {
-  .columns {
-    width: 100%;
-    height: 100%;
-  }
+.dashboard {
 
-  .column.is-6 {
-    width: 51%;
-  }
-
-  .menu-label {
-    color: #8F99A3;
-    letter-spacing: 1.3;
-    font-weight: 700;
-  }
-  .menu-list a {
-    color: #0F1D38;
-    font-size: 14px;
-    font-weight: 700;
-  }
-  .menu-list a:hover {
-    background-color: transparent;
-    color: #276cda;
-  }
-  .menu-list a.is-active {
-    background-color: transparent;
-    color: #276cda;
-    font-weight: 700;
-  }
   .card {
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
-    margin-bottom: 2rem;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
   }
+
+  .card-header {
+    box-shadow: none;
+    border-bottom: 1px solid $border;
+  }
+
   .card-header-title {
-    color: #8F99A3;
-    font-weight: 400;
-  }
-  .info-tiles {
-    margin: 1rem 0;
-  }
-  .info-tiles .subtitle {
-    font-weight: 300;
-    color: #8F99A3;
+    color: $grey;
+    font-weight: $weight-medium;
   }
 
-  .card .content {
-    font-size: 14px;
+  .pretty-field {
+    display: flex;
+    flex-wrap: wrap;
+
+    .pretty {
+      color: $grey-dark;
+      font-size: $size-7;
+      flex-basis: 33.3333%;
+      margin: 0 0 .75rem;
+      transition: color $speed $easing;
+
+      &:hover {
+        color: $text;
+
+        .state label::before {
+          color: $grey-dark;
+        }
+      }
+
+      .state label::before {
+        color: $grey-light;
+        transition: all $speed $easing;
+      }
+    }
   }
-  .card-footer-item {
-    font-size: 14px;
-    font-weight: 700;
-    color: #8F99A3;
+}
+
+.dashboard-welcome {
+  background-color: $dark;
+  color: $white;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+
+  .title,
+  .subtitle {
+    color: inherit;
+  }
+}
+
+.dashboard-callouts {
+
+  .tile {
+    text-align: center;
   }
 
-  .card-table .table {
-    margin-bottom: 0;
+  .box {
+    padding: 2rem;
 
+    @include desktop {
+      padding: 2.5rem;
+    }
   }
-  .events-card .card-table {
-    max-height: 250px;
-    overflow-y: scroll;
+
+  .title {
+    font-size: 3rem;
+  }
+
+  .subtitle {
+    color: $grey;
+    font-weight: $weight-light;
+
+    @include desktop {
+      font-size: 1.75rem;
+    }
   }
 }
