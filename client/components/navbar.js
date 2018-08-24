@@ -19,9 +19,19 @@ class Navbar extends Component {
   };
 
   render() {
-    const { handleLogout, isLoggedIn, isAdmin, isTeacher, me } = this.props;
+    const {
+      handleLogout,
+      isLoggedIn,
+      isAdmin,
+      isTeacher,
+      me,
+      bgColor
+    } = this.props;
     return (
-      <nav className="navbar is-primary">
+      <nav
+        className="navbar is-primary"
+        style={{ background: `${bgColor ? bgColor : ''}` }}
+      >
         <div className="container">
           <div className="navbar-brand">
             <Link to="/" className="navbar-item has-background-primary">

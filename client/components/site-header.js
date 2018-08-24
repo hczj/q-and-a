@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Navbar } from '../components';
 
-const SiteHeader = () => (
+const SiteHeader = ({ bgColor }) => (
   <header className="header">
-    <Navbar />
+    <Navbar bgColor={bgColor} />
     <div className="shapes">
-      <span></span>
-      <span></span>
+      <span />
+      <span />
     </div>
   </header>
 );

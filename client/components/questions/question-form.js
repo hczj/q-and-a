@@ -51,64 +51,66 @@ class QuestionForm extends Component {
     return (
       <Fragment>
         <Header title="Ask a question" />
-        <form onSubmit={handleSubmit(this.handleQuestionSubmit)}>
-          <Field
-            label="Title"
-            name="title"
-            type="text"
-            placeholder="What's your question? Be specific."
-            component={ValidateField}
-          />
+        <div className="box">
+          <form onSubmit={handleSubmit(this.handleQuestionSubmit)}>
+            <Field
+              label="Title"
+              name="title"
+              type="text"
+              placeholder="What's your question? Be specific."
+              component={ValidateField}
+            />
 
-          <Field
-            label="Description"
-            name="description"
-            type="textarea"
-            rows={10}
-            component={ValidateField}
-          />
+            <Field
+              label="Description"
+              name="description"
+              type="textarea"
+              rows={10}
+              component={ValidateField}
+            />
 
-          <div className="field">
-            <label className="label">Category</label>
-            <div className="control">
-              <div className="select">
-                <Field
-                  className="select"
-                  name="categoryId"
-                  component="select"
-                  onChange={this.handleCategoryChange}
-                >
-                  <CategoryDropdown defaultOption="Select A Category" />
-                </Field>
+            <div className="field">
+              <label className="label">Category</label>
+              <div className="control">
+                <div className="select">
+                  <Field
+                    className="select"
+                    name="categoryId"
+                    component="select"
+                    onChange={this.handleCategoryChange}
+                  >
+                    <CategoryDropdown defaultOption="Select A Category" />
+                  </Field>
+                </div>
               </div>
             </div>
-          </div>
 
-          {category.name && (
-            <div className="field">
-              <label className="label">Topics</label>
-              <TopicsInput />
-            </div>
-          )}
+            {category.name && (
+              <div className="field">
+                <label className="label">Topics</label>
+                <TopicsInput />
+              </div>
+            )}
 
-          <div className="field is-grouped">
-            <div className="control">
-              <button
-                type="submit"
-                className="button is-link"
-                disabled={pristine || submitting}
-              >
-                Submit
-              </button>
-            </div>
+            <div className="field is-grouped">
+              <div className="control">
+                <button
+                  type="submit"
+                  className="button is-link"
+                  disabled={pristine || submitting}
+                >
+                  Submit
+                </button>
+              </div>
 
-            <div className="control">
-              <button type="button" className="button is-light" onClick={reset}>
-                Reset
-              </button>
+              <div className="control">
+                <button type="button" className="button is-light" onClick={reset}>
+                  Reset
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </Fragment>
     );
   }

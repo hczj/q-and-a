@@ -36,8 +36,10 @@ export const fetchThreads = () => async dispatch => {
   dispatch(requestThreads());
   try {
     const { data } = await axios.get(`/api/threads/`);
-    dispatch(fetchThread(data[0].id));
     dispatch(receiveThreads(data || []));
+    if (data[0]) {
+      dispatch(fetchThread(data[0].id));
+    }
   } catch (err) {
     console.log(err);
   }

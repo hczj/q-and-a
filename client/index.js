@@ -16,7 +16,7 @@ const RouteToLayout = ({ component: Component, ...rest }) => (
 
 const MainLayout = () => (
   <Fragment>
-    <SiteHeader />
+    <SiteHeader bgColor="transparent" />
     <div className="section">
       <div className="container">
         <Routes />
@@ -46,7 +46,7 @@ ReactDOM.render(
     <Router history={history}>
       <Switch>
         <RouteToLayout path="/classroom" component={ClassroomLayout} />
-        <RouteToLayout path="/messages" component={AltLayout} />
+        <RouteToLayout exact path="/messages" component={AltLayout} />
         <RouteToLayout component={MainLayout} />
       </Switch>
     </Router>

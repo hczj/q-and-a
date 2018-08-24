@@ -20,7 +20,7 @@ const AuthForm = props => {
   } = props;
 
   return (
-    <div>
+    <div style={{ marginTop: '7rem' }}>
       <Header title={displayName} size="is-3" />
       <p className="subtitle">{subtitle}</p>
       <div className="box">
