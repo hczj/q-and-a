@@ -72,7 +72,7 @@ class QuestionQueue extends Component {
                 <Button
                   link="/ask-a-question"
                   text="Ask a question!"
-                  classes="button is-link"
+                  classes="button is-link is-large"
                 />
               )}
             </div>

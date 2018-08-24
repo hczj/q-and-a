@@ -18,7 +18,7 @@ const textMode = {
   showGutter: false,
   showLineNumbers: false,
   showPrintMargin: false,
-  fontSize: 18
+  fontSize: 21
 };
 
 const codeMode = {
@@ -29,7 +29,7 @@ const codeMode = {
   showGutter: true,
   showLineNumbers: true,
   showPrintMargin: false,
-  fontSize: 14
+  fontSize: 18
 };
 
 export class EditorContainer extends Component {

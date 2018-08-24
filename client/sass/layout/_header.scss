@@ -1,0 +1,97 @@
+.header {
+  position: relative;
+  min-height: 35vh;
+
+  @include tablet {
+    min-height: 30vh;
+  }
+
+  @include desktop {
+    min-height: 40vh;
+  }
+
+  @include widescreen {
+    min-height: 45vh;
+  }
+}
+
+.header .shapes {
+  position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+  width: 100%;
+  height: 100%;
+  max-height: 420px;
+}
+
+.header .shapes span {
+  position: absolute;
+}
+
+.header .shapes span:nth-child(1) {
+    top: 0;
+    right: -15%;
+    width: 60%;
+    height: 60%;
+    background-color: $secondary;
+    transform-origin: right;
+    transform: rotate(12deg);
+}
+
+.header .shapes span:nth-child(2) {
+  top: -50%;
+  width: 100%;
+  height: 100%;
+  background-color: $primary;
+  transform: skewY(-9.5deg);
+}
+
+.header .shapes span:nth-child(2)::before {
+  background-color: rgba($white, .15);
+  content: '';
+  position: absolute;
+    bottom: 0;
+    right: 0;
+  width: 100%;
+  height: 1rem;
+}
+
+.header .shapes span:nth-child(2)::after {
+  background-color: rgba($white, .35);
+  content: '';
+  position: absolute;
+    top: 100%;
+    right: 0;
+  width: 40%;
+  height: 15%;
+}
+
+.header + .section {
+  margin-top: -15rem;
+  transition: margin $speed $easing;
+
+  @include tablet {
+    margin-top: -14rem;
+  }
+
+  @include desktop {
+    margin-top: -17rem;
+  }
+
+  @media screen and (min-width: 1500px) {
+  }
+}
+
+.container > .title {
+  color: $white;
+  font-size: 2.125rem;
+
+  @include tablet {
+    font-size: 2.75rem;
+  }
+
+  @include desktop {
+    font-size: 3rem;
+  }
+}

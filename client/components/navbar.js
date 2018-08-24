@@ -12,17 +12,26 @@ class Navbar extends Component {
     navbarMenu.classList.toggle('is-active');
   };
 
-  closeNavbarMenu = event => {
-    const navbarItem = event.target;
+  closeNavbarMenu = () => {
     const navbarMenu = document.getElementById('navPrimary');
     document.getElementById('burger').classList.remove('is-active');
     navbarMenu.classList.remove('is-active');
   };
 
   render() {
-    const { handleLogout, isLoggedIn, isAdmin, isTeacher, me } = this.props;
+    const {
+      handleLogout,
+      isLoggedIn,
+      isAdmin,
+      isTeacher,
+      me,
+      bgColor
+    } = this.props;
     return (
-      <nav className="navbar is-primary">
+      <nav
+        className="navbar is-primary"
+        style={{ background: `${bgColor ? bgColor : ''}` }}
+      >
         <div className="container">
           <div className="navbar-brand">
             <Link to="/" className="navbar-item has-background-primary">
