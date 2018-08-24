@@ -30,11 +30,11 @@ class TopicsForm extends Component {
     return (
       <Fragment>
         <form onSubmit={handleSubmit(this.handleTopicsSubmit)}>
-          <div className="field">
+          <div className="field pretty-field">
             {topics.length > 0 ? (
               topics.map(topic => (
                 <div
-                  className="pretty p-default p-curve p-fill p-bigger"
+                  className="pretty p-default p-curve"
                   key={topic.id}
                 >
                   <Field
