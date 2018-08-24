@@ -12,8 +12,7 @@ class Navbar extends Component {
     navbarMenu.classList.toggle('is-active');
   };
 
-  closeNavbarMenu = event => {
-    const navbarItem = event.target;
+  closeNavbarMenu = () => {
     const navbarMenu = document.getElementById('navPrimary');
     document.getElementById('burger').classList.remove('is-active');
     navbarMenu.classList.remove('is-active');

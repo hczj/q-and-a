@@ -7,7 +7,7 @@ import store from './store';
 import './socket';
 import './sass/index.scss';
 
-import { Navbar, CreateClassroom, ClassroomView } from './components';
+import { SiteHeader, CreateClassroom, ClassroomView } from './components';
 import Routes from './routes';
 
 const RouteToLayout = ({ component: Component, ...rest }) => (
@@ -16,7 +16,7 @@ const RouteToLayout = ({ component: Component, ...rest }) => (
 
 const MainLayout = () => (
   <Fragment>
-    <Navbar />
+    <SiteHeader />
     <div className="section">
       <div className="container">
         <Routes />
@@ -27,7 +27,7 @@ const MainLayout = () => (
 
 const AltLayout = () => (
   <Fragment>
-    <Navbar />
+    <SiteHeader />
     <Routes />
   </Fragment>
 );

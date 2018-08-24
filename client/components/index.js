@@ -1,4 +1,5 @@
 // root
+export { default as SiteHeader } from './site-header';
 export { default as Navbar } from './navbar';
 export { default as PageNotFound } from './page-not-found';
 export { default as Logo } from './logo';
