@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchThreads, fetchThread } from '../../store';
-import { Threads, MessageList, MessageForm, Header } from '../../components';
+import { Threads, MessageList, MessageForm } from '../../components';
 
 class Inbox extends Component {
   async componentDidMount() {

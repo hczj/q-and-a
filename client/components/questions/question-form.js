@@ -3,7 +3,6 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import {
   createQuestion,
-  fetchCategoriesByUser,
   fetchCategory,
   removeActiveCategory
 } from '../../store';
@@ -20,34 +19,27 @@ import { validateQuestion } from '../reusable/validate-field';
 
 class QuestionForm extends Component {
   componentDidMount() {
-    const { removeActiveCategory } = this.props;
-    removeActiveCategory();
+    this.props.removeActiveCategory();
   }
 
   handleCategoryChange = event => {
     const categoryId = +event.target.value;
-    const { removeActiveCategory, getCategory } = this.props;
 
     if (isNaN(categoryId)) {
-      removeActiveCategory();
+      this.props.removeActiveCategory();
     } else {
-      getCategory(categoryId);
+      this.props.getCategory(categoryId);
     }
   };
 
   handleQuestionSubmit = values => {
     const { title, description, categoryId, topic } = values;
-    const { addQuestion } = this.props;
-
-    const strTopicIds = keys(pickBy(topic));
-    const topicIds = strTopicIds.map(id => +id);
-
-    addQuestion({ title, description, categoryId, topicIds });
+    const topicIds = keys(pickBy(topic)).map(id => +id);
+    this.props.addQuestion({ title, description, categoryId, topicIds });
   };
 
   render() {
     const { pristine, reset, submitting, handleSubmit, category } = this.props;
-
     return (
       <Fragment>
         <Header title="Ask a question" />

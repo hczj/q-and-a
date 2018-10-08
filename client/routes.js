@@ -33,7 +33,6 @@ class Routes extends Component {
         />
         {isLoggedIn && (
           <Switch>
-            {/* LOGGED-IN ONLY ROUTES */}
             <Route path="/(login|signup)" render={() => <Redirect to="/dashboard" />} />
             <Route path="/manage" component={Manage} />
             <Route path="/dashboard" component={Dashboard} />
@@ -45,6 +44,7 @@ class Routes extends Component {
             />
             <Route exact path="/profile/:id" component={Profile} />
             <Route exact path="/messages" component={Inbox} />
+            <Route component={PageNotFound} />
           </Switch>
         )}
 

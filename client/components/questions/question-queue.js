@@ -19,19 +19,9 @@ import {
 
 class QuestionQueue extends Component {
   componentDidMount() {
-    const {
-      getQuestions,
-      category,
-      removeActiveCategory,
-      removeAllQuestions
-    } = this.props;
-
-    removeAllQuestions();
-    if (category) {
-      removeActiveCategory();
-    }
-
-    getQuestions();
+    this.props.removeAllQuestions();
+    if (this.props.category) this.props.removeActiveCategory();
+    this.props.getQuestions();
   }
 
   handleCategoryChange = async event => {
