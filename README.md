@@ -4,14 +4,6 @@ Q&A is ...
 
 This app was built during a two-week sprint as the capstone project for four students at Fullstack Academy in Chicago. The project requirements were to create a prototype application that incorporated web technologies learned during the program, as well as new technologies we were interested in exploring. We decided to work with WebRTC and WebSockets to create a platform designed for real-time collaboration.
 
-## Getting started
-
-...
-
-## Explore the app
-
-provide login credentials for a teacher and a student...
-
 ## Technologies
 
 * [React](https://reactjs.org) - JavaScript library for user interfaces
@@ -20,6 +12,28 @@ provide login credentials for a teacher and a student...
 * [Socket.io](https://socket.io/docs) - library for real-time communication between server and client
 * [Sequelize](http://docs.sequelizejs.com) - an ORM for database queries
 * [PostgreSQL](https://www.postgresql.org) - object-relational database management system
+
+## Getting started
+
+These technologies are required:
+
+* Node.js
+* PSQL
+
+### Setup
+
+* `npm install`
+* Create two PostgreSQL databases: `capstone` and `capstone-test`
+* `npm run seed`
+
+### Login credentials
+
+| Username | Password |
+| -------- | -------- |
+| teacher@example.com | test |
+| student@example.com | test |
+
+These credentials will work with the deployed application and a local install.
 
 ## Authors
 
@@ -31,7 +45,7 @@ provide login credentials for a teacher and a student...
 
 ## License
 
-This project is licensed under the MIT license.
+This project is licensed under the MIT License. See LICENSE.md for details.
 
 ## Video demonstration
 
