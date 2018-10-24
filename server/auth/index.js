@@ -62,5 +62,3 @@ router.get('/me', async (req, res, next) => {
     next(err);
   }
 });
-
-router.use('/google', require('./google'));

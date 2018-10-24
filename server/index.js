@@ -100,14 +100,12 @@ const createApp = () => {
 
 // secure server options
 const options = {
-  // key: fs.readFileSync(__dirname + 'server.key'),
-  // cert: fs.readFileSync(__dirname + 'server.cert')
   key: fs.readFileSync(__dirname + '/rtc-key.pem'),
   cert: fs.readFileSync(__dirname + '/rtc-cert.pem')
 }
 
 const startListening = () => {
-  // start listening (and create a 'server' object representing our server)
+
   // const server = https.createServer(options, app).listen(PORT, () => {
   //   console.log(`Mixing it up on port https://127.0.0.1:${PORT}`)
   // });

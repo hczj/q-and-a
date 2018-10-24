@@ -96,6 +96,28 @@ const organizations = [
 
 const users = [
   {
+    firstName: 'Teacher',
+    lastName: 'Test',
+    location: 'Chicago',
+    bio: loremIpsum,
+    email: 'teacher@example.com',
+    password: 'test',
+    isAdmin: false,
+    isTeacher: true,
+    imageUrl: 'https://randomuser.me/api/portraits/women/46.jpg'
+  },
+  {
+    firstName: 'Student',
+    lastName: 'Test',
+    location: 'Chicago',
+    bio: loremIpsum,
+    email: 'student@example.com',
+    password: 'test',
+    isAdmin: false,
+    isTeacher: true,
+    imageUrl: 'https://randomuser.me/api/portraits/women/39.jpg'
+  },
+  {
     firstName: 'Hollie',
     lastName: 'Lambert',
     location: 'Chicago',

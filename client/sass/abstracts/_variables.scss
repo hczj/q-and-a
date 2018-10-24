@@ -2,12 +2,8 @@
 // 1. Initial variables
 // ====================
 
-// $orange: #f67533;
 $yellow: #ffd12c;
 $green: #00d1b2;
-// $turquoise: #5cbbbc;
-// $cyan: #17a2b8;
-// $blue: #207ccd;
 $purple: #8420ff;
 $red: #d1001f;
 $pink: #fe13ff;
@@ -15,7 +11,6 @@ $pink: #fe13ff;
 $family-sans-serif: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI',
   Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol';
-// $family-serif: 'Kreon', 'Georgia', serif; // add a serif family
 
 $easing: ease-in-out;
 $speed: 118ms;
@@ -33,19 +28,6 @@ $secondary: $pink;
 $secondary-invert: findColorInvert($secondary);
 $link: $green;
 $link-invert: findColorInvert($link);
-// $info: ;
-// $info-invert: ;
-// $success: ;
-// $success-invert: ;
-// $warning: $orange;
-// $warning-invert: $orange-invert;
-// $danger: ;
-// $danger-invert: ;
-// $dark: ;
-// $dark-invert: ;
-// $text: ;
-// $text-invert: ;
-
 $colors: mergeColorMaps(
   (
     'white': ($white, $black),
@@ -75,57 +57,14 @@ $colors: mergeColorMaps(
 $body-background-color: #f7f6fb;
 
 $box-radius: 0;
-// $box-shadow: 0 1rem 3rem rgba($black, 0.175);
 $box-shadow: 0 .5rem 4rem -0.5rem rgba($black, 0.1);
-// $box-padding: 1.5rem;
-
-// $card-shadow: 0 .125rem .125rem rgba($black, 0.1);
-// $card-shadow-hover: 0 1.75rem 4rem -0.75rem rgba($black, 0.28);
-
-// $column-gap: 1.25rem;
-
-// $footer-background-color: $black-ter;
-
-// $menu-item-active-color: $grey-light;
-// $menu-item-active-background-color: $background;
 
 $message-background-color: #f1f0f0;
 $message-radius: 1em;
 
-// $message-body-border-color: $border;
 $message-body-border-width: 0;
-// $message-body-color: $text;
 $message-body-padding: 0.25em 0.75em;
 $message-body-radius: 1em;
-
-// $message-body-pre-background-color: $white;
-// $message-body-pre-code-background-color: transparent;
-
-// $navbar-item-color: rgba($light, 0.75);
-// $navbar-item-hover-color: rgba($light, 0.95);
-// $navbar-item-hover-background-color: transparent;
-// $navbar-item-active-color: $white;
-// $navbar-item-active-background-color: transparent;
-
-// $navbar-dropdown-background-color: $white;
-// $navbar-dropdown-border-top: 2px solid $border;
-// $navbar-dropdown-offset: -4px;
-// $navbar-dropdown-arrow: $link;
-// $navbar-dropdown-radius: $radius-large;
-// $navbar-dropdown-z: 20;
-
-// $navbar-dropdown-boxed-radius: $radius-large;
-// $navbar-dropdown-boxed-shadow: $card-shadow-hover;
-
-// $navbar-dropdown-item-hover-color: $black;
-// $navbar-dropdown-item-hover-background-color: $background;
-// $navbar-dropdown-item-active-color: $link;
-// $navbar-dropdown-item-active-background-color: $background;
-
-// $title-color: $light;
-// $title-weight: $weight-semibold;
-
-// $subtitle-color: rgba($light, 0.5);
 
 $switch-background-active: $primary;
 $content-table-cell-padding: .75em;
