@@ -83,7 +83,7 @@ const topics = [
   { name: PIANO, category: MUSIC },
   { name: GUITAR, category: MUSIC },
   { name: THEORY, category: MUSIC },
-  { name: EQUIPMENT, category: MUSIC },
+  { name: EQUIPMENT, category: MUSIC }
 ];
 
 const organizations = [
@@ -95,6 +95,28 @@ const organizations = [
 ];
 
 const users = [
+  {
+    firstName: 'Teacher',
+    lastName: 'Test',
+    location: 'Chicago',
+    bio: loremIpsum,
+    email: 'teacher@example.com',
+    password: 'test',
+    isAdmin: false,
+    isTeacher: true,
+    imageUrl: 'https://randomuser.me/api/portraits/women/46.jpg'
+  },
+  {
+    firstName: 'Student',
+    lastName: 'Test',
+    location: 'Chicago',
+    bio: loremIpsum,
+    email: 'student@example.com',
+    password: 'test',
+    isAdmin: false,
+    isTeacher: true,
+    imageUrl: 'https://randomuser.me/api/portraits/women/39.jpg'
+  },
   {
     firstName: 'Hollie',
     lastName: 'Lambert',
@@ -398,18 +420,18 @@ const questions = [
   /**
    * SCIENCE
    */
-   {
+  {
     title: `Where does NADP+ come from?`,
     description: `Trying to understand Photosynthesis better. I understand the NADP+ is reduced to NADPH in light dependent reactions and NADPH is then recycled back into NADP+ in the Calvin cycle. What I don't understand is where does the NADP+ come from initially?`,
     category: SCIENCE,
     topics: [BIOLOGY]
-   },
-   {
+  },
+  {
     title: `What chemical effect does stress cause in the body that causes so many problems?`,
     description: `I'm the kind of person who tries to understand how things work fundamentally. Can someone explain what chemical effects can occur because of stress and how a neurological state causes those changes?`,
     category: SCIENCE,
     topics: [BIOLOGY]
-   },
+  },
   {
     title: `How does NaCl maintain its crystalline structure?`,
     description: `My understanding is that NaCl is an ionic compound, in which Cl becomes (effectively) Cl− and Na becomes Na+. So I understand why I would get a "sea" of particles that would stick together. But why does the above mean that it will have a face centered cubic structure with the ions held in place so rigidly?`,
@@ -424,8 +446,8 @@ const questions = [
   },
 
   /**
-  * DESIGN
-  */
+   * DESIGN
+   */
   {
     title: `Is there an dynamically changing font?`,
     description: `I'm thinking something that isn't perfectly monospaced/spaced, but as you type it organically lays out the font with random splines or something and random spacing, but the splines would be contained inside a shape of a letter that would also be randomly scaled and rotated just slightly across each character stroke.`,
@@ -482,7 +504,7 @@ const questions = [
     description: `How can we acquire the ability to play a guitar or piano like singing (without thinking)? What kind of practice can help me achieve this goal ?`,
     category: MUSIC,
     topics: [THEORY]
-  },
+  }
 ];
 
 const feedbacks = [
@@ -686,7 +708,7 @@ const messages = [
   { content: `what do you think?` },
   { content: `are you studying this topic?` },
   { content: `Can you help me out?` },
-  { content: `I just need a few more minutes!` },
+  { content: `I just need a few more minutes!` }
 ];
 
 module.exports = {
