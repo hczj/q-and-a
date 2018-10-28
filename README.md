@@ -1,133 +1,60 @@
-# Boilermaker
+<p align="center">
+  <img src="./public/images/logo.png" alt="Q&A logo"/>
+</p>
 
-_Good things come in pairs_
+Q&A is an education-focused app that provides a platform for students to get their questions answered when they're not in class. Students can submit questions to a live queue and they'll be connected to a teacher in a video classroom, which includes educational tools such as a live whiteboard, code and text editor.
 
-Looking to mix up a backend with express/sequelize and a frontend with react/redux? That's `boilermaker`!
+This app was built during a two-week sprint as the capstone project for four students at [Fullstack Academy](https://www.fullstackacademy.com/) in Chicago. The project requirements were to create a prototype application that incorporated web technologies learned during the program, as well as new technologies we were interested in exploring. We decided to work with [WebRTC](https://webrtc.org) and [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) to create a learning platform designed for real-time collaboration.
 
-Follow along with the workshop to make your own! This canonical version can serve as a reference, or a starting point all on its own.
+## Tech Talk Presentation
 
-## Setup
+[![Q&A Demo Video](http://img.youtube.com/vi/gxCZrut25-c/0.jpg)](http://www.youtube.com/watch?v=gxCZrut25-c 'Q&A Demo')
 
-To use this boilerplate, you'll need to take the following steps:
+## Live Demo
 
-* Don't fork or clone this repo! Instead, create a new, empty directory on your machine and `git init` (or create an empty repo on Github and clone it to your local machine)
-* Run the following commands:
+https://q-and-a-fullstack.herokuapp.com/
 
-```
-git remote add boilermaker https://github.com/FullstackAcademy/boilermaker.git
-git fetch boilermaker
-git merge boilermaker/master
-```
+### Login credentials
 
-Why did we do that? Because every once in a while, `boilermaker` may be updated with additional features or bug fixes, and you can easily get those changes from now on by entering:
+| Username            | Password |
+| ------------------- | -------- |
+| teacher@example.com | test     |
+| student@example.com | test     |
 
-```
-git fetch boilermaker
-git merge boilermaker/master
-```
+These credentials will work with the deployed application and a local install.
 
-## Customize
+## Getting started
 
-Now that you've got the code, follow these steps to get acclimated:
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. You'll need:
 
-* Update project name and description in `package.json` and `.travis.yml` files
-* `npm install`, or `yarn install` - whatever you're into
-* Create two postgres databases: `boilermaker` and `boilermaker-test` (you can substitute these with the name of your own application - just be sure to go through and change the `package.json` and `.travis.yml` to refer to the new name)
-  * By default, running `npm test` will use `boilermaker-test`, while regular development uses `boilermaker`
-* Create a file called `secrets.js` in the project root
+- Node.js
+- PSQL
 
-  * This file is `.gitignore`'d, and will _only_ be required in your _development_ environment
-  * Its purpose is to attach the secret env variables that you'll use while developing
-  * However, it's **very** important that you **not** push it to Github! Otherwise, _prying eyes_ will find your secret API keys!
-  * It might look like this:
+### Setup
 
-  ```
-    process.env.GOOGLE_CLIENT_ID = 'hush hush'
-    process.env.GOOGLE_CLIENT_SECRET = 'pretty secret'
-    process.env.GOOGLE_CALLBACK = '/auth/google/callback'
-  ```
+- `npm install`
+- Create two PostgreSQL databases: `capstone` and `capstone-test`
+- `npm run seed`
+- `npm run start-dev`
+- Navigate to http://localhost:8080/
 
-* To use OAuth with Google, complete the step above with a real client ID and client secret from Google
-  * You can get them here: https://console.developers.google.com/apis/credentials
-* Finally, complete the section below to set up your linter
+## Technologies
 
-## Linting
+- [React](https://reactjs.org) - JavaScript library for building user interfaces
+- [Redux](https://redux.js.org) - front-end state management
+- [WebRTC](https://webrtc.org) - open-source APIs that provide browsers and apps with real-time communication
+- [Socket.io](https://socket.io/docs) - library for real-time communication between server and client
+- [Express](https://github.com/expressjs/express) - web framework for Node
+- [Sequelize](https://docs.sequelizejs.com) - an ORM for database queries
+- [PostgreSQL](https://www.postgresql.org) - object-relational database management system
 
-Linters are fundamental to any project - they ensure that your code has a consistent style, which is critical to writing readable code.
+## Developers
 
-Boilermaker comes with a working linter (ESLint, with `eslint-config-fullstack`) "out of the box." However, everyone has their own style, so we recommend that you and your team work out yours and stick to it. Any linter rule that you object to can be "turned off" in `.eslintrc.json`. You may also choose an entirely different config if you don't like ours:
+- [Hollie Lambert](https://github.com/hollielu)
+- [Chris Lusk](https://github.com/chrismlusk)
+- [Zohaib Farooqi](https://github.com/zobee29)
+- [Jerry Wu](https://github.com/wujerry573)
 
-* [Standard style guide](https://standardjs.com/)
-* [Airbnb style guide](https://github.com/airbnb/javascript)
-* [Google style guide](https://google.github.io/styleguide/jsguide.html)
+## Link to Demo Video
 
-## Start
-
-`npm run start-dev` will make great things happen!
-
-If you want to run the server and/or webpack separately, you can also `npm run start-server` and `npm run build-client`.
-
-From there, just follow your bliss.
-
-## Deployment
-
-Ready to go world wide? Here's a guide to deployment! There are two (compatible) ways to deploy:
-
-* automatically, via continuous integration
-* manually, from your local machine
-
-Either way, you'll need to set up your deployment server to start:
-
-### Prep
-
-1.  Set up the [Heroku command line tools](https://devcenter.heroku.com/articles/heroku-cli)
-2.  `heroku login`
-3.  Add a git remote for heroku:
-
-* **If you're creating a new app...**
-
-  1.  `heroku create` or `heroku create your-app-name` if you have a name in mind.
-  2.  `heroku addons:create heroku-postgresql:hobby-dev` to add ("provision") a postgres database to your heroku dyno
-
-* **If you already have a Heroku app...**
-
-  1.  `heroku git:remote your-app-name` You'll need to be a collaborator on the app.
-
-### When you're ready to deploy
-
-#### Option A: Automatic Deployment via Continuous Integration
-
-(_**NOTE**: This step assumes that you already have Travis-CI testing your code._)
-
-CI is not about testing per se – it's about _continuously integrating_ your changes into the live application, instead of periodically _releasing_ new versions. CI tools can not only test your code, but then automatically deploy your app. Boilermaker comes with a `.travis.yml` configuration almost ready for deployment; follow these steps to complete the job.
-
-1.  Run `git checkout master && git pull && git checkout -b f/travis-deploy` (or use some other new branch name).
-2.  Un-comment the bottom part of `.travis.yml` (the `before_deploy` and `deploy` sections)
-3.  Add your Heroku app name to `deploy.app`, where it says "YOUR HEROKU APP NAME HERE". For example, if your domain is `cool-salty-conifer.herokuapp.com`, your app name is `cool-salty-conifer`.
-4.  Install the Travis CLI tools by following [the instructions here](https://github.com/travis-ci/travis.rb#installation).
-5.  Run `travis encrypt $(heroku auth:token) --org` to encrypt your Heroku API key. _**Warning:** do not run the `--add` command suggested by Travis, that will rewrite part of our existing config!_
-6.  Copy-paste your encrypted API key into the `.travis.yml` file under `deploy.api_key.secure`, where it says "YOUR ENCRYPTED API KEY HERE".
-7.  `git add -A && git commit -m 'travis: activate deployment' && git push -u origin f/travis-deploy`
-8.  Make a PR for the new branch, get it approved, and merge it into master.
-
-That's it! From now on, whenever `master` is updated on GitHub, Travis will automatically push the app to Heroku for you.
-
-#### Option B: Manual Deployment from your Local Machine
-
-Some developers may prefer to control deployment rather than rely on automation. Your local copy of the application can be pushed up to Heroku at will, using Boilermaker's handy deployment script:
-
-1.  Make sure that all your work is fully committed and pushed to your master branch on Github.
-2.  If you currently have an existing branch called "deploy", delete it now (`git branch -d deploy`). We're going to use a dummy branch with the name "deploy" (see below), so if you have one lying around, the script below will error
-3.  `npm run deploy` - this will cause the following commands to happen in order:
-
-* `git checkout -b deploy`: checks out a new branch called "deploy". Note that the name "deploy" here isn't magical, but it needs to match the name of the branch we specify when we push to our heroku remote.
-* `webpack -p`: webpack will run in "production mode"
-* `git add -f public/bundle.js public/bundle.js.map`: "force" add the otherwise gitignored build files
-* `git commit --allow-empty -m 'Deploying'`: create a commit, even if nothing changed
-* `git push --force heroku deploy:master`: push your local "deploy" branch to the "master" branch on heroku
-* `git checkout master`: return to your master branch
-* `git branch -D deploy`: remove the deploy branch
-
-Now, you should be deployed!
-
-Why do all of these steps? The big reason is because we don't want our production server to be cluttered up with dev dependencies like webpack, but at the same time we don't want our development git-tracking to be cluttered with production build files like bundle.js! By doing these steps, we make sure our development and production environments both stay nice and clean!
+https://youtu.be/gxCZrut25-c
