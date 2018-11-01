@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({ user }) => (
+const ProfileCard = ({ user }) => (
   <div className="card">
     <div className="card-image">
       <figure className="image is-4by3">
@@ -16,3 +16,5 @@ export default ({ user }) => (
     </div>
   </div>
 );
+
+export default ProfileCard;

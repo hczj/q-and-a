@@ -7,7 +7,6 @@ import {
 import { notificationEvents } from './components/dashboard/dashboard';
 
 const clientSocket = io(window.location.origin);
-// const roomName = window.location.pathname;
 
 clientSocket.on('connect', () => {
   console.log('Socket connected!');

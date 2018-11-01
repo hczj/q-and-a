@@ -26,10 +26,7 @@ class Dashboard extends Component {
     this.props.getQuestionsByUser();
     this.props.getFeedback();
 
-    clientSocket.on('connected', roomUrl => {
-      console.log('THIS IS THE ROOM URL: ', roomUrl);
-      this.notify(roomUrl);
-    });
+    clientSocket.on('connected', roomUrl => this.notify(roomUrl));
 
     if (!this.props.isTeacher) {
       notificationEvents.emit('notification-join-room', this.props.user.id);
@@ -129,29 +126,6 @@ class Dashboard extends Component {
                 </div>
               </div>
             </section>
-
-
-
-
-            {/*<div className="columns">
-              <div className="column is-6">
-                {isTeacher ? (
-                  <Feedback feedback={feedback} />
-                ) : (
-                  <ActiveQuestions questions={questions} />
-                )}
-              </div>
-
-              <div className="column is-6">
-                <Topics
-                  topics={topics}
-                  isTeacher={isTeacher}
-                  removeTopic={this.removeTopic}
-                />
-                <AddATopic />
-              </div>
-            </div>*/}
-
         </div>
       </Fragment>
     );

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { auth } from '../../store';
 import { Login, Signup } from '../../components';
 
 class Auth extends Component {
@@ -22,7 +21,5 @@ class Auth extends Component {
 const mapState = state => ({
   isLoggedIn: !!state.me.isLoggedIn
 });
-
-const mapDispatch = dispatch => ({});
 
 export default connect(mapState)(Auth);

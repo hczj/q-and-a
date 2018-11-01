@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import ToggleFullScreen from './toggle-full-screen';
 import {
   IconExit,
@@ -13,27 +12,37 @@ const Toolbar = props => (
   <div className="classroom-toolbar">
     <div className="classroom-status">
       <span className="icon">
-        <i className="fas fa-circle"></i>
+        <i className="fas fa-circle" />
       </span>
       <span className="text in-progress">Call in Progress</span>
     </div>
     <div className="media-controls">
       <button
+        type="button"
         onClick={props.toggleAudio}
         className={`button button-audio is-${props.audio}`}
       >
         <IconAudio />
       </button>
       <button
+        type="button"
         onClick={props.toggleVideo}
         className={`button button-video is-${props.video}`}
       >
         <IconVideo />
       </button>
-      <button onClick={props.handleHangup} className="button button-hangup">
+      <button
+        type="button"
+        onClick={props.handleHangup}
+        className="button button-hangup"
+      >
         <IconHangup />
       </button>
-      <button onClick={ToggleFullScreen} className="button button-fullscreen">
+      <button
+        type="button"
+        onClick={ToggleFullScreen}
+        className="button button-fullscreen"
+      >
         <IconFullScreen />
       </button>
     </div>

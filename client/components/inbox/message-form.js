@@ -19,7 +19,6 @@ class MessageForm extends Component {
   };
 
   render() {
-    const { handleSubmit } = this.props;
     return (
       <form className="thread-message-form" onSubmit={this.handleMessageSubmit}>
         <textarea

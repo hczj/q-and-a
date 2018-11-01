@@ -147,20 +147,23 @@ class MediaContainer extends Component {
   handleError = err => console.log('error!', err);
 
   toggleEditor = () => {
-    const hasEditor = !this.state.editor ? 'has-editor' : '';
-    this.setState({ editor: hasEditor });
+    this.setState(prevState => ({
+      editor: !prevState.editor ? 'has-editor' : ''
+    }));
   };
 
   toggleWhiteboard = () => {
-    const hasWhiteboard = !this.state.whiteboard ? 'has-whiteboard' : '';
-    this.setState({ whiteboard: hasWhiteboard });
+    this.setState(prevState => ({
+      whiteboard: !prevState.whiteboard ? 'has-whiteboard' : ''
+    }));
   };
 
   toggleWhiteboardFullscreen = () => {
-    const isFullscreen =
-      this.state.whiteboard === 'has-whiteboard' ? 'is-fullscreen' : '';
-
-    this.setState({ whiteboard: `has-whiteboard ${isFullscreen}` });
+    this.setState(prevState => ({
+      whiteboard: `has-whiteboard ${
+        prevState.whiteboard === 'has-whiteboard' ? 'is-fullscreen' : ''
+      }`
+    }));
   };
 
   notifyClientRoomIsFull = () => {
@@ -245,15 +248,9 @@ class MediaContainer extends Component {
             draggable
           />
         </div>
-        <Whiteboard
-        // toggleWhiteboard={this.toggleWhiteboard}
-        // socket={this.props.mediaEvents}
-        />
-        <Editor
-        // toggleEditor={this.toggleEditor}
-        // socket={this.props.mediaEvents}
-        />
-        <FeedbackForm  />
+        <Whiteboard />
+        <Editor />
+        <FeedbackForm />
       </div>
     );
   }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
 import { fetchUsers, deleteUser } from '../../store';
 import { Header } from '../../components';
 
@@ -24,9 +23,7 @@ class Manage extends Component {
 
   render() {
     const { users, isLoading, isAdmin } = this.props;
-
     if (isLoading) return null;
-
     return (
       <div>
         <Header title="Manage" />

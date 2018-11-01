@@ -151,8 +151,6 @@ export default props => {
     );
   }
 
-  // if (type === 'checkbox') {}
-
   if (type === 'switch') {
     return (
       <div className="field">

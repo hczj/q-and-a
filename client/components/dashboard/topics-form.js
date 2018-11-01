@@ -15,18 +15,12 @@ class TopicsForm extends Component {
   }
 
   handleTopicsSubmit = data => {
-    const { addTopics } = this.props;
-    const { topic } = data;
-
-    const strTopicIds = keys(pickBy(topic));
-    const topicIds = strTopicIds.map(id => +id);
-
-    addTopics({ topicIds });
+    const topicIds = keys(pickBy(data.topic)).map(id => +id);
+    this.props.addTopics({ topicIds });
   };
 
   render() {
     const { pristine, reset, submitting, handleSubmit, topics } = this.props;
-
     return (
       <Fragment>
         <form onSubmit={handleSubmit(this.handleTopicsSubmit)}>
