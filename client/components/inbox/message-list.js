@@ -4,7 +4,7 @@ import { linkify } from '../../utils';
 const MessageList = ({ isLoading, thread, myId, notMe }) => (
   <Fragment>
     <div className="thread-header">
-      <span>{notMe}</span>
+      <span>{notMe.name}</span>
     </div>
     <div className={`thread-message-list ${isLoading ? 'is-loading' : ''}`}>
       {thread.messages &&
