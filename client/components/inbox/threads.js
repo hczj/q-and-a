@@ -3,16 +3,14 @@ import moment from 'moment';
 
 const Threads = ({ threads, myId, handleClick }) => (
   <Fragment>
-    {threads.map((thread, i) => {
-      const notMe =
-        thread.senderId === myId ? thread.receiver : thread.sender;
-
-      const lastMessage = thread.messages[0];
-
+    {threads.map((thread, index) => {
+      const { id, messages, receiver, sender, senderId } = thread;
+      const notMe = senderId === myId ? receiver : sender;
+      const lastMessage = messages[0];
       return (
         <div
-          key={thread.id}
-          className={`thread-list-item ${i === 0 ? 'is-active' : ''}`}
+          key={id}
+          className={`thread-list-item ${index === 0 ? 'is-active' : ''}`}
           onClick={event => handleClick(event, thread)}
         >
           <figure className="thread-list-item-figure">

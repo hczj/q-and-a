@@ -1,7 +1,6 @@
 import React from 'react';
 
 const MessageForm = ({ thread, sendMessage }) => {
-
   const handleMessageSubmit = data => {
     sendMessage({
       content: data,
