@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const User = props => (
-  <div {...props}>
-    {props.children}
-  </div>
+  <Fragment>
+    {props.children(props.me)}
+  </Fragment>
 );
 
-// User.propTypes = {
-//   children: PropTypes.func.isRequired
-// };
+User.propTypes = {
+  children: PropTypes.func.isRequired
+};
 
 const mapState = state => ({
   me: state.me
