@@ -7,7 +7,6 @@ import { meReducer as me, usersReducer as users } from './users';
 import questions from './questions';
 import categories from './categories';
 import classroom from './classroom';
-import { threadsReducer as threads, threadReducer as thread } from './threads';
 import feedback from './feedback';
 import organizations from './organizations';
 
@@ -18,8 +17,6 @@ const reducer = combineReducers({
   questions,
   categories,
   classroom,
-  threads,
-  thread,
   feedback,
   organizations
 });
@@ -35,6 +32,5 @@ export * from './users';
 export * from './questions';
 export * from './categories';
 export * from './classroom';
-export * from './threads';
 export * from './feedback';
 export * from './organizations';

@@ -1,66 +1,65 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchThreads, fetchThread, createMessage } from '../../store';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Threads, MessageList, MessageForm, User } from '../../components';
 
-class Inbox extends Component {
-  async componentDidMount() {
-    await this.props.getThreads();
-  }
+const Inbox = () => {
+  const [thread, setThread] = useState({});
+  const [threads, setThreads] = useState([]);
 
-  handleClick = (event, thread) => {
+  const fetchThread = async threadId => {
+    const { data } = await axios.get(`/api/threads/${threadId}`);
+    setThread(data);
+  };
+
+  const fetchThreads = async () => {
+    const { data } = await axios.get(`/api/threads/`);
+    setThreads(data);
+
+    if (!thread.id && data[0]) {
+      fetchThread(data[0].id);
+    }
+  };
+
+  useEffect(
+    () => {
+      fetchThreads();
+    },
+    [thread]
+  );
+
+  const handleClick = (event, thread) => {
     [...document.querySelectorAll('.thread-list-item')].map(el => {
       if (el.classList.contains('is-active')) {
         el.classList.remove('is-active');
       }
     });
     event.currentTarget.classList.add('is-active');
-    this.props.getThread(thread.id);
+    fetchThread(thread.id);
   };
 
-  render() {
-    const { threads, thread, sendMessage } = this.props;
-    if (!thread && !threads || !thread.sender && !thread.receiver) return null;
+  const sendMessage = async message => {
+    await axios.post(`/api/threads`, message);
+    fetchThread(thread.id);
+  };
 
-    return (
-      <User>
-        {({ id: myId }) => (
-          <div className="inbox">
-            <div className="thread-list">
-              <div className="thread-header">
-                <span>Messages</span>
-              </div>
-              <Threads
-                threads={threads}
-                myId={myId}
-                handleClick={this.handleClick}
-              />
+  return (
+    <User>
+      {({ id: myId }) => (
+        <div className="inbox">
+          <div className="thread-list">
+            <div className="thread-header">
+              <span>Messages</span>
             </div>
-            <div className="thread">
-              {thread && (
-                <MessageList
-                  thread={thread}
-                  myId={myId}
-                />
-              )}
-              <MessageForm thread={thread} sendMessage={sendMessage} />
-            </div>
+            <Threads threads={threads} myId={myId} handleClick={handleClick} />
           </div>
-        )}
-      </User>
-    );
-  }
-}
+          <div className="thread">
+            {thread.id && <MessageList thread={thread} myId={myId} />}
+            <MessageForm thread={thread} sendMessage={sendMessage} />
+          </div>
+        </div>
+      )}
+    </User>
+  );
+};
 
-const mapState = state => ({
-  threads: state.threads.all,
-  thread: state.thread
-});
-
-const mapDispatch = dispatch => ({
-  getThreads: () => dispatch(fetchThreads()),
-  getThread: threadId => dispatch(fetchThread(threadId)),
-  sendMessage: data => dispatch(createMessage(data))
-});
-
-export default connect(mapState, mapDispatch)(Inbox);
+export default Inbox;

@@ -7,6 +7,7 @@ const Threads = ({ threads, myId, handleClick }) => (
       const { id, messages, receiver, sender, senderId } = thread;
       const notMe = senderId === myId ? receiver : sender;
       const lastMessage = messages[0];
+
       return (
         <div
           key={id}

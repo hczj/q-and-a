@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -7,7 +8,6 @@ import {
   fetchUser,
   removeActiveQuestion,
   removeActiveUser,
-  createMessage,
   createClassroom,
   deleteClassroom
 } from '../../store';
@@ -49,14 +49,19 @@ class CreateClassroom extends Component {
     this.props.addRoom({ room, questionId, studentId, teacherId });
   }
 
+  sendMessage = async message => {
+    await axios.post(`/api/threads`, message);
+  }
+
   handleInvite = () => {
     const invitation = `Hi ${this.props.user.firstName}. I'm happy to help you with your question: "${this.props.question.title}". Join me in a video call at ${window.location.origin}/classroom/r/${this.state.room}.`;
 
-    this.props.sendInvite({
+    this.sendMessage({
       content: invitation,
       senderId: this.state.teacherId,
       receiverId: this.state.studentId
     });
+
     notificationEvents.emit('notification-join-room', this.state.studentId);
     notificationEvents.emit(
       'notification-to-student',
@@ -134,7 +139,6 @@ const mapDispatch = dispatch => ({
   loadInitialData: () => dispatch(me()),
   getQuestion: questionId => dispatch(fetchQuestion(questionId)),
   getUser: userId => dispatch(fetchUser(userId)),
-  sendInvite: data => dispatch(createMessage(data)),
   resetActive: () => {
     dispatch(removeActiveUser());
     dispatch(removeActiveQuestion());
