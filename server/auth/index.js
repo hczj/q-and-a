@@ -28,7 +28,7 @@ router.post('/login', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
   try {
     const newUser = await User.create(req.body);
-    const user = await User.findById(newUser.id, {
+    const user = await User.findByPk(newUser.id, {
       include: [{ model: Topic }, { model: Organization, include: [Category] }]
     });
     req.login(user, err => (err ? next(err) : res.json(user)));
@@ -50,7 +50,7 @@ router.post('/logout', (req, res) => {
 router.get('/me', async (req, res, next) => {
   try {
     if (req.user) {
-      const user = await User.findById(req.user.dataValues.id, {
+      const user = await User.findByPk(req.user.dataValues.id, {
         include: [
           { model: Topic },
           { model: Organization, include: [Category] }
