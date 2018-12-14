@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { Classroom, Question, User } = require('../db/models');
-const Op = require('sequelize').Op;
 const { isAdmin, isTeacher } = require('../utils');
 module.exports = router;
 
@@ -15,7 +14,7 @@ router.get('/', isAdmin, async (req, res, next) => {
 
 router.get('/:classroom', async (req, res, next) => {
   try {
-    const classroom = await Classroom.findById(req.params.classroom, {
+    const classroom = await Classroom.findByPk(req.params.classroom, {
       include: [
         {
           model: Question,

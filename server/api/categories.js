@@ -13,7 +13,7 @@ module.exports = router;
 // get all categories that user belongs to
 router.get('/', async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.dataValues.id);
+    const user = await User.findByPk(req.user.dataValues.id);
     const { organizationId } = user;
 
     const organizationCategories = await OrganizationCategory.findAll({
@@ -39,7 +39,7 @@ router.get('/', async (req, res, next) => {
 // get all topics in all categories you are interested in
 router.get('/topics', async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.dataValues.id);
+    const user = await User.findByPk(req.user.dataValues.id);
     const { organizationId } = user;
 
     const categories = await OrganizationCategory.findAll({
@@ -71,7 +71,7 @@ router.get('/topics', async (req, res, next) => {
 // get a specific category
 router.get('/:categoryId', async (req, res, next) => {
   try {
-    const category = await Category.findById(req.params.categoryId, {
+    const category = await Category.findByPk(req.params.categoryId, {
       include: [Topic]
     });
     res.json(category);

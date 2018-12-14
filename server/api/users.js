@@ -6,8 +6,7 @@ const {
   UserTopic,
   Category,
   Thread,
-  Message,
-  Organization
+  Message
 } = require('../db/models');
 const { isAdmin } = require('../utils');
 const Op = require('sequelize').Op;
@@ -26,7 +25,7 @@ router.get('/', async (req, res, next) => {
 // find a specific user
 router.get('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await User.findByPk(req.params.userId);
     res.json(user);
   } catch (err) {
     next(err);
@@ -157,7 +156,7 @@ router.delete('/me/topics/:topicId', async (req, res, next) => {
       }
     });
 
-    const topic = await Topic.findById(req.params.topicId);
+    const topic = await Topic.findByPk(req.params.topicId);
     res.status(201).send(topic);
   } catch (err) {
     next(err);

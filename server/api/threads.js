@@ -41,9 +41,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:threadId', async (req, res, next) => {
   try {
-    const myId = req.user.dataValues.id;
-
-    const thread = await Thread.findById(req.params.threadId, {
+    const thread = await Thread.findByPk(req.params.threadId, {
       include: [
         {
           model: User,

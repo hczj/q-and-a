@@ -13,7 +13,7 @@ module.exports = router;
 // get all questions in categories user is associated with
 router.get('/', async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.dataValues.id);
+    const user = await User.findByPk(req.user.dataValues.id);
     const { organizationId } = user;
 
     const categories = await OrganizationCategory.findAll({
@@ -49,7 +49,7 @@ router.get('/', async (req, res, next) => {
 // find a single question
 router.get('/:questionId', async (req, res, next) => {
   try {
-    const question = await Question.findById(req.params.questionId, {
+    const question = await Question.findByPk(req.params.questionId, {
       include: [
         {
           model: Topic,
@@ -115,7 +115,7 @@ router.put('/:questionId', async (req, res, next) => {
       }
     );
 
-    const question = await Question.findById(req.params.questionId, {
+    const question = await Question.findByPk(req.params.questionId, {
       include: [{ model: Topic }, { model: User }]
     });
 

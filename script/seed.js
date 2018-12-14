@@ -171,7 +171,7 @@ async function seed() {
       messages.map(async message => {
         const myMessage = await Message.create(message);
         const myThreadId = Math.floor(Math.random() * numOfThreads) + 1;
-        const myThread = await Thread.findById(myThreadId);
+        const myThread = await Thread.findByPk(myThreadId);
         await myMessage.setThread(myThread);
       })
     );
@@ -189,7 +189,7 @@ async function seed() {
 
   for (let x = 0; x < allMsgs.length; x++) {
     threadIds.push(allMsgs[x].dataValues.threadId);
-    const thread = await Thread.findById(threadIds[x], {
+    const thread = await Thread.findByPk(threadIds[x], {
       attributes: ['senderId', 'receiverId']
     });
     senderIds.push(thread.dataValues.senderId);
