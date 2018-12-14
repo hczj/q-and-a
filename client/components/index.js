@@ -55,6 +55,7 @@ export {
 export { default as TopicsInput } from './questions/topics-input';
 
 // reusable
+export { default as User } from './reusable/user';
 export { default as Button } from './reusable/button';
 export { default as CategoryDropdown } from './reusable/category-dropdown';
 export { default as Header } from './reusable/header';

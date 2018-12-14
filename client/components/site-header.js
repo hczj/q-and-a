@@ -1,14 +1,23 @@
-import React, { Component } from 'react';
-import { Navbar } from '../components';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Navbar, User } from '../components';
 
-const SiteHeader = ({ bgColor }) => (
-  <header className="header">
-    <Navbar bgColor={bgColor} />
-    <div className="shapes">
-      <span />
-      <span />
-    </div>
-  </header>
+const SiteHeader = props => (
+  <User>
+    {me => (
+      <header className="header">
+        <Navbar {...props} me={me} />
+        <div className="shapes">
+          <span />
+          <span />
+        </div>
+      </header>
+    )}
+  </User>
 );
 
-export default SiteHeader;
+const mapDispatch = dispatch => ({
+  handleLogout: () => dispatch(logout())
+});
+
+export default connect(null, mapDispatch)(SiteHeader);
