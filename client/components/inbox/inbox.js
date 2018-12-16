@@ -12,11 +12,15 @@ const Inbox = () => {
   };
 
   const fetchThreads = async () => {
-    const { data } = await axios.get(`/api/threads/`);
-    setThreads(data);
+    try {
+      const { data } = await axios.get(`/api/threads/`);
+      setThreads(data);
 
-    if (!thread.id && data[0]) {
-      fetchThread(data[0].id);
+      if (!thread.id && data[0]) {
+        fetchThread(data[0].id);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 

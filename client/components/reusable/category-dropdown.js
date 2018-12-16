@@ -1,34 +1,32 @@
-import React, { Fragment, Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchCategories } from '../../store';
+import React, { Fragment, useState, useEffect } from 'react';
+import axios from 'axios';
 
-class CategoryDropdown extends Component {
-  componentDidMount() {
-    this.props.getCategories();
-  }
+const CategoryDropdown = props => {
+  const [categories, setCategories] = useState([]);
 
-  render() {
-    const { defaultOption, categories } = this.props;
-    if (!categories) return null;
-    return (
-      <Fragment>
-        <option>{defaultOption}</option>
-        {categories.map(category => (
-          <option key={category.id} value={+category.id}>
-            {category.name}
-          </option>
-        ))}
-      </Fragment>
-    );
-  }
-}
+  const fetchCategories = async () => {
+    try {
+      const { data } = await axios.get('/api/categories');
+      setCategories(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-const mapState = state => ({
-  categories: state.categories.all
-});
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
-const mapDispatch = dispatch => ({
-  getCategories: () => dispatch(fetchCategories())
-});
+  return (
+    <Fragment>
+      <option>{props.defaultOption}</option>
+      {categories.map(category => (
+        <option key={category.id} value={+category.id}>
+          {category.name}
+        </option>
+      ))}
+    </Fragment>
+  );
+};
 
-export default connect(mapState, mapDispatch)(CategoryDropdown);
+export default CategoryDropdown;

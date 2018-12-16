@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Navbar, User } from '../components';
+import { logout } from '../store';
 
 const SiteHeader = props => (
   <User>
@@ -20,4 +22,4 @@ const mapDispatch = dispatch => ({
   handleLogout: () => dispatch(logout())
 });
 
-export default connect(null, mapDispatch)(SiteHeader);
+export default withRouter(connect(null, mapDispatch)(SiteHeader));

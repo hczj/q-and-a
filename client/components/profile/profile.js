@@ -17,7 +17,7 @@ class Profile extends React.Component {
           <ProfileCard user={user} />
         </div>
         <div className="column">
-          <ProfileTopics user={user} />
+          {user.topics && <ProfileTopics topics={user.topics} />}
         </div>
       </div>
     );

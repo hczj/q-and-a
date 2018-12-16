@@ -1,8 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import {
-  Queue,
+  Question,
   Header,
-  NothingHere,
   Button,
   CategoryDropdown
 } from '../../components';
@@ -49,7 +48,7 @@ class QuestionQueue extends Component {
   };
 
   render() {
-    const { questions, isTeacher, category } = this.props;
+    const { questions, isTeacher, category, myId } = this.props;
     return (
       <Fragment>
         <nav className="level">
@@ -95,11 +94,15 @@ class QuestionQueue extends Component {
 
           <hr />
 
-          {questions.length ? (
-            <Queue closeQuestion={this.closeQuestion} />
-          ) : (
-            <NothingHere />
-          )}
+          {questions.map(question => (
+            <Question
+              key={question.id}
+              question={question}
+              isTeacher={isTeacher}
+              closeQuestion={this.closeQuestion}
+              myId={myId}
+            />
+          ))}
         </div>
       </Fragment>
     );
@@ -108,9 +111,9 @@ class QuestionQueue extends Component {
 
 const mapState = state => ({
   questions: state.questions.all,
-  isLoading: state.questions.isLoading,
   category: state.categories.active,
-  isTeacher: state.me.isTeacher
+  isTeacher: state.me.isTeacher,
+  myId: state.me.id
 });
 
 const mapDispatch = dispatch => ({

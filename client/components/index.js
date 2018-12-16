@@ -48,7 +48,6 @@ export { default as Profile } from './profile/profile';
 export { default as QuestionForm } from './questions/question-form';
 export { default as QuestionQueue } from './questions/question-queue';
 export { default as Question } from './questions/question';
-export { default as Queue } from './questions/queue';
 export {
   default as SingleQuestionView
 } from './questions/single-question-view';
