@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { createFeedback, updateQuestion } from '../../store';
-import { Header, ValidateField } from '../../components';
+import { ValidateField } from '../../components';
 import { validateFeedback } from '../reusable/validate-field';
 
 class FeedbackForm extends Component {

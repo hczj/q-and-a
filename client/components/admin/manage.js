@@ -1,15 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
+import { useMe } from '../../hooks';
 import { Header } from '../../components';
 
+const initialState = {
+  users: []
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'RECEIVE_USERS':
+      return {
+        ...state,
+        users: action.users
+      };
+
+    case 'DELETE_USER':
+      return {
+        ...state,
+        users: state.users.filter(user => user.id !== action.userId)
+      };
+
+    default:
+      return state;
+  }
+};
+
 const Manage = props => {
-  const [users, setUsers] = useState([]);
+  const { id: myId } = useMe();
+
+  const [{ users }, dispatch] = useReducer(reducer, initialState);
 
   const fetchUsers = async () => {
     try {
       const { data } = await axios.get('/api/users');
-      setUsers(data);
+      dispatch({
+        type: 'RECEIVE_USERS',
+        users: data
+      });
     } catch (err) {
       console.error(err);
     }
@@ -22,7 +50,7 @@ const Manage = props => {
   const handleDelete = async (event, user) => {
     event.preventDefault();
 
-    if (user.id === props.myId) {
+    if (user.id === myId) {
       if (confirm('You are about to delete yourself! Are you sure?')) {
         await axios.delete(`/api/users/${user.id}`);
       }
@@ -30,7 +58,10 @@ const Manage = props => {
       await axios.delete(`/api/users/${user.id}`);
     }
 
-    fetchUsers();
+    dispatch({
+      type: 'DELETE_USER',
+      userId: user.id
+    });
   };
 
   return (
@@ -83,9 +114,4 @@ const Manage = props => {
   );
 };
 
-const mapState = state => ({
-  isAdmin: !!state.me.isAdmin,
-  myId: state.me.id
-});
-
-export default connect(mapState)(Manage);
+export default Manage;

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 import { setVideo, setAudio, deleteClassroom } from '../../store';
 import Toolbar from './toolbar';
 import Menu from './menu';
@@ -126,4 +126,4 @@ const mapDispatch = dispatch => ({
   removeRoom: room => dispatch(deleteClassroom(room))
 });
 
-export default withRouter(connect(mapState, mapDispatch)(ControlContainer));
+export default (connect(mapState, mapDispatch)(ControlContainer));

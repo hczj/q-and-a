@@ -16,8 +16,13 @@
   text-align: center;
   z-index: 9;
 
-  & > span {
+  & > a {
+    color: inherit;
     font-weight: $weight-medium;
+
+    &:hover {
+      color: $link;
+    }
   }
 }
 

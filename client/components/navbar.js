@@ -1,8 +1,25 @@
-import React, { Fragment } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { Fragment, useContext } from 'react';
+import { Link, navigate } from '@reach/router';
+import axios from 'axios';
 import { Logo } from '../components';
+import { MeContext } from '../context';
+
+const NavLink = ({ extraClassNames, ...rest }) => (
+  <Link
+    {...rest}
+    getProps={({ isCurrent }) => {
+      return {
+        className: `navbar-item ${extraClassNames} ${
+          isCurrent ? 'is-active' : null
+        }`
+      };
+    }}
+  />
+);
 
 const Navbar = props => {
+  const me = useContext(MeContext);
+
   const toggleNavbarMenu = event => {
     const navbarBurger = event.target;
     const navbarMenu = document.getElementById('navPrimary');
@@ -16,13 +33,17 @@ const Navbar = props => {
     navbarMenu.classList.remove('is-active');
   };
 
-  const { handleLogout, bgColor, me } = props;
+  const handleLogout = async () => {
+    try {
+      await axios.post('/auth/logout');
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
-    <nav
-      className="navbar is-primary"
-      style={{ background: `${bgColor ? bgColor : ''}` }}
-    >
+    <nav className="navbar is-primary" style={props.bgColor}>
       <div className="container">
         <div className="navbar-brand">
           <Link to="/" className="navbar-item has-background-primary">
@@ -43,24 +64,13 @@ const Navbar = props => {
           <div className="navbar-end">
             {me.id ? (
               <Fragment>
-                {/* The navbar will show these links after you log in */}
-                <NavLink
-                  to="/questions"
-                  className="navbar-item"
-                  activeClassName="is-active"
-                  onClick={closeNavbarMenu}
-                >
+                <NavLink to="/questions" onClick={closeNavbarMenu}>
                   <span>Questions</span>
                   <span className="icon">
                     <i className="fas fa-question-circle" />
                   </span>
                 </NavLink>
-                <NavLink
-                  to="/messages"
-                  className="navbar-item"
-                  activeClassName="is-active"
-                  onClick={closeNavbarMenu}
-                >
+                <NavLink to="/messages" onClick={closeNavbarMenu}>
                   <span>Messages</span>
                   <span className="icon">
                     <i className="fas fa-comment-dots" />
@@ -72,9 +82,8 @@ const Navbar = props => {
                   </div>
                   <div className="navbar-dropdown">
                     <NavLink
-                      exact
                       to="/dashboard"
-                      className="navbar-item navbar-dropdown-header"
+                      extraClassNames="navbar-dropdown-header"
                       onClick={closeNavbarMenu}
                     >
                       <span>
@@ -83,49 +92,21 @@ const Navbar = props => {
                       <span>{me.email}</span>
                     </NavLink>
                     <hr className="navbar-divider" />
-                    <NavLink
-                      exact
-                      to="/dashboard"
-                      className="navbar-item"
-                      activeClassName="is-active"
-                      onClick={closeNavbarMenu}
-                    >
+                    <NavLink to="/dashboard" onClick={closeNavbarMenu}>
                       My Dashboard
                     </NavLink>
-                    <NavLink
-                      to={`/profile/${me.id}`}
-                      className="navbar-item"
-                      activeClassName="is-active"
-                      onClick={closeNavbarMenu}
-                    >
+                    <NavLink to={`/profile/${me.id}`} onClick={closeNavbarMenu}>
                       My Profile
                     </NavLink>
                     {me.isTeacher ? (
-                      <NavLink
-                        to="/dashboard/feedback"
-                        className="navbar-item"
-                        activeClassName="is-active"
-                      >
-                        My Feedback
-                      </NavLink>
+                      <NavLink to="/dashboard/feedback">My Feedback</NavLink>
                     ) : (
-                      <NavLink
-                        to="/questions"
-                        className="navbar-item"
-                        activeClassName="is-active"
-                      >
-                        My Questions
-                      </NavLink>
+                      <NavLink to="/questions">My Questions</NavLink>
                     )}
                     <hr className="navbar-divider" />
                     {me.isAdmin && (
                       <Fragment>
-                        <NavLink
-                          to="/manage"
-                          className="navbar-item"
-                          activeClassName="is-active"
-                          onClick={closeNavbarMenu}
-                        >
+                        <NavLink to="/manage" onClick={closeNavbarMenu}>
                           Manage
                         </NavLink>
                         <hr className="navbar-divider" />
@@ -139,24 +120,15 @@ const Navbar = props => {
               </Fragment>
             ) : (
               <Fragment>
-                {/* The navbar will show these links before you log in */}
                 <div className="navbar-item">
                   <div className="field is-grouped">
                     <p className="control">
-                      <NavLink
-                        to="/login"
-                        className="button is-light"
-                        activeClassName="is-active"
-                      >
+                      <NavLink to="/login" extraClassNames="button is-light">
                         Sign in
                       </NavLink>
                     </p>
                     <p className="control">
-                      <NavLink
-                        to="/signup"
-                        className="button is-link"
-                        activeClassName="is-active"
-                      >
+                      <NavLink to="/signup" extraClassNames="button is-link">
                         Sign Up
                       </NavLink>
                     </p>

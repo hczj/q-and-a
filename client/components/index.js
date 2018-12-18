@@ -1,23 +1,20 @@
 // root
-export { default as SiteHeader } from './site-header';
-export { default as Navbar } from './navbar';
-export { default as PageNotFound } from './page-not-found';
-export { default as Logo } from './logo';
+export { default as SiteHeader } from './SiteHeader';
+export { default as PageNotFound } from './PageNotFound';
+export { default as Logo } from './Logo';
 
 // admin
 export { default as Manage } from './admin/manage';
 
 // auth
-export { Login, Signup } from './auth/auth-form';
-export { default as Auth } from './auth/auth';
-export { default as OrganizationDropdown } from './auth/organization-dropdown';
+export { default as Auth } from './Auth';
 
 // classroom
-export { default as CreateClassroom } from './classroom/create-classroom';
-export { default as ClassroomView } from './classroom/classroom-view';
-export { default as MediaContainer } from './classroom/media-container';
-export { default as ControlContainer } from './classroom/control-container';
-export { default as FeedbackForm } from './classroom/feedback-form';
+export { default as CreateClassroom } from './Classroom/create-classroom';
+export { default as ClassroomView } from './Classroom/classroom-view';
+export { default as MediaContainer } from './Classroom/media-container';
+export { default as ControlContainer } from './Classroom/control-container';
+export { default as FeedbackForm } from './Classroom/feedback-form';
 
 // dashboard
 export { default as ActiveQuestions } from './dashboard/active-questions';
@@ -34,24 +31,13 @@ export { default as Topics } from './dashboard/topics';
 export { default as UsersOnline } from './dashboard/users-online';
 
 // inbox
-export { default as Inbox } from './inbox/inbox';
-export { default as MessageForm } from './inbox/message-form';
-export { default as MessageList } from './inbox/message-list';
-export { default as Threads } from './inbox/threads';
+export { default as Inbox } from './Inbox';
 
 // profile
-export { default as ProfileCard } from './profile/profile-card';
-export { default as ProfileTopics } from './profile/profile-topics';
-export { default as Profile } from './profile/profile';
+export { default as Profile } from './Profile';
 
 // questions
-export { default as QuestionForm } from './questions/question-form';
-export { default as QuestionQueue } from './questions/question-queue';
-export { default as Question } from './questions/question';
-export {
-  default as SingleQuestionView
-} from './questions/single-question-view';
-export { default as TopicsInput } from './questions/topics-input';
+export { default as Questions } from './Questions';
 
 // reusable
 export { default as User } from './reusable/user';

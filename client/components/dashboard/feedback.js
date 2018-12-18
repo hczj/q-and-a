@@ -1,6 +1,6 @@
 import React from 'react';
 import { FeedbackRow } from '../../components';
-import { Link } from 'react-router-dom';
+import { Link } from '@reach/router';
 
 const Feedback = ({ feedback }) => (
   <div className="tile is-child box" style={{ padding: 0 }}>

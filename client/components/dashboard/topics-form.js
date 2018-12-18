@@ -6,8 +6,8 @@ import {
   removeAllCategories
 } from '../../store';
 import { connect } from 'react-redux';
-import pickBy from 'lodash.pickby';
-import keys from 'lodash.keys';
+import pickBy from 'lodash/pickby';
+import keys from 'lodash/keys';
 
 class TopicsForm extends Component {
   componentDidMount() {

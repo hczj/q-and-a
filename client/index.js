@@ -1,55 +1,68 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Switch, Route } from 'react-router-dom';
-import history from './history';
+import { Router } from '@reach/router';
+import ErrorBoundary from 'react-error-boundary';
 import store from './store';
-import './socket';
-import './sass/index.scss';
-
 import { SiteHeader, CreateClassroom, ClassroomView } from './components';
 import Routes from './routes';
+import { useMe } from './hooks';
+import { MeContext } from './context';
+import './sass/index.scss';
+import './socket';
 
-const RouteToLayout = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={props => <Component {...props} />} />
-);
+const MainLayout = props => {
+  const { pathname: path } = props.location;
+  const bg = path !== '/messages' ? { background: 'transparent' } : null;
 
-const MainLayout = () => (
-  <Fragment>
-    <SiteHeader bgColor="transparent" />
-    <div className="section">
-      <div className="container">
+  return (
+    <Fragment>
+      <SiteHeader bgColor={bg} />
+      {path === '/messages' ? (
         <Routes />
-      </div>
-    </div>
-  </Fragment>
+      ) : (
+        <div className="section">
+          <div className="container">
+            <Routes />
+          </div>
+        </div>
+      )}
+    </Fragment>
+  );
+};
+
+const LoadingFallback = ({ children }) => (
+  <div>
+    <h1 className="title is-1">{children}</h1>
+  </div>
 );
 
-const AltLayout = () => (
-  <Fragment>
-    <SiteHeader />
-    <Routes />
-  </Fragment>
+const ErrorFallback = ({ error }) => (
+  <div style={{ margin: '2rem' }}>
+    <h1 className="title is-3">Whoops!</h1>
+    <p>There was an error</p>
+    <pre>{JSON.stringify(error, null, 2)}</pre>
+  </div>
 );
 
-const ClassroomLayout = () => (
-  <Fragment>
-    <Switch>
-      <Route exact path="/classroom" component={CreateClassroom} />
-      <Route path="/classroom/r/:room" component={ClassroomView} />
-    </Switch>
-  </Fragment>
-);
+const App = () => {
+  const me = useMe();
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <Switch>
-        <RouteToLayout path="/classroom" component={ClassroomLayout} />
-        <RouteToLayout exact path="/messages" component={AltLayout} />
-        <RouteToLayout component={MainLayout} />
-      </Switch>
-    </Router>
-  </Provider>,
-  document.getElementById('app')
-);
+  return (
+    <Provider store={store}>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Suspense fallback={<LoadingFallback>Loading...</LoadingFallback>}>
+          <MeContext.Provider value={me}>
+            <Router>
+              <CreateClassroom path="/classroom" />
+              <ClassroomView path="/classroom/r/:room" />
+              <MainLayout default />
+            </Router>
+          </MeContext.Provider>
+        </Suspense>
+      </ErrorBoundary>
+    </Provider>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('app'));

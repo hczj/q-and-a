@@ -46,12 +46,12 @@ router.get('/:threadId', async (req, res, next) => {
         {
           model: User,
           as: 'sender',
-          attributes: ['firstName', 'lastName', 'imageUrl']
+          attributes: ['id', 'firstName', 'lastName', 'imageUrl']
         },
         {
           model: User,
           as: 'receiver',
-          attributes: ['firstName', 'lastName', 'imageUrl']
+          attributes: ['id', 'firstName', 'lastName', 'imageUrl']
         },
         {
           model: Message,
