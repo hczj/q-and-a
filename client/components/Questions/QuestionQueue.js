@@ -1,22 +1,14 @@
-import React, { Fragment, Component, useState, useEffect, useReducer, useContext } from 'react';
-
+import React, {
+  Fragment,
+  useState,
+  useEffect,
+  useReducer,
+  useContext
+} from 'react';
 import axios from 'axios';
-
 import QuestionCard from './QuestionCard';
 import { Header, Button, CategoryDropdown } from '../../components';
-import {
-  fetchQuestions,
-  fetchQuestionsByCategory,
-  removeActiveCategory,
-  fetchCategory,
-  removeAllQuestions,
-  updateQuestion
-} from '../../store';
-
 import { MeContext } from '../../context';
-
-
-
 
 const initialState = {
   questions: [],
@@ -43,7 +35,7 @@ const reducer = (state, action) => {
 };
 
 const QuestionQueue = props => {
-  const me = useContext(MeContext);
+  const { me } = useContext(MeContext);
 
   const [category, setCategory] = useState({});
   const fetchCategory = async () => {

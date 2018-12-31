@@ -1,6 +1,6 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { useMe } from '../../hooks';
+import { MeContext } from '../../context';
 import { Header } from '../../components';
 
 const initialState = {
@@ -26,8 +26,8 @@ const reducer = (state, action) => {
   }
 };
 
-const Manage = props => {
-  const { id: myId } = useMe();
+const Manage = () => {
+  const { me } = useContext(MeContext);
 
   const [{ users }, dispatch] = useReducer(reducer, initialState);
 
@@ -50,7 +50,7 @@ const Manage = props => {
   const handleDelete = async (event, user) => {
     event.preventDefault();
 
-    if (user.id === myId) {
+    if (user.id === me.id) {
       if (confirm('You are about to delete yourself! Are you sure?')) {
         await axios.delete(`/api/users/${user.id}`);
       }

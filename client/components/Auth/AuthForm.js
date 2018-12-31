@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { connect } from 'react-redux';
 import { Link } from '@reach/router';
 import { Field, reduxForm } from 'redux-form';
 import OrganizationDropdown from './OrganizationDropdown';
 import { Header, ValidateField } from '../../components';
-import { auth } from '../../store';
+import { MeContext } from '../../context';
 import { validateLogin, validateSignup } from '../reusable/validate-field';
 
 const AuthForm = props => {
@@ -12,12 +12,38 @@ const AuthForm = props => {
     formName,
     displayName,
     subtitle,
-    handleSubmit,
-    error,
+    // error,
     pristine,
     submitting,
     history
   } = props;
+
+  const { authorize } = useContext(MeContext);
+
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    const {
+      name: formName,
+      email,
+      password,
+      firstName,
+      lastName,
+      organizationId,
+      isTeacher
+    } = event.target;
+
+    const formData = {
+      email: email.value,
+      password: password.value,
+      firstName: firstName ? firstName.value : null,
+      lastName: lastName ? lastName.value : null,
+      organizationId: organizationId ? organizationId.value : null,
+      isTeacher: isTeacher ? isTeacher.value : null,
+    };
+
+    authorize(formData, formName);
+  };
 
   return (
     <div style={{ marginTop: '7rem' }}>
@@ -156,8 +182,7 @@ const mapLogin = state => ({
   displayName: 'Welcome back!',
   subtitle: 'Please sign in to proceed',
   linkName: 'signup',
-  linkDisplayName: 'Sign Up',
-  error: state.me.error
+  linkDisplayName: 'Sign Up'
 });
 
 const mapSignup = state => ({
@@ -165,29 +190,8 @@ const mapSignup = state => ({
   displayName: 'Welcome!',
   subtitle: 'Create an account to join us',
   linkName: 'login',
-  linkDisplayName: 'Sign in',
-  error: state.me.error
+  linkDisplayName: 'Sign in'
 });
 
-const mapDispatch = dispatch => {
-  return {
-    handleSubmit(event) {
-      event.preventDefault();
-      const formName = event.target.name;
-      const formData = {
-        email: event.target.email.value,
-        password: event.target.password.value
-      };
-      if (formName === 'signup') {
-        formData.firstName = event.target.firstName.value;
-        formData.lastName = event.target.lastName.value;
-        formData.organizationId = event.target.organizationId.value;
-        formData.isTeacher = event.target.isTeacher.value;
-      }
-      dispatch(auth(formData, formName));
-    }
-  };
-};
-
-export const Login = connect(mapLogin, mapDispatch)(WrappedLogin);
-export const Signup = connect(mapSignup, mapDispatch)(WrappedSignup);
+export const Login = connect(mapLogin)(WrappedLogin);
+export const Signup = connect(mapSignup)(WrappedSignup);
