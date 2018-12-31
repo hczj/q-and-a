@@ -1,9 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { createLogger } from 'redux-logger';
+// import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { reducer as form } from 'redux-form';
-import { meReducer as me, usersReducer as users } from './users';
+import { usersReducer as users } from './users';
 import questions from './questions';
 import categories from './categories';
 import classroom from './classroom';
@@ -12,7 +12,6 @@ import organizations from './organizations';
 
 const reducer = combineReducers({
   form,
-  me,
   users,
   questions,
   categories,
