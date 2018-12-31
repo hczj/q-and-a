@@ -1,6 +1,5 @@
-import React, { Fragment, useContext } from 'react';
-import { Link, navigate } from '@reach/router';
-import axios from 'axios';
+import React, { Fragment, useContext, useRef } from 'react';
+import { Link } from '@reach/router';
 import { Logo } from '../components';
 import { MeContext } from '../context';
 
@@ -18,28 +17,13 @@ const NavLink = ({ extraClassNames, ...rest }) => (
 );
 
 const Navbar = props => {
-  const me = useContext(MeContext);
+  const { me, logout } = useContext(MeContext);
+  const navbarMenu = useRef(null);
+  const navbarBurger = useRef(null);
 
-  const toggleNavbarMenu = event => {
-    const navbarBurger = event.target;
-    const navbarMenu = document.getElementById('navPrimary');
-    navbarBurger.classList.toggle('is-active');
-    navbarMenu.classList.toggle('is-active');
-  };
-
-  const closeNavbarMenu = () => {
-    const navbarMenu = document.getElementById('navPrimary');
-    document.getElementById('burger').classList.remove('is-active');
-    navbarMenu.classList.remove('is-active');
-  };
-
-  const handleLogout = async () => {
-    try {
-      await axios.post('/auth/logout');
-      navigate('/');
-    } catch (err) {
-      console.error(err);
-    }
+  const toggleNavbarMenu = () => {
+    navbarBurger.current.classList.toggle('is-active');
+    navbarMenu.current.classList.toggle('is-active');
   };
 
   return (
@@ -50,7 +34,7 @@ const Navbar = props => {
             <Logo />
           </Link>
           <div
-            id="burger"
+            ref={navbarBurger}
             className="navbar-burger burger"
             onClick={toggleNavbarMenu}
             data-target="navPrimary"
@@ -60,17 +44,17 @@ const Navbar = props => {
             <span />
           </div>
         </div>
-        <div id="navPrimary" className="navbar-menu">
+        <div id="navPrimary" ref={navbarMenu} className="navbar-menu">
           <div className="navbar-end">
             {me.id ? (
               <Fragment>
-                <NavLink to="/questions" onClick={closeNavbarMenu}>
+                <NavLink to="/questions" onClick={toggleNavbarMenu}>
                   <span>Questions</span>
                   <span className="icon">
                     <i className="fas fa-question-circle" />
                   </span>
                 </NavLink>
-                <NavLink to="/messages" onClick={closeNavbarMenu}>
+                <NavLink to="/messages" onClick={toggleNavbarMenu}>
                   <span>Messages</span>
                   <span className="icon">
                     <i className="fas fa-comment-dots" />
@@ -84,7 +68,7 @@ const Navbar = props => {
                     <NavLink
                       to="/dashboard"
                       extraClassNames="navbar-dropdown-header"
-                      onClick={closeNavbarMenu}
+                      onClick={toggleNavbarMenu}
                     >
                       <span>
                         {me.firstName} {me.lastName}
@@ -92,10 +76,13 @@ const Navbar = props => {
                       <span>{me.email}</span>
                     </NavLink>
                     <hr className="navbar-divider" />
-                    <NavLink to="/dashboard" onClick={closeNavbarMenu}>
+                    <NavLink to="/dashboard" onClick={toggleNavbarMenu}>
                       My Dashboard
                     </NavLink>
-                    <NavLink to={`/profile/${me.id}`} onClick={closeNavbarMenu}>
+                    <NavLink
+                      to={`/profile/${me.id}`}
+                      onClick={toggleNavbarMenu}
+                    >
                       My Profile
                     </NavLink>
                     {me.isTeacher ? (
@@ -106,13 +93,13 @@ const Navbar = props => {
                     <hr className="navbar-divider" />
                     {me.isAdmin && (
                       <Fragment>
-                        <NavLink to="/manage" onClick={closeNavbarMenu}>
+                        <NavLink to="/manage" onClick={toggleNavbarMenu}>
                           Manage
                         </NavLink>
                         <hr className="navbar-divider" />
                       </Fragment>
                     )}
-                    <a href="#" onClick={handleLogout} className="navbar-item">
+                    <a href="#" onClick={logout} className="navbar-item">
                       Logout
                     </a>
                   </div>

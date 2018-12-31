@@ -1,63 +1,35 @@
 import React, { useContext } from 'react';
-import { Router, Redirect } from '@reach/router';
+import { Router } from '@reach/router';
 import { MeContext } from './context';
-import {
-  Auth,
-  PageNotFound,
-  Manage,
-  Questions,
-  Dashboard,
-  Profile,
-  Inbox
-} from './components';
 
-const Routes = props => {
-  const me = useContext(MeContext);
-  const myId = me.id;
-  const isLoggedIn = !!myId;
+const Dashboard = React.lazy(() => import('./components/dashboard/dashboard'));
+const Questions = React.lazy(() => import('./components/Questions'));
+const Inbox = React.lazy(() => import('./components/Inbox'));
+const Profile = React.lazy(() => import('./components/Profile'));
+const Auth = React.lazy(() => import('./components/Auth'));
+const Manage = React.lazy(() => import('./components/admin/manage'));
+const PageNotFound = React.lazy(() => import('./components/PageNotFound'));
 
+const AdminRoute = ({ me, as: Component, ...props }) => {
+  return me.isAdmin ? <Component {...props} /> : <Dashboard />;
+};
+
+const Routes = () => {
+  const { me } = useContext(MeContext);
+  if (!me.id) return <Auth />;
   return (
     <Router>
+      <Dashboard path="/" />
       <Dashboard path="dashboard/*" />
       <Questions path="questions/*" />
       <Inbox path="messages/*" />
       <Profile path="profile/:userId" />
-      <Manage path="manage" />
+      <AdminRoute me={me} as={Manage} path="manage" />
       <Auth path="login" />
       <Auth path="signup" />
       <PageNotFound default />
     </Router>
   );
-
-  // return (
-  //   <Switch>
-  //     <Route
-  //       exact
-  //       path="/"
-  //       render={() => (
-  //         <Redirect to={`/${isLoggedIn ? 'dashboard' : 'login'}`} />
-  //       )}
-  //     />
-  //     {isLoggedIn && (
-  //       <Switch>
-  //         <Route path="/(login|signup)" render={() => <Redirect to="/dashboard" />} />
-  //         <Route path="/manage" component={Manage} />
-  //         <Route path="/dashboard" component={Dashboard} me={me} />
-  //         <Route exact path="/ask-a-question" component={QuestionForm} />
-  //         <Route exact path="/questions" component={QuestionQueue} />
-  //         <Route
-  //           path="/questions/question/:questionId"
-  //           component={SingleQuestionView}
-  //         />
-  //         <Route exact path="/profile/:id" component={Profile} />
-  //         <Route exact path="/messages" component={Inbox} />
-  //       </Switch>
-  //     )}
-
-  //     <Route path="/(login|signup)" component={Auth} />
-  //     <Route component={PageNotFound} />
-  //   </Switch>
-  // );
-}
+};
 
 export default Routes;

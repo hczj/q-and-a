@@ -3,7 +3,6 @@ import axios from 'axios';
 import Threads from './Threads';
 import MessageList from './MessageList';
 import MessageForm from './MessageForm';
-import { useMe } from '../../hooks';
 import { MeContext } from '../../context';
 
 const initialState = {
@@ -40,7 +39,7 @@ const reducer = (state, action) => {
 };
 
 const Inbox = () => {
-  const me = useContext(MeContext);
+  const { me } = useContext(MeContext);
   const [{ threads, thread }, dispatch] = useReducer(reducer, initialState);
 
   const fetchThread = async threadId => {

@@ -6,8 +6,7 @@ import ErrorBoundary from 'react-error-boundary';
 import store from './store';
 import { SiteHeader, CreateClassroom, ClassroomView } from './components';
 import Routes from './routes';
-import { useMe } from './hooks';
-import { MeContext } from './context';
+import { MeProvider } from './context';
 import './sass/index.scss';
 import './socket';
 
@@ -18,15 +17,15 @@ const MainLayout = props => {
   return (
     <Fragment>
       <SiteHeader bgColor={bg} />
-      {path === '/messages' ? (
-        <Routes />
-      ) : (
-        <div className="section">
+      <div className="section">
+        {path === '/messages' ? (
+          <Routes />
+        ) : (
           <div className="container">
             <Routes />
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </Fragment>
   );
 };
@@ -46,19 +45,17 @@ const ErrorFallback = ({ error }) => (
 );
 
 const App = () => {
-  const me = useMe();
-
   return (
     <Provider store={store}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Suspense fallback={<LoadingFallback>Loading...</LoadingFallback>}>
-          <MeContext.Provider value={me}>
+          <MeProvider>
             <Router>
               <CreateClassroom path="/classroom" />
               <ClassroomView path="/classroom/r/:room" />
               <MainLayout default />
             </Router>
-          </MeContext.Provider>
+          </MeProvider>
         </Suspense>
       </ErrorBoundary>
     </Provider>
