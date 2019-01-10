@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { Button } from '../../components';
 
 const Question = ({ question, isTeacher, closeQuestion, myId }) => {
   const { title, description, topics, user, createdAt } = question;
+  if (!user) return null;
   return (
     <div className="single-question-card">
       <div className="columns">

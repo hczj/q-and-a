@@ -107,22 +107,8 @@ class MediaContainer extends Component {
     this.setState({ bridge: 'hangup' });
   };
 
-  // sendData = msg => this.dc.send(JSON.stringify(msg));
-
-  // // Set up the data channel message handler
-  // setupDataHandlers = () => {
-  //   this.dc.onmessage = err => {
-  //     const msg = JSON.parse(err.data);
-  //     console.log('received message over data channel:' + msg);
-  //   };
-  //   this.dc.onclose = () => {
-  //     this.remoteStream.getVideoTracks()[0].stop();
-  //     console.log('The Data Channel is Closed');
-  //   };
-  // };
-
   setDescription = offer => {
-    this.pc.setLocalDescription(offer);
+    return this.pc.setLocalDescription(offer);
   };
 
   // send the offer to a server to be forwarded to the other peer
@@ -173,8 +159,6 @@ class MediaContainer extends Component {
   init = () => {
     // wait for local media to be ready
     const attachMediaIfReady = () => {
-      // this.dc = this.pc.createDataChannel('chat');
-      // this.setupDataHandlers();
       console.log('attachMediaIfReady');
       this.pc
         .createOffer()
@@ -187,7 +171,7 @@ class MediaContainer extends Component {
     // make sure the offer/answer role does not change. If user A does a SLD
     // with type=offer initially, it must do that during the whole session
     this.pc = new RTCPeerConnection({
-      iceServers: [{ url: 'stun:stun.l.google.com:19302' }]
+      iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
     });
     // when our browser gets a candidate, send it to the peer
     this.pc.onicecandidate = event => {
@@ -200,21 +184,11 @@ class MediaContainer extends Component {
       }
     };
     // when the other side added a media stream, show it on screen
-    this.pc.onaddstream = event => {
-      this.remoteStream = event.stream;
-      this.remoteVideo.srcObject = this.remoteStream = event.stream;
+    this.pc.ontrack = event => {
+      this.remoteStream = event.streams[0];
+      this.remoteVideo.srcObject = this.remoteStream = event.streams[0];
       this.setState({ bridge: 'established' });
     };
-    // this.pc.ondatachannel = event => {
-    //   // data channel
-    //   this.dc = event.channel;
-    //   this.setupDataHandlers();
-    //   this.sendData({
-    //     peerMediaStream: {
-    //       video: this.localStream.getVideoTracks()[0].enabled
-    //     }
-    //   });
-    // };
     // attach local media to the peer connection
     this.localStream
       .getTracks()

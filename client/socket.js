@@ -33,7 +33,6 @@ mediaEvents.on('rtc-hangup', () => {
 });
 
 whiteboardEvents.on('wb-toggle', () => {
-  console.log('CLIENT SOCKET WHITEBOARD TOGGLE EVENT');
   clientSocket.emit('wb-toggle--from-client');
 });
 
